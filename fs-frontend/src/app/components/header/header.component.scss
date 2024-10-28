@@ -13,3 +13,16 @@ div{
 	position:absolute;
 	right:20px;
 }
+.login-btn button {
+	width: auto;
+	padding: 15px;
+	font-size: 16px;
+	box-shadow: none;
+	background-color: brown;
+	color: white;
+	border: 1px solid black;
+	transition: 0.3s ease;
+}
+.login-btn button:hover {
+	background-color: rgb(99, 19, 19);
+}
