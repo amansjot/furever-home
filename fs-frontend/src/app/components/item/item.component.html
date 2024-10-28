@@ -2,9 +2,10 @@
   <div class="left">
     <span class="bold">{{ item.name }}</span>
     <hr />
+    <img class="pet-image" src="{{ item.image }}">
     {{ item.description }}
     <br />
-    {{ item.price }}
+    ${{ item.price }}
   </div>
   <div class="right">
     <button mat-raised-button [disabled]="!canAddToCart">Add to Cart</button>

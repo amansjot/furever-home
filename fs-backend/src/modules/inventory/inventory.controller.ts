@@ -103,10 +103,17 @@ export class InventoryController {
 			}
 			let item: InventoryItemModel = {
 				name: req.body.name,
+				status: req.body.status,
+				pictures: req.body.pictures,
 				description: req.body.description,
+				typeOfPet: req.body.typeOfPet,
+				speciesBreed: req.body.speciesBreed,
+				age: req.body.age,
 				quantity: req.body.quantity,
 				price: req.body.price,
-				partno: req.body.partno
+				documentation: req.body.documentation,
+				sex: req.body.sex,
+				image: req.body.image
 			};
 			const success = await this.mongoDBService.insertOne(this.settings.database, this.settings.collection, item);
 			if (success)
@@ -136,10 +143,17 @@ export class InventoryController {
 			}
 			let item: InventoryItemModel = {
 				name: req.body.name,
+				status: req.body.status,
+				pictures: req.body.pictures,
 				description: req.body.description,
+				typeOfPet: req.body.typeOfPet,
+				speciesBreed: req.body.speciesBreed,
+				age: req.body.age,
 				quantity: req.body.quantity,
 				price: req.body.price,
-				partno: req.body.partno
+				documentation: req.body.documentation,
+				sex: req.body.sex,
+				image: req.body.image
 			};
 			let command = { $set: item };
 			const success = await this.mongoDBService.updateOne(this.settings.database, this.settings.collection, { partno: req.params.id }, command);
