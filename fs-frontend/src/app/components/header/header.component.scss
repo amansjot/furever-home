@@ -3,26 +3,27 @@ div{
 	
 }
 .mat-toolbar {
-	background-color: burlywood;
+	background-color: #5cc8a8;
 }
 .title a {
 	text-decoration: none;
-	color: black;
+	color: rgb(255, 255, 255);
 }
 .login-btn{
 	position:absolute;
-	right:20px;
+	right: 10px;
 }
 .login-btn button {
 	width: auto;
 	padding: 15px;
 	font-size: 16px;
 	box-shadow: none;
-	background-color: brown;
+	background-color: #4ca68b;
 	color: white;
-	border: 1px solid black;
 	transition: 0.3s ease;
+	border-radius: 30px !important;
 }
 .login-btn button:hover {
-	background-color: rgb(99, 19, 19);
+	background-color: #3f8a73;
+	border: 1px solid white;
 }
