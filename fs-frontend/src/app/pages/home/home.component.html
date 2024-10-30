@@ -6,6 +6,7 @@
       [matMenuTriggerFor]="animalMenu"
       class="button"
       id="filter-animal"
+      [ngClass]="{ 'filtered': filters.animal !== 'Any' }"
     >
       Animal: {{ filters.animal }}
     </button>
@@ -23,6 +24,7 @@
       [matMenuTriggerFor]="sexMenu"
       class="button"
       id="filter-sex"
+      [ngClass]="{ 'filtered': filters.sex !== 'Any' }"
     >
       Sex: {{ filters.sex }}
     </button>
@@ -38,6 +40,7 @@
       [matMenuTriggerFor]="ageMenu"
       class="button"
       id="filter-age"
+      [ngClass]="{ 'filtered': filters.age !== 'Any' }"
     >
       Age: {{ filters.age }}
     </button>
@@ -63,6 +66,7 @@
       [matMenuTriggerFor]="priceMenu"
       class="button"
       id="filter-price"
+      [ngClass]="{ 'filtered': filters.price !== 'Any' }"
     >
       Price: {{ filters.price }}
     </button>
@@ -85,6 +89,7 @@
       [matMenuTriggerFor]="locationMenu"
       class="button"
       id="filter-location"
+      [ngClass]="{ 'filtered': filters.location !== 'Any' }"
     >
       Location: {{ filters.location }}
     </button>

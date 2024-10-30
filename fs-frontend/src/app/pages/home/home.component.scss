@@ -5,7 +5,7 @@
     padding: 1vh 1vw;
     box-sizing: border-box;
 }
-  
+
 .pet-card-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -14,7 +14,7 @@
     max-width: 100%;
     margin: 0;
 }
-  
+
 .pet-card {
     display: flex;
     flex-direction: column;
@@ -30,51 +30,51 @@
 .pet-card:hover {
     transform: scale(1.02);
 }
-  
+
 .pet-image-background {
-    background-size: cover; 
-    background-position: center; 
-    background-repeat: no-repeat; 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     height: 450px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
 }
-  
+
 .pet-info-card {
     background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8) 40%, rgba(0, 0, 0, 0.2) 80%, transparent);
     user-select: none;
     padding-bottom: 5px;
 }
 
-.displayed-info{
+.displayed-info {
     padding: 10px;
 }
 
-.hidden-info{
+.hidden-info {
     margin-left: 8px;
 }
-  
+
 .pet-name {
-    color:rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
     font-size: 2rem;
     font-weight: bold;
     margin: 0;
 }
 
-.pet-age{
-    color:rgb(255, 255, 255);
+.pet-age {
+    color: rgb(255, 255, 255);
     font-size: 1rem;
     font-weight: bold;
     padding-top: 3px;
     margin: 0;
 }
-  
+
 .pet-status,
 .pet-description,
-.pet-breed{
+.pet-breed {
     margin: 5px 0;
-    color:rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
 }
 
 .filters {
@@ -84,20 +84,25 @@
 }
 
 .filters .button {
-	width: auto;
-	padding: 15px;
-	font-size: 16px;
+    width: auto;
+    padding: 15px;
+    font-size: 16px;
     margin-right: 10px;
-	box-shadow: none;
-	background-color: white;
+    box-shadow: none;
+    background-color: white;
     color: #3f8a73;
-	transition: 0.3s ease;
-	border-radius: 30px !important;
+    transition: 0.3s ease;
+    border-radius: 30px !important;
     border: 2px solid #3f8a73;
 }
 
 .filters .button:hover {
     cursor: pointer;
     background-color: #3f8a73;
+    color: white;
+}
+
+.filters .button.filtered {
+    background-color: #4ca68b;
     color: white;
 }
