@@ -6,11 +6,13 @@ import { MatCardModule } from '@angular/material/card';
 import { ItemComponent } from "../../components/item/item.component";
 import { MatPaginatorModule, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { CustomPaginatorIntl } from './custom-paginator-intl'; // Import the custom paginator
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, ItemComponent, MatPaginatorModule],
+  imports: [CommonModule, ItemComponent, MatPaginatorModule, MatMenuModule, MatButtonModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   providers: [
@@ -22,6 +24,15 @@ export class HomeComponent {
   public itemCount: number = 0;
   public pageIndex: number = 0;
 
+  // Define filters and their default values
+  public filters = {
+    animal: 'Any',
+    sex: 'Any',
+    age: 'Any',
+    price: 'Any',
+    location: 'Any'
+  };
+
   public get pageSize(): number {
     return this.itemSvc.pageSize;
   }
@@ -32,8 +43,9 @@ export class HomeComponent {
 
   async loadData(): Promise<void> {
     try {
-      this.itemCount = await this.itemSvc.getInventoryCount();
-      this.items = await this.itemSvc.getInventoryItems(this.pageIndex);
+      // Fetch item count and items based on current filters and page index
+      this.itemCount = await this.itemSvc.getInventoryCount(this.filters);
+      this.items = await this.itemSvc.getInventoryItems(this.pageIndex, this.filters);
     } catch (err) {
       console.error(err);
     }
@@ -43,5 +55,12 @@ export class HomeComponent {
     console.log(event.pageIndex);
     this.pageIndex = event.pageIndex;
     this.loadData();
+  }
+
+  // Method to set the filter value and reload data
+  setFilter(type: 'animal' | 'sex' | 'age' | 'price' | 'location', value: string) {
+    this.filters[type] = value;
+    console.log(`${type} filter set to: ${value}`);
+    this.loadData(); // Reload data based on the updated filters
   }
 }

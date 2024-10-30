@@ -22,5 +22,6 @@ export interface InventoryItemModel {
 	documentation: string[]; // Array of filenames for documentation
 	sex: string; // male or female
 	image: string; // main image URL
+	location: string;
 	_id?: string;
 }
