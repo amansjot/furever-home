@@ -75,7 +75,7 @@ export class InventoryController {
 				res.status(500).send({ error: "Database connection failed" });
 				return;
 			}
-			let items = await this.mongoDBService.findOne<InventoryItemModel>(this.settings.database, this.settings.collection, { partno: req.params.id });
+			let items = await this.mongoDBService.findOne<InventoryItemModel>(this.settings.database, this.settings.collection, { _id: new ObjectId(req.params.id) });
 			if (!items) {
 				res.send(404).send({ error: "Item not found" });
 				return;
