@@ -136,11 +136,9 @@
           mat-card
           class="pet-card"
         >
-          <div
-            class="pet-image-background"
-            [style.background-image]="'url(' + item.image + ')'"
-          >
+          <div class="pet-image-background" [style.background-image]="'url(' + item.image + ')'">
             <div class="pet-info-card">
+
               <div class="displayed-info">
                 <h2 class="pet-name">{{ item.name }}</h2>
                 <p class="pet-age">
@@ -153,6 +151,7 @@
                 <p class="pet-description">{{ item.description }}</p>
                 <p class="pet-breed">Breed: {{ item.speciesBreed }}</p>
               </div>
+
             </div>
           </div>
         </div>
