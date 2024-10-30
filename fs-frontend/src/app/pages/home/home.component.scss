@@ -1,3 +1,4 @@
+/* Layout Containers */
 .cards {
     display: flex;
     justify-content: center;
@@ -15,11 +16,12 @@
     margin: 0;
 }
 
+/* Card Base Styles */
 .pet-card {
     display: flex;
     flex-direction: column;
     border-radius: 15px;
-    border: 1px solid #cccccc94;
+    border: 1px solid rgba(204, 204, 204, 0.58);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     height: 450px;
@@ -31,6 +33,7 @@
     transform: scale(1.02);
 }
 
+/* Card Image and Background */
 .pet-image-background {
     background-size: cover;
     background-position: center;
@@ -41,8 +44,15 @@
     justify-content: flex-end;
 }
 
+/* Card Information Sections */
 .pet-info-card {
-    background: linear-gradient(to top, rgba(0, 0, 0, .8), rgba(0, 0, 0, 0.5) 40%, rgba(0, 0, 0, 0.2) 80%, transparent);
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.8),
+        rgba(0, 0, 0, 0.5) 40%,
+        rgba(0, 0, 0, 0.2) 80%,
+        transparent
+    );
     user-select: none;
     padding-bottom: 5px;
 }
@@ -69,8 +79,9 @@
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
+/* Hover Effects */
 .pet-card:hover .displayed-info {
-    transform: translateY(-11vh);
+    transform: translateY(-12.5vh);
     opacity: 1;
     display: block;
     border-top-left-radius: 15px;
@@ -82,12 +93,51 @@
     transform: translateY(0);
     opacity: 1;
     display: block;
-    background-color: white;
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background-color: rgba(255, 255, 255, 0.66);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.125);
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
-    filter: drop-shadow(0px 0px 5px #00000060);
+    filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.376));
+    max-height: 10vh;
 }
 
+/* Information Display Styles */
+.info-group {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    padding: 5px 0;
+}
+
+/* Tag Styles */
+.pet-status-tag,
+.pet-description-tag,
+.pet-breed-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 15px;
+    color: white;
+    font-size: 0.9rem;
+    margin: 0;
+    align-self: start;
+}
+
+.pet-status-tag {
+    background-color: rgb(81, 81, 254);
+}
+
+.pet-description-tag {
+    background-color: rgb(150, 81, 254);
+}
+
+.pet-breed-tag {
+    background-color: rgb(243, 22, 255);
+}
+
+/* Text Styles */
 .pet-name {
     font-size: 2rem;
     font-weight: bold;
@@ -104,9 +154,11 @@
 .pet-status,
 .pet-description,
 .pet-breed {
-    margin: 5px 0;
+    margin: 0;
+    padding-left: 5px;
 }
 
+/* Filter Styles */
 .filters {
     padding: 18px;
     width: 100%;

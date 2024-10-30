@@ -147,9 +147,18 @@
                 </p>
               </div>
               <div class="hidden-info">
-                <p class="pet-status">Status: {{ item.status }}</p>
-                <p class="pet-description">{{ item.description }}</p>
-                <p class="pet-breed">Breed: {{ item.speciesBreed }}</p>
+                <div class="info-group">
+                  <p class="pet-status-tag">Status:</p>
+                  <p class="pet-status">{{ item.status }}</p>
+                </div>
+                <div class="info-group">
+                  <p class="pet-breed-tag">Breed:</p>
+                  <p class="pet-breed">{{ item.speciesBreed }}</p>
+                </div>
+                <div class="info-group">
+                  <p class="pet-description-tag">Desc:</p>
+                  <p class="pet-description">{{ item.description }}</p>
+                </div>
               </div>
 
             </div>
