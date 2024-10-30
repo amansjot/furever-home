@@ -14,7 +14,7 @@
 	position:relative;
 }
 .content-card{
-	height:100%;
+	height: calc(100% - 75px);
 	padding:5px;
 	overflow: hidden;
 }
