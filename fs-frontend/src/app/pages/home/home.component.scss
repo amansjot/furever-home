@@ -1,4 +1,9 @@
 /* Layout Containers */
+::ng-deep .mat-mdc-card {
+    margin-top: 75px;
+}
+
+
 .cards {
     display: flex;
     justify-content: center;

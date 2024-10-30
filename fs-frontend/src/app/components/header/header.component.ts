@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { LoginService } from '../../services/login.service';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -45,5 +45,22 @@ export class HeaderComponent  {
     this.disableLogin=true;
     await this._loginSvc.login("silber@udel.edu","pass");
     this.disableLogin=false;
+  }
+
+  // Navbar css cool stuff:
+  isNavbarHidden = false;
+  lastScrollPosition = 0;
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+    if (currentScrollPosition > this.lastScrollPosition) {
+      // Scrolling down
+      this.isNavbarHidden = true;
+    } else {
+      // Scrolling up
+      this.isNavbarHidden = false;
+    }
+    this.lastScrollPosition = currentScrollPosition;
   }
 }
