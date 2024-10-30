@@ -6,7 +6,7 @@
       [matMenuTriggerFor]="animalMenu"
       class="button"
       id="filter-animal"
-      [ngClass]="{ 'filtered': filters.animal !== 'Any' }"
+      [ngClass]="{ filtered: filters.animal !== 'Any' }"
     >
       Animal: {{ filters.animal }}
     </button>
@@ -16,6 +16,9 @@
       <button mat-menu-item (click)="setFilter('animal', 'Cat')">Cat</button>
       <button mat-menu-item (click)="setFilter('animal', 'Bird')">Bird</button>
       <button mat-menu-item (click)="setFilter('animal', 'Fish')">Fish</button>
+      <button mat-menu-item (click)="setFilter('animal', 'Other')">
+        Other
+      </button>
     </mat-menu>
 
     <!-- Sex Filter -->
@@ -24,7 +27,7 @@
       [matMenuTriggerFor]="sexMenu"
       class="button"
       id="filter-sex"
-      [ngClass]="{ 'filtered': filters.sex !== 'Any' }"
+      [ngClass]="{ filtered: filters.sex !== 'Any' }"
     >
       Sex: {{ filters.sex }}
     </button>
@@ -40,7 +43,7 @@
       [matMenuTriggerFor]="ageMenu"
       class="button"
       id="filter-age"
-      [ngClass]="{ 'filtered': filters.age !== 'Any' }"
+      [ngClass]="{ filtered: filters.age !== 'Any' }"
     >
       Age: {{ filters.age }}
     </button>
@@ -66,7 +69,7 @@
       [matMenuTriggerFor]="priceMenu"
       class="button"
       id="filter-price"
-      [ngClass]="{ 'filtered': filters.price !== 'Any' }"
+      [ngClass]="{ filtered: filters.price !== 'Any' }"
     >
       Price: {{ filters.price }}
     </button>
@@ -89,7 +92,7 @@
       [matMenuTriggerFor]="locationMenu"
       class="button"
       id="filter-location"
-      [ngClass]="{ 'filtered': filters.location !== 'Any' }"
+      [ngClass]="{ filtered: filters.location !== 'Any' }"
     >
       Location: {{ filters.location }}
     </button>
@@ -107,6 +110,9 @@
       <button mat-menu-item (click)="setFilter('location', 'Houston')">
         Houston
       </button>
+      <button mat-menu-item (click)="setFilter('location', 'Other')">
+        Other
+      </button>
     </mat-menu>
   </div>
 
@@ -117,6 +123,10 @@
         <div
           *ngIf="
             (filters.animal === 'Any' ||
+              (filters.animal === 'Other' &&
+                !['dog', 'cat', 'bird', 'fish'].includes(
+                  item.typeOfPet.toLowerCase()
+                )) ||
               item.typeOfPet.toLowerCase() === filters.animal.toLowerCase()) &&
             (filters.sex === 'Any' ||
               item.sex.toLowerCase() === filters.sex.toLowerCase()) &&
@@ -131,14 +141,21 @@
                 item.price >= 500 &&
                 item.price <= 1000) ||
               (filters.price === 'High' && item.price > 1000)) &&
-            (filters.location === 'Any' || item.location === filters.location)
+            (filters.location === 'Any' ||
+              (filters.location === 'Other' &&
+                !['New York', 'Los Angeles', 'Chicago', 'Houston'].includes(
+                  item.location
+                )) ||
+              item.location === filters.location)
           "
           mat-card
           class="pet-card"
         >
-          <div class="pet-image-background" [style.background-image]="'url(' + item.image + ')'">
+          <div
+            class="pet-image-background"
+            [style.background-image]="'url(' + item.image + ')'"
+          >
             <div class="pet-info-card">
-
               <div class="displayed-info">
                 <h2 class="pet-name">{{ item.name }}</h2>
                 <p class="pet-age">
@@ -156,11 +173,16 @@
                   <p class="pet-breed">{{ item.speciesBreed }}</p>
                 </div>
                 <div class="info-group">
-                  <p class="pet-description-tag">Price:</p>
-                  <p class="pet-description">{{ item.price | currency:'USD':'symbol':'1.0-0' }}</p>
+                  <p class="pet-price-tag">Price:</p>
+                  <p class="pet-price">
+                    {{ item.price | currency : "USD" : "symbol" : "1.0-0" }}
+                  </p>
+                </div>
+                <div class="info-group">
+                  <p class="pet-location-tag">Location:</p>
+                  <p class="pet-location">{{ item.location }}</p>
                 </div>
               </div>
-
             </div>
           </div>
         </div>

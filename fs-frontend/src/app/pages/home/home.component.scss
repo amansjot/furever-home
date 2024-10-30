@@ -86,7 +86,7 @@
 
 /* Hover Effects */
 .pet-card:hover .displayed-info {
-    transform: translateY(-200%);
+    transform: translateY(-245%);
     opacity: 1;
     display: block;
     border-top-left-radius: 15px;
@@ -119,7 +119,8 @@
 
 /* Tag Styles */
 .pet-status-tag,
-.pet-description-tag,
+.pet-price-tag,
+.pet-location-tag,
 .pet-breed-tag {
     display: inline-block;
     padding: 2px 8px;
@@ -134,12 +135,16 @@
     background-color: rgb(81, 81, 254);
 }
 
-.pet-description-tag {
+.pet-price-tag {
     background-color: rgb(150, 81, 254);
 }
 
 .pet-breed-tag {
     background-color: rgb(243, 22, 255);
+}
+
+.pet-location-tag {
+    background-color: rgb(135, 44, 140);
 }
 
 /* Text Styles */
@@ -157,7 +162,8 @@
 }
 
 .pet-status,
-.pet-description,
+.pet-price,
+.pet-location,
 .pet-breed {
     margin: 0;
     padding-left: 5px;
