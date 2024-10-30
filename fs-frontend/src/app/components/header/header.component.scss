@@ -1,18 +1,36 @@
-div{
-	display:inline-block;
-	
+div {
+	display: inline-block;
+
 }
+
 .mat-toolbar {
 	background-color: #5cc8a8;
 }
+
+.title {
+	display: flex;
+	align-items: center;
+	/* Centers content vertically */
+}
+
 .title a {
 	text-decoration: none;
 	color: rgb(255, 255, 255);
+	display: flex;
+	align-items: center;
 }
-.login-btn{
-	position:absolute;
+
+.title a img {
+	height: 32px;
+	margin-right: 8px;
+	margin-top: -3px;
+}
+
+.login-btn {
+	position: absolute;
 	right: 10px;
 }
+
 .login-btn button {
 	width: auto;
 	padding: 15px;
@@ -23,6 +41,7 @@ div{
 	transition: 0.3s ease;
 	border-radius: 30px !important;
 }
+
 .login-btn button:hover {
 	background-color: #3f8a73;
 	border: 1px solid white;
