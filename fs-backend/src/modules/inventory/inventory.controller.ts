@@ -158,7 +158,7 @@ export class InventoryController {
 				location: req.body.image
 			};
 			let command = { $set: item };
-			const success = await this.mongoDBService.updateOne(this.settings.database, this.settings.collection, { partno: req.params.id }, command);
+			const success = await this.mongoDBService.updateOne(this.settings.database, this.settings.collection, { _id: new ObjectId(req.params.id) }, command);
 			if (success)
 				res.send({ success: true });
 			else
@@ -184,7 +184,7 @@ export class InventoryController {
 				res.status(500).send({ error: "Database connection failed" });
 				return;
 			}
-			const item = await this.mongoDBService.findOne<InventoryItemModel>(this.settings.database, this.settings.collection, { partno: req.params.id });
+			const item = await this.mongoDBService.findOne<InventoryItemModel>(this.settings.database, this.settings.collection, {  });
 			if (!item) {
 				res.status(404).send({ error: "Item not found" });
 				return;
@@ -195,7 +195,7 @@ export class InventoryController {
 				console.log("Failed to archive item");
 				return;
 			}
-			success = await this.mongoDBService.deleteOne(this.settings.database, this.settings.collection, { partno: req.params.id });
+			success = await this.mongoDBService.deleteOne(this.settings.database, this.settings.collection, { _id: new ObjectId(req.params.id) });
 			if (!success) {
 				res.status(500).send({ error: "Failed to delete item" });
 				return;
