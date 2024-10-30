@@ -1,23 +1,48 @@
 <div class="home">
-  <div class="pet-card-container">
-    
-    <div mat-card *ngFor="let item of items" class="pet-card">
-      
-      <div class="pet-image-background" [style.background-image]="'url(' + item.image + ')'">
-        <div class="pet-info-card">
-          <div class="displayed-info">
-            <h2 class="pet-name">{{ item.name }}</h2>
-            <p class="pet-age">Age: {{ item.age }}</p>
-          </div>
-          <div class="hidden-info">
+  <div class="filters">
+    <button class="button" id="filter-animal" mat-mini-fab routerLink="/cart">
+      Animal: Any
+    </button>
+    &nbsp;&nbsp;
+    <button class="button" id="filter-sex" mat-mini-fab routerLink="/cart">
+      Sex: Any
+    </button>
+    &nbsp;&nbsp;
+    <button class="button" id="filter-age" mat-mini-fab routerLink="/cart">
+      Age: Any
+    </button>
+    &nbsp;&nbsp;
+    <button class="button" id="filter-price" mat-mini-fab routerLink="/cart">
+      Price: Any
+    </button>
+    &nbsp;&nbsp;
+    <button class="button" id="filter-location" mat-mini-fab routerLink="/cart">
+      Location: Any
+    </button>
+  </div>
+  <div class="cards">
+    <div class="pet-card-container">
+      <div mat-card *ngFor="let item of items" class="pet-card">
+        <div
+          class="pet-image-background"
+          [style.background-image]="'url(' + item.image + ')'"
+        >
+          <div class="pet-info-card">
+            <div class="displayed-info">
+              <h2 class="pet-name">{{ item.name }}</h2>
+              <p class="pet-age">
+                {{ item.sex[0].toUpperCase() + item.sex.slice(1) }},
+                {{ item.age }} year{{ item.age != 1 ? "s" : "" }} old
+              </p>
+            </div>
+            <div class="hidden-info">
               <p class="pet-status">Status: {{ item.status }}</p>
               <p class="pet-description">{{ item.description }}</p>
               <p class="pet-breed">Breed: {{ item.speciesBreed }}</p>
             </div>
+          </div>
         </div>
       </div>
-      
     </div>
-
   </div>
 </div>
