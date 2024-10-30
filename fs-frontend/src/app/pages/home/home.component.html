@@ -143,7 +143,7 @@
                 <h2 class="pet-name">{{ item.name }}</h2>
                 <p class="pet-age">
                   {{ item.sex[0].toUpperCase() + item.sex.slice(1) }},
-                  {{ item.age }} year{{ item.age != 1 ? "s" : "" }} old
+                  {{ formatAge(item.age) }} old
                 </p>
               </div>
               <div class="hidden-info">
@@ -157,7 +157,7 @@
                 </div>
                 <div class="info-group">
                   <p class="pet-description-tag">Price:</p>
-                  <p class="pet-description">{{ item.price }}</p>
+                  <p class="pet-description">{{ item.price | currency:'USD':'symbol':'1.0-0' }}</p>
                 </div>
               </div>
 

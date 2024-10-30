@@ -31,7 +31,7 @@
     overflow: hidden;
     height: 450px;
     cursor: pointer;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease-in-out;
 }
 
 .pet-card:hover {
@@ -59,7 +59,7 @@
         transparent
     );
     user-select: none;
-    padding-bottom: 5px;
+    padding-bottom: 15px;
 }
 
 .displayed-info {

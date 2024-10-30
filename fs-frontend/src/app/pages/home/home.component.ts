@@ -57,6 +57,22 @@ export class HomeComponent {
     this.loadData();
   }
 
+  formatAge(ageInYears: number): string {
+    if (ageInYears < 1) {
+      // Convert to months if less than 1 year
+      const months = Math.round(ageInYears * 12);
+      if (months < 3) {
+        // Convert to weeks if less than 3 months
+        const weeks = Math.round(months * 4.345); // Approximate weeks in a month
+        return `${weeks} week${weeks !== 1 ? 's' : ''}`;
+      }
+      return `${months} month${months !== 1 ? 's' : ''}`;
+    } else {
+      // Display in years if 1 year or more
+      return `${ageInYears} year${ageInYears !== 1 ? 's' : ''}`;
+    }
+  }
+
   // Method to set the filter value and reload data
   setFilter(type: 'animal' | 'sex' | 'age' | 'price' | 'location', value: string) {
     this.filters[type] = value;
