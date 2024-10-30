@@ -34,11 +34,23 @@ export class HeaderComponent  {
 
   onLoginChange=async (loggedIn: boolean)=>{
     this.authenticated = loggedIn;
-    this.isAdmin = await this._loginSvc.isAdmin();
+    
+    if (loggedIn) {
+      try {
+        this.isAdmin = await this._loginSvc.isAdmin();
+      } catch (error) {
+        console.error('Error checking admin status:', error);
+        this.isAdmin = false;
+      }
+    } else {
+      this.isAdmin = false;
+    }
+    
     console.log("Change:"+this.authenticated)
   }
   logout(){
     this._loginSvc.logout();
+    this.isAdmin = false;
     this.router.navigate(['/login']);
   }
   async login(){
@@ -50,17 +62,50 @@ export class HeaderComponent  {
   // Navbar css cool stuff:
   isNavbarHidden = false;
   lastScrollPosition = 0;
+  public isMenuOpen: boolean = false;
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
-    const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-    if (currentScrollPosition > this.lastScrollPosition) {
-      // Scrolling down
-      this.isNavbarHidden = true;
-    } else {
-      // Scrolling up
+    if (!this.isMenuOpen) {
+      const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+      if (currentScrollPosition > this.lastScrollPosition) {
+        // Scrolling down
+        this.isNavbarHidden = true;
+      } else {
+        // Scrolling up
+        this.isNavbarHidden = false;
+      }
+      this.lastScrollPosition = currentScrollPosition;
+    }
+  }
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+    if (this.isMenuOpen) {
       this.isNavbarHidden = false;
     }
-    this.lastScrollPosition = currentScrollPosition;
+  }
+
+  get showHamburger(): boolean {
+    return this.showButtons && (this.authenticated || !this.authenticated);
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    // Get the clicked element
+    const clickedElement = event.target as HTMLElement;
+    
+    // Check if click is outside the menu and toolbar
+    const isMenuClick = clickedElement.closest('.menu-overlay');
+    const isHamburgerClick = clickedElement.closest('.hamburger-btn');
+    
+    // Close menu if click is outside and menu is open
+    if (!isMenuClick && !isHamburgerClick && this.isMenuOpen) {
+      this.isMenuOpen = false;
+    }
+  }
+
+  onMenuItemClick() {
+    this.isMenuOpen = false;
   }
 }
