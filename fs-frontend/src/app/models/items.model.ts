@@ -22,6 +22,7 @@ export interface InventoryItemModel{
 	documentation: string[]; // Array of filenames for documentation
 	sex: string; // male or female
 	image: string; // main image URL
+	location: string; 
 	_id?: string;
 }
 export const emptyItem: InventoryItemModel = {
@@ -37,4 +38,5 @@ export const emptyItem: InventoryItemModel = {
 	documentation: [''], // Array of filenames for documentation
 	sex: '', // male or female
 	image: '', // main image URL
+	location: ''
 }

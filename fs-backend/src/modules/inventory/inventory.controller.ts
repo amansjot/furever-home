@@ -113,7 +113,8 @@ export class InventoryController {
 				price: req.body.price,
 				documentation: req.body.documentation,
 				sex: req.body.sex,
-				image: req.body.image
+				image: req.body.image,
+				location: req.body.location
 			};
 			const success = await this.mongoDBService.insertOne(this.settings.database, this.settings.collection, item);
 			if (success)
@@ -153,7 +154,8 @@ export class InventoryController {
 				price: req.body.price,
 				documentation: req.body.documentation,
 				sex: req.body.sex,
-				image: req.body.image
+				image: req.body.image,
+				location: req.body.image
 			};
 			let command = { $set: item };
 			const success = await this.mongoDBService.updateOne(this.settings.database, this.settings.collection, { partno: req.params.id }, command);
