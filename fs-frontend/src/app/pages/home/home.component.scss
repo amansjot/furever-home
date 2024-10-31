@@ -116,8 +116,55 @@
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-/* Hover Effects */
-.pet-card:hover .displayed-info {
+/* Hover and Expanded Effects */
+@media (min-width: 1024px) {
+    .pet-card:hover .displayed-info {
+        transform: translateY(-160%);
+        opacity: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        filter: drop-shadow(0px 0px 8px #000000);
+    }
+
+    .pet-card:hover .hidden-info {
+        transform: translateY(0);
+        opacity: 1;
+        display: block;
+        backdrop-filter: blur(16px) saturate(180%);
+        -webkit-backdrop-filter: blur(16px) saturate(180%);
+        background-color: rgba(255, 255, 255, 0.66);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.125);
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.376));
+        max-height: 60%;
+    }
+
+    .pet-card:hover {
+        transform: scale(1.02);
+    }
+
+    .petcard-favorite-button:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .filters .button:hover {
+        cursor: pointer;
+        background-color: #3f8a73;
+        color: white;
+    }
+
+    .show-hidden-button:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+    }
+}
+
+/* Expanded State */
+.pet-card.expanded .displayed-info {
     transform: translateY(-160%);
     opacity: 1;
     display: flex;
@@ -128,7 +175,7 @@
     filter: drop-shadow(0px 0px 8px #000000);
 }
 
-.pet-card:hover .hidden-info {
+.pet-card.expanded .hidden-info {
     transform: translateY(0);
     opacity: 1;
     display: block;
@@ -246,4 +293,21 @@
     &:hover {
         background-color: rgba(255, 255, 255, 0.3);
     }
+}
+
+/* Hide the button on larger screens */
+@media (min-width: 1024px) {
+    .show-hidden-button {
+        display: none;
+    }
+}
+
+.expand.arrow {
+  width: 15px;
+  height: 15px;
+  margin-left: 4px;
+  vertical-align: middle;
+  transform: translateY(-1px);
+  rotate: 180deg;
+  margin-bottom: 3px;
 }

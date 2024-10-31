@@ -150,6 +150,7 @@
           "
           mat-card
           class="pet-card"
+          [ngClass]="{ 'expanded': expandedCards[item.name] }"
         >
           <div
             class="pet-image-background"
@@ -165,7 +166,10 @@
                     {{ formatAge(item.age) }} old
                   </p>
                 </div>
-                <button class="show-hidden-button">Show More</button>
+                <button class="show-hidden-button" (click)="toggleCard(item.name)">
+                  {{ expandedCards[item.name] ? 'Show Less' : 'Show More' }}
+                  <img class="expand arrow" src="/assets/drop-down-arrow.svg" alt="expand-arrow">
+                </button>
               </div>
               <div class="hidden-info">
                 <div class="info-group">
