@@ -308,6 +308,9 @@
   margin-left: 4px;
   vertical-align: middle;
   transform: translateY(-1px);
-  rotate: 180deg;
-  margin-bottom: 3px;
+  transition: transform 0.3s ease;
+}
+
+.expand.arrow.rotated {
+  transform: translateY(-1px) rotate(180deg);
 }

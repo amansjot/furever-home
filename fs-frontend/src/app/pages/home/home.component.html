@@ -168,7 +168,11 @@
                 </div>
                 <button class="show-hidden-button" (click)="toggleCard(item.name)">
                   {{ expandedCards[item.name] ? 'Show Less' : 'Show More' }}
-                  <img class="expand arrow" src="/assets/drop-down-arrow.svg" alt="expand-arrow">
+                  <img 
+                    class="expand arrow" 
+                    [ngClass]="{'rotated': expandedCards[item.name]}" 
+                    src="/assets/drop-down-arrow.svg" 
+                    alt="expand-arrow">
                 </button>
               </div>
               <div class="hidden-info">
