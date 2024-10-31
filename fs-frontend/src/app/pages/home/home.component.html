@@ -155,8 +155,10 @@
             class="pet-image-background"
             [style.background-image]="'url(' + item.image + ')'"
           >
+            <button class="petcard-favorite-button">Favorite</button>
             <div class="pet-info-card">
               <div class="displayed-info">
+                <button class="show-hidden-button">Show Hidden</button>
                 <h2 class="pet-name">{{ item.name }}</h2>
                 <p class="pet-age">
                   {{ item.sex[0].toUpperCase() + item.sex.slice(1) }},
