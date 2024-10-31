@@ -2,23 +2,24 @@ div {
 	display: inline-block;
 }
 
+.header-wrapper.menu-is-open {
+	.mat-toolbar {
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+}
+
 .mat-toolbar {
 	background-color: #5cc8a8;
-
-	// for navbar to stay at the top
 	position: fixed;
-
-	// placement 
 	top: 0;
 	width: 100%;
 	height: 75px;
-	z-index: 1000;
-
 	border-bottom-left-radius: 25px;
 	border-bottom-right-radius: 25px;
+	transition: all 0.3s ease-in-out;
 
-	// for scrolling nav anim
-	transition: top 0.2s ease-in-out;
+	z-index: 1001;
 }
 
 // Hides navbar when scrolled
@@ -30,6 +31,7 @@ div {
 	display: flex;
 	align-items: center;
 	/* Centers content vertically */
+	z-index: 1002;
 }
 
 .title a {
@@ -57,11 +59,123 @@ div {
 	box-shadow: none;
 	background-color: #4ca68b;
 	color: white;
-	transition: 0.3s ease;
 	border-radius: 30px !important;
 }
 
 .login-btn button:hover {
 	background-color: #3f8a73;
 	border: 1px solid white;
+}
+
+// hamburger menu
+
+.hamburger-btn {
+	display: none; // Hidden by default on desktop
+	z-index: 1002;
+
+	@media (max-width: 768px) {
+		display: block; // Show only on mobile
+		position: absolute;
+		right: 10px;
+		color: white;
+	}
+}
+
+.menu-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 0;
+	background-color: #5cc8a8;
+	transition: all 0.3s ease-in-out;
+	z-index: 999;
+	padding: 0;
+	box-sizing: border-box;
+	border-bottom-left-radius: 25px;
+	border-bottom-right-radius: 25px;
+	overflow: hidden;
+
+	@media (min-width: 769px) {
+		display: none;
+	}
+}
+
+.menu-overlay.open {
+	top: 75px;
+	height: auto;
+	padding: 20px;
+}
+
+.menu-content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+}
+
+.menu-content .login-btn {
+	position: relative;
+	right: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+// Update existing login-btn styles
+.login-btn {
+	@media (max-width: 768px) {
+		display: none;
+	}
+}
+
+// Desktop buttons
+.desktop-login-btn {
+  position: absolute;
+  right: 10px;
+
+  @media (max-width: 768px) {
+    display: none; // Hide on mobile
+  }
+
+  button {
+    width: auto;
+    padding: 15px;
+    font-size: 16px;
+    box-shadow: none;
+    background-color: #4ca68b;
+    color: white;
+    border-radius: 30px !important;
+
+    &:hover {
+      background-color: #3f8a73;
+      border: 1px solid white;
+    }
+  }
+}
+
+// Mobile menu buttons
+.mobile-login-btn {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    
+    button {
+      width: auto;
+      padding: 15px;
+      font-size: 16px;
+      box-shadow: none;
+      background-color: #4ca68b;
+      color: white;
+      border-radius: 30px !important;
+
+      &:hover {
+        background-color: #3f8a73;
+        border: 1px solid white;
+      }
+    }
+  }
 }
