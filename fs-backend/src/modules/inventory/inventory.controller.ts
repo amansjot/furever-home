@@ -51,7 +51,7 @@ export class InventoryController {
 				return;
 			}
 		if (req.query.start && req.query.end) {
-				items = await this.mongoDBService.find<InventoryItemModel>(this.settings.database, this.settings.collection, {}, parseInt(req.query.start as string), parseInt(req.query.end as string));
+				items = await this.mongoDBService.find<InventoryItemModel>(this.settings.database, this.settings.collection, {});
 			} else {
 				items = await this.mongoDBService.find<InventoryItemModel>(this.settings.database, this.settings.collection, {});
 			}
