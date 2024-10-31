@@ -1,8 +1,15 @@
 /* Layout Containers */
+.filters {
+    margin-bottom: 20px
+}
+
+.filters .button {
+    margin: 5px;
+}
+
 ::ng-deep .mat-mdc-card {
     margin-top: 75px;
 }
-
 
 .cards {
     display: flex;
