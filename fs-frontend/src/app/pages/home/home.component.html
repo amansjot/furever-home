@@ -150,18 +150,32 @@
           "
           mat-card
           class="pet-card"
+          [ngClass]="{ 'expanded': expandedCards[item.name] }"
         >
           <div
             class="pet-image-background"
             [style.background-image]="'url(' + item.image + ')'"
           >
+            <button class="petcard-favorite-button">
+              <img class="favorite-icon" src="/assets/favorite-star-inactive.svg" alt="favorite-icon">
+            </button>
             <div class="pet-info-card">
               <div class="displayed-info">
-                <h2 class="pet-name">{{ item.name }}</h2>
-                <p class="pet-age">
-                  {{ item.sex[0].toUpperCase() + item.sex.slice(1) }},
-                  {{ formatAge(item.age) }} old
-                </p>
+                <div class="info-text">
+                  <h2 class="pet-name">{{ item.name }}</h2>
+                  <p class="pet-age">
+                    {{ item.sex[0].toUpperCase() + item.sex.slice(1) }},
+                    {{ formatAge(item.age) }} old
+                  </p>
+                </div>
+                <button class="show-hidden-button" (click)="toggleCard(item.name)">
+                  {{ expandedCards[item.name] ? 'Show Less' : 'Show More' }}
+                  <img 
+                    class="expand arrow" 
+                    [ngClass]="{'rotated': expandedCards[item.name]}" 
+                    src="/assets/drop-down-arrow.svg" 
+                    alt="expand-arrow">
+                </button>
               </div>
               <div class="hidden-info">
                 <div class="info-group">

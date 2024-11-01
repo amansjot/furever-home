@@ -37,6 +37,9 @@ export class HomeComponent {
     return this.itemSvc.pageSize;
   }
 
+  // Track the expanded state of each card using the pet's name as the key
+  public expandedCards: { [key: string]: boolean } = {};
+
   constructor(private itemSvc: ItemService) {
     this.loadData();
   }
@@ -78,5 +81,10 @@ export class HomeComponent {
     this.filters[type] = value;
     console.log(`${type} filter set to: ${value}`);
     this.loadData(); // Reload data based on the updated filters
+  }
+
+  // Toggle the expanded state of a card
+  toggleCard(name: string) {
+    this.expandedCards[name] = !this.expandedCards[name];
   }
 }
