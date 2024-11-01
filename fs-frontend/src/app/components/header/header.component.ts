@@ -37,6 +37,7 @@ export class HeaderComponent  {
     
     if (loggedIn) {
       try {
+        await new Promise(resolve => setTimeout(resolve, 100));
         this.isAdmin = await this._loginSvc.isAdmin();
       } catch (error) {
         console.error('Error checking admin status:', error);

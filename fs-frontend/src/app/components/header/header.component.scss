@@ -11,10 +11,11 @@ div {
 	background-color: #4ca68b;
 	color: white;
 	border-radius: 30px !important;
+	border: 1px solid transparent;
 
 	&:hover {
 		background-color: #3f8a73;
-		border: 1px solid white;
+		border-color: white;
 	}
 }
 
