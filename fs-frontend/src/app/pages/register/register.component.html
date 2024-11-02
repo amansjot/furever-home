@@ -1,94 +1,164 @@
 <div>
   <mat-card>
     <mat-card-title>Register</mat-card-title>
-    <mat-card-content>
-      <form [formGroup]="registerForm" (ngSubmit)="register()">
-        <mat-form-field>
-          <mat-label>Email</mat-label>
-          <input
-            type="email"
-            matInput
-            placeholder="Email"
-            formControlName="email"
-          />
-          <mat-error
-            *ngIf="
-              registerForm.get('email')?.touched &&
-              registerForm.get('email')?.hasError('required')
-            "
-          >
-            Email is required
-          </mat-error>
-          <mat-error
-            *ngIf="
-              registerForm.get('email')?.touched &&
-              registerForm.get('email')?.hasError('email')
-            "
-          >
-            Email must be a valid Email
-          </mat-error>
-        </mat-form-field>
+    <mat-tab-group (selectedIndexChange)="onTabChange($event)">
+      <!-- Buyer Tab -->
+      <mat-tab label="Buyer">
+        <form [formGroup]="buyerForm" (ngSubmit)="register('buyer')">
+          <mat-form-field>
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="firstName" />
+            <mat-error *ngIf="buyerForm.get('firstName')?.hasError('required')">
+              First Name is required
+            </mat-error>
+          </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Password*</mat-label>
-          <input
-            type="password"
-            matInput
-            placeholder="Password*"
-            formControlName="password"
-          />
-          <mat-error
-            *ngIf="registerForm.get('password')?.hasError('passwordStrength')"
-          >
-            {{ registerForm.get("password")?.getError("passwordStrength") }}
-          </mat-error>
-        </mat-form-field>
+          <mat-form-field>
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="lastName" />
+            <mat-error *ngIf="buyerForm.get('lastName')?.hasError('required')">
+              Last Name is required
+            </mat-error>
+          </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Repeat Password*</mat-label>
-          <input
-            type="password"
-            matInput
-            placeholder="Repeat Password*"
-            formControlName="password2"
-          />
-          <mat-hint *ngIf="registerForm.errors?.['passwordMismatch']">
-            Passwords do not match
-          </mat-hint>
-        </mat-form-field>
+          <mat-form-field>
+            <mat-label>Location (City)</mat-label>
+            <input matInput formControlName="location" />
+            <mat-error *ngIf="buyerForm.get('location')?.hasError('required')">
+              Location is required
+            </mat-error>
+          </mat-form-field>
 
-        <!-- Role Dropdown -->
-        <mat-form-field>
-          <mat-label>Role</mat-label>
-          <mat-select formControlName="role">
-            <mat-option value="Buyer">Buyer</mat-option>
-            <mat-option value="Seller">Seller</mat-option>
-          </mat-select>
-          <mat-error
-            *ngIf="
-              registerForm.get('role')?.touched &&
-              registerForm.get('role')?.hasError('required')
-            "
-          >
-            You must choose a role
-          </mat-error>
-        </mat-form-field>
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email" />
+            <mat-error *ngIf="buyerForm.get('email')?.hasError('required')">
+              Email is required
+            </mat-error>
+            <mat-error *ngIf="buyerForm.get('email')?.hasError('email')">
+              Invalid Email
+            </mat-error>
+          </mat-form-field>
 
-        <div class="button">
-          <button
-            type="submit"
-            mat-button
-            [disabled]="!registerForm.valid || disableRegister"
-          >
-            Sign Up
-          </button>
-        </div>
+          <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput type="password" formControlName="password" />
+            <mat-error *ngIf="buyerForm.get('password')?.hasError('required')">
+              Password is required
+            </mat-error>
+          </mat-form-field>
 
-        <mat-error>&nbsp;&nbsp;{{ errorMsg }}</mat-error>
-        <p>
-          Already have an account? <a [routerLink]="['../login']">Sign In</a>
-        </p>
-      </form>
-    </mat-card-content>
+          <mat-form-field>
+            <mat-label>Repeat Password</mat-label>
+            <input matInput type="password" formControlName="password2" />
+            <mat-error *ngIf="buyerForm.get('password2')?.hasError('required')">
+              Repeat Password is required
+            </mat-error>
+            <mat-hint *ngIf="buyerForm.errors?.['passwordMismatch']">
+              Passwords do not match
+            </mat-hint>
+          </mat-form-field>
+
+          <div class="button">
+            <button type="submit" mat-button [disabled]="!buyerForm.valid || disableRegister">
+              Register as Buyer
+            </button>
+          </div>
+        </form>
+      </mat-tab>
+
+      <!-- Seller Tab -->
+      <mat-tab label="Seller">
+        <form [formGroup]="sellerForm" (ngSubmit)="register('seller')">
+          <mat-form-field>
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="firstName" />
+            <mat-error *ngIf="sellerForm.get('firstName')?.hasError('required')">
+              First Name is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="lastName" />
+            <mat-error *ngIf="sellerForm.get('lastName')?.hasError('required')">
+              Last Name is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Type</mat-label>
+            <mat-select formControlName="sellerType">
+              <mat-option value="owner">Owner</mat-option>
+              <mat-option value="breeder">Breeder</mat-option>
+              <mat-option value="shelter">Shelter</mat-option>
+            </mat-select>
+            <mat-error *ngIf="sellerForm.get('sellerType')?.hasError('required')">
+              Seller type is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Organization Name</mat-label>
+            <input matInput formControlName="orgName" />
+            <mat-error *ngIf="sellerForm.get('orgName')?.hasError('required')">
+              Organization Name is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Location (City)</mat-label>
+            <input matInput formControlName="location" />
+            <mat-error *ngIf="sellerForm.get('location')?.hasError('required')">
+              Location is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Contact</mat-label>
+            <input matInput type="tel" formControlName="contact" />
+            <mat-error *ngIf="sellerForm.get('contact')?.hasError('required')">
+              Contact is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email" />
+            <mat-error *ngIf="sellerForm.get('email')?.hasError('required')">
+              Email is required
+            </mat-error>
+            <mat-error *ngIf="sellerForm.get('email')?.hasError('email')">
+              Invalid Email
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput type="password" formControlName="password" />
+            <mat-error *ngIf="sellerForm.get('password')?.hasError('required')">
+              Password is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Repeat Password</mat-label>
+            <input matInput type="password" formControlName="password2" />
+            <mat-error *ngIf="sellerForm.get('password2')?.hasError('required')">
+              Repeat Password is required
+            </mat-error>
+            <mat-hint *ngIf="sellerForm.errors?.['passwordMismatch']">
+              Passwords do not match
+            </mat-hint>
+          </mat-form-field>
+
+          <div class="button">
+            <button type="submit" mat-button [disabled]="!sellerForm.valid || disableRegister">
+              Register as Seller
+            </button>
+          </div>
+        </form>
+      </mat-tab>
+    </mat-tab-group>
   </mat-card>
 </div>

@@ -179,30 +179,60 @@ export class InventoryController {
 	*/
 	deleteItem = async (req: express.Request, res: express.Response): Promise<void> => {
 		try {
+			// Connect to the database
 			const result = await this.mongoDBService.connect();
 			if (!result) {
 				res.status(500).send({ error: "Database connection failed" });
 				return;
 			}
-			const item = await this.mongoDBService.findOne<InventoryItemModel>(this.settings.database, this.settings.collection, { _id: new ObjectId(req.params.id) });
+	
+			// Find the item to delete
+			const item = await this.mongoDBService.findOne<InventoryItemModel>(
+				this.settings.database,
+				this.settings.collection,
+				{ _id: new ObjectId(req.params.id) }
+			);
+	
 			if (!item) {
 				res.status(404).send({ error: "Item not found" });
 				return;
 			}
-			item._id = undefined;
-			let success = await this.mongoDBService.insertOne(this.settings.database, this.settings.archiveCollection, item);
-			if (!success) {
-				console.log("Failed to archive item");
+	
+			// Prepare the archived item (without modifying the original _id)
+			const archivedItem = { ...item }; // Shallow copy to avoid modifying original document
+			delete archivedItem._id; // Remove _id for the archive
+	
+			// Insert the item into the archive collection
+			const archiveResult = await this.mongoDBService.insertOne(
+				this.settings.database,
+				this.settings.archiveCollection,
+				archivedItem
+			);
+	
+			if (!archiveResult || !archiveResult.insertedId) {
+				res.status(500).send({ error: "Failed to archive item" });
 				return;
 			}
-			success = await this.mongoDBService.deleteOne(this.settings.database, this.settings.collection, { _id: new ObjectId(req.params.id) });
-			if (!success) {
+	
+			// Delete the item from the main collection
+			const deleteResult = await this.mongoDBService.deleteOne(
+				this.settings.database,
+				this.settings.collection,
+				{ _id: new ObjectId(req.params.id) }
+			);
+	
+			if (!deleteResult) {
 				res.status(500).send({ error: "Failed to delete item" });
 				return;
 			}
+	
+			// Success response
+			res.send({ success: true });
 		} catch (error) {
+			console.error(error);
 			res.status(500).send({ error: error });
+		} finally {
+			this.mongoDBService.close();
 		}
-		res.send({ success: true });
 	}
 }

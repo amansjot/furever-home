@@ -17,15 +17,15 @@ export class MongoDBService {
 			return false;
 		}
 	}
-	public async insertOne(database: string, collection: string, document: any): Promise<boolean> {
+	public async insertOne(database: string, collection: string, document: any): Promise<{ insertedId: any } | null> {
 		try {
-			await this.client.db(database).collection(collection).insertOne(document)
-			return true;
+			const result = await this.client.db(database).collection(collection).insertOne(document);
+			return { insertedId: result.insertedId }; // Return the insertedId
 		} catch (err) {
-			console.error("Error inserting document into " + collection + ":", err)
-			return false;
+			console.error("Error inserting document into " + collection + ":", err);
+			return null;
 		}
-	}
+	}	
 	public async findOne<T>(database: string, collection: string, query: any): Promise<T | null> {
 		try {
 			const result = await this.client.db(database).collection(collection).findOne(query);
