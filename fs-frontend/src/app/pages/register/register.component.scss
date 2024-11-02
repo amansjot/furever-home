@@ -248,4 +248,112 @@ mat-card {
       }
     }
   }
+
+  /* Floating label color when focused */
+  &.mat-focused:not(.mat-form-field-invalid) {
+    .mat-mdc-floating-label {
+      color: #4dbd9b !important;
+    }
+  }
+
+  /* Optional: Also style the outline/underline indicator if you want */
+  .mdc-line-ripple--active {
+    color: #4dbd9b !important;
+  }
+}
+
+/* ===================================
+   Select Field Styles
+   =================================== */
+::ng-deep .mat-mdc-select {
+  /* Select field background */
+  .mdc-text-field--filled {
+    background-color: #4dbd9b3a !important;
+  }
+  
+  /* Default selected value color */
+  .mdc-select__selected-text {
+    color: #45474E !important;
+  }
+}
+
+/* Select panel (dropdown) styling */
+::ng-deep .mat-mdc-select-panel {
+  background-color: white !important;
+  border-radius: 10px !important;
+  margin-top: 4px !important;
+  
+  /* Option styling */
+  .mat-mdc-option {
+    min-height: 48px !important;
+    padding: 0 16px !important;
+    
+    /* Option text color */
+    .mdc-list-item__primary-text {
+      color: #45474E !important;
+    }
+    
+    /* Selected option */
+    &.mdc-list-item--selected,
+    &.mat-mdc-option-active {
+      background-color: #4dbd9b3a !important;
+      
+      .mdc-list-item__primary-text {
+        color: #4dbd9b !important;
+      }
+    }
+    
+    /* Hover state */
+    &:hover:not(.mdc-list-item--selected) {
+      background-color: #4dbd9b1a !important;
+    }
+  }
+}
+
+/* Select field focus state */
+::ng-deep .mat-mdc-form-field.mat-focused {
+  .mdc-text-field--filled {
+    background-color: white !important;
+  }
+}
+
+/* Select arrow icon color */
+::ng-deep .mat-mdc-select-arrow {
+  color: #45474E !important;
+}
+
+/* ===================================
+   Tab Styles
+   =================================== */
+::ng-deep .mat-mdc-tab-group {
+  /* Remove hover effects on active tab */
+  .mat-mdc-tab.mdc-tab--active {
+    &:hover {
+      background-color: #ededed !important;
+    }
+    
+    &:hover::before,
+    &:hover::after,
+    &:focus::before,
+    &:focus::after {
+      opacity: 0 !important;
+      background-color: transparent !important;
+    }
+    
+    .mdc-tab__ripple::before,
+    .mdc-tab__ripple::after {
+      display: none !important;
+    }
+    
+    .mat-ripple {
+      display: none !important;
+    }
+  }
+
+  /* Ensure text color doesn't change on hover */
+  .mat-mdc-tab.mdc-tab--active:hover {
+    .mdc-tab__text-label {
+      color: inherit !important;
+    }
+  }
 }
