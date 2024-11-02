@@ -2,24 +2,19 @@ import { Component } from '@angular/core';
 import { ItemService } from '../../services/item.service';
 import { CommonModule } from '@angular/common';
 import { InventoryItemModel } from '../../models/items.model';
-import { MatCardModule } from '@angular/material/card';
 import { ItemComponent } from "../../components/item/item.component";
-import { MatPaginatorModule, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
-import { CustomPaginatorIntl } from './custom-paginator-intl'; // Import the custom paginator
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, ItemComponent, MatPaginatorModule, MatMenuModule, MatButtonModule],
+  imports: [CommonModule, ItemComponent, MatMenuModule, MatButtonModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  providers: [
-    { provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }
-  ]
 })
 export class HomeComponent {
+  public authenticated: boolean = false;
   public items: InventoryItemModel[] = [];
   public itemCount: number = 0;
   public pageIndex: number = 0;
@@ -52,12 +47,6 @@ export class HomeComponent {
     } catch (err) {
       console.error(err);
     }
-  }
-
-  handlePageEvent = (event: PageEvent) => {
-    console.log(event.pageIndex);
-    this.pageIndex = event.pageIndex;
-    this.loadData();
   }
 
   formatAge(ageInYears: number): string {
