@@ -232,18 +232,18 @@ mat-card {
   /* Change the color of the label when in error state */
   &.mat-form-field-invalid {
     .mat-mdc-form-field-label {
-      color: #4dbd9b !important;  /* Your theme color */
+      color: #45474E !important;  /* Your theme color */
     }
     
     /* For the asterisk (*) symbol */
     .mat-mdc-form-field-required-marker {
-      color: #4dbd9b !important;  /* Your theme color */
+      color: #45474E !important;  /* Your theme color */
     }
     
     /* For the input text itself when in error state */
     .mdc-text-field--invalid {
       .mdc-floating-label {
-        color: #4dbd9b !important;  /* Your theme color */
+        color: #45474E !important;  /* Your theme color */
       }
     }
   }
