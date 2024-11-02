@@ -115,6 +115,7 @@
               <mat-select formControlName="sellerType">
                 <mat-option value="breeder">Breeder</mat-option>
                 <mat-option value="shelter">Shelter</mat-option>
+                <mat-option value="shelter">Rehoming Pet Owner</mat-option>
               </mat-select>
               <mat-error *ngIf="sellerForm.get('sellerType')?.hasError('required')">
                 Type is required
