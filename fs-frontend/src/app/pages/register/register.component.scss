@@ -1,38 +1,251 @@
+/* ===================================
+   Card Styles
+   =================================== */
+   ::ng-deep .mat-mdc-card {
+    margin-top: 55px;
+    background-color: #f4f3f600;
+    border-radius: 20px;
+    border-bottom-color:#efefef00;
+    box-shadow: 0px 0px 0px rgba(255, 255, 255, 0);
+}
+
+::ng-deep .mat-mdc-card-content{
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+/* ===================================
+   Container Styles
+   =================================== */
+::ng-deep .create-container {
+    margin-top: -25px;
+    background-color: #f7f7f7;
+    box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.356);
+}
+
+.create-title {
+    padding: 25px;
+    font-weight: bold;
+}
+
+/* ===================================
+   Tab Styles
+   =================================== */
+::ng-deep .mat-mdc-tab-group .mdc-tab--active {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    background-color: #ededed;
+}
+
+::ng-deep .mat-mdc-tab-body-content {
+    background-color: #ededed;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 20px;
+    height: auto !important;
+    overflow: hidden !important;
+}
+
+/* First tab selected (Looking to Adopt) */
+::ng-deep .mat-mdc-tab-body:first-of-type .mat-mdc-tab-body-content {
+    border-top-right-radius: 20px;
+    border-top-left-radius: 0px;
+}
+
+/* Second tab selected (Breeder/Rescue) */
+::ng-deep .mat-mdc-tab-body:last-of-type .mat-mdc-tab-body-content {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 0px;
+}
+
+::ng-deep .mat-mdc-tab-header {
+  border-bottom: none !important; /* Removes the line below tabs */
+}
+
+/* Remove or change the ripple effect color */
+::ng-deep .mat-mdc-tab .mdc-tab-indicator__content--underline {
+  display: none !important; /* This removes the blue line completely */
+}
+
+/* Remove the divider line */
+::ng-deep .mat-mdc-tab-group {
+  --mat-tab-header-divider-height: 0px !important;
+  --mat-tab-header-divider-color: transparent !important;
+}
+
+/* If you want to change the color instead of removing it, use this: */
+::ng-deep .mat-mdc-tab-group {
+  --mdc-tab-indicator-active-indicator-color: #4dbd9b !important;
+  --mat-tab-header-active-ripple-color: #4dbd9b !important;
+  --mat-tab-header-inactive-ripple-color: rgba(77, 189, 155, 0.1) !important;
+}
+
+/* Remove the ripple effect completely */
+::ng-deep .mat-mdc-tab .mat-ripple {
+  display: none !important;
+}
+
+/* ===================================
+   Form Field Styles
+   =================================== */
+/* Remove default underline */
+::ng-deep .mdc-line-ripple::before,
+::ng-deep .mdc-line-ripple::after {
+    display: none;
+}
+
+/* Text field wrapper styles */
+::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--filled {
+    background-color: #4dbd9b3a !important;
+    border-radius: 10px !important;
+}
+
+/* Hover state */
+::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--filled:hover {
+    background-color: #4dbd9b5c !important;
+}
+
+/* Focus state */
+::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--filled.mdc-text-field--focused {
+    background-color: white !important;
+}
+
+/* ===================================
+   Layout Styles
+   =================================== */
 :host {
-	display: flex;
-	justify-content: center;
-	margin: 100px 0px;
+    display: flex;
+    justify-content: center;
+    margin: 100px 0px;
+}
+
+/* ===================================
+   Card Content Layout
+   =================================== */
+mat-card {
+    max-width: 600px;
+
+    mat-card-title,
+    mat-card-content {
+        display: flex;
+		flex-direction: column;
+        justify-content: center;
+        margin-bottom: 10px;
+        
+        form {
+            mat-form-field {
+                width: 100%;
+                min-width: 300px;
+                margin-bottom: 10px;
+            }
+
+            .error {
+                padding: 16px;
+                width: 300px;
+                color: white;
+                color: red;
+            }
+
+            .button {
+                display: flex;
+                justify-content: flex-end;
+            }
+        }
+    }
+
+    mat-hint {
+        color: var(--mat-form-field-error-text-color, var(--mat-app-error));
+    }
+}
+
+/* Under Form Field Styles section */
+.name-row {
+  display: flex;
+  gap: 20px;  /* Space between the fields */
+  max-width: 100%;  /* Ensure it doesn't overflow */
+  
+  .name-field {
+    flex: 1;
+    min-width: 140px !important;  /* Smaller minimum width */
+    width: 140px !important;      /* Fixed width */
   }
+}
+
+/* ===================================
+   Button Styles
+   =================================== */
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.submit-button {
+  min-width: 150px;  /* Adjust width as needed */
+  padding: 8px 24px;
+  background-color: #4dbd9b !important;  /* Match your theme color */
+  color: white !important;
+  font-weight: 500;
+  border-radius: 25px;
   
-  mat-card {
-	max-width: 600px;
-  
-	mat-card-title,
-	mat-card-content {
-	  display: flex;
-	  justify-content: center;
-	  margin-bottom: 10px;
-	  form {
-		mat-form-field {
-		  width: 100%;
-		  min-width: 300px;
-		  margin-bottom:10px;
-		}
-  
-		.error {
-		  padding: 16px;
-		  width: 300px;
-		  color: white;
-		  color: red;
-		}
-  
-		.button {
-		  display: flex;
-		  justify-content: flex-end;
-		}
-	  }
-	}
-	mat-hint{
-		color: var(--mat-form-field-error-text-color, var(--mat-app-error));	
-	}
+  /* Hover state */
+  &:hover:not([disabled]) {
+    background-color: #3da88a !important;  /* Slightly darker on hover */
   }
+
+  /* Disabled state */
+  &:disabled {
+    background-color: #cccccc !important;
+    color: #666666 !important;
+  }
+}
+
+/* ===================================
+   Sign In Link Styles
+   =================================== */
+.signin-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.signin-text {
+  color: #666666;
+  font-size: 14px;
+  
+  .signin-link {
+    color: #4dbd9b;  /* Match your theme color */
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 5px;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #3da88a;  /* Slightly darker on hover */
+      text-decoration: underline;
+    }
+  }
+}
+
+::ng-deep .mat-mdc-form-field {
+  /* Change the color of the label when in error state */
+  &.mat-form-field-invalid {
+    .mat-mdc-form-field-label {
+      color: #45474E !important;  /* Your theme color */
+    }
+    
+    /* For the asterisk (*) symbol */
+    .mat-mdc-form-field-required-marker {
+      color: #45474E !important;  /* Your theme color */
+    }
+    
+    /* For the input text itself when in error state */
+    .mdc-text-field--invalid {
+      .mdc-floating-label {
+        color: #45474E !important;  /* Your theme color */
+      }
+    }
+  }
+}
