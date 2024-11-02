@@ -282,11 +282,14 @@ mat-card {
   background-color: white !important;
   border-radius: 10px !important;
   margin-top: 4px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
   
   /* Option styling */
   .mat-mdc-option {
     min-height: 48px !important;
     padding: 0 16px !important;
+    margin: 0 !important;
     
     /* Option text color */
     .mdc-list-item__primary-text {
@@ -355,5 +358,23 @@ mat-card {
     .mdc-tab__text-label {
       color: inherit !important;
     }
+  }
+}
+/* ===================================
+   Location Row Styles
+   =================================== */
+.location-row {
+  display: flex;
+  gap: 20px;
+  max-width: 100%;
+  
+  .location-field {
+    flex: 2;  /* Takes up 2/3 of the space */
+    min-width: 200px !important;
+  }
+  
+  .state-field {
+    flex: 1;  /* Takes up 1/3 of the space */
+    min-width: 100px !important;
   }
 }
