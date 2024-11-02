@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatTabGroup, MatTab } from '@angular/material/tabs';
+import { MatTabsModule, MatTabGroup, MatTab } from '@angular/material/tabs';
 import { Router, RouterLink } from '@angular/router';
 
 import { passwordMatchValidator, PasswordStrengthValidator } from './password-validators';
@@ -21,8 +21,7 @@ import { LoginService } from '../../services/login.service';
     RouterLink,
     MatCardModule,
     MatFormFieldModule,
-    MatTabGroup,
-    MatTab,
+    MatTabsModule, // Import MatTabsModule here
     MatButtonModule,
     MatInputModule,
     MatSelectModule
@@ -30,10 +29,10 @@ import { LoginService } from '../../services/login.service';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   public errorMsg: string = "";
   public disableRegister: boolean = false;
-  public selectedRole: string = "buyer"; // default to buyer
+  public selectedRoleIndex: number = 0; // Track selected tab index
 
   buyerForm: FormGroup = new FormGroup({
     firstName: new FormControl(null, Validators.required),
@@ -50,7 +49,7 @@ export class RegisterComponent {
     sellerType: new FormControl(null, Validators.required),
     orgName: new FormControl(null, Validators.required),
     location: new FormControl(null, Validators.required),
-    contact: new FormControl(null, [Validators.required, Validators.pattern(/^[0-9]{10}$/)]), // basic phone number validation
+    contact: new FormControl(null, [Validators.required, Validators.pattern(/^[0-9]{10}$/)]),
     email: new FormControl(null, [Validators.required, Validators.email]),
     password: new FormControl(null, [Validators.required, PasswordStrengthValidator]),
     password2: new FormControl(null, Validators.required),
@@ -61,8 +60,28 @@ export class RegisterComponent {
     private _router: Router
   ) { }
 
+  ngOnInit(): void {
+    this.setFormValidators(); // Set initial validators based on selected tab
+  }
+
   onTabChange(index: number): void {
-    this.selectedRole = index === 0 ? 'buyer' : 'seller';
+    this.selectedRoleIndex = index;
+    this.setFormValidators();
+  }
+
+  private setFormValidators(): void {
+    if (this.selectedRoleIndex === 1) { // Seller tab selected
+      this.sellerForm.controls['orgName'].setValidators(Validators.required);
+      this.sellerForm.controls['location'].setValidators(Validators.required);
+      this.sellerForm.controls['contact'].setValidators([Validators.required, Validators.pattern(/^[0-9]{10}$/)]);
+    } else { // Buyer tab selected
+      this.buyerForm.controls['location'].setValidators(Validators.required);
+    }
+
+    this.sellerForm.controls['orgName'].updateValueAndValidity();
+    this.sellerForm.controls['location'].updateValueAndValidity();
+    this.sellerForm.controls['contact'].updateValueAndValidity();
+    this.buyerForm.controls['location'].updateValueAndValidity();
   }
 
   register(role: 'buyer' | 'seller') {
@@ -76,7 +95,6 @@ export class RegisterComponent {
     this.disableRegister = true;
     this.errorMsg = "";
   
-    // Prepare data for registration
     const formData = form.value;
     const data = {
       username: formData.email,
