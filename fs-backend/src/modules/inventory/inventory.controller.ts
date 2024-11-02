@@ -155,7 +155,7 @@ export class InventoryController {
 				documentation: req.body.documentation,
 				sex: req.body.sex,
 				image: req.body.image,
-				location: req.body.image
+				location: req.body.location
 			};
 			let command = { $set: item };
 			const success = await this.mongoDBService.updateOne(this.settings.database, this.settings.collection, { _id: new ObjectId(req.params.id) }, command);
