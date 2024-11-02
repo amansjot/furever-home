@@ -12,6 +12,8 @@
     */
 export class SecuritySettings{
     public database = "pet-adoption";
-    public collection = "users";
+    public usersCollection = "users";
+    public buyersCollection = "buyers";
+    public sellersCollection = "sellers";
     public defaultRoles:string[]=[""];
 }

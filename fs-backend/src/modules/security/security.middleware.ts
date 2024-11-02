@@ -59,7 +59,7 @@ export class SecurityMiddleware{
                     res.status(500).send({ error: "Database connection failed" });
                     return;
                 }
-                let dbUser: UserLoginModel | null = await this.mongoDBService.findOne(this.settings.database, this.settings.collection, { username: payload.username });
+                let dbUser: UserLoginModel | null = await this.mongoDBService.findOne(this.settings.database, this.settings.usersCollection, { username: payload.username });
                 if (!dbUser) {
                     throw { error: "User not found" };
                 }
