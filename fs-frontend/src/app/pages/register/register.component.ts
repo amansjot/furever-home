@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';  // Add MatSelectModule
+import { MatTabsModule } from '@angular/material/tabs'; // Import MatTabsModule
 import { Router, RouterLink } from '@angular/router';
 import { passwordMatchValidator, PasswordStrengthValidator } from './password-validators';
 import { LoginService } from '../../services/login.service';
@@ -21,20 +21,24 @@ import { LoginService } from '../../services/login.service';
     MatFormFieldModule,
     MatButtonModule,
     MatInputModule,
-    MatSelectModule  // Import MatSelectModule here
+    MatTabsModule // Import MatTabsModule here
   ],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   public errorMsg: string = "";
   public disableRegister: boolean = false;
+  public selectedRoleIndex: number = 0;
 
   registerForm: FormGroup = new FormGroup({
-    email: new FormControl(null, [Validators.required, Validators.email]),
-    password: new FormControl(null, [PasswordStrengthValidator]),
-    password2: new FormControl(null),
-    role: new FormControl(null, Validators.required)
+    firstName: new FormControl('', Validators.required),
+    lastName: new FormControl('', Validators.required),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required, PasswordStrengthValidator]),
+    password2: new FormControl('', Validators.required),
+    organizationName: new FormControl(''),
+    location: new FormControl('')
   }, { validators: passwordMatchValidator() });
 
   constructor(
@@ -42,23 +46,47 @@ export class RegisterComponent {
     private _router: Router
   ) { }
 
+  ngOnInit(): void {
+    this.setSellerValidators(); // Set validators based on the default tab
+  }
+
+  onTabChange(index: number) {
+    this.selectedRoleIndex = index;
+    this.setSellerValidators();
+  }
+
+  setSellerValidators() {
+    if (this.selectedRoleIndex === 1) { // If "Seller" tab is selected
+      this.registerForm.controls['organizationName'].setValidators(Validators.required);
+      this.registerForm.controls['location'].setValidators(Validators.required);
+    } else { // If "Buyer" tab is selected
+      this.registerForm.controls['organizationName'].clearValidators();
+      this.registerForm.controls['location'].clearValidators();
+    }
+    this.registerForm.controls['organizationName'].updateValueAndValidity();
+    this.registerForm.controls['location'].updateValueAndValidity();
+  }
+
   register() {
     if (!this.registerForm.valid) {
       return;
     }
     this.disableRegister = true;
-    const { email, password, role } = this.registerForm.value;
-    this._loginSvc.register(email, password, role).then((res) => {
-      if (res) {
-        this._router.navigate(['/home']);
-      } else {
-        this.errorMsg = "Registration failed";
-      }
-      this.disableRegister = false;
-    }).catch((err) => {
-      console.error(err.error);
-      this.errorMsg = "Registration failed: " + err.error.error;
-      this.disableRegister = false;
-    });
+    const { email, password, firstName, lastName, organizationName, location } = this.registerForm.value;
+    const role = this.selectedRoleIndex === 0 ? 'Buyer' : 'Seller';
+
+    this._loginSvc.register(email, password, firstName, /* lastName, role, organizationName, location */)
+      .then((res) => {
+        if (res) {
+          this._router.navigate(['/home']);
+        } else {
+          this.errorMsg = "Registration failed";
+        }
+        this.disableRegister = false;
+      }).catch((err) => {
+        console.error(err.error);
+        this.errorMsg = "Registration failed: " + err.error.error;
+        this.disableRegister = false;
+      });
   }
 }
