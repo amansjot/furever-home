@@ -107,6 +107,13 @@ export class HeaderComponent  {
   }
 
   onMenuItemClick() {
+    const menuOverlay = document.querySelector('.menu-overlay');
+    menuOverlay?.classList.add('quick-close');
     this.isMenuOpen = false;
+    
+    // Remove the class after animation completes
+    setTimeout(() => {
+      menuOverlay?.classList.remove('quick-close');
+    }, 100);
   }
 }
