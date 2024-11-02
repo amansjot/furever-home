@@ -1,27 +1,29 @@
 <div>
-  <mat-card>
-    <mat-card-title>Register</mat-card-title>
+  <mat-card class="create-container">
+    <mat-card-title class="create-title">Create an Account</mat-card-title>
     <mat-card-content>
       <form [formGroup]="registerForm" (ngSubmit)="register()">
         <!-- Role Tabs -->
         <mat-tab-group [(selectedIndex)]="selectedRoleIndex" (selectedIndexChange)="onTabChange($event)">
-          <mat-tab label="Buyer">
+          <mat-tab label="Looking to Adopt">
             <!-- Buyer Form Fields -->
-            <mat-form-field>
-              <mat-label>First Name</mat-label>
-              <input matInput formControlName="firstName" placeholder="First Name" />
-              <mat-error *ngIf="registerForm.get('firstName')?.hasError('required')">
-                First Name is required
-              </mat-error>
-            </mat-form-field>
+            <div class="name-row">
+              <mat-form-field class="name-field">
+                <mat-label>First Name</mat-label>
+                <input matInput formControlName="firstName" placeholder="First Name" />
+                <mat-error *ngIf="registerForm.get('firstName')?.hasError('required')">
+                  First Name is required
+                </mat-error>
+              </mat-form-field>
 
-            <mat-form-field>
-              <mat-label>Last Name</mat-label>
-              <input matInput formControlName="lastName" placeholder="Last Name" />
-              <mat-error *ngIf="registerForm.get('lastName')?.hasError('required')">
-                Last Name is required
-              </mat-error>
-            </mat-form-field>
+              <mat-form-field class="name-field">
+                <mat-label>Last Name</mat-label>
+                <input matInput formControlName="lastName" placeholder="Last Name" />
+                <mat-error *ngIf="registerForm.get('lastName')?.hasError('required')">
+                  Last Name is required
+                </mat-error>
+              </mat-form-field>
+            </div>
 
             <mat-form-field>
               <mat-label>Email</mat-label>
@@ -76,23 +78,25 @@
             </mat-form-field>
           </mat-tab>
 
-          <mat-tab label="Seller">
+          <mat-tab label="Breeder/Rescue">
             <!-- Seller Form Fields -->
-            <mat-form-field>
-              <mat-label>First Name</mat-label>
-              <input matInput formControlName="firstName" placeholder="First Name" />
-              <mat-error *ngIf="registerForm.get('firstName')?.hasError('required')">
-                First Name is required
-              </mat-error>
-            </mat-form-field>
+            <div class="name-row">
+              <mat-form-field class="name-field">
+                <mat-label>First Name</mat-label>
+                <input matInput formControlName="firstName" placeholder="First Name" />
+                <mat-error *ngIf="registerForm.get('firstName')?.hasError('required')">
+                  First Name is required
+                </mat-error>
+              </mat-form-field>
 
-            <mat-form-field>
-              <mat-label>Last Name</mat-label>
-              <input matInput formControlName="lastName" placeholder="Last Name" />
-              <mat-error *ngIf="registerForm.get('lastName')?.hasError('required')">
-                Last Name is required
-              </mat-error>
-            </mat-form-field>
+              <mat-form-field class="name-field">
+                <mat-label>Last Name</mat-label>
+                <input matInput formControlName="lastName" placeholder="Last Name" />
+                <mat-error *ngIf="registerForm.get('lastName')?.hasError('required')">
+                  Last Name is required
+                </mat-error>
+              </mat-form-field>
+            </div>
 
             <mat-form-field>
               <mat-label>Email</mat-label>
@@ -165,10 +169,11 @@
           </mat-tab>
         </mat-tab-group>
 
-        <div class="button">
+        <div class="button-container">
           <button
             type="submit"
-            mat-button
+            mat-raised-button
+            class="submit-button"
             [disabled]="!registerForm.valid || disableRegister"
           >
             Sign Up
@@ -176,9 +181,11 @@
         </div>
 
         <mat-error>&nbsp;&nbsp;{{ errorMsg }}</mat-error>
-        <p>
-          Already have an account? <a [routerLink]="['../login']">Sign In</a>
-        </p>
+        <div class="signin-container">
+          <p class="signin-text">
+            Already have an account? <a class="signin-link" [routerLink]="['../login']">Sign In</a>
+          </p>
+        </div>
       </form>
     </mat-card-content>
   </mat-card>
