@@ -146,7 +146,7 @@ export class SecurityController {
     const user: UserLoginModel = {
       username: req.body.username,
       password: req.body.password,
-      roles: this.settings.defaultRoles,
+      roles: [req.body.role.toLowerCase()],
     };
     if (
       user.username == null ||
