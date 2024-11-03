@@ -5,77 +5,96 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { NavigationEnd, Router, RouterLink, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { forkJoin, of } from 'rxjs';
+import { catchError, delay, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule,MatToolbarModule,MatButtonModule,MatIconModule,RouterLink,RouterModule],
+  imports: [CommonModule, MatToolbarModule, MatButtonModule, MatIconModule, RouterLink, RouterModule],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent  {
+export class HeaderComponent {
   public disableLogin: boolean = false;
   public authenticated: boolean = false;
   public isAdmin: boolean = false;
-  public showButtons:boolean=true;
-  constructor(private _loginSvc:LoginService,private router:Router){
-    _loginSvc.loggedIn.subscribe(this.onLoginChange);    
-    router.events.subscribe({
-      next:(event)=>{
-        if (event instanceof NavigationEnd && (event.url.indexOf("login")>=0||event.url.indexOf("register")>=0)){
-          this.showButtons=false;
-        }else{
-          this.showButtons=true;
-        }
-      }
-    })
+  public isSeller: boolean = false;
+  public showButtons: boolean = true;
 
+  constructor(private _loginSvc: LoginService, private router: Router) {
+    _loginSvc.loggedIn.subscribe(this.onLoginChange);
+
+    router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.showButtons = !(event.url.includes("login") || event.url.includes("register"));
+      }
+    });
   }
 
-  onLoginChange=async (loggedIn: boolean)=>{
+  onLoginChange = (loggedIn: boolean) => {
     this.authenticated = loggedIn;
-    
+
     if (loggedIn) {
-      try {
-        await new Promise(resolve => setTimeout(resolve, 100));
-        this.isAdmin = await this._loginSvc.isAdmin();
-      } catch (error) {
-        console.error('Error checking admin status:', error);
-        this.isAdmin = false;
-      }
+      this.checkUserRoles();
     } else {
-      this.isAdmin = false;
+      this.resetRoles();
     }
-    
-    console.log("Change:"+this.authenticated)
+    console.log("Change:" + this.authenticated);
+  };
+
+  private checkUserRoles(): void {
+    of(null).pipe(
+      delay(1000),
+      switchMap(() =>
+        forkJoin({
+          isSeller: this._loginSvc.isSeller().pipe(
+            catchError((error) => {
+              console.error('Error checking seller role:', error);
+              return of(false);
+            })
+          ),
+          isAdmin: this._loginSvc.isAdmin().pipe(
+            catchError((error) => {
+              console.error('Error checking admin role:', error);
+              return of(false);
+            })
+          ),
+        })
+      )
+    ).subscribe(({ isSeller, isAdmin }) => {
+      this.isSeller = isSeller;
+      this.isAdmin = isAdmin;
+    });
   }
-  logout(){
-    this._loginSvc.logout();
+
+  private resetRoles(): void {
     this.isAdmin = false;
+    this.isSeller = false;
+  }
+
+  logout() {
+    this._loginSvc.logout();
+    this.resetRoles();
     this.router.navigate(['/login']);
   }
-  async login(){
-    this.disableLogin=true;
-    await this._loginSvc.login("silber@udel.edu","pass");
-    this.disableLogin=false;
+
+  async login() {
+    this.disableLogin = true;
+    await this._loginSvc.login("silber@udel.edu", "pass");
+    this.disableLogin = false;
   }
 
-  // Navbar css cool stuff:
-  isNavbarHidden = false;
-  lastScrollPosition = 0;
+  // Navbar CSS and scrolling functionality
+  public isNavbarHidden = false;
+  private lastScrollPosition = 0;
   public isMenuOpen: boolean = false;
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
     if (!this.isMenuOpen) {
       const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-      if (currentScrollPosition > this.lastScrollPosition) {
-        // Scrolling down
-        this.isNavbarHidden = true;
-      } else {
-        // Scrolling up
-        this.isNavbarHidden = false;
-      }
+      this.isNavbarHidden = currentScrollPosition > this.lastScrollPosition;
       this.lastScrollPosition = currentScrollPosition;
     }
   }
@@ -88,19 +107,15 @@ export class HeaderComponent  {
   }
 
   get showHamburger(): boolean {
-    return this.showButtons && (this.authenticated || !this.authenticated);
+    return this.showButtons && this.authenticated;
   }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
-    // Get the clicked element
     const clickedElement = event.target as HTMLElement;
-    
-    // Check if click is outside the menu and toolbar
     const isMenuClick = clickedElement.closest('.menu-overlay');
     const isHamburgerClick = clickedElement.closest('.hamburger-btn');
-    
-    // Close menu if click is outside and menu is open
+
     if (!isMenuClick && !isHamburgerClick && this.isMenuOpen) {
       this.isMenuOpen = false;
     }
@@ -110,8 +125,6 @@ export class HeaderComponent  {
     const menuOverlay = document.querySelector('.menu-overlay');
     menuOverlay?.classList.add('quick-close');
     this.isMenuOpen = false;
-    
-    // Remove the class after animation completes
     setTimeout(() => {
       menuOverlay?.classList.remove('quick-close');
     }, 100);
