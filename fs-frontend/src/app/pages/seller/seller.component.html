@@ -1,1 +1,10 @@
-<p>seller works!</p>
+<div *ngIf="seller">
+    <h1>{{ seller.orgName }}</h1>
+    <p>Type: {{ seller.sellerType }}</p>
+    <p>Location: {{ seller.sellerLocation }}</p>
+    <p>Contact: {{ seller.sellerContact }}</p>
+    <div *ngFor="let pet of seller.pets">
+        <div>{{ pet }}</div>
+    </div>
+    <img *ngIf="seller.sellerPhoto" [src]="seller.sellerPhoto" alt="Seller Photo">
+</div>
