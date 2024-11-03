@@ -1,1 +1,5 @@
-<p>seller works!</p>
+<div>Org Name: {{ sellerInfo.orgName }}</div>
+<div>Location: {{ sellerInfo.sellerLocation }} </div>
+<div *ngFor="let pet of sellerInfo.pets">
+    Pet: {{ pet }}
+</div>
