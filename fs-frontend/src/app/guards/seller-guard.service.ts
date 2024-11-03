@@ -1,23 +1,28 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { LoginService } from '../services/login.service';
+import { CanActivate, Router, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { map, catchError, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuardService implements CanActivate {
+export class SellerGuardService implements CanActivate {
   constructor(private _loginSvc: LoginService, private _router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this._loginSvc.authorize().pipe(
-      map((isAuthorized) => {
+      switchMap((isAuthorized) => {
         if (isAuthorized) {
-          return true;
+          return this._loginSvc.isSeller().pipe(
+            map((isSeller) => {
+              if (!isSeller) this._router.navigate(['/login']);
+              return isSeller;
+            })
+          );
         } else {
           this._router.navigate(['/login']);
-          return false;
+          return of(false);
         }
       }),
       catchError((error) => {
