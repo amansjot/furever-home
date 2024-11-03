@@ -107,7 +107,7 @@ export class HeaderComponent {
   }
 
   get showHamburger(): boolean {
-    return this.showButtons && this.authenticated;
+    return this.showButtons;
   }
 
   @HostListener('document:click', ['$event'])
