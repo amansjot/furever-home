@@ -48,10 +48,10 @@
             routerLink="/seller"
             (click)="onMenuItemClick()"
           >
-            Seller
+            My Pets
           </button>
-          <button mat-mini-fab routerLink="/cart" (click)="onMenuItemClick()">
-            Cart
+          <button *ngIf="isBuyer" mat-mini-fab routerLink="/cart" (click)="onMenuItemClick()">
+            Favorites
           </button>
           <button mat-mini-fab (click)="logout(); onMenuItemClick()">
             Logout
