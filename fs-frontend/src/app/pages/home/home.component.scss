@@ -48,13 +48,18 @@
 
 /* Card Image and Background */
 .pet-image-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 450px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    border-radius: 15px;
 }
 
 .petcard-favorite-button {
@@ -104,22 +109,27 @@
     flex: 1;
 }
 
-.hidden-info {
-    color: #000000;
-    opacity: 0;
-    transform: translateY(100%);
+.hidden-info-container {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
+    pointer-events: none;
+}
+
+.hidden-info {
+    color: #000000;
+    opacity: 0;
+    transform: translateY(100%);
     padding: 12px;
     transition: transform 0.3s ease, opacity 0.3s ease;
+    margin: 0 8px 8px 8px;
 }
 
 /* Hover and Expanded Effects */
 @media (min-width: 1024px) {
     .pet-card:hover .displayed-info {
-        transform: translateY(-170%);
+        transform: translateY(-175%);
         opacity: 1;
         display: flex;
         justify-content: space-between;
@@ -132,16 +142,13 @@
     .pet-card:hover .hidden-info {
         transform: translateY(0);
         opacity: 1;
-        display: block;
         backdrop-filter: blur(16px) saturate(180%);
         -webkit-backdrop-filter: blur(16px) saturate(180%);
         background-color: rgba(255, 255, 255, 0.66);
-        border-radius: 12px;
         border: 1px solid rgba(255, 255, 255, 0.125);
-        border-top-left-radius: 15px;
-        border-top-right-radius: 15px;
         filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.376));
         max-height: 60%;
+        border-radius: 12px;
     }
 
     .pet-card:hover {
@@ -182,10 +189,8 @@
     backdrop-filter: blur(16px) saturate(180%);
     -webkit-backdrop-filter: blur(16px) saturate(180%);
     background-color: rgba(255, 255, 255, 0.66);
-    border-radius: 12px;
+    border-radius: 15px;
     border: 1px solid rgba(255, 255, 255, 0.125);
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
     filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.376));
     max-height: 60%;
 }

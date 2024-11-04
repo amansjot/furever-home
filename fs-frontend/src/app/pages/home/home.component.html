@@ -177,24 +177,26 @@
                     alt="expand-arrow">
                 </button>
               </div>
-              <div class="hidden-info">
-                <div class="info-group">
-                  <p class="pet-status-tag">Status:</p>
-                  <p class="pet-status">{{ item.status }}</p>
-                </div>
-                <div class="info-group">
-                  <p class="pet-breed-tag">Breed:</p>
-                  <p class="pet-breed">{{ item.speciesBreed }}</p>
-                </div>
-                <div class="info-group">
-                  <p class="pet-price-tag">Price:</p>
-                  <p class="pet-price">
-                    {{ item.price | currency : "USD" : "symbol" : "1.0-0" }}
-                  </p>
-                </div>
-                <div class="info-group">
-                  <p class="pet-location-tag">Location:</p>
-                  <p class="pet-location">{{ item.location }}</p>
+              <div class="hidden-info-container">
+                <div class="hidden-info">
+                  <div class="info-group">
+                    <p class="pet-status-tag">Status:</p>
+                    <p class="pet-status">{{ item.status }}</p>
+                  </div>
+                  <div class="info-group">
+                    <p class="pet-breed-tag">Breed:</p>
+                    <p class="pet-breed">{{ item.speciesBreed }}</p>
+                  </div>
+                  <div class="info-group">
+                    <p class="pet-price-tag">Price:</p>
+                    <p class="pet-price">
+                      {{ item.price | currency : "USD" : "symbol" : "1.0-0" }}
+                    </p>
+                  </div>
+                  <div class="info-group">
+                    <p class="pet-location-tag">Location:</p>
+                    <p class="pet-location">{{ item.location }}</p>
+                  </div>
                 </div>
               </div>
             </div>
