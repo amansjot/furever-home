@@ -8,7 +8,13 @@ export class SellerRouter {
 
     public getRouter(): express.Router {
         // this.router.get("/:id", this.controller.getSeller);
-        this.router.get("/me", SecurityMiddleware.validateUser, this.controller.getSellerProfile);
+        this.router.get(
+            "/me",
+            SecurityMiddleware.validateUser,
+            SecurityMiddleware.hasRole("seller"),
+            this.controller.getSellerProfile
+          );
+          
         return this.router;
     }
 }
