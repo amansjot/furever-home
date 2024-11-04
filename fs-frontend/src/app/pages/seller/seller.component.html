@@ -3,8 +3,15 @@
     <p>Type: {{ seller.sellerType }}</p>
     <p>Location: {{ seller.sellerLocation }}</p>
     <p>Contact: {{ seller.sellerContact }}</p>
-    <div *ngFor="let pet of seller.pets">
-        <div>{{ pet }}</div>
+
+    <div *ngFor="let pet of pets">
+        <h3>{{ pet.name }}</h3>
+        <p>Species: {{ pet.species }}</p>
+        <p>Breed: {{ pet.breed }}</p>
+        <p>Age: {{ pet.age }}</p>
+        <p>Description: {{ pet.description }}</p>
+        <img *ngIf="pet.images && pet.images.length" [src]="pet.images[0]" alt="{{ pet.name }}">
     </div>
+
     <img *ngIf="seller.sellerPhoto" [src]="seller.sellerPhoto" alt="Seller Photo">
 </div>

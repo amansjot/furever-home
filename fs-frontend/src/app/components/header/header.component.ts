@@ -45,7 +45,7 @@ export class HeaderComponent {
 
   private checkUserRoles(): void {
     of(null).pipe(
-      delay(1000),
+      delay(250),
       switchMap(() =>
         forkJoin({
           isSeller: this._loginSvc.isSeller().pipe(
