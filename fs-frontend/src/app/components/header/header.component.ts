@@ -20,6 +20,7 @@ export class HeaderComponent {
   public authenticated: boolean = false;
   public isAdmin: boolean = false;
   public isSeller: boolean = false;
+  public isBuyer: boolean = false;
   public showButtons: boolean = true;
 
   constructor(private _loginSvc: LoginService, private router: Router) {
@@ -48,6 +49,12 @@ export class HeaderComponent {
       delay(250),
       switchMap(() =>
         forkJoin({
+          isBuyer: this._loginSvc.isBuyer().pipe(
+            catchError((error) => {
+              console.error('Error checking buyer role:', error);
+              return of(false);
+            })
+          ),
           isSeller: this._loginSvc.isSeller().pipe(
             catchError((error) => {
               console.error('Error checking seller role:', error);
@@ -62,7 +69,8 @@ export class HeaderComponent {
           ),
         })
       )
-    ).subscribe(({ isSeller, isAdmin }) => {
+    ).subscribe(({ isBuyer, isSeller, isAdmin }) => {
+      this.isBuyer = isBuyer;
       this.isSeller = isSeller;
       this.isAdmin = isAdmin;
     });
@@ -70,6 +78,7 @@ export class HeaderComponent {
 
   private resetRoles(): void {
     this.isAdmin = false;
+    this.isBuyer = false;
     this.isSeller = false;
   }
 
