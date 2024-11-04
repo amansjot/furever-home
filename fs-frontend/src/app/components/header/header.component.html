@@ -9,11 +9,10 @@
 
     <!-- Desktop buttons -->
     <div class="desktop-login-btn" *ngIf="authenticated && showButtons">
-      <button *ngIf="isAdmin" mat-mini-fab routerLink="/admin">Admin</button
-      >&nbsp;&nbsp;
-      <button *ngIf="isSeller" mat-mini-fab routerLink="/seller">Seller</button
-      >&nbsp;&nbsp;
-      <button mat-mini-fab routerLink="/cart">Cart</button>&nbsp;&nbsp;
+      <button *ngIf="isAdmin" mat-mini-fab routerLink="/admin">Admin</button>
+      <button *ngIf="isSeller" mat-mini-fab routerLink="/seller">My Pets</button>
+      <button *ngIf="isBuyer" mat-mini-fab routerLink="/cart">Favorites</button>
+      
       <button mat-mini-fab (click)="logout()">Logout</button>
     </div>
     <div class="desktop-login-btn" *ngIf="!authenticated && showButtons">

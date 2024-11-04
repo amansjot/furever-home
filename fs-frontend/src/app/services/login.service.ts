@@ -15,6 +15,7 @@ interface TokenResponseObject {
 export class LoginService {
   private isAdminCached: boolean | null = null;
   private isSellerCached: boolean | null = null;
+  private isBuyerCached: boolean | null = null;
 
   constructor(private httpClient: HttpClient, private _router: Router) {
     this.loggedIn.next(this.token.length > 0);
@@ -61,6 +62,25 @@ export class LoginService {
       .pipe(
         map((response) => {
           this.isSellerCached = response.hasRole; // Cache the result
+          return response.hasRole;
+        }),
+        catchError((error) => {
+          console.error(error);
+          return of(false);
+        })
+      );
+  }
+
+  /* Check if the User is a Seller */
+  public isBuyer(): Observable<boolean> {
+    if (this.isBuyerCached !== null) {
+      return of(this.isBuyerCached);
+    }
+    return this.httpClient
+      .get<{ hasRole: boolean }>(`${Config.apiBaseUrl}/security/hasrole/buyer`)
+      .pipe(
+        map((response) => {
+          this.isBuyerCached = response.hasRole; // Cache the result
           return response.hasRole;
         }),
         catchError((error) => {
@@ -120,12 +140,15 @@ export class LoginService {
     try {
       const isAdminResponse = await this.isAdmin().toPromise();
       const isSellerResponse = await this.isSeller().toPromise();
+      const isBuyerResponse = await this.isBuyer().toPromise();
       this.isAdminCached = isAdminResponse ?? false;
       this.isSellerCached = isSellerResponse ?? false;
+      this.isBuyerCached = isBuyerResponse ?? false;
     } catch (error) {
       console.error('Error fetching roles:', error);
       this.isAdminCached = false;
       this.isSellerCached = false;
+      this.isBuyerCached = false;
     }
   }
 
@@ -134,6 +157,7 @@ export class LoginService {
     this.token = '';
     this.isAdminCached = null;
     this.isSellerCached = null;
+    this.isBuyerCached = null;
     this.loggedIn.next(false);
   }
 

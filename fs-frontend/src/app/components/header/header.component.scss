@@ -64,6 +64,7 @@ div {
 
 	button {
 		@include button-styles;
+		margin-right: 18px;
 	}
 }
 
