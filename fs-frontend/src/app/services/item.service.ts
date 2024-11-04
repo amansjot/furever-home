@@ -58,4 +58,14 @@ export class ItemService {
       });
     });
   }
+
+  // New method to get a single item by its ID
+  public getItemById(id: string): Promise<InventoryItemModel> {
+    return new Promise<InventoryItemModel>((resolve, reject) => {
+      this.httpClient.get<InventoryItemModel>(`${Config.apiBaseUrl}/items/${id}`).subscribe({
+        next: (data) => resolve(data),
+        error: (err) => reject(err),
+      });
+    });
+  }
 }
