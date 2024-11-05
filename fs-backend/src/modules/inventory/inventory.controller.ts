@@ -29,21 +29,54 @@ export class InventoryController {
     res: express.Response
   ): Promise<void> => {
     try {
-      let result = await this.mongoDBService.connect();
+      const result = await this.mongoDBService.connect();
       if (!result) {
         res.status(500).send({ error: "Database connection failed" });
         return;
       }
-      let count = await this.mongoDBService.count(
+
+      // Build the query based on filters from query parameters
+      const filters: any = {};
+
+      // Assuming filter parameters are passed as query strings in lowercase
+      if (req.query.animal && req.query.animal !== "any") {
+        filters.typeOfPet = req.query.animal.toString().toLowerCase();
+      }
+      if (req.query.sex && req.query.sex !== "any") {
+        filters.sex = req.query.sex.toString().toLowerCase();
+      }
+      if (req.query.age && req.query.age !== "any") {
+        const ageFilter = req.query.age.toString().toLowerCase();
+        if (ageFilter === "very young") filters.age = { $lt: 1 };
+        else if (ageFilter === "young") filters.age = { $gte: 1, $lte: 2 };
+        else if (ageFilter === "adult") filters.age = { $gte: 3, $lte: 8 };
+        else if (ageFilter === "senior") filters.age = { $gt: 8 };
+      }
+      if (req.query.price && req.query.price !== "any") {
+        const priceFilter = req.query.price.toString().toLowerCase();
+        if (priceFilter === "low") filters.price = { $lt: 500 };
+        else if (priceFilter === "medium")
+          filters.price = { $gte: 500, $lte: 1000 };
+        else if (priceFilter === "high") filters.price = { $gt: 1000 };
+      }
+      if (req.query.location && req.query.location !== "any") {
+        filters.location = req.query.location.toString();
+      }
+
+      // Use the filters object in the MongoDB count query
+      const count = await this.mongoDBService.count(
         this.settings.database,
         this.settings.collection,
-        {}
+        filters
       );
+
       res.send({ count: count });
     } catch (error) {
+      console.error("Error fetching inventory count:", error);
       res.status(500).send({ error: error });
     }
   };
+
   /* getInventory(req: express.Request, res: express.Response): Promise<void>
 		@param {express.Request} req: The request object
 		@param {express.Response} res: The response object
