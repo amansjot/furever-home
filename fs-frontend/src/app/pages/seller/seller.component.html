@@ -1,17 +1,35 @@
 <div *ngIf="seller">
-    <h1>{{ seller.orgName }}</h1>
-    <p>Type: {{ seller.sellerType }}</p>
-    <p>Location: {{ seller.sellerLocation }}</p>
-    <p>Contact: {{ seller.sellerContact }}</p>
+  <h1>{{ seller.orgName }}</h1>
+  <p>Type: {{ seller.sellerType }}</p>
+  <p>Location: {{ seller.sellerLocation }}</p>
+  <p>Contact: {{ seller.sellerContact }}</p>
 
-    <div *ngFor="let pet of pets">
-        <h3>{{ pet.name }}</h3>
-        <p>Species: {{ pet.species }}</p>
-        <p>Breed: {{ pet.breed }}</p>
-        <p>Age: {{ pet.age }}</p>
-        <p>Description: {{ pet.description }}</p>
-        <img *ngIf="pet.images && pet.images.length" [src]="pet.images[0]" alt="{{ pet.name }}">
-    </div>
+  <hr />
+  <button (click)="addItem(seller._id)">Add a Pet</button>
+  <hr />
 
-    <img *ngIf="seller.sellerPhoto" [src]="seller.sellerPhoto" alt="Seller Photo">
+  <div *ngFor="let pet of pets">
+    <h3>{{ pet.name }}</h3>
+    <p>Species: {{ pet.typeOfPet }}</p>
+    <p>Breed: {{ pet.speciesBreed }}</p>
+    <p>Age: {{ pet.age }}</p>
+    <p>Sex: {{ pet.sex }}</p>
+    <p>Description: {{ pet.description }}</p>
+    <img
+      *ngIf="pet.image && pet.image.length"
+      [src]="pet.image"
+      alt="{{ pet.name }}"
+    />
+
+    <!-- Delete button -->
+    <br />
+    <button (click)="editItem(pet._id)">Edit</button>
+    <button (click)="confirmDelete(pet._id)">Delete</button>
+  </div>
+
+  <img
+    *ngIf="seller.sellerPhoto"
+    [src]="seller.sellerPhoto"
+    alt="Seller Photo"
+  />
 </div>

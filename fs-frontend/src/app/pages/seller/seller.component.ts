@@ -40,4 +40,31 @@ export class SellerComponent implements OnInit {
       });
     }
   }
+
+  addItem(sellerId: string): void {
+
+  }
+
+  editItem(itemId: string): void {
+    
+  }
+
+  confirmDelete(itemId: string): void {
+    const isConfirmed = confirm("Are you sure you want to delete this item?");
+    if (isConfirmed) {
+      this.deleteItem(itemId);
+    }
+  }
+
+  deleteItem(itemId: string): void {
+    this.itemService.deleteItemById(itemId).subscribe({
+      next: () => {
+        this.pets = this.pets.filter(pet => pet._id !== itemId); // Remove item from local array
+        console.log('Item deleted successfully');
+      },
+      error: (err: any) => {
+        console.error('Error deleting item:', err);
+      }
+    });
+  }
 }
