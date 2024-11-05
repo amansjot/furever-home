@@ -11,7 +11,6 @@ export class ItemService {
   constructor(private httpClient: HttpClient) {}
   public pageSize: number = Config.pageSize;
 
-  // Modified to accept filters as an optional parameter
   public getInventoryCount(filters: any = {}): Promise<number> {
     let params = new HttpParams();
     for (const key in filters) {

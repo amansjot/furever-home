@@ -116,6 +116,10 @@
     </mat-menu>
   </div>
 
+  <div class="result-count">
+    Showing {{ itemCount }} {{ itemCount === 1 ? 'pet' : 'pets' }} 
+  </div>
+
   <div class="cards">
     <div class="pet-card-container">
       <ng-container *ngFor="let item of items">
