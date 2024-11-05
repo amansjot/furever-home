@@ -360,6 +360,15 @@ mat-card {
       color: inherit !important;
     }
   }
+
+  /* Ensure border radius is applied during tab transitions */
+  border-radius: 20px; /* Apply border radius to the entire tab group */
+  overflow: hidden; /* Ensure content respects the border radius */
+
+  .mat-mdc-tab-body-content {
+    border-radius: 20px; /* Apply border radius to tab content */
+    transition: none; /* Disable transition for immediate effect */
+  }
 }
 /* ===================================
    Location Row Styles
