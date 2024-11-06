@@ -5,43 +5,25 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { SecuritySettings } from "./security.settings";
 
-/* SecurityController
- * @class: SecurityController
- * @remarks: A class that contains the controller functions for the security module
- * 			  postLogin: a function that handles the login request
- * 			  postRegister: a function that handles the register request
- * 			  getTest: a function that handles the test request
- */
 export class SecurityController {
   private mongoDBService: MongoDBService = new MongoDBService(
-    process.env.mongoConnectionString || "mongodb+srv://singh:Aman@petadoption.nfugs.mongodb.net/"
+    process.env.mongoConnectionString ||
+      "mongodb+srv://singh:Aman@petadoption.nfugs.mongodb.net/"
   );
   private settings: SecuritySettings = new SecuritySettings();
 
-  /* makeToken(user: UserLoginModel): string
-        @param {UserLoginModel}: The user to encode
-        @returns {string}: The token
-        @remarks: Creates a token from the user
-    */
+  /* Generate JWT Token */
   private makeToken(user: UserLoginModel): string {
-    var token = jwt.sign(user, process.env.secret || "secret");
-    return token;
+    return jwt.sign(user, process.env.secret || "secret");
   }
 
-  /* encryptPassword(password: string): Promise<string>
-        @param {string}: password - The password to encrypt
-        @returns {Promise<string>}: The encrypted password
-        @remarks: Encrypts the password
-        @async
-    */
+  /* Encrypt Password */
   private encryptPassword(password: string): Promise<string> {
     return new Promise((resolve, reject) => {
-      const saltRounds = 10;
-      let hashval: string = "";
-      bcrypt.genSalt(saltRounds, (err, salt) => {
-        if (err) throw err;
+      bcrypt.genSalt(10, (err, salt) => {
+        if (err) reject(err);
         bcrypt.hash(password, salt, (err, hash) => {
-          if (err) throw err;
+          if (err) reject(err);
           resolve(hash);
         });
       });
@@ -71,17 +53,18 @@ export class SecurityController {
   };
 
   /* postLogin(req: express.Request, res: express.Response): Promise<void>
-        @param {express.Request} req: The request object
-                expects username and password in body of request
-        @param {express.Response} res: The response object
-        @returns {Promise<void>}:
-        @remarks: Handles the login request
-        @async
-    */
+    @param {express.Request} req: The request object
+            expects username and password in body of request
+    @param {express.Response} res: The response object
+    @returns {Promise<void>}:
+    @remarks: Handles the login request
+    @async
+*/
   public postLogin = async (
     req: express.Request,
     res: express.Response
   ): Promise<void> => {
+    //check body for username and password
     return new Promise(async (resolve, reject) => {
       const user: UserLoginModel = {
         username: req.body.username,
@@ -104,7 +87,7 @@ export class SecurityController {
           }
           let dbUser: UserLoginModel | null = await this.mongoDBService.findOne(
             this.settings.database,
-            this.settings.collection,
+            this.settings.usersCollection,
             { username: user.username }
           );
           if (!dbUser) {
@@ -115,7 +98,7 @@ export class SecurityController {
               res.send({ error: "Password comparison failed" });
             } else if (result) {
               dbUser.password = "****";
-              res.send({ token: this.makeToken(dbUser) }); // <-- No return here
+              res.send({ token: this.makeToken(dbUser) });
             } else {
               res.send({ error: "Password does not match" });
             }
@@ -131,70 +114,90 @@ export class SecurityController {
     });
   };
 
-  /* postRegister(req: express.Request, res: express.Response): Promise<void>
-        @param {express.Request} req: The request object
-            expects username and password in body of request
-        @param {express.Response} res: The response object
-        @returns {Promise<void>}:
-        @remarks: Handles the register request on post
-        @async
-    */
+  /* User Registration */
   public postRegister = async (
     req: express.Request,
     res: express.Response
-  ): Promise<void> => {
+): Promise<void> => {
+    const { username, password, role, firstName, lastName, location, sellerType, orgName, contact } = req.body;
+
     const user: UserLoginModel = {
-      username: req.body.username,
-      password: req.body.password,
-      roles: this.settings.defaultRoles,
+      username,
+      password,
+      roles: [role ? role.toLowerCase() : "buyer"],
     };
-    if (
-      user.username == null ||
-      user.password == null ||
-      user.username.trim().length == 0 ||
-      user.password.trim().length == 0
-    ) {
+
+    if (!username || !password) {
       res.status(400).send({ error: "Username and password are required" });
-    } else {
-      try {
-        let result = await this.mongoDBService.connect();
-        if (!result) {
-          res.status(500).send({ error: "Database connection failed" });
-          return;
-        }
-        let dbUser: UserLoginModel | null = await this.mongoDBService.findOne(
-          this.settings.database,
-          this.settings.collection,
-          { username: user.username }
-        );
-        if (dbUser) {
-          throw { error: "User already exists" };
-        }
-        user.password = await this.encryptPassword(user.password);
-        result = await this.mongoDBService.insertOne(
-          this.settings.database,
-          this.settings.collection,
-          user
-        );
-        if (!result) {
-          throw { error: "Database insert failed" };
-        }
-        dbUser = await this.mongoDBService.findOne(
-          this.settings.database,
-          this.settings.collection,
-          { username: user.username }
-        );
-        if (!dbUser) {
-          throw { error: "Database insert failed" };
-        }
-        dbUser.password = "****";
-        res.send({ token: this.makeToken(dbUser) }); // <-- No return here
-      } catch (err) {
-        console.error(err);
-        res.status(500).send(err);
-      } finally {
-        this.mongoDBService.close();
+      return;
+    }
+
+    try {
+      await this.mongoDBService.connect();
+
+      const existingUser = await this.mongoDBService.findOne<UserLoginModel>(
+        this.settings.database,
+        this.settings.usersCollection,
+        { username }
+      );
+
+      if (existingUser) {
+        res.status(409).send({ error: "User already exists" });
+        return;
       }
+
+      user.password = await this.encryptPassword(password);
+
+      const userInsertResult = await this.mongoDBService.insertOne(
+        this.settings.database,
+        this.settings.usersCollection,
+        { 
+          firstName,
+          lastName,
+          location,
+          username,
+          password: user.password,
+          roles: user.roles
+        }
+      );
+
+      if (!userInsertResult) {
+        throw new Error("Database insert failed");
+      }
+
+      const userId = userInsertResult.insertedId;
+
+      if (role.toLowerCase() === "buyer") {
+        await this.mongoDBService.insertOne(
+          this.settings.database,
+          this.settings.buyersCollection,
+          { user: userId, favorites: [] }
+        );
+      } else if (role.toLowerCase() === "seller") {
+        await this.mongoDBService.insertOne(
+          this.settings.database,
+          this.settings.sellersCollection,
+          { user: userId, orgName, sellerType, sellerLocation: location, sellerContact: contact, pets: [], sellerPhoto: "" }
+        );
+      }
+
+      const dbUser = await this.mongoDBService.findOne<UserLoginModel>(
+        this.settings.database,
+        this.settings.usersCollection,
+        { username }
+      );
+
+      if (!dbUser) {
+        throw new Error("Database retrieval failed after insert");
+      }
+
+      dbUser.password = "****";
+      res.send({ token: this.makeToken(dbUser) });  // Return token on successful registration
+    } catch (err) {
+      console.error(err);
+      res.status(500).send({ error: "Registration failed" });
+    } finally {
+      this.mongoDBService.close();
     }
   };
 }

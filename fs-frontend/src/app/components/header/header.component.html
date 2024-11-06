@@ -1,55 +1,69 @@
-<div class="header-wrapper" [ngClass]="{'menu-is-open': isMenuOpen}">
-  <mat-toolbar class="mat-toolbar" [ngClass]="{'hidden': isNavbarHidden}">
+<div class="header-wrapper" [ngClass]="{ 'menu-is-open': isMenuOpen }">
+  <mat-toolbar class="mat-toolbar" [ngClass]="{ hidden: isNavbarHidden }">
     <div class="title">
-      <a draggable="false" routerLink="/"><img src="dog256.png" alt="Dog Icon" draggable="false"/> Pet Adoption</a>
+      <a draggable="false" routerLink="/"
+        ><img src="dog256.png" alt="Dog Icon" draggable="false" /> Pet
+        Adoption</a
+      >
     </div>
-    
+
     <!-- Desktop buttons -->
     <div class="desktop-login-btn" *ngIf="authenticated && showButtons">
-      <button *ngIf="isAdmin" mat-mini-fab routerLink="/admin">
-        Admin
-      </button>&nbsp;&nbsp;
-      <button mat-mini-fab routerLink="/cart">
-        Cart
-      </button>&nbsp;&nbsp;
+      <button *ngIf="isAdmin" mat-mini-fab routerLink="/admin">Admin</button>
+      <button *ngIf="isSeller" mat-mini-fab routerLink="/seller">My Pets</button>
+      <button *ngIf="isBuyer" mat-mini-fab routerLink="/cart">Favorites</button>
+      
       <button mat-mini-fab (click)="logout()">Logout</button>
     </div>
     <div class="desktop-login-btn" *ngIf="!authenticated && showButtons">
-      <button mat-mini-fab routerLink="/login" [disabled]="disableLogin">Login</button>
+      <button mat-mini-fab routerLink="/login" [disabled]="disableLogin">
+        Login
+      </button>
     </div>
 
     <!-- Mobile hamburger and menu -->
-    <button class="hamburger-btn" 
-            mat-icon-button 
-            (click)="toggleMenu()"
-            *ngIf="showHamburger">
+    <button
+      class="hamburger-btn"
+      mat-icon-button
+      (click)="toggleMenu()"
+      *ngIf="showHamburger"
+    >
       <mat-icon>menu</mat-icon>
     </button>
-  
-    <div class="menu-overlay" [ngClass]="{'open': isMenuOpen}">
+
+    <div class="menu-overlay" [ngClass]="{ open: isMenuOpen }">
       <div class="menu-content">
         <div class="mobile-login-btn" *ngIf="authenticated && showButtons">
-          <button *ngIf="isAdmin" 
-                  mat-mini-fab 
-                  routerLink="/admin" 
-                  (click)="onMenuItemClick()">
+          <button
+            *ngIf="isAdmin"
+            mat-mini-fab
+            routerLink="/admin"
+            (click)="onMenuItemClick()"
+          >
             Admin
           </button>
-          <button mat-mini-fab 
-                  routerLink="/cart" 
-                  (click)="onMenuItemClick()">
-            Cart
+          <button
+            *ngIf="isSeller"
+            mat-mini-fab
+            routerLink="/seller"
+            (click)="onMenuItemClick()"
+          >
+            My Pets
           </button>
-          <button mat-mini-fab 
-                  (click)="logout()">
+          <button *ngIf="isBuyer" mat-mini-fab routerLink="/cart" (click)="onMenuItemClick()">
+            Favorites
+          </button>
+          <button mat-mini-fab (click)="logout(); onMenuItemClick()">
             Logout
           </button>
         </div>
         <div class="mobile-login-btn" *ngIf="!authenticated && showButtons">
-          <button mat-mini-fab 
-                  routerLink="/login" 
-                  [disabled]="disableLogin"
-                  (click)="onMenuItemClick()">
+          <button
+            mat-mini-fab
+            routerLink="/login"
+            [disabled]="disableLogin"
+            (click)="onMenuItemClick()"
+          >
             Login
           </button>
         </div>

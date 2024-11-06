@@ -10,6 +10,7 @@
     * 			  roles: an array of strings that represents the roles
     */
 export interface UserLoginModel{
+    _id?: string;
     username: string;
     password: string;
     roles: string[];

@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { InventoryItemModel } from '../models/items.model';
 import { Config } from '../config';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,6 @@ export class ItemService {
   constructor(private httpClient: HttpClient) {}
   public pageSize: number = Config.pageSize;
 
-  // Modified to accept filters as an optional parameter
   public getInventoryCount(filters: any = {}): Promise<number> {
     let params = new HttpParams();
     for (const key in filters) {
@@ -57,5 +57,19 @@ export class ItemService {
         },
       });
     });
+  }
+
+  // New method to get a single item by its ID
+  public getItemById(id: string): Promise<InventoryItemModel> {
+    return new Promise<InventoryItemModel>((resolve, reject) => {
+      this.httpClient.get<InventoryItemModel>(`${Config.apiBaseUrl}/items/${id}`).subscribe({
+        next: (data) => resolve(data),
+        error: (err) => reject(err),
+      });
+    });
+  }
+
+  public deleteItemById(itemId: string): Observable<any> {
+    return this.httpClient.delete(`${Config.apiBaseUrl}/items/${itemId}`);
   }
 }

@@ -1,0 +1,35 @@
+<div *ngIf="seller">
+  <h1>{{ seller.orgName }}</h1>
+  <p>Type: {{ seller.sellerType }}</p>
+  <p>Location: {{ seller.sellerLocation }}</p>
+  <p>Contact: {{ seller.sellerContact }}</p>
+
+  <hr />
+  <button (click)="addItem(seller._id)">Add a Pet</button>
+  <hr />
+
+  <div *ngFor="let pet of pets">
+    <h3>{{ pet.name }}</h3>
+    <p>Species: {{ pet.typeOfPet }}</p>
+    <p>Breed: {{ pet.speciesBreed }}</p>
+    <p>Age: {{ pet.age }}</p>
+    <p>Sex: {{ pet.sex }}</p>
+    <p>Description: {{ pet.description }}</p>
+    <img
+      *ngIf="pet.image && pet.image.length"
+      [src]="pet.image"
+      alt="{{ pet.name }}"
+    />
+
+    <!-- Delete button -->
+    <br />
+    <button (click)="editItem(pet._id)">Edit</button>
+    <button (click)="confirmDelete(pet._id)">Delete</button>
+  </div>
+
+  <img
+    *ngIf="seller.sellerPhoto"
+    [src]="seller.sellerPhoto"
+    alt="Seller Photo"
+  />
+</div>
