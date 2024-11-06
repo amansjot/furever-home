@@ -24,4 +24,5 @@ export interface InventoryItemModel {
 	image: string; // main image URL
 	location: string;
 	_id?: string;
+	isFavorite?: boolean;
 }

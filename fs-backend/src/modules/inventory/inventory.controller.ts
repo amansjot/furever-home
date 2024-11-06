@@ -200,46 +200,41 @@ export class InventoryController {
 		@remarks: Handles the update item request
 		@async
 	*/
-  putUpdateItem = async (
-    req: express.Request,
-    res: express.Response
-  ): Promise<void> => {
-    try {
-      const result = await this.mongoDBService.connect();
-      if (!result) {
-        res.status(500).send({ error: "Database connection failed" });
-        return;
-      }
-      let item: InventoryItemModel = {
-        name: req.body.name,
-        status: req.body.status,
-        pictures: req.body.pictures,
-        description: req.body.description,
-        typeOfPet: req.body.typeOfPet,
-        speciesBreed: req.body.speciesBreed,
-        age: req.body.age,
-        quantity: req.body.quantity,
-        price: req.body.price,
-        documentation: req.body.documentation,
-        sex: req.body.sex,
-        image: req.body.image,
-        location: req.body.image,
-      };
-      let command = { $set: item };
-      const success = await this.mongoDBService.updateOne(
-        this.settings.database,
-        this.settings.collection,
-        { _id: new ObjectId(req.params.id) },
-        command
-      );
-      if (success) res.send({ success: true });
-      else res.status(500).send({ error: "Failed to update item" });
-    } catch (error) {
-      res.status(500).send({ error: error });
-    }
-  };
+	putUpdateItem = async (req: express.Request, res: express.Response): Promise<void> => {
+		try {
+			const result = await this.mongoDBService.connect();
+			if (!result) {
+				res.status(500).send({ error: "Database connection failed" });
+				return;
+			}
+			let item: InventoryItemModel = {
+				name: req.body.name,
+				status: req.body.status,
+				pictures: req.body.pictures,
+				description: req.body.description,
+				typeOfPet: req.body.typeOfPet,
+				speciesBreed: req.body.speciesBreed,
+				age: req.body.age,
+				quantity: req.body.quantity,
+				price: req.body.price,
+				documentation: req.body.documentation,
+				sex: req.body.sex,
+				image: req.body.image,
+				location: req.body.location
+			};
+			let command = { $set: item };
+			const success = await this.mongoDBService.updateOne(this.settings.database, this.settings.collection, { _id: new ObjectId(req.params.id) }, command);
+			if (success)
+				res.send({ success: true });
+			else
+				res.status(500).send({ error: "Failed to update item" });
 
-  /* deleteItem(req: express.Request, res: express.Response): Promise<void>
+		} catch (error) {
+			res.status(500).send({ error: error });
+		}
+	}
+
+	/* deleteItem(req: express.Request, res: express.Response): Promise<void>
 			@param {express.Request} req: The request object
 			expects the partno of the item to be in the params array of the request object as id
 		@param {express.Response} res: The response object

@@ -114,6 +114,9 @@
         Other
       </button>
     </mat-menu>
+    <button mat-mini-fab class="button" (click)="toggleFavoriteFilter()">
+      {{ favoriteFilter ? 'Show All Pets' : 'Show Favorites' }}
+    </button>
   </div>
 
   <div class="result-count">
@@ -160,9 +163,15 @@
             class="pet-image-background"
             [style.background-image]="'url(' + item.image + ')'"
           >
-            <button class="petcard-favorite-button">
-              <img class="favorite-icon" src="/assets/favorite-star-inactive.svg" alt="favorite-icon">
+
+            <!-- Favorite Button -->
+            <button class="petcard-favorite-button" (click)="toggleFavorite(item)">
+              <img 
+                class="favorite-icon" 
+                [src]="item.isFavorite ? '/assets/favorite-star-active.svg' : '/assets/favorite-star-inactive.svg'" 
+                alt="Favorite Icon" />
             </button>
+
             <div class="pet-info-card">
               <div class="displayed-info">
                 <div class="info-text">

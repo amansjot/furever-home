@@ -28,6 +28,8 @@ export class HomeComponent {
     location: 'Any'
   };
 
+  public favoriteFilter: boolean = false;
+
   public get pageSize(): number {
     return this.itemSvc.pageSize;
   }
@@ -40,10 +42,21 @@ export class HomeComponent {
   }
 
   async loadData(): Promise<void> {
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
     try {
-      // Fetch item count and items based on current filters and page index
-      this.itemCount = await this.itemSvc.getInventoryCount(this.filters);
-      this.items = await this.itemSvc.getInventoryItems(this.pageIndex, this.filters);
+      if (this.favoriteFilter) {
+        this.items = (await this.itemSvc.getInventoryItems(this.pageIndex, this.filters))
+          .filter(item => favorites.includes(item._id));
+      } else {
+        this.itemCount = await this.itemSvc.getInventoryCount(this.filters);
+        this.items = await this.itemSvc.getInventoryItems(this.pageIndex, this.filters);
+      }
+
+      // Update favorite status based on stored favorites
+      this.items = this.items.map(item => ({
+        ...item,
+        isFavorite: favorites.includes(item._id)
+      }));
     } catch (err) {
       console.error(err);
     }
@@ -75,5 +88,30 @@ export class HomeComponent {
   // Toggle the expanded state of a card
   toggleCard(name: string) {
     this.expandedCards[name] = !this.expandedCards[name];
+  }
+
+  // Toggle the favorite status of a card
+  toggleFavorite(item: InventoryItemModel): void {
+    item.isFavorite = !item.isFavorite; // Toggle the favorite status
+    // Update local storage or send to server
+    this.updateFavoriteStatus(item);
+  }
+
+  updateFavoriteStatus(item: InventoryItemModel): void {
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    if (item.isFavorite) {
+      // Add to favorites if marked as favorite
+      favorites.push(item._id);
+    } else {
+      // Remove from favorites if unmarked
+      const index = favorites.indexOf(item._id);
+      if (index > -1) favorites.splice(index, 1);
+    }
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  }
+
+  toggleFavoriteFilter(): void {
+    this.favoriteFilter = !this.favoriteFilter;
+    this.loadData();
   }
 }
