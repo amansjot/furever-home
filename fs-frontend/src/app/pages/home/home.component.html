@@ -114,6 +114,9 @@
         Other
       </button>
     </mat-menu>
+    <button mat-mini-fab class="button" (click)="toggleFavoriteFilter()">
+      {{ favoriteFilter ? 'Show All Pets' : 'Show Favorites' }}
+    </button>
   </div>
 
   <div class="cards">
