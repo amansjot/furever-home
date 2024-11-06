@@ -49,7 +49,6 @@ export class HomeComponent {
   async loadData(): Promise<void> {
     const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
     try {
-      // New: Filter based on the favoriteFilter property
       if (this.favoriteFilter) {
         this.items = (await this.itemSvc.getInventoryItems(this.pageIndex, this.filters))
           .filter(item => favorites.includes(item._id));
@@ -110,8 +109,6 @@ export class HomeComponent {
   }
 
   updateFavoriteStatus(item: InventoryItemModel): void {
-    // Here you can add logic to save to local storage
-    // For example:
     const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
     if (item.isFavorite) {
       // Add to favorites if marked as favorite
