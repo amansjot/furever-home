@@ -1,0 +1,25 @@
+<div *ngIf="pet">
+  <h1>{{ pet.name }}</h1>
+  <img src="{{ pet.image }}" height="200" />
+  <div *ngIf="pet.pictures && pet.pictures.length">
+    <img
+      *ngFor="let picture of pet.pictures"
+      [src]="picture"
+      alt="{{ pet.name }}"
+      height="75"
+    />
+  </div>
+  <p><strong>Status:</strong> {{ pet.status }}</p>
+  <p><strong>Type:</strong> {{ pet.typeOfPet }}</p>
+  <p><strong>Breed:</strong> {{ pet.speciesBreed }}</p>
+  <p><strong>Age:</strong> {{ pet.age }} years</p>
+  <p><strong>Sex:</strong> {{ pet.sex }}</p>
+  <p><strong>Location:</strong> {{ pet.location }}</p>
+  <p><strong>Price:</strong> {{ pet.price | currency }}</p>
+  <p><strong>Description:</strong> {{ pet.description }}</p>
+
+  <div *ngIf="pet.documentation && pet.documentation.length">
+    <div><strong>Documentation:</strong></div>
+    <div *ngFor="let document of pet.documentation">{{ document }}</div>
+  </div>
+</div>

@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { SellerService } from '../../services/seller.service';
 import { ItemService } from '../../services/item.service';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterLink, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-seller',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatButtonModule, RouterLink, RouterModule],
   templateUrl: './seller.component.html',
   styleUrls: ['./seller.component.scss']
 })
