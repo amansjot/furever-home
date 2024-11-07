@@ -21,8 +21,9 @@
       alt="{{ pet.name }}"
     />
 
-    <!-- Delete button -->
+    <!-- Action buttons -->
     <br />
+    <button routerLink="/pet/{{ pet._id }}">View Pet Page</button>
     <button (click)="editItem(pet._id)">Edit</button>
     <button (click)="confirmDelete(pet._id)">Delete</button>
   </div>
