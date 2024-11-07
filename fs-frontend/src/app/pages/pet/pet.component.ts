@@ -12,6 +12,8 @@ import { CommonModule } from '@angular/common';
 })
 export class PetComponent implements OnInit {
   pet: any;
+  currentImageIndex: number = 0;
+  isModalOpen: boolean = false; // Track modal state
 
   constructor(
     private route: ActivatedRoute,
@@ -23,9 +25,41 @@ export class PetComponent implements OnInit {
 
     if (petId) {
       this.itemService.getItemById(petId).then(
-        (pet) => this.pet = pet,
+        (pet) => {
+          this.pet = pet;
+          // Ensure the main image is the first in the carousel
+          if (this.pet.image && (!this.pet.pictures || !this.pet.pictures.includes(this.pet.image))) {
+            this.pet.pictures = [this.pet.image, ...(this.pet.pictures || [])];
+          }
+        },
         (error) => console.error("Error fetching pet details:", error)
       );
     }
+  }
+
+  nextImage(): void {
+    if (this.pet.pictures && this.pet.pictures.length) {
+      this.currentImageIndex = (this.currentImageIndex + 1) % this.pet.pictures.length;
+    }
+  }
+
+  prevImage(): void {
+    if (this.pet.pictures && this.pet.pictures.length) {
+      this.currentImageIndex = (this.currentImageIndex - 1 + this.pet.pictures.length) % this.pet.pictures.length;
+    }
+  }
+
+  goToImage(index: number): void {
+    if (this.pet.pictures && index >= 0 && index < this.pet.pictures.length) {
+      this.currentImageIndex = index;
+    }
+  }
+
+  openModal(): void {
+    this.isModalOpen = true;
+  }
+
+  closeModal(): void {
+    this.isModalOpen = false;
   }
 }

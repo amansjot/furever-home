@@ -1,14 +1,39 @@
-<div *ngIf="pet">
+<div *ngIf="pet" class="pet-container">
   <h1>{{ pet.name }}</h1>
-  <img src="{{ pet.image }}" height="200" />
-  <div *ngIf="pet.pictures && pet.pictures.length">
-    <img
-      *ngFor="let picture of pet.pictures"
-      [src]="picture"
-      alt="{{ pet.name }}"
-      height="75"
-    />
+
+  <!-- Image Carousel -->
+  <div *ngIf="pet.pictures && pet.pictures.length" class="carousel">
+    <button (click)="prevImage()" class="carousel-control prev">‹</button>
+    <img [src]="pet.pictures[currentImageIndex]" alt="{{ pet.name }}" class="carousel-image" />
+    <button (click)="nextImage()" class="carousel-control next">›</button>
+    <button (click)="openModal()" class="expand-button">
+      <img 
+      class="magnifying-glass-icon" 
+      src="/assets/magnifying-glass.svg" 
+      alt="expand-arrow">
+    </button>
   </div>
+
+  <!-- Modal for expanded image view -->
+  <div *ngIf="isModalOpen" class="modal">
+    <div class="modal-content">
+      <span class="close" (click)="closeModal()">&times;</span>
+      <button (click)="prevImage()" class="modal-control prev">‹</button>
+      <img [src]="pet.pictures[currentImageIndex]" alt="{{ pet.name }}" class="modal-image" />
+      <button (click)="nextImage()" class="modal-control next">›</button>
+    </div>
+  </div>
+
+  <!-- Thumbnail Navigation -->
+  <div *ngIf="pet.pictures && pet.pictures.length" class="thumbnail-container">
+    <img *ngFor="let picture of pet.pictures; let i = index"
+         [src]="picture"
+         [class.active]="i === currentImageIndex"
+         (click)="goToImage(i)"
+         class="thumbnail-image"
+         alt="{{ pet.name }} thumbnail" />
+  </div>
+
   <p><strong>Status:</strong> {{ pet.status }}</p>
   <p><strong>Type:</strong> {{ pet.typeOfPet }}</p>
   <p><strong>Breed:</strong> {{ pet.speciesBreed }}</p>
