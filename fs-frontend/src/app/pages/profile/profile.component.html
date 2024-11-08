@@ -1,0 +1,10 @@
+<div *ngIf="profile">
+    <div>Name: {{ profile.firstName + " " + profile.lastName }}</div>
+    <div>Location: {{ profile.location }}</div>
+    <div>Username: {{ profile.username }}</div>
+    <div>Password: *****</div>
+    <div>Roles:</div>
+    <ul>
+        <li *ngFor="let role of profile.roles">{{ role }}</li>
+    </ul>
+</div>
