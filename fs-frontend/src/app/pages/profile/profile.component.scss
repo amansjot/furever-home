@@ -1,3 +1,69 @@
 ::ng-deep .mat-mdc-card {
     margin-top: 75px;
 }
+
+.header {
+    margin: 15px auto;
+}
+
+.profile-card {
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+    padding-bottom: 60px;
+}
+
+.profile-card mat-card {
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+}
+
+mat-card-title {
+    text-align: center;
+    font-weight: bold;
+}
+
+.profile-section-divider {
+    margin: 20px 0;
+    border-top: 1px solid #ddd;
+}
+
+.profile-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.profile-field strong {
+    flex-basis: 25%;
+    /* Set a fixed width for labels */
+    text-align: right;
+}
+
+.profile-field-value {
+    flex-basis: 50%;
+    text-align: center;
+}
+
+.profile-field button {
+    flex-basis: 25%;
+    /* Set width for Change button */
+    text-align: right;
+}
+
+.roles-chips {
+    display: flex;
+    justify-content: center;
+    /* Center-align the chips */
+    gap: 8px;
+    /* Adds space between each chip */
+    flex-wrap: wrap;
+    /* Wrap to a new line if necessary */
+}
+
+.mat-chip-list {
+    display: flex;
+    gap: 8px;
+}

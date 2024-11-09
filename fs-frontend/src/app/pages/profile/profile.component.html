@@ -1,10 +1,51 @@
-<div *ngIf="profile">
-    <div>Name: {{ profile.firstName + " " + profile.lastName }}</div>
-    <div>Location: {{ profile.location }}</div>
-    <div>Username: {{ profile.username }}</div>
-    <div>Password: *****</div>
-    <div>Roles:</div>
-    <ul>
-        <li *ngFor="let role of profile.roles">{{ role }}</li>
-    </ul>
+<div *ngIf="profile" class="profile-card">
+  <mat-card>
+    <mat-card-header class="header">
+      <mat-card-title>Your Profile</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Name Section -->
+      <div class="profile-field">
+        <strong>Name:</strong>
+        <div class="profile-field-value">{{ profile.firstName + " " + profile.lastName }}</div>
+        <button mat-button color="primary" (click)="changeField('firstName', 'lastName')">Change</button>
+      </div>
+
+      <div class="profile-field">
+        <strong>Location:</strong>
+        <div class="profile-field-value">{{ profile.location }}</div>
+        <button mat-button color="primary" (click)="changeField('location')">Change</button>
+      </div>
+
+      <div class="profile-section-divider"></div>
+
+      <!-- Username Section -->
+      <div class="profile-field">
+        <strong>Username:</strong>
+        <div class="profile-field-value">{{ profile.username }}</div>
+        <!-- <button mat-button color="primary" (click)="changeField('username')">Change</button> -->
+      </div>
+
+      <!-- Password Section -->
+      <div class="profile-field">
+        <strong>Password:</strong>
+        <div class="profile-field-value">*****</div>
+        <!-- <button mat-button color="primary" (click)="changeField('password')">Change</button> -->
+      </div>
+
+      <div class="profile-section-divider"></div>
+
+      <!-- Roles Section -->
+      <div class="profile-field">
+        <strong>Roles:</strong>
+        <div class="profile-field-value roles-chips">
+          <div class="mat-chip-list">
+            <mat-chip *ngFor="let role of profile.roles" color="primary" selected>{{ role }}</mat-chip>
+          </div>
+        </div>
+        <!-- <button mat-button color="primary" (click)="changeField('roles')">Change</button> -->
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>
