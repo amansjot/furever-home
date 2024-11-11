@@ -1,3 +1,194 @@
 ::ng-deep .mat-mdc-card {
     margin-top: 75px;
 }
+
+.pet-container{
+    margin-left: 2%;
+    margin-right: 2%;
+    background-color: #e6e6e6;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.carousel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+  background-color: #f0f0f0;
+}
+
+.carousel-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+@media (min-width: 768px) {
+  .carousel-image {
+    height: 400px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .carousel-image {
+    height: 750px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .carousel-image {
+    height: 800px;
+    object-fit: contain;
+    background-color: #f0f0f0;
+  }
+}
+
+.carousel-control {
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24px;
+  z-index: 1;
+  transition: background 0.3s ease;
+}
+
+.carousel-control:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.carousel-control.prev {
+  left: 10px;
+}
+
+.carousel-control.next {
+  right: 10px;
+}
+
+.thumbnail-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.thumbnail-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  margin: 0 5px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  transition: border 0.3s ease;
+}
+
+.thumbnail-image.active {
+  border-color: #5cc8a8;
+}
+
+.thumbnail-image:hover {
+  border-color: #3f8a73;
+}
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+}
+
+.modal-content {
+  position: relative;
+  max-width: 85vw;
+  max-height: 85vh;
+  background-color: transparent;
+  border-radius: 10px;
+  overflow: visible;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-image {
+  max-width: 85vw;
+  max-height: 85vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #fff;
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.modal-control {
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24px;
+  z-index: 1001;
+  transition: background 0.3s ease;
+}
+
+.modal-control:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.modal-control.prev {
+  left: 10px;
+}
+
+.modal-control.next {
+  right: 10px;
+}
+
+.expand-button {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  border: none;
+  border-radius: 50%;
+  padding: 8px;
+  cursor: pointer;
+  
+  &:hover {
+    background: rgb(0, 0, 0);
+  }
+}
+
+.magnifying-glass-icon {
+  width: 24px;  // Adjust this value to make icon larger/smaller
+  height: 24px; // Keep same as width for proper proportions
+  display: block;
+}
