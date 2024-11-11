@@ -19,9 +19,8 @@ export interface InventoryItemModel{
 	age: number; // age in years
 	quantity: number;
 	price: number;
-	documentation: string[]; // Array of filenames for documentation
+	benefits: string[]; // Array of benefits
 	sex: string; // male or female
-	image: string; // main image URL
 	location: string;
 	isFavorite?: boolean; // track favorite status 
 	_id: string;
@@ -36,9 +35,8 @@ export const emptyItem: InventoryItemModel = {
 	age: 0, // age in years
 	quantity: 0,
 	price: 0,
-	documentation: [''], // Array of filenames for documentation
+	benefits: [''], // Array of benefits
 	sex: '', // male or female
-	image: '', // main image URL
 	location: '',
 	isFavorite: false, // Set default favorite status to false
 	_id: ''

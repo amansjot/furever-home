@@ -35,16 +35,16 @@
   </div>
 
   <p><strong>Status:</strong> {{ pet.status }}</p>
-  <p><strong>Type:</strong> {{ pet.typeOfPet }}</p>
-  <p><strong>Breed:</strong> {{ pet.speciesBreed }}</p>
+  <p><strong>Animal:</strong> {{ pet.animal }}</p>
+  <p><strong>Breed:</strong> {{ pet.breed }}</p>
   <p><strong>Age:</strong> {{ pet.age }} years</p>
   <p><strong>Sex:</strong> {{ pet.sex }}</p>
   <p><strong>Location:</strong> {{ pet.location }}</p>
   <p><strong>Price:</strong> {{ pet.price | currency }}</p>
   <p><strong>Description:</strong> {{ pet.description }}</p>
 
-  <div *ngIf="pet.documentation && pet.documentation.length">
-    <div><strong>Documentation:</strong></div>
-    <div *ngFor="let document of pet.documentation">{{ document }}</div>
+  <div *ngIf="pet.benefits && pet.benefits.length">
+    <div><strong>Benefits:</strong></div>
+    <div *ngFor="let benefit of pet.benefits">{{ benefit }}</div>
   </div>
 </div>
