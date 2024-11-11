@@ -24,7 +24,7 @@ export interface InventoryItemModel{
 	image: string; // main image URL
 	location: string;
 	isFavorite?: boolean; // track favorite status 
-	_id?: string;
+	_id: string;
 }
 export const emptyItem: InventoryItemModel = {
     name: '',
@@ -41,4 +41,5 @@ export const emptyItem: InventoryItemModel = {
 	image: '', // main image URL
 	location: '',
 	isFavorite: false, // Set default favorite status to false
+	_id: ''
 }

@@ -1,15 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { ItemService } from '../../services/item.service';
 import { CommonModule } from '@angular/common';
 import { InventoryItemModel } from '../../models/items.model';
-import { ItemComponent } from "../../components/item/item.component";
+import { ItemComponent } from '../../components/item/item.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, ItemComponent, MatMenuModule, MatButtonModule],
+  imports: [
+    CommonModule,
+    ItemComponent,
+    MatMenuModule,
+    MatButtonModule
+  ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
@@ -18,6 +24,7 @@ export class HomeComponent {
   public items: InventoryItemModel[] = [];
   public itemCount: number = 0;
   public pageIndex: number = 0;
+  public isButtonVisible = window.innerWidth < 1024;
 
   // Define filters and their default values
   public filters = {
@@ -25,7 +32,7 @@ export class HomeComponent {
     sex: 'Any',
     age: 'Any',
     price: 'Any',
-    location: 'Any'
+    location: 'Any',
   };
 
   public favoriteFilter: boolean = false;
@@ -37,7 +44,7 @@ export class HomeComponent {
   // Track the expanded state of each card using the pet's name as the key
   public expandedCards: { [key: string]: boolean } = {};
 
-  constructor(private itemSvc: ItemService) {
+  constructor(private itemSvc: ItemService, private router: Router) {
     this.loadData();
   }
 
@@ -45,17 +52,21 @@ export class HomeComponent {
     const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
     try {
       if (this.favoriteFilter) {
-        this.items = (await this.itemSvc.getInventoryItems(this.pageIndex, this.filters))
-          .filter(item => favorites.includes(item._id));
+        this.items = (
+          await this.itemSvc.getInventoryItems(this.pageIndex, this.filters)
+        ).filter((item) => favorites.includes(item._id));
       } else {
         this.itemCount = await this.itemSvc.getInventoryCount(this.filters);
-        this.items = await this.itemSvc.getInventoryItems(this.pageIndex, this.filters);
+        this.items = await this.itemSvc.getInventoryItems(
+          this.pageIndex,
+          this.filters
+        );
       }
 
       // Update favorite status based on stored favorites
-      this.items = this.items.map(item => ({
+      this.items = this.items.map((item) => ({
         ...item,
-        isFavorite: favorites.includes(item._id)
+        isFavorite: favorites.includes(item._id),
       }));
     } catch (err) {
       console.error(err);
@@ -79,7 +90,10 @@ export class HomeComponent {
   }
 
   // Method to set the filter value and reload data
-  setFilter(type: 'animal' | 'sex' | 'age' | 'price' | 'location', value: string) {
+  setFilter(
+    type: 'animal' | 'sex' | 'age' | 'price' | 'location',
+    value: string
+  ) {
     this.filters[type] = value;
     console.log(`${type} filter set to: ${value}`);
     this.loadData(); // Reload data based on the updated filters
@@ -91,7 +105,9 @@ export class HomeComponent {
   }
 
   // Toggle the favorite status of a card
-  toggleFavorite(item: InventoryItemModel): void {
+  toggleFavorite(event: MouseEvent, item: InventoryItemModel): void {
+    event.stopPropagation();
+
     item.isFavorite = !item.isFavorite; // Toggle the favorite status
     // Update local storage or send to server
     this.updateFavoriteStatus(item);
@@ -113,5 +129,32 @@ export class HomeComponent {
   toggleFavoriteFilter(): void {
     this.favoriteFilter = !this.favoriteFilter;
     this.loadData();
+  }
+
+  navigateToPetDesktop(event: MouseEvent, petId: string): void {
+    const targetElement = event.target as HTMLElement;
+
+    // Check if the clicked element or its parent has `data-ignore-click`
+    if (targetElement.getAttribute('data-ignore-click') === 'true' || 
+        targetElement.closest('[data-ignore-click="true"]')) {
+      console.log("Click ignored from child element.");
+      return;
+    }
+    
+    if (!this.isButtonVisible) {
+      this.router.navigate([`/pet/${petId}`]);
+    }
+  }
+
+  navigateToPetMobile(petId: string): void {
+    console.log("mobile");
+    this.router.navigate([`/pet/${petId}`]);
+  }
+
+  // Listen for window resize events to adjust button visibility
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    const width = (event.target as Window).innerWidth;
+    this.isButtonVisible = width < 1024;
   }
 }
