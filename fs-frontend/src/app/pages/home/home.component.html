@@ -16,6 +16,8 @@
       <button mat-menu-item (click)="setFilter('animal', 'Cat')">Cat</button>
       <button mat-menu-item (click)="setFilter('animal', 'Bird')">Bird</button>
       <button mat-menu-item (click)="setFilter('animal', 'Fish')">Fish</button>
+      <button mat-menu-item (click)="setFilter('animal', 'Reptile')">Reptile</button>
+      <button mat-menu-item (click)="setFilter('animal', 'Small Mammal')">Small Mammal</button>
       <button mat-menu-item (click)="setFilter('animal', 'Other')">
         Other
       </button>
@@ -128,12 +130,14 @@
       <ng-container *ngFor="let item of items">
         <!-- Expanded *ngIf condition to include dynamic categories for age and price -->
         <div
-          *ngIf="
+            *ngIf="
             (filters.animal === 'Any' ||
+              (filters.animal === 'Reptile' &&
+                ['snake', 'lizard', 'tortoise', 'turtle', 'chameleon', 'gecko'].includes(item.typeOfPet.toLowerCase())) ||
+              (filters.animal === 'Small Mammal' &&
+                ['hamster', 'guinea pig', 'rabbit', 'chinchilla', 'mouse'].includes(item.typeOfPet.toLowerCase())) ||
               (filters.animal === 'Other' &&
-                !['dog', 'cat', 'bird', 'fish'].includes(
-                  item.typeOfPet.toLowerCase()
-                )) ||
+                !['dog', 'cat', 'bird', 'fish', 'snake', 'lizard', 'tortoise', 'turtle', 'chameleon', 'gecko', 'hamster', 'guinea pig', 'rabbit', 'chinchilla', 'mouse'].includes(item.typeOfPet.toLowerCase())) ||
               item.typeOfPet.toLowerCase() === filters.animal.toLowerCase()) &&
             (filters.sex === 'Any' ||
               item.sex.toLowerCase() === filters.sex.toLowerCase()) &&
@@ -150,9 +154,7 @@
               (filters.price === 'High' && item.price > 1000)) &&
             (filters.location === 'Any' ||
               (filters.location === 'Other' &&
-                !['New York', 'Los Angeles', 'Chicago', 'Houston'].includes(
-                  item.location
-                )) ||
+                !['New York', 'Los Angeles', 'Chicago', 'Houston'].includes(item.location)) ||
               item.location === filters.location)
           "
           mat-card
