@@ -14,9 +14,9 @@ export interface InventoryItemModel{
 	status: string; // rescued, adopted, bred
 	pictures: string[]; // Array of image filenames
 	description: string;
-	typeOfPet: string; // dog, cat, bird, fish, etc.
-	speciesBreed: string; // breed or species information
-	age: number; // age in years or months
+	animal: string; // dog, cat, bird, fish, etc.
+	breed: string; // breed or species information
+	age: number; // age in years
 	quantity: number;
 	price: number;
 	documentation: string[]; // Array of filenames for documentation
@@ -31,9 +31,9 @@ export const emptyItem: InventoryItemModel = {
 	status: '', // rescued, adopted, bred
 	pictures: [''], // Array of image filenames
 	description: '',
-	typeOfPet: '', // dog, cat, bird, fish, etc.
-	speciesBreed: '', // breed or species information
-	age: 0, // age in years or months
+	animal: '', // dog, cat, bird, fish, etc.
+	breed: '', // breed or species information
+	age: 0, // age in years
 	quantity: 0,
 	price: 0,
 	documentation: [''], // Array of filenames for documentation
