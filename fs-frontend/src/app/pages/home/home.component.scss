@@ -33,6 +33,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    pointer-events: auto;
     border-radius: 15px;
     border: 1px solid rgba(204, 204, 204, 0.58);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -75,6 +76,7 @@
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
+
     &:hover {
         background-color: rgba(255, 255, 255, 0.3);
     }
@@ -155,6 +157,10 @@
 
     .pet-card:hover {
         transform: scale(1.02);
+    }
+
+    .petcard-favorite-button {
+        pointer-events: auto;
     }
 
     .petcard-favorite-button:hover {
@@ -302,9 +308,31 @@
     }
 }
 
+.pet-page-button {
+    position: absolute;
+    bottom: 15px;
+    right: 10px;
+    pointer-events: auto;
+
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: none;
+    background-color: #4ca68b;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    
+    &:hover {
+        background-color: #3f8a73;
+    }
+}
+
 /* Hide the button on larger screens */
 @media (min-width: 1024px) {
     .show-hidden-button {
+        display: none;
+    }
+    .pet-page-button {
         display: none;
     }
 }

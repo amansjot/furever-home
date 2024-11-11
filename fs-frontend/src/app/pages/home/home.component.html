@@ -157,6 +157,7 @@
           "
           mat-card
           class="pet-card"
+          (click)="navigateToPetDesktop($event, item._id)"
           [ngClass]="{ 'expanded': expandedCards[item.name] }"
         >
           <div
@@ -165,7 +166,7 @@
           >
 
             <!-- Favorite Button -->
-            <button class="petcard-favorite-button" (click)="toggleFavorite(item)">
+            <button class="petcard-favorite-button" (click)="toggleFavorite($event, item)">
               <img 
                 class="favorite-icon" 
                 [src]="item.isFavorite ? '/assets/favorite-star-active.svg' : '/assets/favorite-star-inactive.svg'" 
@@ -182,12 +183,12 @@
                   </p>
                 </div>
                 <button class="show-hidden-button" (click)="toggleCard(item.name)">
-                  {{ expandedCards[item.name] ? 'Show Less' : 'Show More' }}
+                  {{ expandedCards[item.name] ? 'Hide Info' : 'Show Info' }}
                   <img 
                     class="expand arrow" 
                     [ngClass]="{'rotated': expandedCards[item.name]}" 
                     src="/assets/drop-down-arrow.svg" 
-                    alt="expand-arrow">
+                    alt="expand-arrow" />
                 </button>
               </div>
               <div class="hidden-info-container">
@@ -210,6 +211,7 @@
                     <p class="pet-location-tag">Location:</p>
                     <p class="pet-location">{{ item.location }}</p>
                   </div>
+                  <button class="pet-page-button" (click)="navigateToPetMobile(item._id)">Pet Page</button>
                 </div>
               </div>
             </div>
