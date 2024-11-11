@@ -27,10 +27,6 @@ export class PetComponent implements OnInit {
       this.itemService.getItemById(petId).then(
         (pet) => {
           this.pet = pet;
-          // Ensure the main image is the first in the carousel
-          if (this.pet.image && (!this.pet.pictures || !this.pet.pictures.includes(this.pet.image))) {
-            this.pet.pictures = [this.pet.image, ...(this.pet.pictures || [])];
-          }
         },
         (error) => console.error("Error fetching pet details:", error)
       );

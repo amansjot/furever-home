@@ -133,12 +133,12 @@
             *ngIf="
             (filters.animal === 'Any' ||
               (filters.animal === 'Reptile' &&
-                ['snake', 'lizard', 'tortoise', 'turtle', 'chameleon', 'gecko'].includes(item.typeOfPet.toLowerCase())) ||
+                ['snake', 'lizard', 'tortoise', 'turtle', 'chameleon', 'gecko'].includes(item.animal.toLowerCase())) ||
               (filters.animal === 'Small Mammal' &&
-                ['hamster', 'guinea pig', 'rabbit', 'chinchilla', 'mouse'].includes(item.typeOfPet.toLowerCase())) ||
+                ['hamster', 'guinea pig', 'rabbit', 'chinchilla', 'mouse'].includes(item.animal.toLowerCase())) ||
               (filters.animal === 'Other' &&
-                !['dog', 'cat', 'bird', 'fish', 'snake', 'lizard', 'tortoise', 'turtle', 'chameleon', 'gecko', 'hamster', 'guinea pig', 'rabbit', 'chinchilla', 'mouse'].includes(item.typeOfPet.toLowerCase())) ||
-              item.typeOfPet.toLowerCase() === filters.animal.toLowerCase()) &&
+                !['dog', 'cat', 'bird', 'fish', 'snake', 'lizard', 'tortoise', 'turtle', 'chameleon', 'gecko', 'hamster', 'guinea pig', 'rabbit', 'chinchilla', 'mouse'].includes(item.animal.toLowerCase())) ||
+              item.animal.toLowerCase() === filters.animal.toLowerCase()) &&
             (filters.sex === 'Any' ||
               item.sex.toLowerCase() === filters.sex.toLowerCase()) &&
             (filters.age === 'Any' ||
@@ -164,7 +164,7 @@
         >
           <div
             class="pet-image-background"
-            [style.background-image]="'url(' + item.image + ')'"
+            [style.background-image]="'url(' + item.pictures[0] + ')'"
           >
 
             <!-- Favorite Button -->
@@ -201,7 +201,7 @@
                   </div>
                   <div class="info-group">
                     <p class="pet-breed-tag">Breed:</p>
-                    <p class="pet-breed">{{ item.speciesBreed }}</p>
+                    <p class="pet-breed">{{ item.breed }}</p>
                   </div>
                   <div class="info-group">
                     <p class="pet-price-tag">Price:</p>
