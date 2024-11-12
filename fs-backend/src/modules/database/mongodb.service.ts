@@ -38,13 +38,14 @@ export class MongoDBService {
   public async findOne<T>(
     database: string,
     collection: string,
-    query: any
+    query: any,
+    options?: any // Optional options parameter to allow for projections
   ): Promise<T | null> {
     try {
       const result = await this.client
         .db(database)
         .collection(collection)
-        .findOne(query);
+        .findOne(query, options); // Pass the options to findOne
       return result as T;
     } catch (err) {
       console.error("Error finding document in " + collection + ":", err);

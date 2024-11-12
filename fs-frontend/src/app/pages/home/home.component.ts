@@ -6,16 +6,12 @@ import { ItemComponent } from '../../components/item/item.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
+import { BuyerService } from '../../services/buyer.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [
-    CommonModule,
-    ItemComponent,
-    MatMenuModule,
-    MatButtonModule
-  ],
+  imports: [CommonModule, ItemComponent, MatMenuModule, MatButtonModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
@@ -44,17 +40,36 @@ export class HomeComponent {
   // Track the expanded state of each card using the pet's name as the key
   public expandedCards: { [key: string]: boolean } = {};
 
-  constructor(private itemSvc: ItemService, private router: Router) {
-    this.loadData();
+  favorites: any;
+
+  constructor(
+    private buyerService: BuyerService,
+    private itemSvc: ItemService,
+    private router: Router
+  ) {
+    this.loadFavorites();
+  }
+
+  loadFavorites(): void {
+    this.buyerService.getFavorites().subscribe({
+      next: (data) => {
+        this.favorites = data;
+        this.loadData();
+      },
+      error: (err) => {
+        this.favorites = JSON.parse(localStorage.getItem('favorites') || '');
+        console.log('Error loading favorites:', err);
+        this.loadData();
+      },
+    });
   }
 
   async loadData(): Promise<void> {
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
     try {
       if (this.favoriteFilter) {
         this.items = (
           await this.itemSvc.getInventoryItems(this.pageIndex, this.filters)
-        ).filter((item) => favorites.includes(item._id));
+        ).filter((item) => this.favorites.includes(item._id));
       } else {
         this.itemCount = await this.itemSvc.getInventoryCount(this.filters);
         this.items = await this.itemSvc.getInventoryItems(
@@ -66,7 +81,7 @@ export class HomeComponent {
       // Update favorite status based on stored favorites
       this.items = this.items.map((item) => ({
         ...item,
-        isFavorite: favorites.includes(item._id),
+        isFavorite: this.favorites.includes(item._id),
       }));
     } catch (err) {
       console.error(err);
@@ -111,19 +126,45 @@ export class HomeComponent {
     item.isFavorite = !item.isFavorite; // Toggle the favorite status
     // Update local storage or send to server
     this.updateFavoriteStatus(item);
+
+    // // Save to users collection in the database
+    // this.loadProfile();
+
+    // if (!this.profile['favorites']) {
+    //   this.profile['favorites'] = [];
+    // }
+
+    // if (item.isFavorite) {
+    //   this.profile['favorites'].push(item._id);
+    // } else {
+    //   this.profile['favorites'] = this.profile['favorites'].filter((id: string) => id !== item._id);
+    // }
+
+    // this.profileService
+    //   .updateProfile(this.profile._id, this.profile)
+    //   .subscribe({
+    //     next: () => console.log('Profile updated successfully'),
+    //     error: (err) => console.error('Error updating profile:', err),
+    //   });
   }
 
   updateFavoriteStatus(item: InventoryItemModel): void {
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
     if (item.isFavorite) {
       // Add to favorites if marked as favorite
-      favorites.push(item._id);
+      this.favorites.push(item._id);
     } else {
       // Remove from favorites if unmarked
-      const index = favorites.indexOf(item._id);
-      if (index > -1) favorites.splice(index, 1);
+      const index = this.favorites.indexOf(item._id);
+      if (index > -1) this.favorites.splice(index, 1);
     }
-    localStorage.setItem('favorites', JSON.stringify(favorites));
+
+    localStorage.setItem('favorites', JSON.stringify(this.favorites));
+
+    // Send to the database
+    this.buyerService.updateFavorites(this.favorites).subscribe({
+      next: () => console.log('Favorites updated successfully'),
+      error: (err) => console.error('Error updating favorites:', err),
+    });
   }
 
   toggleFavoriteFilter(): void {
@@ -135,19 +176,20 @@ export class HomeComponent {
     const targetElement = event.target as HTMLElement;
 
     // Check if the clicked element or its parent has `data-ignore-click`
-    if (targetElement.getAttribute('data-ignore-click') === 'true' || 
-        targetElement.closest('[data-ignore-click="true"]')) {
-      console.log("Click ignored from child element.");
+    if (
+      targetElement.getAttribute('data-ignore-click') === 'true' ||
+      targetElement.closest('[data-ignore-click="true"]')
+    ) {
       return;
     }
-    
+
     if (!this.isButtonVisible) {
       this.router.navigate([`/pet/${petId}`]);
     }
   }
 
   navigateToPetMobile(petId: string): void {
-    console.log("mobile");
+    console.log('mobile');
     this.router.navigate([`/pet/${petId}`]);
   }
 

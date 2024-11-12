@@ -3,6 +3,7 @@ import {SecurityRouter} from "./modules/security/security.router";
 import { InventoryRouter } from "./modules/inventory/inventory.router";
 import { SellerRouter } from "./modules/seller/seller.router";
 import { UserRouter } from "./modules/users/users.router";
+import { BuyerRouter } from "./modules/buyer/buyer.router";
 
 export class ApiRouter {
     private router: express.Router = express.Router();
@@ -12,6 +13,7 @@ export class ApiRouter {
         this.router.use("/security", new SecurityRouter().getRouter());
         this.router.use("/items",new InventoryRouter().getRouter());
         this.router.use("/seller", new SellerRouter().getRouter());
+        this.router.use("/buyer", new BuyerRouter().getRouter());
         this.router.use("/users", new UserRouter().getRouter());
         return this.router;
     }
