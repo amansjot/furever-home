@@ -17,6 +17,7 @@ import { BuyerService } from '../../services/buyer.service';
 })
 export class HomeComponent {
   public authenticated: boolean = false;
+  // public isBuyer: boolean = false;
   public items: InventoryItemModel[] = [];
   public itemCount: number = 0;
   public pageIndex: number = 0;
@@ -126,26 +127,6 @@ export class HomeComponent {
     item.isFavorite = !item.isFavorite; // Toggle the favorite status
     // Update local storage or send to server
     this.updateFavoriteStatus(item);
-
-    // // Save to users collection in the database
-    // this.loadProfile();
-
-    // if (!this.profile['favorites']) {
-    //   this.profile['favorites'] = [];
-    // }
-
-    // if (item.isFavorite) {
-    //   this.profile['favorites'].push(item._id);
-    // } else {
-    //   this.profile['favorites'] = this.profile['favorites'].filter((id: string) => id !== item._id);
-    // }
-
-    // this.profileService
-    //   .updateProfile(this.profile._id, this.profile)
-    //   .subscribe({
-    //     next: () => console.log('Profile updated successfully'),
-    //     error: (err) => console.error('Error updating profile:', err),
-    //   });
   }
 
   updateFavoriteStatus(item: InventoryItemModel): void {
