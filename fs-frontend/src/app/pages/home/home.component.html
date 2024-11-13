@@ -116,8 +116,18 @@
         Other
       </button>
     </mat-menu>
-    <button mat-mini-fab class="button" (click)="toggleFavoriteFilter()">
-      {{ favoriteFilter ? 'Show All Pets' : 'Show Favorites' }}
+    <button *ngIf="isBuyer && favorites && favorites.length > 0" mat-mini-fab class="button" (click)="toggleFavoriteFilter()">
+      <ng-container *ngIf="favoriteFilter; else showFavorites">
+        Show All Pets
+      </ng-container>
+      <ng-template #showFavorites>
+        Show Favorites
+        <img
+          class="favorite-icon"
+          src="/assets/favorite-star-active.svg"
+          alt="Favorite Icon"
+        />
+      </ng-template>
     </button>
   </div>
 
