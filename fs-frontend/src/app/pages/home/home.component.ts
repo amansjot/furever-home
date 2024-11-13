@@ -8,6 +8,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { BuyerService } from '../../services/buyer.service';
 
+import { LoginService } from '../../services/login.service';
+import { forkJoin, of } from 'rxjs';
+import { catchError, delay, switchMap } from 'rxjs/operators';
+import { ObjectId } from 'mongodb';
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -16,8 +21,9 @@ import { BuyerService } from '../../services/buyer.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
+  public disableLogin: boolean = false;
   public authenticated: boolean = false;
-  // public isBuyer: boolean = false;
+  public isBuyer: boolean = false;
   public items: InventoryItemModel[] = [];
   public itemCount: number = 0;
   public pageIndex: number = 0;
@@ -41,14 +47,29 @@ export class HomeComponent {
   // Track the expanded state of each card using the pet's name as the key
   public expandedCards: { [key: string]: boolean } = {};
 
-  favorites: any;
+  public favorites: string[] = [];
 
   constructor(
+    private _loginSvc: LoginService,
     private buyerService: BuyerService,
     private itemSvc: ItemService,
     private router: Router
   ) {
-    this.loadFavorites();
+    // _loginSvc.loggedIn.subscribe(this.onLoginChange);
+    // this.loadFavorites();
+  }
+
+  ngOnInit(): void {
+    // Subscribe to login changes to update the buyer status dynamically
+    this._loginSvc.loggedIn.subscribe((isLoggedIn) => {
+      if (isLoggedIn) {
+        this._loginSvc.loggedIn.subscribe(this.onLoginChange);
+      } else {
+        this.isBuyer = false;
+      }
+    });
+    this.favorites = JSON.parse(localStorage.getItem('favorites') || '');
+    this.loadData();
   }
 
   loadFavorites(): void {
@@ -179,5 +200,52 @@ export class HomeComponent {
   onResize(event: Event): void {
     const width = (event.target as Window).innerWidth;
     this.isButtonVisible = width < 1024;
+  }
+
+  onLoginChange = (loggedIn: boolean) => {
+    this.authenticated = loggedIn;
+
+    if (loggedIn) {
+      this.checkUserRoles();
+    } else {
+      this.isBuyer = false;
+    }
+    console.log('Change:' + this.authenticated);
+  };
+
+  private checkUserRoles(): void {
+    of(null)
+      .pipe(
+        delay(100),
+        switchMap(() =>
+          forkJoin({
+            isBuyer: this._loginSvc.isBuyer().pipe(
+              catchError((error) => {
+                console.error('Error checking buyer role:', error);
+                return of(false);
+              })
+            ),
+          })
+        )
+      )
+      .subscribe(({ isBuyer }) => {
+        this.isBuyer = isBuyer;
+        if (this.isBuyer) {
+          console.log("yes!");
+          this.loadFavorites();
+        }
+      });
+  }
+
+  logout() {
+    this._loginSvc.logout();
+    this.isBuyer = false;
+    this.router.navigate(['/login']);
+  }
+
+  async login() {
+    this.disableLogin = true;
+    await this._loginSvc.login('silber@udel.edu', 'pass');
+    this.disableLogin = false;
   }
 }
