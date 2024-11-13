@@ -89,6 +89,7 @@ export class HomeComponent {
   async loadData(): Promise<void> {
     try {
       if (this.favoriteFilter) {
+        // this.itemCount = this.favorites.length;
         this.items = (
           await this.itemSvc.getInventoryItems(this.pageIndex, this.filters)
         ).filter((item) => this.favorites.includes(item._id));

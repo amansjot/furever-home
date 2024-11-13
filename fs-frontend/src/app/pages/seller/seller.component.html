@@ -1,14 +1,21 @@
-<div *ngIf="seller">
-  <h1>{{ seller.orgName }}</h1>
-  <p>Type: {{ seller.sellerType }}</p>
-  <p>Location: {{ seller.sellerLocation }}</p>
-  <p>Contact: {{ seller.sellerContact }}</p>
+<div class="seller-container" *ngIf="seller">
+  <img
+    *ngIf="seller.sellerPhoto"
+    [src]="seller.sellerPhoto"
+    alt="Seller Photo"
+    class="seller-photo"
+  />
+  <h1 class="seller-org-name">{{ seller.orgName }}</h1>
+  <p class="seller-info">Type: {{ seller.sellerType | titlecase }}</p>
+  <p class="seller-info">Location: {{ seller.sellerLocation }}</p>
+  <p class="seller-info">Contact: {{ seller.sellerContact }}</p>
+  <hr class="divider" />
+  <button (click)="addItem(seller._id)" class="add-item-button">
+    Add a Pet
+  </button>
+  <hr class="divider" />
 
-  <hr />
-  <button (click)="addItem(seller._id)">Add a Pet</button>
-  <hr />
-
-  <div *ngFor="let pet of pets">
+  <!-- <div *ngFor="let pet of pets">
     <h3>{{ pet.name }}</h3>
     <p>Species: {{ pet.typeOfPet }}</p>
     <p>Breed: {{ pet.speciesBreed }}</p>
@@ -21,16 +28,76 @@
       alt="{{ pet.name }}"
     />
 
-    <!-- Action buttons -->
     <br />
     <button routerLink="/pet/{{ pet._id }}">View Pet Page</button>
     <button (click)="editItem(pet._id)">Edit</button>
     <button (click)="confirmDelete(pet._id)">Delete</button>
+  </div> -->
+  <div class="pet-card-container">
+    <div *ngFor="let item of pets">
+      <div
+        mat-card
+        class="pet-card"
+        (click)="navigateToPetDesktop($event, item._id)"
+        [ngClass]="{ expanded: expandedCards[item.name] }"
+      >
+        <div
+          class="pet-image-background"
+          [style.background-image]="'url(' + item.pictures[0] + ')'"
+        >
+          <div class="pet-info-card">
+            <div class="displayed-info">
+              <div class="info-text">
+                <h2 class="pet-name">{{ item.name }}</h2>
+                <p class="pet-age">
+                  {{ item.sex[0].toUpperCase() + item.sex.slice(1) }},
+                  {{ formatAge(item.age) }} old
+                </p>
+              </div>
+              <button
+                class="show-hidden-button"
+                (click)="toggleCard(item.name)"
+              >
+                {{ expandedCards[item.name] ? "Hide Info" : "Show Info" }}
+                <img
+                  class="expand arrow"
+                  [ngClass]="{ rotated: expandedCards[item.name] }"
+                  src="/assets/drop-down-arrow.svg"
+                  alt="expand-arrow"
+                />
+              </button>
+            </div>
+            <div class="hidden-info-container">
+              <div class="hidden-info">
+                <div class="info-group">
+                  <p class="pet-status-tag">Status:</p>
+                  <p class="pet-status">{{ item.status }}</p>
+                </div>
+                <div class="info-group">
+                  <p class="pet-breed-tag">Breed:</p>
+                  <p class="pet-breed">{{ item.breed }}</p>
+                </div>
+                <div class="info-group">
+                  <p class="pet-price-tag">Price:</p>
+                  <p class="pet-price">
+                    {{ item.price | currency : "USD" : "symbol" : "1.0-0" }}
+                  </p>
+                </div>
+                <div class="info-group">
+                  <p class="pet-location-tag">Location:</p>
+                  <p class="pet-location">{{ item.location }}</p>
+                </div>
+                <button
+                  class="pet-page-button"
+                  (click)="navigateToPetMobile(item._id)"
+                >
+                  Pet Page
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <img
-    *ngIf="seller.sellerPhoto"
-    [src]="seller.sellerPhoto"
-    alt="Seller Photo"
-  />
 </div>
