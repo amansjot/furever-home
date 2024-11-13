@@ -9,13 +9,13 @@ import { ObjectId } from "mongodb";
 	* 			  _id: an ObjectId representing the ID of the buyer
 */
 export interface BuyerModel {
-	_id: ObjectId;
+	_id: string;
 	user: ObjectId; // ObjectId of the user associated with the buyer
-	favorites: ObjectId[]; // Array of ObjectIds for favorite pets
+	favorites: string[]; // Array of ObjectIds for favorite pets
 }
 
 export const emptyBuyer: BuyerModel = {
-    _id: new ObjectId(),
+    _id: "",
 	user: new ObjectId(), // Initialize with a placeholder ObjectId
 	favorites: [] // Empty array for favorites
 };

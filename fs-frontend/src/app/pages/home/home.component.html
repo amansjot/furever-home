@@ -168,7 +168,7 @@
           >
 
             <!-- Favorite Button -->
-            <button class="petcard-favorite-button" (click)="toggleFavorite($event, item)">
+            <button *ngIf="isBuyer" class="petcard-favorite-button" (click)="toggleFavorite($event, item)">
               <img 
                 class="favorite-icon" 
                 [src]="item.isFavorite ? '/assets/favorite-star-active.svg' : '/assets/favorite-star-inactive.svg'" 
