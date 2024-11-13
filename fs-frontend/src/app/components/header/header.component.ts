@@ -7,6 +7,7 @@ import { NavigationEnd, Router, RouterLink, RouterModule } from '@angular/router
 import { MatIconModule } from '@angular/material/icon';
 import { forkJoin, of } from 'rxjs';
 import { catchError, delay, switchMap } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -23,7 +24,13 @@ export class HeaderComponent {
   public isBuyer: boolean = false;
   public showButtons: boolean = true;
 
-  constructor(private _loginSvc: LoginService, private router: Router) {
+  private noHideRoutes: string[] = ['register', 'login'];
+
+  constructor(
+    private _loginSvc: LoginService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     _loginSvc.loggedIn.subscribe(this.onLoginChange);
 
     router.events.subscribe((event) => {
@@ -103,7 +110,14 @@ export class HeaderComponent {
   onWindowScroll() {
     if (!this.isMenuOpen) {
       const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-      this.isNavbarHidden = currentScrollPosition > this.lastScrollPosition;
+      const isNoHidePage = this.noHideRoutes.some(route => this.router.url.includes(route)); // Check if current route is in noHideRoutes
+
+      if (!isNoHidePage) { // Only hide navbar if not on specified pages
+        this.isNavbarHidden = currentScrollPosition > this.lastScrollPosition;
+      } else {
+        this.isNavbarHidden = false; // Ensure navbar is visible on specified pages
+      }
+
       this.lastScrollPosition = currentScrollPosition;
     }
   }
