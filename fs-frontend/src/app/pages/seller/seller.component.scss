@@ -72,9 +72,9 @@ img {
     border-radius: 15px;
 }
 
-.petcard-favorite-button {
+.petcard-button {
     position: absolute;
-    top: 7px;
+    top: 11px;
     right: 10px;
     width: 40px;
     height: 40px;
@@ -90,6 +90,22 @@ img {
         background-color: rgba(255, 255, 255, 0.4);
     }
     
+}
+
+#edit-button {
+    right: 62px;
+
+    &:hover {
+        background-color: white;
+    }
+}
+
+#delete-button {
+
+
+    &:hover {
+        background-color: red;
+    }
 }
 
 /* Card Information Sections */
@@ -168,11 +184,11 @@ img {
         transform: scale(1.02);
     }
 
-    .petcard-favorite-button {
+    .petcard-button {
         pointer-events: auto;
     }
 
-    .petcard-favorite-button:hover {
+    .petcard-button:hover {
         background-color: rgba(255, 255, 255, 0.4);
     }
 
@@ -360,7 +376,7 @@ img {
   transform: translateY(-1px) rotate(0deg);
 }
 
-.favorite-icon{
+.petcard-icon{
     width: 20px;
     height: 20px;
     vertical-align: middle;

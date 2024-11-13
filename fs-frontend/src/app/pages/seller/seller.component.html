@@ -45,6 +45,28 @@
           class="pet-image-background"
           [style.background-image]="'url(' + item.pictures[0] + ')'"
         >
+          <!-- Action Buttons -->
+          <button
+          class="petcard-button" id="edit-button"
+          (click)="editItem($event, item._id)"
+        >
+          <img
+            class="petcard-icon"
+            src="/assets/edit-pencil.svg"
+            alt="Edit Icon"
+          />
+        </button>
+          <button
+            class="petcard-button" id="delete-button"
+            (click)="confirmDelete($event, item._id)"
+          >
+            <img
+              class="petcard-icon"
+              src="/assets/delete-trash.svg"
+              alt="Delete Icon"
+            />
+          </button>
+
           <div class="pet-info-card">
             <div class="displayed-info">
               <div class="info-text">

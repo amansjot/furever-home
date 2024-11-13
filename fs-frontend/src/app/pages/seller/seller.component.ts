@@ -107,10 +107,14 @@ export class SellerComponent implements OnInit {
 
   addItem(sellerId: string): void {}
 
-  editItem(itemId: string): void {}
+  editItem(event: MouseEvent, itemId: string): void {
+    event.stopPropagation();
+  }
 
-  confirmDelete(itemId: string): void {
-    const isConfirmed = confirm('Are you sure you want to delete this item?');
+  confirmDelete(event: MouseEvent, itemId: string): void {
+    event.stopPropagation();
+
+    const isConfirmed = confirm('Are you sure you want to remove this pet?');
     if (isConfirmed) {
       this.deleteItem(itemId);
     }
