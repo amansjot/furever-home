@@ -1,13 +1,28 @@
-<div class="item">
-  <div class="left">
-    <span class="bold">{{ item.name }}</span>
-    <hr />
-    <img class="pet-image" src="{{ item.pictures[0] }}">
-    {{ item.description }}
-    <br />
-    ${{ item.price }}
-  </div>
-  <div class="right">
-    <button mat-raised-button [disabled]="!canAddToCart">Add to Cart</button>
+<div class="pet-card" (click)="onNavigateDesktop($event)">
+  <div class="pet-image-background" [style.background-image]="'url(' + item.pictures[0] + ')'">
+    <button *ngIf="isBuyer" class="petcard-favorite-button" (click)="onToggleFavorite($event)">
+      <img class="favorite-icon" [src]="item.isFavorite ? '/assets/favorite-star-active.svg' : '/assets/favorite-star-inactive.svg'" alt="Favorite Icon" />
+    </button>
+    <div class="pet-info-card">
+      <div class="displayed-info">
+        <div class="info-text">
+          <h2 class="pet-name">{{ item.name }}</h2>
+          <p class="pet-age">{{ item.sex[0].toUpperCase() + item.sex.slice(1) }}, {{ item.age }} years old</p>
+        </div>
+        <button class="show-hidden-button" (click)="onToggleCard()">
+          {{ expandedCards[item.name] ? 'Hide Info' : 'Show Info' }}
+          <img class="expand arrow" [ngClass]="{'rotated': expandedCards[item.name]}" src="/assets/drop-down-arrow.svg" alt="expand-arrow" />
+        </button>
+      </div>
+      <div class="hidden-info-container" *ngIf="expandedCards[item.name]">
+        <div class="hidden-info">
+          <div class="info-group"><p class="pet-status-tag">Status:</p><p class="pet-status">{{ item.status }}</p></div>
+          <div class="info-group"><p class="pet-breed-tag">Breed:</p><p class="pet-breed">{{ item.breed }}</p></div>
+          <div class="info-group"><p class="pet-price-tag">Price:</p><p class="pet-price">{{ item.price | currency : "USD" : "symbol" : "1.0-0" }}</p></div>
+          <div class="info-group"><p class="pet-location-tag">Location:</p><p class="pet-location">{{ item.location }}</p></div>
+          <button class="pet-page-button" (click)="onNavigateMobile()">Pet Page</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

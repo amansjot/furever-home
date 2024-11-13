@@ -1,24 +1,39 @@
-import { Component, Input } from '@angular/core';
-import { emptyItem, InventoryItemModel } from '../../models/items.model';
-import { LoginService } from '../../services/login.service';
-import { MatButtonModule } from '@angular/material/button';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { InventoryItemModel } from '../../models/items.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-item',
   standalone: true,
-  imports: [MatButtonModule],
+  imports: [CommonModule],
   templateUrl: './item.component.html',
-  styleUrl: './item.component.scss'
+  styleUrls: ['./item.component.scss']
 })
 export class ItemComponent {
-  @Input() item: InventoryItemModel=emptyItem;
+  @Input() item!: InventoryItemModel;
+  @Input() isBuyer: boolean = false;
+  @Input() expandedCards: { [key: string]: boolean } = {};
 
-  public canAddToCart:boolean=false;
+  @Output() toggleFavorite = new EventEmitter<InventoryItemModel>();
+  @Output() navigateToPetDesktop = new EventEmitter<string>();
+  @Output() navigateToPetMobile = new EventEmitter<string>();
+  @Output() toggleCard = new EventEmitter<string>();
 
-  constructor(private _authSvc:LoginService) {    
-    _authSvc.loggedIn.subscribe((loggedIn:boolean)=>{
-      this.canAddToCart=loggedIn;
-  });
-}
+  onToggleFavorite(event: MouseEvent) {
+    event.stopPropagation();
+    this.toggleFavorite.emit(this.item);
+  }
 
+  onNavigateDesktop(event: MouseEvent) {
+    event.stopPropagation();
+    this.navigateToPetDesktop.emit(this.item._id);
+  }
+
+  onNavigateMobile() {
+    this.navigateToPetMobile.emit(this.item._id);
+  }
+
+  onToggleCard() {
+    this.toggleCard.emit(this.item.name);
+  }
 }
