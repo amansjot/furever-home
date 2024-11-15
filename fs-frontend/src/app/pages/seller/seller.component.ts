@@ -67,6 +67,7 @@ export class SellerComponent implements OnInit {
       return `${months} month${months !== 1 ? 's' : ''}`;
     } else {
       // Display in years if 1 year or more
+      ageInYears = Math.floor(ageInYears);
       return `${ageInYears} year${ageInYears !== 1 ? 's' : ''}`;
     }
   }

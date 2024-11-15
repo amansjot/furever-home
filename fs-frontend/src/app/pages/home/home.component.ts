@@ -57,6 +57,18 @@ export class HomeComponent {
   ) {}
 
   ngOnInit(): void {
+    // Load saved filters from localStorage if they exist
+    const savedFilters = localStorage.getItem('filters');
+    if (savedFilters) {
+      this.filters = JSON.parse(savedFilters);
+    }
+
+    // Load saved favorite filter state
+    const savedFavoriteFilter = localStorage.getItem('favoriteFilter');
+    this.favoriteFilter = savedFavoriteFilter
+      ? JSON.parse(savedFavoriteFilter)
+      : false;
+
     // Subscribe to login changes to update the buyer status dynamically
     this._loginSvc.loggedIn.subscribe((isLoggedIn) => {
       if (isLoggedIn) {
@@ -120,6 +132,7 @@ export class HomeComponent {
       return `${months} month${months !== 1 ? 's' : ''}`;
     } else {
       // Display in years if 1 year or more
+      ageInYears = Math.floor(ageInYears);
       return `${ageInYears} year${ageInYears !== 1 ? 's' : ''}`;
     }
   }
@@ -131,6 +144,8 @@ export class HomeComponent {
   ) {
     this.filters[type] = value;
     console.log(`${type} filter set to: ${value}`);
+
+    localStorage.setItem('filters', JSON.stringify(this.filters));
     this.loadData(); // Reload data based on the updated filters
   }
 
@@ -169,6 +184,7 @@ export class HomeComponent {
 
   toggleFavoriteFilter(): void {
     this.favoriteFilter = !this.favoriteFilter;
+    localStorage.setItem('favoriteFilter', JSON.stringify(this.favoriteFilter));
     this.loadData();
   }
 
