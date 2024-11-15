@@ -189,7 +189,7 @@
                 <div class="info-text">
                   <h2 class="pet-name">{{ item.name }}</h2>
                   <p class="pet-age">
-                    {{ item.sex[0].toUpperCase() + item.sex.slice(1) }},
+                    {{ item.sex | titlecase }},
                     {{ formatAge(item.age) }} old
                   </p>
                 </div>
