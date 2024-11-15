@@ -37,8 +37,8 @@
   <p><strong>Status:</strong> {{ pet.status }}</p>
   <p><strong>Animal:</strong> {{ pet.animal }}</p>
   <p><strong>Breed:</strong> {{ pet.breed }}</p>
-  <p><strong>Age:</strong> {{ pet.age }} years</p>
-  <p><strong>Sex:</strong> {{ pet.sex }}</p>
+  <p><strong>Age:</strong> {{ formatAge(pet.age) }} old</p>
+  <p><strong>Sex:</strong> {{ pet.sex | titlecase }}</p>
   <p><strong>Location:</strong> {{ pet.location }}</p>
   <p><strong>Price:</strong> {{ pet.price | currency }}</p>
   <p><strong>Description:</strong> {{ pet.description }}</p>
@@ -46,5 +46,15 @@
   <div *ngIf="pet.benefits && pet.benefits.length">
     <div><strong>Benefits:</strong></div>
     <div *ngFor="let benefit of pet.benefits">{{ benefit }}</div>
+  </div>
+  
+
+  <div *ngIf="isBuyer" class="button-container">
+    <button
+      class="request-button"
+      (click)="requestContact()"
+    >
+      Request Contact
+    </button>
   </div>
 </div>

@@ -192,3 +192,36 @@
   height: 24px; // Keep same as width for proper proportions
   display: block;
 }
+
+/* ===================================
+   Button Styles
+   =================================== */
+   .button-container {
+    // display: flex;
+    // justify-content: center;
+    margin: 20px 0;
+  }
+  
+  .request-button {
+    min-width: 150px;  /* Adjust width as needed */
+    padding: 12px 24px;
+    background-color: #4dbd9b !important;  /* Match your theme color */
+    color: white !important;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 25px;
+    
+    /* Hover state */
+    &:hover:not([disabled]) {
+      background-color: #3da88a !important;
+      border: 1px solid white;
+    }
+  
+    /* Disabled state */
+    &:disabled {
+      background-color: #cccccc !important;
+      color: #666666 !important;
+    }
+  }

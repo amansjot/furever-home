@@ -54,10 +54,7 @@ export class HomeComponent {
     private buyerService: BuyerService,
     private itemSvc: ItemService,
     private router: Router
-  ) {
-    // _loginSvc.loggedIn.subscribe(this.onLoginChange);
-    // this.loadFavorites();
-  }
+  ) {}
 
   ngOnInit(): void {
     // Subscribe to login changes to update the buyer status dynamically
@@ -232,7 +229,7 @@ export class HomeComponent {
       .subscribe(({ isBuyer }) => {
         this.isBuyer = isBuyer;
         if (this.isBuyer) {
-          console.log("yes!");
+          console.log('yes!');
           this.loadFavorites();
         }
       });
