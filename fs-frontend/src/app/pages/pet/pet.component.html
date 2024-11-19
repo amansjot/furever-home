@@ -2,18 +2,23 @@
   <img src="/assets/loading.gif" alt="Loading..." class="loading-gif" />
 </div>
 
-<div [ngClass]="{ visible: !loading }" *ngIf="pet" class="main-content">
+<div [ngClass]="{ visible: !loading }" *ngIf="pet" class="pet-container">
   <!-- Image Carousel -->
   <h1 class="pet-page-title">{{ pet.name }}</h1>
   <div *ngIf="pet.pictures && pet.pictures.length" class="carousel">
     <button (click)="prevImage()" class="carousel-control prev">‹</button>
-    <img [src]="pet.pictures[currentImageIndex]" alt="{{ pet.name }}" class="carousel-image" />
+    <img
+      [src]="pet.pictures[currentImageIndex]"
+      alt="{{ pet.name }}"
+      class="carousel-image"
+    />
     <button (click)="nextImage()" class="carousel-control next">›</button>
     <button (click)="openModal()" class="expand-button">
-      <img 
-      class="magnifying-glass-icon" 
-      src="/assets/magnifying-glass.svg" 
-      alt="expand-arrow">
+      <img
+        class="magnifying-glass-icon"
+        src="/assets/magnifying-glass.svg"
+        alt="expand-arrow"
+      />
     </button>
   </div>
 
@@ -22,19 +27,25 @@
     <div class="modal-content">
       <span class="close" (click)="closeModal()">&times;</span>
       <button (click)="prevImage()" class="modal-control prev">‹</button>
-      <img [src]="pet.pictures[currentImageIndex]" alt="{{ pet.name }}" class="modal-image" />
+      <img
+        [src]="pet.pictures[currentImageIndex]"
+        alt="{{ pet.name }}"
+        class="modal-image"
+      />
       <button (click)="nextImage()" class="modal-control next">›</button>
     </div>
   </div>
 
   <!-- Thumbnail Navigation -->
   <div *ngIf="pet.pictures && pet.pictures.length" class="thumbnail-container">
-    <img *ngFor="let picture of pet.pictures; let i = index"
-         [src]="picture"
-         [class.active]="i === currentImageIndex"
-         (click)="goToImage(i)"
-         class="thumbnail-image"
-         alt="{{ pet.name }} thumbnail" />
+    <img
+      *ngFor="let picture of pet.pictures; let i = index"
+      [src]="picture"
+      [class.active]="i === currentImageIndex"
+      (click)="goToImage(i)"
+      class="thumbnail-image"
+      alt="{{ pet.name }} thumbnail"
+    />
   </div>
 
   <div class="pet-details">
@@ -49,7 +60,7 @@
       <p><strong>Price:</strong> {{ pet.price | currency }}</p>
       <p><strong>Description:</strong> {{ pet.description }}</p>
     </div>
-  
+
     <div class="pet-benefits">
       <div *ngIf="pet.benefits && pet.benefits.length">
         <h1 class="pet-page-header">Benefits:</h1>
@@ -61,10 +72,26 @@
   <div class="request-contact">
     <div *ngIf="isBuyer" class="button-container">
       <button
-        class="request-button" (click)="requestContact()">Request Contact</button>
-      <img class="request-pawprint-left" src="/assets/paw-trail.svg" alt="paw print trail">
-      <img class="request-pawprint-right" src="/assets/paw-trail.svg" alt="paw print trail">
+        [disabled]="isNotEmptyObject(contactInfo)"
+        class="request-button"
+        (click)="requestContact()"
+      >
+        {{
+          contactInfo && isNotEmptyObject(contactInfo)
+            ? "Contact Received: " + contactInfo.sellerContact
+            : "Request Contact"
+        }}
+      </button>
+      <img
+        class="request-pawprint-left"
+        src="/assets/paw-trail.svg"
+        alt="paw print trail"
+      />
+      <img
+        class="request-pawprint-right"
+        src="/assets/paw-trail.svg"
+        alt="paw print trail"
+      />
     </div>
   </div>
-
 </div>

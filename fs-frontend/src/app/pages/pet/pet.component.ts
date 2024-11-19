@@ -2,21 +2,27 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ItemService } from '../../services/item.service';
 import { CommonModule } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { ContactDialogComponent } from '../../components/contact-dialog/contact-dialog.component';
 import { LoginService } from '../../services/login.service';
 import { of, delay, switchMap, forkJoin, catchError } from 'rxjs';
+import { SellerService } from '../../services/seller.service';
+import { ContactInfo } from '../../models/contact-info.model';
 
 @Component({
   selector: 'app-pet',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './pet.component.html',
-  styleUrls: ['./pet.component.scss']
+  styleUrls: ['./pet.component.scss'],
 })
 export class PetComponent implements OnInit {
   public loading: boolean = true;
   public disableLogin: boolean = false;
   public authenticated: boolean = false;
   public isBuyer: boolean = false;
+
+  public contactInfo: ContactInfo | null = null;
 
   pet: any;
   currentImageIndex: number = 0;
@@ -26,7 +32,9 @@ export class PetComponent implements OnInit {
     private route: ActivatedRoute,
     private itemService: ItemService,
     private _loginSvc: LoginService,
-    private router: Router
+    private sellerService: SellerService,
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -48,7 +56,7 @@ export class PetComponent implements OnInit {
         (pet) => {
           this.pet = pet;
         },
-        (error) => console.error("Error fetching pet details:", error)
+        (error) => console.error('Error fetching pet details:', error)
       );
     }
   }
@@ -86,13 +94,16 @@ export class PetComponent implements OnInit {
 
   nextImage(): void {
     if (this.pet.pictures && this.pet.pictures.length) {
-      this.currentImageIndex = (this.currentImageIndex + 1) % this.pet.pictures.length;
+      this.currentImageIndex =
+        (this.currentImageIndex + 1) % this.pet.pictures.length;
     }
   }
 
   prevImage(): void {
     if (this.pet.pictures && this.pet.pictures.length) {
-      this.currentImageIndex = (this.currentImageIndex - 1 + this.pet.pictures.length) % this.pet.pictures.length;
+      this.currentImageIndex =
+        (this.currentImageIndex - 1 + this.pet.pictures.length) %
+        this.pet.pictures.length;
     }
   }
 
@@ -111,7 +122,22 @@ export class PetComponent implements OnInit {
   }
 
   requestContact() {
-    // Show buyer the Seller "contact" and update Seller "requests" to add buyer's $oid
+    // Call the service to fetch contact info
+    this.sellerService.getSellerContactByPetId(this.pet._id).subscribe({
+      next: (contactInfo) => {
+        // Open the dialog with the retrieved contact information
+        this.dialog.open(ContactDialogComponent, {
+          data: contactInfo,
+          width: '400px',
+        });
+
+        this.contactInfo = contactInfo;
+      },
+      error: (err) => {
+        console.error('Error fetching seller contact:', err);
+        alert('Could not fetch seller contact information.');
+      },
+    });
   }
 
   onLoginChange = (loggedIn: boolean) => {
@@ -158,5 +184,9 @@ export class PetComponent implements OnInit {
     this.disableLogin = true;
     await this._loginSvc.login('silber@udel.edu', 'pass');
     this.disableLogin = false;
+  }
+
+  isNotEmptyObject(obj: any): boolean {
+    return obj && Object.keys(obj).length > 0;
   }
 }

@@ -12,7 +12,7 @@
   <h1 class="seller-org-name">{{ seller.orgName }}</h1>
   <p class="seller-info">Type: {{ seller.sellerType | titlecase }}</p>
   <p class="seller-info">Location: {{ seller.sellerLocation }}</p>
-  <p class="seller-info">Contact: {{ seller.sellerContact }}</p>
+  <p *ngIf="rootSellerRoute == 'seller'" class="seller-info">Contact: {{ seller.sellerContact }}</p>
   <hr class="divider" />
   <button (click)="addItem(seller._id)" class="add-item-button">
     Add a Pet

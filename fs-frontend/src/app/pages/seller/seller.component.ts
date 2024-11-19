@@ -3,7 +3,7 @@ import { SellerService } from '../../services/seller.service';
 import { ItemService } from '../../services/item.service';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { Router, RouterLink, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-seller',
@@ -13,6 +13,7 @@ import { Router, RouterLink, RouterModule } from '@angular/router';
   styleUrls: ['./seller.component.scss'],
 })
 export class SellerComponent implements OnInit {
+  public rootSellerRoute: string = "";
   public loading: boolean = true;
   public disableLogin: boolean = false;
   public authenticated: boolean = false;
@@ -23,6 +24,7 @@ export class SellerComponent implements OnInit {
   pets: any[] = [];
 
   constructor(
+    private route: ActivatedRoute, 
     private sellerService: SellerService,
     private itemService: ItemService,
     private router: Router
@@ -35,6 +37,7 @@ export class SellerComponent implements OnInit {
   loadSeller(): void {
     this.sellerService.getSellerProfile().subscribe({
       next: (data) => {
+        this.rootSellerRoute = this.route.snapshot.url.toString();
         this.loading = false;
         this.seller = data;
         this.loadPets();
