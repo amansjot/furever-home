@@ -1,23 +1,31 @@
+/* ===================================
+   General Styles
+=================================== */
+
 ::ng-deep .mat-mdc-card {
-    margin-top: 75px;
+  margin-top: 75px;
+  margin-left: 2%;
+  margin-right: 2%;
+  background-color: #e6e6e6;
+  padding: 20px;
+  border-radius: 20px;
 }
 
-.pet-container{
-    margin-left: 2%;
-    margin-right: 2%;
-    background-color: #e6e6e6;
-    padding: 20px;
-    border-radius: 20px;
+.pet-container {
+  padding: 2vw;
 }
+
+/* ===================================
+   Carousel Styles
+=================================== */
 
 .carousel {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 20px 0;
   overflow: hidden;
-  border-radius: 10px;
+  border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 100%;
   background-color: #f0f0f0;
@@ -46,7 +54,6 @@
   .carousel-image {
     height: 800px;
     object-fit: contain;
-    background-color: #f0f0f0;
   }
 }
 
@@ -77,6 +84,10 @@
   right: 10px;
 }
 
+/* ===================================
+   Thumbnail Styles
+=================================== */
+
 .thumbnail-container {
   display: flex;
   justify-content: center;
@@ -102,6 +113,10 @@
   border-color: #3f8a73;
 }
 
+/* ===================================
+   Modal Styles
+=================================== */
+
 .modal {
   display: flex;
   justify-content: center;
@@ -121,7 +136,6 @@
   max-height: 85vh;
   background-color: transparent;
   border-radius: 10px;
-  overflow: visible;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -130,8 +144,6 @@
 .modal-image {
   max-width: 85vw;
   max-height: 85vh;
-  width: auto;
-  height: auto;
   object-fit: contain;
 }
 
@@ -172,56 +184,70 @@
   right: 10px;
 }
 
+/* ===================================
+   Expand Button Styles
+=================================== */
+
 .expand-button {
   position: absolute;
   right: 10px;
   bottom: 10px;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.5);
   border: none;
   border-radius: 50%;
   padding: 8px;
+  transition: background 0.3s ease;
   cursor: pointer;
-  
-  &:hover {
-    background: rgb(0, 0, 0);
-  }
+}
+
+.expand-button:hover {
+  background: rgba(0, 0, 0, 0.7);
 }
 
 .magnifying-glass-icon {
-  width: 24px;  // Adjust this value to make icon larger/smaller
-  height: 24px; // Keep same as width for proper proportions
+  width: 24px;
+  height: 24px;
   display: block;
 }
 
 /* ===================================
+   Pet Information (Below Images)
+=================================== */
+
+.pet-info {
+  background-color: #dadada;
+  padding: 2vw;
+  border-radius: 20px;
+  margin-top: 2vh;
+}
+
+/* ===================================
    Button Styles
-   =================================== */
-   .button-container {
-    // display: flex;
-    // justify-content: center;
-    margin: 20px 0;
-  }
-  
-  .request-button {
-    min-width: 150px;  /* Adjust width as needed */
-    padding: 12px 24px;
-    background-color: #4dbd9b !important;  /* Match your theme color */
-    color: white !important;
-    font-weight: 500;
-    font-size: 16px;
-    cursor: pointer;
-    border: 1px solid transparent;
-    border-radius: 25px;
-    
-    /* Hover state */
-    &:hover:not([disabled]) {
-      background-color: #3da88a !important;
-      border: 1px solid white;
-    }
-  
-    /* Disabled state */
-    &:disabled {
-      background-color: #cccccc !important;
-      color: #666666 !important;
-    }
-  }
+=================================== */
+
+.button-container {
+  margin: 20px 0;
+}
+
+.request-button {
+  min-width: 150px;
+  padding: 12px 24px;
+  background-color: #4dbd9b;
+  color: white;
+  font-weight: 500;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 25px;
+  transition: background-color 0.3s ease, border 0.3s ease;
+}
+
+.request-button:hover:not([disabled]) {
+  background-color: #3da88a;
+  border: 1px solid white;
+}
+
+.request-button:disabled {
+  background-color: #cccccc;
+  color: #666666;
+}

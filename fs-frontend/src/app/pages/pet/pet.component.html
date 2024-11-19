@@ -1,5 +1,4 @@
 <div *ngIf="pet" class="pet-container">
-  <h1>{{ pet.name }}</h1>
 
   <!-- Image Carousel -->
   <div *ngIf="pet.pictures && pet.pictures.length" class="carousel">
@@ -34,14 +33,17 @@
          alt="{{ pet.name }} thumbnail" />
   </div>
 
-  <p><strong>Status:</strong> {{ pet.status }}</p>
-  <p><strong>Animal:</strong> {{ pet.animal }}</p>
-  <p><strong>Breed:</strong> {{ pet.breed }}</p>
-  <p><strong>Age:</strong> {{ formatAge(getAge(pet.birthdate)) }} old</p>
-  <p><strong>Sex:</strong> {{ pet.sex | titlecase }}</p>
-  <p><strong>Location:</strong> {{ pet.location }}</p>
-  <p><strong>Price:</strong> {{ pet.price | currency }}</p>
-  <p><strong>Description:</strong> {{ pet.description }}</p>
+  <div class="pet-info">
+    <h1>{{ pet.name }}</h1>
+    <p><strong>Status:</strong> {{ pet.status }}</p>
+    <p><strong>Animal:</strong> {{ pet.animal }}</p>
+    <p><strong>Breed:</strong> {{ pet.breed }}</p>
+    <p><strong>Age:</strong> {{ formatAge(getAge(pet.birthdate)) }} old</p>
+    <p><strong>Sex:</strong> {{ pet.sex | titlecase }}</p>
+    <p><strong>Location:</strong> {{ pet.location }}</p>
+    <p><strong>Price:</strong> {{ pet.price | currency }}</p>
+    <p><strong>Description:</strong> {{ pet.description }}</p>
+  </div>
 
   <div *ngIf="pet.benefits && pet.benefits.length">
     <div><strong>Benefits:</strong></div>
