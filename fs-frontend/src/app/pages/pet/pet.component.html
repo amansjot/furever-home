@@ -1,6 +1,7 @@
 <div *ngIf="pet" class="pet-container">
 
   <!-- Image Carousel -->
+  <h1 class="pet-page-title">{{ pet.name }}</h1>
   <div *ngIf="pet.pictures && pet.pictures.length" class="carousel">
     <button (click)="prevImage()" class="carousel-control prev">‹</button>
     <img [src]="pet.pictures[currentImageIndex]" alt="{{ pet.name }}" class="carousel-image" />
@@ -33,22 +34,24 @@
          alt="{{ pet.name }} thumbnail" />
   </div>
 
-  <div class="pet-info">
-    <h1>{{ pet.name }}</h1>
-    <p><strong>Status:</strong> {{ pet.status }}</p>
-    <p><strong>Animal:</strong> {{ pet.animal }}</p>
-    <p><strong>Breed:</strong> {{ pet.breed }}</p>
-    <p><strong>Age:</strong> {{ formatAge(getAge(pet.birthdate)) }} old</p>
-    <p><strong>Sex:</strong> {{ pet.sex | titlecase }}</p>
-    <p><strong>Location:</strong> {{ pet.location }}</p>
-    <p><strong>Price:</strong> {{ pet.price | currency }}</p>
-    <p><strong>Description:</strong> {{ pet.description }}</p>
-  </div>
-
-  <div class="pet-benefits">
-    <div *ngIf="pet.benefits && pet.benefits.length">
-      <div><strong>Benefits:</strong></div>
-      <div *ngFor="let benefit of pet.benefits">{{ benefit }}</div>
+  <div class="pet-details">
+    <div class="pet-info">
+      <h1 class="pet-page-header">About {{ pet.name }}</h1>
+      <p><strong>Status:</strong> {{ pet.status }}</p>
+      <p><strong>Animal:</strong> {{ pet.animal }}</p>
+      <p><strong>Breed:</strong> {{ pet.breed }}</p>
+      <p><strong>Age:</strong> {{ formatAge(getAge(pet.birthdate)) }} old</p>
+      <p><strong>Sex:</strong> {{ pet.sex | titlecase }}</p>
+      <p><strong>Location:</strong> {{ pet.location }}</p>
+      <p><strong>Price:</strong> {{ pet.price | currency }}</p>
+      <p><strong>Description:</strong> {{ pet.description }}</p>
+    </div>
+  
+    <div class="pet-benefits">
+      <div *ngIf="pet.benefits && pet.benefits.length">
+        <h1 class="pet-page-header">Benefits:</h1>
+        <div *ngFor="let benefit of pet.benefits">{{ benefit }}</div>
+      </div>
     </div>
   </div>
 

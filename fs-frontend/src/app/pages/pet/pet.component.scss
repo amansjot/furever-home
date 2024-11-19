@@ -15,6 +15,10 @@
   padding: 2vw;
 }
 
+.pet-page-title{
+  margin-top: 0px;
+}
+
 /* ===================================
    Carousel Styles
 =================================== */
@@ -213,6 +217,13 @@
 /* ===================================
    Pet Information (Below Images)
 =================================== */
+/* Container for pet details and benefits */
+.pet-details {
+  display: flex;
+  flex-direction: column; /* Stack elements by default */
+  gap: 2vw; /* Add space between items */
+}
+
 
 .pet-info {
   background-color: #dadada;
@@ -228,6 +239,12 @@
   border-radius: 20px;
   margin-top: 2vh;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.pet-page-header{
+  margin-top: 0px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #b4b4b4;
 }
 
 .request-contact {
@@ -289,6 +306,18 @@
   .request-pawprint-right {
     width: 250px;
     right: -40px; /* Move farther right */
+  }
+
+  .pet-details {
+    flex-direction: row; /* Align elements side-by-side */
+    align-items: flex-start; /* Align to the top */
+  }
+
+  .pet-info,
+  .pet-benefits {
+    flex: 1; /* Make both sections take up equal space */
+    max-width: 50%; /* Ensure each section occupies 50% */
+    min-height: 385px;
   }
 }
 
