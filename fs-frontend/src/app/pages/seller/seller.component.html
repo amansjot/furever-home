@@ -94,7 +94,7 @@
                 <h2 class="pet-name">{{ item.name }}</h2>
                 <p class="pet-age">
                   {{ item.sex[0].toUpperCase() + item.sex.slice(1) }},
-                  {{ formatAge(item.age) }} old
+                  {{ formatAge(getAge(item.birthdate)) }} old
                 </p>
               </div>
               <button
