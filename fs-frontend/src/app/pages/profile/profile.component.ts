@@ -21,6 +21,7 @@ import { EditDialogComponent } from '../../components/edit-dialog/edit-dialog.co
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
+  public loading: boolean = true;
   profile: any;
 
   constructor(
@@ -35,9 +36,13 @@ export class ProfileComponent implements OnInit {
   loadProfile(): void {
     this.profileService.getProfile().subscribe({
       next: (data) => {
+        this.loading = false;
         this.profile = data;
       },
-      error: (err) => console.error('Error loading profile:', err),
+      error: (err) => {
+        this.loading = false;
+        console.error('Error loading profile:', err);
+      },
     });
   }
 

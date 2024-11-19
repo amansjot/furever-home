@@ -13,6 +13,7 @@ import { Router, RouterLink, RouterModule } from '@angular/router';
   styleUrls: ['./seller.component.scss'],
 })
 export class SellerComponent implements OnInit {
+  public loading: boolean = true;
   public disableLogin: boolean = false;
   public authenticated: boolean = false;
   public isBuyer: boolean = false;
@@ -34,10 +35,14 @@ export class SellerComponent implements OnInit {
   loadSeller(): void {
     this.sellerService.getSellerProfile().subscribe({
       next: (data) => {
+        this.loading = false;
         this.seller = data;
         this.loadPets();
       },
-      error: (err) => console.error('Error loading seller:', err),
+      error: (err) => {
+        this.loading = false;
+        console.error('Error loading seller:', err);
+      },
     });
   }
 
