@@ -1,4 +1,8 @@
-<div class="home">
+<div *ngIf="loading" [ngClass]="{ hidden: !loading }" class="loading-container">
+  <img src="/assets/loading.gif" alt="Loading..." class="loading-gif" />
+</div>
+
+<div *ngIf="!loading" [ngClass]="{ visible: !loading }" class="home">
   <div class="filters">
     <!-- Animal Filter -->
     <button

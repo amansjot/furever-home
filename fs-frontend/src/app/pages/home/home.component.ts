@@ -21,6 +21,7 @@ import { ObjectId } from 'mongodb';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
+  public loading: boolean = true;
   public disableLogin: boolean = false;
   public authenticated: boolean = false;
   public isBuyer: boolean = false;
@@ -110,6 +111,8 @@ export class HomeComponent {
         );
       }
 
+      this.loading = false;
+
       // Update favorite status based on stored favorites
       this.items = this.items.map((item) => ({
         ...item,
@@ -117,6 +120,7 @@ export class HomeComponent {
       }));
     } catch (err) {
       console.error(err);
+      this.loading = false;
     }
   }
 
