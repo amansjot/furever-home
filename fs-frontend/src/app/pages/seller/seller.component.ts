@@ -55,6 +55,20 @@ export class SellerComponent implements OnInit {
   // Track the expanded state of each card using the pet's name as the key
   public expandedCards: { [key: string]: boolean } = {};
 
+  getAge(birthdate: Date | null): number {
+    if (!birthdate) {
+      return -1;
+    }
+
+    const now = new Date();
+    const birth = new Date(birthdate);
+
+    const diffInMilliseconds = now.getTime() - birth.getTime();
+    const ageInYears = diffInMilliseconds / (1000 * 60 * 60 * 24 * 365.25);
+
+    return ageInYears;
+  }
+
   formatAge(ageInYears: number): string {
     if (ageInYears < 1) {
       // Convert to months if less than 1 year
