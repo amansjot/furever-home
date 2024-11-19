@@ -15,6 +15,17 @@ export class SellerService {
   }
 
   public getSellerById(id: string) {
-    return this.httpClient.get<SellerModel>(`${Config.apiBaseUrl}/seller/${id}`);
+    return this.httpClient.get<SellerModel>(
+      `${Config.apiBaseUrl}/seller/${id}`
+    );
+  }
+
+  public getSellerContactByPetId(petId: string) {
+    return this.httpClient.get<{
+      orgName: string;
+      sellerType: string;
+      sellerLocation: string;
+      sellerContact: string;
+    }>(`${Config.apiBaseUrl}/seller/contact/${petId}`);
   }
 }
