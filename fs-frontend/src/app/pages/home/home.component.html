@@ -151,10 +151,10 @@
             (filters.sex === 'Any' ||
               item.sex.toLowerCase() === filters.sex.toLowerCase()) &&
             (filters.age === 'Any' ||
-              (filters.age === 'Very Young' && item.age < 1) ||
-              (filters.age === 'Young' && item.age >= 1 && item.age <= 2) ||
-              (filters.age === 'Adult' && item.age >= 3 && item.age <= 8) ||
-              (filters.age === 'Senior' && item.age > 8)) &&
+              (filters.age === 'Very Young' && getAge(item.birthdate) < 1) ||
+              (filters.age === 'Young' && getAge(item.birthdate) >= 1 && getAge(item.birthdate) <= 2) ||
+              (filters.age === 'Adult' && getAge(item.birthdate) >= 3 && getAge(item.birthdate) <= 8) ||
+              (filters.age === 'Senior' && getAge(item.birthdate) > 8)) &&
             (filters.price === 'Any' ||
               (filters.price === 'Low' && item.price < 500) ||
               (filters.price === 'Medium' &&
@@ -190,7 +190,7 @@
                   <h2 class="pet-name">{{ item.name }}</h2>
                   <p class="pet-age">
                     {{ item.sex | titlecase }},
-                    {{ formatAge(item.age) }} old
+                    {{ formatAge(getAge(item.birthdate)) }} old
                   </p>
                 </div>
                 <button class="show-hidden-button" (click)="toggleCard(item.name)">

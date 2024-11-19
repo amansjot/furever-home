@@ -16,7 +16,7 @@ export interface InventoryItemModel{
 	description: string;
 	animal: string; // dog, cat, bird, fish, etc.
 	breed: string; // breed or species information
-	age: number; // age in years
+	birthdate: Date | null; // age in years
 	quantity: number;
 	price: number;
 	benefits: string[]; // Array of benefits
@@ -32,7 +32,7 @@ export const emptyItem: InventoryItemModel = {
 	description: '',
 	animal: '', // dog, cat, bird, fish, etc.
 	breed: '', // breed or species information
-	age: 0, // age in years
+	birthdate: null, // age in years
 	quantity: 0,
 	price: 0,
 	benefits: [''], // Array of benefits
