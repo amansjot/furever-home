@@ -1,4 +1,8 @@
-<div class="seller-container" *ngIf="seller">
+<div [ngClass]="{ hidden: !loading }" class="loading-container">
+  <img src="/assets/loading.gif" alt="Loading..." class="loading-gif" />
+</div>
+
+<div [ngClass]="{ visible: !loading }" class="seller-container main-content" *ngIf="seller">
   <img
     *ngIf="seller.sellerPhoto"
     [src]="seller.sellerPhoto"

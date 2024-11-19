@@ -1,1 +1,7 @@
-<p>admin works!</p>
+<div [ngClass]="{ hidden: !loading }" class="loading-container">
+    <img src="/assets/loading.gif" alt="Loading..." class="loading-gif" />
+  </div>
+  
+<div [ngClass]="{ visible: !loading }" class="main-content">
+    admin works!
+</div>

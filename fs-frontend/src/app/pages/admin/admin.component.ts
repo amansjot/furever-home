@@ -1,12 +1,17 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './admin.component.html',
-  styleUrl: './admin.component.scss'
+  styleUrl: './admin.component.scss',
 })
-export class AdminComponent {
-
+export class AdminComponent implements OnInit {
+  public loading: boolean = true;
+  constructor() {}
+  ngOnInit(): void {
+    this.loading = false;
+  }
 }

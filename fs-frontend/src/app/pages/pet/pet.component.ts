@@ -13,6 +13,7 @@ import { of, delay, switchMap, forkJoin, catchError } from 'rxjs';
   styleUrls: ['./pet.component.scss']
 })
 export class PetComponent implements OnInit {
+  public loading: boolean = true;
   public disableLogin: boolean = false;
   public authenticated: boolean = false;
   public isBuyer: boolean = false;
@@ -32,8 +33,10 @@ export class PetComponent implements OnInit {
     // Subscribe to login changes to update the buyer status dynamically
     this._loginSvc.loggedIn.subscribe((isLoggedIn) => {
       if (isLoggedIn) {
+        this.loading = false;
         this._loginSvc.loggedIn.subscribe(this.onLoginChange);
       } else {
+        this.loading = false;
         this.isBuyer = false;
       }
     });
