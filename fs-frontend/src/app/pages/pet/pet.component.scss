@@ -26,7 +26,7 @@
   justify-content: center;
   overflow: hidden;
   border-radius: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   max-width: 100%;
   background-color: #f0f0f0;
 }
@@ -219,7 +219,91 @@
   padding: 2vw;
   border-radius: 20px;
   margin-top: 2vh;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
+
+.pet-benefits{
+  background-color: #dadada;
+  padding: 2vw;
+  border-radius: 20px;
+  margin-top: 2vh;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.request-contact {
+  background: radial-gradient(ellipse 99% 99% at center, #4ca68b, #2f9d78, #1e8564);
+  padding: 5px;
+  border-radius: 20px;
+  margin-top: 2vh;
+  display: flex; /* Use flexbox for alignment */
+  justify-content: center; /* Center the content horizontally */
+  align-items: center; /* Center the content vertically */
+  position: relative; /* Ensure the SVG can be absolutely positioned */
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  overflow: hidden;
+}
+
+.request-pawprint-left {
+  position: absolute; /* Position the SVG independently of the button */
+  top: 50%; /* Center vertically */
+  left: 10px; /* Adjust horizontally (e.g., decorate the left edge) */
+  transform: translateY(-50%); /* Center vertically within the div */
+  width: 250px; /* Resize the paw print */
+  height: auto; /* Maintain aspect ratio */
+  filter: brightness(0) invert(1); /* Adjust for white color */
+  opacity: 0.5; /* Slightly transparent for decoration */
+  pointer-events: none; /* Make it unclickable */
+}
+
+.request-pawprint-right {
+  position: absolute; /* Position the SVG independently of the button */
+  top: 50%; /* Center vertically */
+  right: -10px; /* Adjust horizontally (e.g., decorate the left edge) */
+  transform: translateY(-50%) rotate(90deg);
+  width: 250px; /* Resize the paw print */
+  height: auto; /* Maintain aspect ratio */
+  filter: brightness(0) invert(1); /* Adjust for white color */
+  opacity: 0.5; /* Slightly transparent for decoration */
+  pointer-events: none; /* Make it unclickable */
+}
+
+
+/* Medium screens (min-width: 768px) */
+@media (max-width: 768px) {
+  .request-pawprint-left {
+    width: 200px;
+    left: -60px; /* Move farther left */
+  }
+  .request-pawprint-right {
+    width: 200px;
+    right: -40px; /* Move farther right */
+  }
+}
+
+/* Large screens (min-width: 1024px) */
+@media (min-width: 1024px) {
+  .request-pawprint-left {
+    width: 250px;
+    left: -40px; /* Move farther left */
+  }
+  .request-pawprint-right {
+    width: 250px;
+    right: -40px; /* Move farther right */
+  }
+}
+
+/* Extra-large screens (min-width: 1440px) */
+@media (min-width: 1440px) {
+  .request-pawprint-left {
+    width: 300px;
+    left: -60px; /* Move even farther left */
+  }
+  .request-pawprint-right {
+    width: 300px;
+    right: -60px; /* Move even farther right */
+  }
+}
+
 
 /* ===================================
    Button Styles
@@ -243,7 +327,7 @@
 }
 
 .request-button:hover:not([disabled]) {
-  background-color: #3da88a;
+  background-color: #3da88ad3;
   border: 1px solid white;
 }
 

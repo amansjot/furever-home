@@ -45,18 +45,20 @@
     <p><strong>Description:</strong> {{ pet.description }}</p>
   </div>
 
-  <div *ngIf="pet.benefits && pet.benefits.length">
-    <div><strong>Benefits:</strong></div>
-    <div *ngFor="let benefit of pet.benefits">{{ benefit }}</div>
+  <div class="pet-benefits">
+    <div *ngIf="pet.benefits && pet.benefits.length">
+      <div><strong>Benefits:</strong></div>
+      <div *ngFor="let benefit of pet.benefits">{{ benefit }}</div>
+    </div>
   </div>
-  
 
-  <div *ngIf="isBuyer" class="button-container">
-    <button
-      class="request-button"
-      (click)="requestContact()"
-    >
-      Request Contact
-    </button>
+  <div class="request-contact">
+    <div *ngIf="isBuyer" class="button-container">
+      <button
+        class="request-button" (click)="requestContact()">Request Contact</button>
+      <img class="request-pawprint-left" src="/assets/paw-trail.svg" alt="paw print trail">
+      <img class="request-pawprint-right" src="/assets/paw-trail.svg" alt="paw print trail">
+    </div>
   </div>
+
 </div>
