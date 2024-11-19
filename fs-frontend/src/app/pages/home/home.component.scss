@@ -1,3 +1,32 @@
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: scale(1.1);
+    height: 90vh;
+    width: 100%;
+    background-color: white;
+    transition: opacity 0.5s ease-out;
+}
+
+.loading-container.hidden {
+    opacity: 0;
+}
+
+.loading-gif {
+    width: 250px;
+    height: auto;
+}
+
+.home {
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+}
+
+.home.visible {
+    opacity: 1;
+}
+
 /* Layout Containers */
 .filters {
     margin-bottom: 20px
@@ -72,7 +101,7 @@
     border: none;
     border-radius: 40px;
     background-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0px 0px 2px 2px  rgba(124, 123, 123, 0.554);
+    box-shadow: 0px 0px 2px 2px rgba(124, 123, 123, 0.554);
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -80,18 +109,16 @@
     &:hover {
         background-color: rgba(255, 255, 255, 0.4);
     }
-    
+
 }
 
 /* Card Information Sections */
 .pet-info-card {
-    background: linear-gradient(
-        to top,
-        rgba(0, 0, 0, 0.8),
-        rgba(0, 0, 0, 0.5) 40%,
-        rgba(0, 0, 0, 0.2) 80%,
-        transparent
-    );
+    background: linear-gradient(to top,
+            rgba(0, 0, 0, 0.8),
+            rgba(0, 0, 0, 0.5) 40%,
+            rgba(0, 0, 0, 0.2) 80%,
+            transparent);
     user-select: none;
     padding-bottom: 15px;
 }
@@ -302,7 +329,7 @@
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    
+
     &:hover {
         background-color: rgba(255, 255, 255, 0.3);
     }
@@ -321,7 +348,7 @@
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    
+
     &:hover {
         background-color: #3f8a73;
     }
@@ -332,26 +359,27 @@
     .show-hidden-button {
         display: none;
     }
+
     .pet-page-button {
         display: none;
     }
 }
 
 .expand.arrow {
-  width: 15px;
-  height: 15px;
-  margin-left: 4px;
-  vertical-align: middle;
-  transform: translateY(-1px);
-  transition: transform 0.3s ease;
-  transform: translateY(-1px) rotate(180deg);
+    width: 15px;
+    height: 15px;
+    margin-left: 4px;
+    vertical-align: middle;
+    transform: translateY(-1px);
+    transition: transform 0.3s ease;
+    transform: translateY(-1px) rotate(180deg);
 }
 
 .expand.arrow.rotated {
-  transform: translateY(-1px) rotate(0deg);
+    transform: translateY(-1px) rotate(0deg);
 }
 
-.favorite-icon{
+.favorite-icon {
     width: 20px;
     height: 20px;
     vertical-align: middle;
