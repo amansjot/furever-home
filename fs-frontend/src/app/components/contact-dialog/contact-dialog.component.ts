@@ -12,7 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
   standalone: true,
   imports: [MatButtonModule, MatDialogModule, CommonModule],
   templateUrl: './contact-dialog.component.html',
-  styleUrls: ['./contact-dialog.component.scss']
+  styleUrls: ['./contact-dialog.component.scss'],
 })
 export class ContactDialogComponent {
   constructor(
@@ -23,6 +23,7 @@ export class ContactDialogComponent {
       sellerType: string;
       sellerLocation: string;
       sellerContact: string;
+      alreadyRequested: boolean;
     }
   ) {}
 }

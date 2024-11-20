@@ -150,7 +150,10 @@ export class PetComponent implements OnInit {
         if (info.requests && info.requests.includes(userId)) {
           // Open the dialog immediately without adding a new request
           this.dialog.open(ContactDialogComponent, {
-            data: info,
+            data: {
+              ...info, // Spread the existing info data
+              alreadyRequested: true, // Add the alreadyRequested flag
+            },
             width: '500px',
             maxWidth: '90vw',
             panelClass: 'contact-dialog'
@@ -164,7 +167,10 @@ export class PetComponent implements OnInit {
           next: () => {
             // Open the dialog with the retrieved contact information
             this.dialog.open(ContactDialogComponent, {
-              data: info,
+              data: {
+                ...info, // Spread the existing info data
+                alreadyRequested: false, // Add the alreadyRequested flag
+              },
               width: '500px',
               maxWidth: '90vw',
               panelClass: 'contact-dialog'

@@ -53,6 +53,10 @@
     <div class="pet-info">
       <h1 class="pet-page-header">Meet {{ pet.name }}!</h1>
       <div class="pet-attribute">
+        <img src="/assets/pet-info-icons/book.svg" alt="Description icon" />
+        <p><strong>Description:</strong> {{ pet.description }}</p>
+      </div>
+      <div class="pet-attribute">
         <img src="/assets/pet-info-icons/home.svg" alt="Status icon" />
         <p><strong>Status:</strong> {{ pet.status }}</p>
       </div>
@@ -79,10 +83,6 @@
       <div class="pet-attribute">
         <img src="/assets/pet-info-icons/cash.svg" alt="Price icon" />
         <p><strong>Price:</strong> {{ pet.price | currency }}</p>
-      </div>
-      <div class="pet-attribute">
-        <img src="/assets/pet-info-icons/book.svg" alt="Description icon" />
-        <p><strong>Description:</strong> {{ pet.description }}</p>
       </div>
     </div>
   

@@ -3,7 +3,14 @@ import { SellerService } from '../../services/seller.service';
 import { ItemService } from '../../services/item.service';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterModule,
+} from '@angular/router';
+import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-seller',
@@ -13,7 +20,7 @@ import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/route
   styleUrls: ['./seller.component.scss'],
 })
 export class SellerComponent implements OnInit {
-  public rootSellerRoute: string = "";
+  public rootSellerRoute: string = '';
   public loading: boolean = true;
   public disableLogin: boolean = false;
   public authenticated: boolean = false;
@@ -24,10 +31,11 @@ export class SellerComponent implements OnInit {
   pets: any[] = [];
 
   constructor(
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
     private sellerService: SellerService,
     private itemService: ItemService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -122,7 +130,6 @@ export class SellerComponent implements OnInit {
     this.isButtonVisible = width < 1024;
   }
 
-
   // Toggle the expanded state of a card
   toggleCard(name: string) {
     this.expandedCards[name] = !this.expandedCards[name];
@@ -137,10 +144,21 @@ export class SellerComponent implements OnInit {
   confirmDelete(event: MouseEvent, itemId: string): void {
     event.stopPropagation();
 
-    const isConfirmed = confirm('Are you sure you want to remove this pet?');
-    if (isConfirmed) {
-      this.deleteItem(itemId);
-    }
+    // Open the confirmation dialog
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        action: 'Remove Pet',
+        message: 'Are you sure you want to permanently remove this pet?',
+      },
+      width: '400px',
+    });
+
+    // Handle the user's confirmation
+    dialogRef.afterClosed().subscribe((isConfirmed) => {
+      if (isConfirmed) {
+        this.deleteItem(itemId);
+      }
+    });
   }
 
   deleteItem(itemId: string): void {

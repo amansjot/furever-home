@@ -1,7 +1,8 @@
 <div class="info-box">
   <img class="paw-trail left" src="/assets/paw-trail.svg" alt="paw print trail" />
   <img class="paw-trail right" src="/assets/paw-trail.svg" alt="paw print trail" />
-  <p>Success! Your contact information has been shared with the seller.</p>
+  <p *ngIf="data.alreadyRequested">Your contact information has already been shared with the seller!</p>
+  <p *ngIf="!data.alreadyRequested">Success! Your contact information has been shared with the seller.</p>
 </div>
 <h1 mat-dialog-title>Seller's Contact Information</h1>
 <div mat-dialog-content>
