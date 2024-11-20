@@ -4,6 +4,7 @@ import { Config } from '../config';
 import { Observable, ReplaySubject, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { jwtDecode }  from 'jwt-decode';
 
 interface TokenResponseObject {
   token: string;
@@ -71,7 +72,7 @@ export class LoginService {
       );
   }
 
-  /* Check if the User is a Seller */
+  /* Check if the User is a Buyer */
   public isBuyer(): Observable<boolean> {
     if (this.isBuyerCached !== null) {
       return of(this.isBuyerCached);
@@ -88,6 +89,20 @@ export class LoginService {
           return of(false);
         })
       );
+  }
+
+  public getAuthenticatedUserId(): string | null {
+    if (!this.token) {
+      return null;
+    }
+
+    try {
+      const decodedToken: any = jwtDecode(this.token);
+      return decodedToken?._id || null; // Replace `userId` with the correct field in your token payload
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+    }
   }
 
   /* Authorize the Token with Server */

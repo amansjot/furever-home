@@ -17,9 +17,15 @@ export class SellerRouter {
 
     // Route to get seller contact info by pet ID
     this.router.get(
-      "/contact/:petId",
+      "/ofpet/:petId",
       SecurityMiddleware.validateUser, // Optional: Restrict to authenticated users
-      this.controller.getSellerContactByPetId
+      this.controller.getSellerByPetId
+    );
+
+    this.router.patch(
+      "/:sellerId/requests",
+      SecurityMiddleware.validateUser, // Ensure user is authenticated
+      this.controller.addRequestToSeller
     );
 
     return this.router;
