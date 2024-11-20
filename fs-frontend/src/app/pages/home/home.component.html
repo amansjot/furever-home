@@ -144,14 +144,7 @@
       <ng-container *ngFor="let item of items">
         <div
             *ngIf="
-            (filters.animal === 'Any' ||
-              (filters.animal === 'Reptile' &&
-                ['snake', 'lizard', 'tortoise', 'turtle', 'chameleon', 'gecko'].includes(item.animal.toLowerCase())) ||
-              (filters.animal === 'Small Mammal' &&
-                ['hamster', 'guinea pig', 'rabbit', 'chinchilla', 'mouse'].includes(item.animal.toLowerCase())) ||
-              (filters.animal === 'Other' &&
-                !['dog', 'cat', 'bird', 'fish', 'snake', 'lizard', 'tortoise', 'turtle', 'chameleon', 'gecko', 'hamster', 'guinea pig', 'rabbit', 'chinchilla', 'mouse'].includes(item.animal.toLowerCase())) ||
-              item.animal.toLowerCase() === filters.animal.toLowerCase()) &&
+            (filters.animal === 'Any' || filters.animal === this.getAnimalType(item.animal)) &&
             (filters.sex === 'Any' ||
               item.sex.toLowerCase() === filters.sex.toLowerCase()) &&
             (filters.age === 'Any' ||

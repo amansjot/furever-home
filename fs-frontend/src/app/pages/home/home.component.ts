@@ -284,4 +284,20 @@ export class HomeComponent {
     await this._loginSvc.login('silber@udel.edu', 'pass');
     this.disableLogin = false;
   }
+
+  getAnimalType(animal: string): string {
+    const reptiles = ['snake', 'lizard', 'tortoise', 'turtle', 'chameleon', 'gecko'];
+    const smallMammals = ['hamster', 'guinea pig', 'rabbit', 'chinchilla', 'mouse'];
+  
+    if (reptiles.includes(animal.toLowerCase())) {
+      return 'Reptile';
+    } else if (smallMammals.includes(animal.toLowerCase())) {
+      return 'Small Mammal';
+    } else if (['dog', 'cat', 'bird', 'fish'].includes(animal.toLowerCase())) {
+      return animal.charAt(0).toUpperCase() + animal.slice(1); // Capitalize animal type
+    } else {
+      return 'Other';
+    }
+  }
+  
 }

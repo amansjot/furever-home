@@ -156,7 +156,7 @@ export class PetComponent implements OnInit {
             },
             width: '500px',
             maxWidth: '90vw',
-            panelClass: 'contact-dialog'
+            panelClass: 'contact-dialog',
           });
           this.contactInfo = info;
           return;
@@ -173,7 +173,7 @@ export class PetComponent implements OnInit {
               },
               width: '500px',
               maxWidth: '90vw',
-              panelClass: 'contact-dialog'
+              panelClass: 'contact-dialog',
             });
             this.contactInfo = info;
           },
@@ -240,23 +240,42 @@ export class PetComponent implements OnInit {
     return obj && Object.keys(obj).length > 0;
   }
 
-  getAnimalIconPath(animal: string): string {
-    const iconMap: { [key: string]: string } = {
-      'dog': '/assets/animal-types/dog.svg',
-      'cat': '/assets/animal-types/cat.svg',
-      'bird': '/assets/animal-types/bird.svg',
-      'fish': '/assets/animal-types/fish.svg',
-      'reptile': '/assets/animal-types/reptile.svg',
-      'small mammal': '/assets/animal-types/mouse-small mammal.svg'
-    };
-  
-    return iconMap[animal] || '/assets/animal-types/dog.svg'; // Fallback path
-  }  
-
   handleModalClick(event: MouseEvent): void {
     // Check if the click was directly on the modal backdrop (not on the content)
     if ((event.target as HTMLElement).classList.contains('modal')) {
       this.closeModal();
     }
+  }
+
+  private getAnimalType(animal: string): string {
+    const reptiles = [
+      'snake',
+      'lizard',
+      'tortoise',
+      'turtle',
+      'chameleon',
+      'gecko',
+    ];
+    const smallMammals = [
+      'hamster',
+      'guinea pig',
+      'rabbit',
+      'chinchilla',
+      'mouse',
+    ];
+
+    if (reptiles.includes(animal.toLowerCase())) {
+      return 'reptile';
+    } else if (smallMammals.includes(animal.toLowerCase())) {
+      return 'small-mammal';
+    } else if (['dog', 'cat', 'bird', 'fish'].includes(animal.toLowerCase())) {
+      return animal.toLowerCase();
+    } else {
+      return 'dog';
+    }
+  }
+
+  getAnimalIconPath(animal: string): string {
+    return '/assets/animal-types/' + this.getAnimalType(animal) + '.svg';
   }
 }
