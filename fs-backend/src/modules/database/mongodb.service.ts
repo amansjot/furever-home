@@ -156,8 +156,14 @@ export class MongoDBService {
   }
 
   public async close(): Promise<void> {
-    await this.client.close();
-    console.log("Closed connection to MongoDB");
+    try {
+      if (this.client) {
+        await this.client.close();
+        console.log("Closed connection to MongoDB");
+      }
+    } catch (err) {
+      console.error("Error closing MongoDB connection:", err);
+    }
   }
 
   public async findOneAndUpdate<T>(
