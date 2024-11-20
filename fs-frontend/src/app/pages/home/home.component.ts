@@ -229,7 +229,13 @@ export class HomeComponent {
   @HostListener('window:resize', ['$event'])
   onResize(event: Event): void {
     const width = (event.target as Window).innerWidth;
+    const wasVisible = this.isButtonVisible;
     this.isButtonVisible = width < 1024;
+    
+    // Reset expanded cards when transitioning from mobile to desktop
+    if (wasVisible && !this.isButtonVisible) {
+      this.expandedCards = {};
+    }
   }
 
   onLoginChange = (loggedIn: boolean) => {
