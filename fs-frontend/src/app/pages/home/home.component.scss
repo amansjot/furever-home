@@ -219,7 +219,7 @@
 
 /* Expanded State */
 .pet-card.expanded .displayed-info {
-    transform: translateY(-175%);
+    transform: translateY(-150%);
     opacity: 1;
     display: flex;
     justify-content: space-between;
@@ -333,7 +333,8 @@
     color: white;
 }
 
-.show-hidden-button {
+.show-hidden-button,
+.pet-page-button {
     padding: 8px 12px;
     border-radius: 20px;
     border: none;
@@ -347,31 +348,17 @@
     }
 }
 
-.pet-page-button {
-    position: absolute;
-    bottom: 15px;
-    right: 10px;
-    pointer-events: auto;
-
-    padding: 8px 12px;
-    border-radius: 20px;
-    border: none;
-    background-color: #4ca68b;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-
-    &:hover {
-        background-color: #3f8a73;
-    }
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
+    margin-left: auto;
 }
 
 /* Hide the button on larger screens */
 @media (min-width: 1024px) {
-    .show-hidden-button {
-        display: none;
-    }
-
+    .show-hidden-button,
     .pet-page-button {
         display: none;
     }

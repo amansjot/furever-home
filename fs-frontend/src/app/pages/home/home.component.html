@@ -197,14 +197,19 @@
                     {{ formatAge(getAge(item.birthdate)) }} old
                   </p>
                 </div>
-                <button class="show-hidden-button" (click)="toggleCard(item.name)">
-                  {{ expandedCards[item.name] ? 'Hide Info' : 'Show Info' }}
-                  <img 
-                    class="expand arrow" 
-                    [ngClass]="{'rotated': expandedCards[item.name]}" 
-                    src="/assets/drop-down-arrow.svg" 
-                    alt="expand-arrow" />
-                </button>
+                <div class="button-group">
+                  <button class="pet-page-button" (click)="navigateToPetMobile(item._id)">
+                    Pet Page
+                  </button>
+                  <button class="show-hidden-button" (click)="toggleCard(item.name)">
+                    {{ expandedCards[item.name] ? 'Hide Info' : 'Show Info' }}
+                    <img 
+                      class="expand arrow" 
+                      [ngClass]="{'rotated': expandedCards[item.name]}" 
+                      src="/assets/drop-down-arrow.svg" 
+                      alt="expand-arrow" />
+                  </button>
+                </div>
               </div>
               <div class="hidden-info-container">
                 <div class="hidden-info">
@@ -226,7 +231,6 @@
                     <p class="pet-location-tag">Location:</p>
                     <p class="pet-location">{{ item.location }}</p>
                   </div>
-                  <button class="pet-page-button" (click)="navigateToPetMobile(item._id)">Pet Page</button>
                 </div>
               </div>
             </div>
