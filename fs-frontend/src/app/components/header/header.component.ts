@@ -123,9 +123,17 @@ export class HeaderComponent {
   }
 
   toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
     if (this.isMenuOpen) {
-      this.isNavbarHidden = false;
+      // When closing
+      const toolbar = document.querySelector('.mat-toolbar');
+      toolbar?.classList.add('closing');
+      setTimeout(() => {
+        this.isMenuOpen = false;
+        toolbar?.classList.remove('closing');
+      }, 10);
+    } else {
+      // When opening
+      this.isMenuOpen = true;
     }
   }
 
@@ -145,11 +153,26 @@ export class HeaderComponent {
   }
 
   onMenuItemClick() {
-    const menuOverlay = document.querySelector('.menu-overlay');
-    menuOverlay?.classList.add('quick-close');
+    const toolbar = document.querySelector('.mat-toolbar');
+    const mobileMenu = document.querySelector('.mobile-menu-content');
+    
+    mobileMenu?.classList.add('quick-close');
     this.isMenuOpen = false;
+    
     setTimeout(() => {
-      menuOverlay?.classList.remove('quick-close');
-    }, 100);
+      mobileMenu?.classList.remove('quick-close');
+    }, 300);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    if (this.isMenuOpen && window.innerWidth > 768) {
+      const toolbar = document.querySelector('.mat-toolbar');
+      toolbar?.classList.add('closing');
+      setTimeout(() => {
+        this.isMenuOpen = false;
+        toolbar?.classList.remove('closing');
+      }, 100);
+    }
   }
 }
