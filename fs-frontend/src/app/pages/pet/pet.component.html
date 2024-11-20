@@ -89,10 +89,13 @@
 
     <div class="pet-benefits">
       <div *ngIf="pet.benefits && pet.benefits.length">
-        <h1 class="pet-page-header">Benefits:</h1>
-        <div *ngFor="let benefit of pet.benefits">{{ benefit }}</div>
+        <h1 class="pet-page-header">Included:</h1>
+        <div class="benefit-item" *ngFor="let benefit of pet.benefits">
+          <img src="/assets/pet-info-icons/checkmark.svg" alt="Benefit icon" />
+          <span>{{ benefit }}</span>
+        </div>
       </div>
-    </div>
+    </div>    
   </div>
 
   <div class="request-contact">
