@@ -229,4 +229,17 @@ export class PetComponent implements OnInit {
   isNotEmptyObject(obj: any): boolean {
     return obj && Object.keys(obj).length > 0;
   }
+
+  getAnimalIconPath(animal: string): string {
+    const iconMap: { [key: string]: string } = {
+      'dog': '/assets/animal-types/dog.svg',
+      'cat': '/assets/animal-types/cat.svg',
+      'bird': '/assets/animal-types/bird.svg',
+      'fish': '/assets/animal-types/fish.svg',
+      'reptile': '/assets/animal-types/reptile.svg',
+      'small mammal': '/assets/animal-types/mouse-small mammal.svg'
+    };
+  
+    return iconMap[animal] || '/assets/animal-types/dog.svg'; // Fallback path
+  }  
 }

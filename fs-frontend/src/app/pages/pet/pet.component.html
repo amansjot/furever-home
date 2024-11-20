@@ -48,18 +48,44 @@
     />
   </div>
 
+  <!-- Pet info card (top one) -->
   <div class="pet-details">
     <div class="pet-info">
-      <h1 class="pet-page-header">About {{ pet.name }}</h1>
-      <p><strong>Status:</strong> {{ pet.status }}</p>
-      <p><strong>Animal:</strong> {{ pet.animal }}</p>
-      <p><strong>Breed:</strong> {{ pet.breed }}</p>
-      <p><strong>Age:</strong> {{ formatAge(getAge(pet.birthdate)) }} old</p>
-      <p><strong>Sex:</strong> {{ pet.sex | titlecase }}</p>
-      <p><strong>Location:</strong> {{ pet.location }}</p>
-      <p><strong>Price:</strong> {{ pet.price | currency }}</p>
-      <p><strong>Description:</strong> {{ pet.description }}</p>
+      <h1 class="pet-page-header">Meet {{ pet.name }}!</h1>
+      <div class="pet-attribute">
+        <img src="/assets/pet-info-icons/home.svg" alt="Status icon" />
+        <p><strong>Status:</strong> {{ pet.status }}</p>
+      </div>
+      <div class="pet-attribute">
+        <img [src]="getAnimalIconPath(pet.animal)" alt="Animal icon" />
+        <p><strong>Animal:</strong> {{ pet.animal }}</p>
+      </div>
+      <div class="pet-attribute">
+        <img src="/assets/pet-info-icons/paw.svg" alt="Breed icon" />
+        <p><strong>Breed:</strong> {{ pet.breed }}</p>
+      </div>
+      <div class="pet-attribute">
+        <img src="/assets/pet-info-icons/calendar.svg" alt="Age icon" />
+        <p><strong>Age:</strong> {{ formatAge(getAge(pet.birthdate)) }} old</p>
+      </div>
+      <div class="pet-attribute">
+        <img [src]="'/assets/gender/' + pet.sex.toLowerCase() + '.svg'" alt="Sex icon" />
+        <p><strong>Sex:</strong> {{ pet.sex | titlecase }}</p>
+      </div>
+      <div class="pet-attribute">
+        <img src="/assets/pet-info-icons/location-pin.svg" alt="Location icon" />
+        <p><strong>Location:</strong> {{ pet.location }}</p>
+      </div>
+      <div class="pet-attribute">
+        <img src="/assets/pet-info-icons/cash.svg" alt="Price icon" />
+        <p><strong>Price:</strong> {{ pet.price | currency }}</p>
+      </div>
+      <div class="pet-attribute">
+        <img src="/assets/pet-info-icons/book.svg" alt="Description icon" />
+        <p><strong>Description:</strong> {{ pet.description }}</p>
+      </div>
     </div>
+  
 
     <div class="pet-benefits">
       <div *ngIf="pet.benefits && pet.benefits.length">

@@ -2,7 +2,6 @@ import { Component, HostListener } from '@angular/core';
 import { ItemService } from '../../services/item.service';
 import { CommonModule } from '@angular/common';
 import { InventoryItemModel } from '../../models/items.model';
-import { ItemComponent } from '../../components/item/item.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
@@ -15,7 +14,7 @@ import { catchError, delay, switchMap } from 'rxjs/operators';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, ItemComponent, MatMenuModule, MatButtonModule],
+  imports: [CommonModule, MatMenuModule, MatButtonModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })

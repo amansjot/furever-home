@@ -41,10 +41,7 @@
 
 ::ng-deep .mat-mdc-card {
   margin-top: 75px;
-  margin-left: 2%;
-  margin-right: 2%;
   background-color: #e6e6e6;
-  padding: 20px;
   border-radius: 20px;
 }
 
@@ -257,13 +254,39 @@
   gap: 2vw; /* Add space between items */
 }
 
-
 .pet-info {
   background-color: #dadada;
   padding: 2vw;
   border-radius: 20px;
   margin-top: 2vh;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.pet-attribute {
+  display: flex;
+  align-items: center; 
+  gap: 1rem; 
+  margin-bottom: 10px; 
+  background-color: #d1d1d1;
+  padding: 5px;
+  border-radius: 15px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.pet-attribute img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  border-radius: 5px; 
+  margin-left: 5px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.pet-attribute p {
+  margin: 0; 
+  font-size: 1rem;
 }
 
 .pet-benefits{
@@ -282,7 +305,6 @@
 
 .request-contact {
   background: radial-gradient(ellipse 99% 99% at center, #4ca68b, #2f9d78, #1e8564);
-  padding: 5px;
   border-radius: 20px;
   margin-top: 2vh;
   display: flex; /* Use flexbox for alignment */
@@ -320,6 +342,11 @@
 
 /* Medium screens (min-width: 768px) */
 @media (max-width: 768px) {
+
+  .request-contact {
+    max-height: 70px;
+  }
+  
   .request-pawprint-left {
     width: 200px;
     left: -60px; /* Move farther left */
@@ -332,6 +359,7 @@
 
 /* Large screens (min-width: 1024px) */
 @media (min-width: 1024px) {
+
   .request-pawprint-left {
     width: 250px;
     left: -40px; /* Move farther left */
