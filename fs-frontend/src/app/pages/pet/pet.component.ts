@@ -151,7 +151,9 @@ export class PetComponent implements OnInit {
           // Open the dialog immediately without adding a new request
           this.dialog.open(ContactDialogComponent, {
             data: info,
-            width: '400px',
+            width: '500px',
+            maxWidth: '90vw',
+            panelClass: 'contact-dialog'
           });
           this.contactInfo = info;
           return;
@@ -163,7 +165,9 @@ export class PetComponent implements OnInit {
             // Open the dialog with the retrieved contact information
             this.dialog.open(ContactDialogComponent, {
               data: info,
-              width: '400px',
+              width: '500px',
+              maxWidth: '90vw',
+              panelClass: 'contact-dialog'
             });
             this.contactInfo = info;
           },
