@@ -23,7 +23,7 @@
   </div>
 
   <!-- Modal for expanded image view -->
-  <div *ngIf="isModalOpen" class="modal">
+  <div *ngIf="isModalOpen" class="modal" (click)="handleModalClick($event)">
     <div class="modal-content">
       <span class="close" (click)="closeModal()">&times;</span>
       <button (click)="prevImage()" class="modal-control prev">‹</button>

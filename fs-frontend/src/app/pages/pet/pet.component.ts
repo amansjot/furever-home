@@ -242,4 +242,11 @@ export class PetComponent implements OnInit {
   
     return iconMap[animal] || '/assets/animal-types/dog.svg'; // Fallback path
   }  
+
+  handleModalClick(event: MouseEvent): void {
+    // Check if the click was directly on the modal backdrop (not on the content)
+    if ((event.target as HTMLElement).classList.contains('modal')) {
+      this.closeModal();
+    }
+  }
 }
