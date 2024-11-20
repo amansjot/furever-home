@@ -41,10 +41,8 @@ export class PetComponent implements OnInit {
     // Subscribe to login changes to update the buyer status dynamically
     this._loginSvc.loggedIn.subscribe((isLoggedIn) => {
       if (isLoggedIn) {
-        this.loading = false;
         this._loginSvc.loggedIn.subscribe(this.onLoginChange);
       } else {
-        this.loading = false;
         this.isBuyer = false;
       }
     });
@@ -55,8 +53,12 @@ export class PetComponent implements OnInit {
       this.itemService.getItemById(petId).then(
         (pet) => {
           this.pet = pet;
+          this.loading = false;
         },
-        (error) => console.error('Error fetching pet details:', error)
+        (error) => {
+          this.loading = false;
+          console.error('Error fetching pet details:', error);
+        }
       );
     }
   }

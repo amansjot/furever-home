@@ -2,7 +2,7 @@
   <img src="/assets/loading.gif" alt="Loading..." class="loading-gif" />
 </div>
 
-<div [ngClass]="{ visible: !loading }" *ngIf="pet" class="pet-container">
+<div [ngClass]="{ visible: !loading }" class="pet-container">
   <!-- Image Carousel -->
   <h1 class="pet-page-title">{{ pet.name }}</h1>
   <div *ngIf="pet.pictures && pet.pictures.length" class="carousel">
