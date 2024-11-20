@@ -51,13 +51,17 @@ class Application {
       res.header("Access-Control-Allow-Origin", "*");
       res.header(
         "Access-Control-Allow-Methods",
-        "PUT, GET, POST, DELETE, OPTIONS"
+        "PUT, GET, POST, DELETE, PATCH, OPTIONS" // Include PATCH
       );
       res.header(
         "Access-Control-Allow-Headers",
         "Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Credentials"
       );
       res.header("Access-Control-Allow-Credentials", "true");
+      if (req.method === "OPTIONS") {
+        // End preflight requests early
+        return res.status(200).end();
+      }
       next();
     });
   }

@@ -12,7 +12,10 @@ import { MatButtonModule } from '@angular/material/button';
   standalone: true,
   imports: [MatButtonModule, MatDialogModule, CommonModule],
   template: `
-    <h1 mat-dialog-title>Contact Information</h1>
+    <div class="info-box">
+      <p>Success! Your contact information has been shared with the seller.</p>
+    </div>
+    <h1 mat-dialog-title>Seller's Contact Information</h1>
     <div mat-dialog-content>
       <table class="info-table">
         <tr>
@@ -53,6 +56,22 @@ import { MatButtonModule } from '@angular/material/button';
         display: flex;
         justify-content: center;
         align-items: center;
+      }
+
+      .info-box {
+        background-color: #e0f7fa; /* Light teal background */
+        border: 1px solid #4dd0e1; /* Teal border */
+        padding: 12px 16px; /* More padding for better spacing */
+        border-radius: 8px 8px 0 0; /* Rounded corners only at the top */
+        font-size: 14px;
+        color: #006064; /* Darker teal text */
+        text-align: center; /* Center-align text */
+        margin: 16px 16px -6px 16px; /* Expand to fill dialog width */
+      }
+
+      .info-box p {
+        margin: 0;
+        font-weight: 500;
       }
 
       .info-table {

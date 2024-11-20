@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import { MongoClient, UpdateResult } from "mongodb";
 export { ObjectId } from "mongodb";
 
 export class MongoDBService {
@@ -106,16 +106,16 @@ export class MongoDBService {
     collection: string,
     query: any,
     update: any
-  ): Promise<boolean> {
+  ): Promise<UpdateResult> {
     try {
-      await this.client
+      const result = await this.client
         .db(database)
         .collection(collection)
         .updateOne(query, update);
-      return true;
+      return result; // Return the full UpdateResult
     } catch (err) {
       console.error("Error updating document in " + collection + ":", err);
-      return false;
+      throw err; // Throw the error to be handled by the caller
     }
   }
 

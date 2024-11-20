@@ -7,7 +7,7 @@ import { ContactDialogComponent } from '../../components/contact-dialog/contact-
 import { LoginService } from '../../services/login.service';
 import { of, delay, switchMap, forkJoin, catchError } from 'rxjs';
 import { SellerService } from '../../services/seller.service';
-import { ContactInfo } from '../../models/contact-info.model';
+import { SellerModel } from '../../models/seller.model';
 
 @Component({
   selector: 'app-pet',
@@ -22,7 +22,7 @@ export class PetComponent implements OnInit {
   public authenticated: boolean = false;
   public isBuyer: boolean = false;
 
-  public contactInfo: ContactInfo | null = null;
+  public contactInfo: SellerModel | null = null;
 
   pet: any;
   currentImageIndex: number = 0;
@@ -122,16 +122,54 @@ export class PetComponent implements OnInit {
   }
 
   requestContact() {
-    // Call the service to fetch contact info
-    this.sellerService.getSellerContactByPetId(this.pet._id).subscribe({
-      next: (contactInfo) => {
-        // Open the dialog with the retrieved contact information
-        this.dialog.open(ContactDialogComponent, {
-          data: contactInfo,
-          width: '400px',
-        });
+    const userId = this._loginSvc.getAuthenticatedUserId(); // Retrieve the current user's ID
 
-        this.contactInfo = contactInfo;
+    if (!userId) {
+      console.error('User ID is missing. Please ensure the user is logged in.');
+      alert('You must be logged in to request contact information.');
+      return;
+    }
+
+    // Fetch the seller's contact info, which includes the sellerId
+    this.sellerService.getSellerByPetId(this.pet._id).subscribe({
+      next: (info) => {
+        const sellerId = info._id;
+
+        if (!sellerId) {
+          console.error(
+            'Seller ID is missing in the fetched contact info:',
+            info
+          );
+          alert('Unable to identify the seller. Please try again later.');
+          return;
+        }
+
+        // Check if the authenticated user's ID is already in the Seller's requests array
+        if (info.requests && info.requests.includes(userId)) {
+          // Open the dialog immediately without adding a new request
+          this.dialog.open(ContactDialogComponent, {
+            data: info,
+            width: '400px',
+          });
+          this.contactInfo = info;
+          return;
+        }
+
+        // Add the user's ID to the seller's "requests" array
+        this.sellerService.addRequestToSeller(sellerId, userId).subscribe({
+          next: () => {
+            // Open the dialog with the retrieved contact information
+            this.dialog.open(ContactDialogComponent, {
+              data: info,
+              width: '400px',
+            });
+            this.contactInfo = info;
+          },
+          error: (err) => {
+            console.error('Error adding request to seller:', err);
+            alert('Could not add request to seller.');
+          },
+        });
       },
       error: (err) => {
         console.error('Error fetching seller contact:', err);
