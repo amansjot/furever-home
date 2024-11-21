@@ -629,3 +629,12 @@ button {
     color: #4ca68b;
   }
 }
+
+// Ensure the scrollbar is always present
+html {
+  overflow-y: scroll;
+}
+
+body.filter-open {
+  overflow: hidden;
+}

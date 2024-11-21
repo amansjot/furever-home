@@ -50,6 +50,8 @@ export class HomeComponent {
 
   public isFilterOpen: boolean = false;
 
+  private scrollPosition: number = 0;
+
   constructor(
     private _loginSvc: LoginService,
     private buyerService: BuyerService,
@@ -319,5 +321,34 @@ export class HomeComponent {
 
   toggleFilters(): void {
     this.isFilterOpen = !this.isFilterOpen;
+
+    if (this.isFilterOpen) {
+      // Store the current scroll position
+      this.scrollPosition = window.pageYOffset;
+      // Add class to lock the scroll
+      document.body.classList.add('filter-open');
+      // Set the top position to maintain the scroll position
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${this.scrollPosition}px`;
+      document.body.style.width = '100%';
+    } else {
+      // Remove the class to unlock the scroll
+      document.body.classList.remove('filter-open');
+      // Reset the top position
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      // Restore the scroll position
+      window.scrollTo(0, this.scrollPosition);
+    }
+  }
+
+  ngOnDestroy(): void {
+    // Clean up any body classes and styles when component is destroyed
+    document.body.classList.remove('filter-open');
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    window.scrollTo(0, this.scrollPosition);
   }
 }
