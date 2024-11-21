@@ -15,6 +15,51 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, CommonModule, FormsModule],
   templateUrl: './edit-dialog.component.html',
+  styles: [
+    `
+      h2.dialog-title {
+        font-size: 20px;
+        font-family: 'Outfit', sans-serif;
+        font-weight: bold;
+        margin-bottom: 16px;
+      }
+
+      mat-dialog-content.dialog-content {
+        font-family: 'Outfit', sans-serif;
+        font-size: 16px;
+        margin-top: 8px;
+      }
+
+      .form-field {
+        margin-bottom: 16px;
+        font-family: 'Outfit', sans-serif;
+      }
+
+      mat-form-field {
+        width: 100%;
+      }
+
+      mat-label {
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      input[matInput] {
+        font-size: 16px;
+        font-family: 'Outfit', sans-serif;
+      }
+
+      mat-dialog-actions {
+        margin-top: 16px;
+      }
+
+      button[mat-button] {
+        font-size: 14px;
+        font-family: 'Outfit', sans-serif;
+        font-weight: 500;
+      }
+    `,
+  ],
 })
 export class EditDialogComponent {
   values: string[];

@@ -22,6 +22,32 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
   ],
   templateUrl: './confirm-dialog.component.html',
+  styles: [
+    `
+      h2.dialog-title {
+        font-size: 20px; /* Adjust font size for title */
+        font-weight: bold;
+        margin-bottom: 16px;
+        font-family: "Outfit", sans-serif;
+      }
+
+      mat-dialog-content.dialog-content {
+        font-family: "Outfit", sans-serif;
+        font-size: 16px; /* Adjust font size for content */
+        color: #555; /* Optional: Add subtle color */
+      }
+
+      mat-dialog-actions {
+        margin-top: 16px;
+      }
+
+      button[mat-button] {
+        font-family: "Outfit", sans-serif;
+        font-size: 14px; /* Adjust font size for buttons */
+        font-weight: 500;
+      }
+    `,
+  ],
 })
 export class ConfirmDialogComponent {
   constructor(
