@@ -66,11 +66,38 @@
 
 .pet-card-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 15px;
     width: 100%;
     max-width: 100%;
     margin: 0;
+
+    // Default for small screens
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+    // Medium screens
+    @media (min-width: 768px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    // Large screens
+    @media (min-width: 1024px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    // Extra large screens
+    @media (min-width: 1440px) {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    // Ultra large screens
+    @media (min-width: 1920px) {
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    // Super large screens
+    @media (min-width: 2200px) {
+        grid-template-columns: repeat(6, 1fr);
+    }
 }
 
 /* Card Base Styles */
