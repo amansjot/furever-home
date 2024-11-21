@@ -477,7 +477,7 @@ button {
 }
 
 .filter-group {
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   
   label {
     display: block;
@@ -486,21 +486,53 @@ button {
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
+    padding: 10px;
+    border-radius: 25px;
+    background-color: #dadada;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #d1d1d1;
+    }
   }
 
   mat-radio-group {
     display: flex;
     flex-direction: column;
-    gap: 10px;
   }
 
-  mat-radio-button {
-    margin: 5px 0;
-    .mat-radio-label-content {
-      color: #666;
+  .full-width-radio {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    cursor: pointer;
+    border-radius: 15px;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.05);
     }
-    &.mat-radio-checked .mat-radio-label-content {
-      color: #3f8a73;
+
+    mat-radio-button {
+      flex: 1;
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 15px;
+      background-color: #f0f0f0;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #e0e0e0;
+      }
+
+      .mat-radio-label-content {
+        color: #666;
+      }
+
+      &.mat-radio-checked .mat-radio-label-content {
+        color: #3f8a73;
+      }
     }
   }
 }
