@@ -34,78 +34,72 @@
       <!-- Filter Groups -->
       <!-- 1. Animal Filter -->
       <div class="filter-group">
-        <label>Animal Type</label>
-        <button mat-button [matMenuTriggerFor]="animalMenu" [ngClass]="{ filtered: filters.animal !== 'Any' }">
-          {{ filters.animal }}
-        </button>
-        <mat-menu #animalMenu="matMenu">
-          <button mat-menu-item (click)="setFilter('animal', 'Any')">Any</button>
-          <button mat-menu-item (click)="setFilter('animal', 'Dog')">Dog</button>
-          <button mat-menu-item (click)="setFilter('animal', 'Cat')">Cat</button>
-          <button mat-menu-item (click)="setFilter('animal', 'Bird')">Bird</button>
-          <button mat-menu-item (click)="setFilter('animal', 'Fish')">Fish</button>
-          <button mat-menu-item (click)="setFilter('animal', 'Reptile')">Reptile</button>
-          <button mat-menu-item (click)="setFilter('animal', 'Small Mammal')">Small Mammal</button>
-          <button mat-menu-item (click)="setFilter('animal', 'Other')">Other</button>
-        </mat-menu>
+        <label (click)="toggleFilter('animal')">Animal Type</label>
+        <div *ngIf="expandedFilters.animal">
+          <mat-radio-group [(ngModel)]="filters.animal" (change)="setFilter('animal', filters.animal)">
+            <div class="full-width-radio" *ngFor="let animal of ['Any', 'Dog', 'Cat', 'Bird', 'Fish', 'Reptile', 'Small Mammal', 'Other']">
+              <mat-radio-button [value]="animal">
+                {{ animal }}
+              </mat-radio-button>
+            </div>
+          </mat-radio-group>
+        </div>
       </div>
 
       <!-- 2. Sex Filter -->
       <div class="filter-group">
-        <label>Sex</label>
-        <button mat-button [matMenuTriggerFor]="sexMenu" [ngClass]="{ filtered: filters.sex !== 'Any' }">
-          {{ filters.sex }}
-        </button>
-        <mat-menu #sexMenu="matMenu">
-          <button mat-menu-item (click)="setFilter('sex', 'Any')">Any</button>
-          <button mat-menu-item (click)="setFilter('sex', 'Male')">Male</button>
-          <button mat-menu-item (click)="setFilter('sex', 'Female')">Female</button>
-        </mat-menu>
+        <label (click)="toggleFilter('sex')">Sex</label>
+        <div *ngIf="expandedFilters.sex">
+          <mat-radio-group [(ngModel)]="filters.sex" (change)="setFilter('sex', filters.sex)">
+            <div class="full-width-radio" *ngFor="let sex of ['Any', 'Male', 'Female']">
+              <mat-radio-button [value]="sex">
+                {{ sex }}
+              </mat-radio-button>
+            </div>
+          </mat-radio-group>
+        </div>
       </div>
 
       <!-- 3. Age Filter -->
       <div class="filter-group">
-        <label>Age</label>
-        <button mat-button [matMenuTriggerFor]="ageMenu" [ngClass]="{ filtered: filters.age !== 'Any' }">
-          {{ filters.age }}
-        </button>
-        <mat-menu #ageMenu="matMenu">
-          <button mat-menu-item (click)="setFilter('age', 'Any')">Any</button>
-          <button mat-menu-item (click)="setFilter('age', 'Very Young')">Very Young (&lt;1)</button>
-          <button mat-menu-item (click)="setFilter('age', 'Young')">Young (1-2)</button>
-          <button mat-menu-item (click)="setFilter('age', 'Adult')">Adult (3-8)</button>
-          <button mat-menu-item (click)="setFilter('age', 'Senior')">Senior (8+)</button>
-        </mat-menu>
+        <label (click)="toggleFilter('age')">Age</label>
+        <div *ngIf="expandedFilters.age">
+          <mat-radio-group [(ngModel)]="filters.age" (change)="setFilter('age', filters.age)">
+            <div class="full-width-radio" *ngFor="let age of ['Any', 'Very Young', 'Young', 'Adult', 'Senior']">
+              <mat-radio-button [value]="age">
+                {{ age }}
+              </mat-radio-button>
+            </div>
+          </mat-radio-group>
+        </div>
       </div>
 
       <!-- 4. Price Filter -->
       <div class="filter-group">
-        <label>Price</label>
-        <button mat-button [matMenuTriggerFor]="priceMenu" [ngClass]="{ filtered: filters.price !== 'Any' }">
-          {{ filters.price }}
-        </button>
-        <mat-menu #priceMenu="matMenu">
-          <button mat-menu-item (click)="setFilter('price', 'Any')">Any</button>
-          <button mat-menu-item (click)="setFilter('price', 'Low')">Low (&lt;$500)</button>
-          <button mat-menu-item (click)="setFilter('price', 'Medium')">Medium ($500-$1000)</button>
-          <button mat-menu-item (click)="setFilter('price', 'High')">High (&gt;$1000)</button>
-        </mat-menu>
+        <label (click)="toggleFilter('price')">Price</label>
+        <div *ngIf="expandedFilters.price">
+          <mat-radio-group [(ngModel)]="filters.price" (change)="setFilter('price', filters.price)">
+            <div class="full-width-radio" *ngFor="let price of ['Any', 'Low', 'Medium', 'High']">
+              <mat-radio-button [value]="price">
+                {{ price }}
+              </mat-radio-button>
+            </div>
+          </mat-radio-group>
+        </div>
       </div>
 
       <!-- 5. Location Filter -->
       <div class="filter-group">
-        <label>Location</label>
-        <button mat-button [matMenuTriggerFor]="locationMenu" [ngClass]="{ filtered: filters.location !== 'Any' }">
-          {{ filters.location }}
-        </button>
-        <mat-menu #locationMenu="matMenu">
-          <button mat-menu-item (click)="setFilter('location', 'Any')">Any</button>
-          <button mat-menu-item (click)="setFilter('location', 'New York')">New York</button>
-          <button mat-menu-item (click)="setFilter('location', 'Los Angeles')">Los Angeles</button>
-          <button mat-menu-item (click)="setFilter('location', 'Chicago')">Chicago</button>
-          <button mat-menu-item (click)="setFilter('location', 'Houston')">Houston</button>
-          <button mat-menu-item (click)="setFilter('location', 'Other')">Other</button>
-        </mat-menu>
+        <label (click)="toggleFilter('location')">Location</label>
+        <div *ngIf="expandedFilters.location">
+          <mat-radio-group [(ngModel)]="filters.location" (change)="setFilter('location', filters.location)">
+            <div class="full-width-radio" *ngFor="let location of ['Any', 'New York', 'Los Angeles', 'Chicago', 'Houston', 'Other']">
+              <mat-radio-button [value]="location">
+                {{ location }}
+              </mat-radio-button>
+            </div>
+          </mat-radio-group>
+        </div>
       </div>
     </div>
   </div>

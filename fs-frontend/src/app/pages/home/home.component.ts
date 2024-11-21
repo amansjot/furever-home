@@ -6,6 +6,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { BuyerService } from '../../services/buyer.service';
+import { MatRadioModule } from '@angular/material/radio';
+import { FormsModule } from '@angular/forms';
 
 import { LoginService } from '../../services/login.service';
 import { forkJoin, of } from 'rxjs';
@@ -14,7 +16,7 @@ import { catchError, delay, switchMap } from 'rxjs/operators';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, MatMenuModule, MatButtonModule],
+  imports: [CommonModule, MatMenuModule, MatButtonModule, MatRadioModule, FormsModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
@@ -51,6 +53,15 @@ export class HomeComponent {
   public isFilterOpen: boolean = false;
 
   private scrollPosition: number = 0;
+
+  // Track the expanded state of each filter group
+  public expandedFilters = {
+    animal: false,
+    sex: false,
+    age: false,
+    price: false,
+    location: false,
+  };
 
   constructor(
     private _loginSvc: LoginService,
@@ -354,5 +365,10 @@ export class HomeComponent {
     document.body.style.top = '';
     document.body.style.width = '';
     window.scrollTo(0, this.scrollPosition);
+  }
+
+  // Method to toggle the expanded state of a filter group
+  toggleFilter(filterType: 'animal' | 'sex' | 'age' | 'price' | 'location'): void {
+    this.expandedFilters[filterType] = !this.expandedFilters[filterType];
   }
 }
