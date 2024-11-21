@@ -21,15 +21,19 @@
     @media (min-width: 768px) {
         grid-template-columns: repeat(2, 1fr);
     }
+
     @media (min-width: 1024px) {
         grid-template-columns: repeat(3, 1fr);
     }
+
     @media (min-width: 1440px) {
         grid-template-columns: repeat(4, 1fr);
     }
+
     @media (min-width: 1920px) {
         grid-template-columns: repeat(5, 1fr);
     }
+
     @media (min-width: 2200px) {
         grid-template-columns: repeat(6, 1fr);
     }
@@ -282,6 +286,7 @@
 
 // Hide buttons on larger screens
 @media (min-width: 1024px) {
+
     .show-hidden-button,
     .pet-page-button {
         display: none;
@@ -308,4 +313,23 @@
     width: 20px;
     height: 20px;
     vertical-align: middle;
+    transition: transform 0.2s ease-in-out;
+}
+
+.favorite-icon.pulse {
+    animation: pulse-animation 0.3s ease-in-out;
+}
+
+@keyframes pulse-animation {
+    0% {
+        transform: scale(1);
+    }
+
+    60% {
+        transform: scale(1.4);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }

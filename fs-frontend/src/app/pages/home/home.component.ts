@@ -16,9 +16,19 @@ import { catchError, delay, switchMap } from 'rxjs/operators';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, MatMenuModule, MatButtonModule, MatRadioModule, FormsModule],
+  imports: [
+    CommonModule,
+    MatMenuModule,
+    MatButtonModule,
+    MatRadioModule,
+    FormsModule,
+  ],
   templateUrl: './home.component.html',
-  styleUrls: ['./home.styles.scss', './home.styles.filtering.scss', './home.styles.cards.scss'],
+  styleUrls: [
+    './home.styles.scss',
+    './home.styles.filtering.scss',
+    './home.styles.cards.scss',
+  ],
 })
 export class HomeComponent {
   public loading: boolean = true;
@@ -192,6 +202,20 @@ export class HomeComponent {
     event.stopPropagation();
 
     item.isFavorite = !item.isFavorite; // Toggle the favorite status
+    
+    if (item.isFavorite) {
+      const target = (event.currentTarget as HTMLElement).querySelector('img');
+      if (target) {
+        // Add the 'pulse' class
+        target.classList.add('pulse');
+
+        // Remove the class after the animation ends
+        setTimeout(() => {
+          target.classList.remove('pulse');
+        }, 300); // Match the duration of the animation (0.3s in CSS)
+      }
+    }
+
     this.updateFavoriteStatus(item);
 
     // Immediately update the displayed items if the favorite filter is active
@@ -368,7 +392,9 @@ export class HomeComponent {
   }
 
   // Method to toggle the expanded state of a filter group
-  toggleFilter(filterType: 'animal' | 'sex' | 'age' | 'price' | 'location'): void {
+  toggleFilter(
+    filterType: 'animal' | 'sex' | 'age' | 'price' | 'location'
+  ): void {
     this.expandedFilters[filterType] = !this.expandedFilters[filterType];
   }
 
@@ -379,21 +405,21 @@ export class HomeComponent {
       sex: 'Any',
       age: 'Any',
       price: 'Any',
-      location: 'Any'
+      location: 'Any',
     };
-    
+
     // Reset expanded states
     this.expandedFilters = {
       animal: false,
       sex: false,
       age: false,
       price: false,
-      location: false
+      location: false,
     };
-    
+
     // Update localStorage
     localStorage.setItem('filters', JSON.stringify(this.filters));
-    
+
     // Reload data with reset filters
     this.loadData();
   }
