@@ -450,14 +450,15 @@ button {
 .filter-sidebar {
   position: fixed;
   right: -320px;
-  top: 75px;
+  top: 50px;
   width: 300px;
-  height: calc(100vh - 75px);
+  padding-top: 30px;
+  height: calc(100vh);
   background-color: white;
   z-index: 1000;
   transition: right 0.3s ease;
   box-shadow: -2px 0 8px rgba(0,0,0,0.1);
-  
+
   &.open {
     right: 0;
   }
@@ -502,7 +503,7 @@ button {
 .close-filters {
   position: absolute;
   right: 15px;
-  top: 15px;
+  top: 45px;
   background: none;
   border: none;
   font-size: 24px;
