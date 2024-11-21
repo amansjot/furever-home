@@ -644,3 +644,17 @@ html {
 body.filter-open {
   overflow: hidden;
 }
+
+.no-favorites-message-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 415px; // Match the height of the pet card
+  max-height: 450px;
+}
+
+.no-favorites-message {
+  font-size: 1.5rem;
+  color: #666;
+  text-align: center;
+}

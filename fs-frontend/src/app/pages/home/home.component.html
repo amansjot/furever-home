@@ -116,88 +116,97 @@
   <!-- Pet Cards Grid -->
   <div class="cards">
     <div class="pet-card-container">
-      <ng-container *ngFor="let item of items">
-        <!-- Pet Card -->
-        <div *ngIf="
-          (filters.animal === 'Any' || filters.animal === this.getAnimalType(item.animal)) &&
-          (filters.sex === 'Any' || item.sex.toLowerCase() === filters.sex.toLowerCase()) &&
-          (filters.age === 'Any' ||
-            (filters.age === 'Very Young' && getAge(item.birthdate) < 1) ||
-            (filters.age === 'Young' && getAge(item.birthdate) >= 1 && getAge(item.birthdate) < 3) ||
-            (filters.age === 'Adult' && getAge(item.birthdate) >= 3 && getAge(item.birthdate) < 8) ||
-            (filters.age === 'Senior' && getAge(item.birthdate) > 8)) &&
-          (filters.price === 'Any' ||
-            (filters.price === 'Low' && item.price < 500) ||
-            (filters.price === 'Medium' && item.price >= 500 && item.price <= 1000) ||
-            (filters.price === 'High' && item.price > 1000)) &&
-          (filters.location === 'Any' ||
-            (filters.location === 'Other' &&
-              !['New York', 'Los Angeles', 'Chicago', 'Houston'].includes(item.location)) ||
-            item.location === filters.location)"
-          mat-card
-          class="pet-card"
-          (click)="navigateToPetDesktop($event, item._id)"
-          [ngClass]="{ 'expanded': expandedCards[item.name] }">
-          
-          <!-- Pet Card Content -->
-          <div class="pet-image-background" [style.background-image]="'url(' + item.pictures[0] + ')'">
-            <!-- Favorite Button -->
-            <button *ngIf="isBuyer" class="petcard-favorite-button" (click)="toggleFavorite($event, item)">
-              <img class="favorite-icon" 
-                   [src]="item.isFavorite ? '/assets/favorite-star-active.svg' : '/assets/favorite-star-inactive.svg'" 
-                   alt="Favorite Icon" />
-            </button>
+      <ng-container *ngIf="items.length > 0; else noFavorites">
+        <ng-container *ngFor="let item of items">
+          <!-- Pet Card -->
+          <div *ngIf="
+            (filters.animal === 'Any' || filters.animal === this.getAnimalType(item.animal)) &&
+            (filters.sex === 'Any' || item.sex.toLowerCase() === filters.sex.toLowerCase()) &&
+            (filters.age === 'Any' ||
+              (filters.age === 'Very Young' && getAge(item.birthdate) < 1) ||
+              (filters.age === 'Young' && getAge(item.birthdate) >= 1 && getAge(item.birthdate) < 3) ||
+              (filters.age === 'Adult' && getAge(item.birthdate) >= 3 && getAge(item.birthdate) < 8) ||
+              (filters.age === 'Senior' && getAge(item.birthdate) > 8)) &&
+            (filters.price === 'Any' ||
+              (filters.price === 'Low' && item.price < 500) ||
+              (filters.price === 'Medium' && item.price >= 500 && item.price <= 1000) ||
+              (filters.price === 'High' && item.price > 1000)) &&
+            (filters.location === 'Any' ||
+              (filters.location === 'Other' &&
+                !['New York', 'Los Angeles', 'Chicago', 'Houston'].includes(item.location)) ||
+              item.location === filters.location)"
+            mat-card
+            class="pet-card"
+            (click)="navigateToPetDesktop($event, item._id)"
+            [ngClass]="{ 'expanded': expandedCards[item.name] }">
+            
+            <!-- Pet Card Content -->
+            <div class="pet-image-background" [style.background-image]="'url(' + item.pictures[0] + ')'">
+              <!-- Favorite Button -->
+              <button *ngIf="isBuyer" class="petcard-favorite-button" (click)="toggleFavorite($event, item)">
+                <img class="favorite-icon" 
+                     [src]="item.isFavorite ? '/assets/favorite-star-active.svg' : '/assets/favorite-star-inactive.svg'" 
+                     alt="Favorite Icon" />
+              </button>
 
-            <!-- Pet Info Card -->
-            <div class="pet-info-card">
-              <!-- Displayed Info -->
-              <div class="displayed-info">
-                <div class="info-text">
-                  <h2 class="pet-name">{{ item.name }}</h2>
-                  <p class="pet-age">
-                    {{ item.sex | titlecase }},
-                    {{ formatAge(getAge(item.birthdate)) }} old
-                  </p>
+              <!-- Pet Info Card -->
+              <div class="pet-info-card">
+                <!-- Displayed Info -->
+                <div class="displayed-info">
+                  <div class="info-text">
+                    <h2 class="pet-name">{{ item.name }}</h2>
+                    <p class="pet-age">
+                      {{ item.sex | titlecase }},
+                      {{ formatAge(getAge(item.birthdate)) }} old
+                    </p>
+                  </div>
+                  <div class="button-group">
+                    <button class="pet-page-button" (click)="navigateToPetMobile(item._id)">
+                      Pet Page
+                    </button>
+                    <button class="show-hidden-button" (click)="toggleCard(item.name)">
+                      {{ expandedCards[item.name] ? 'Hide Info' : 'Show Info' }}
+                      <img class="expand arrow" 
+                           [ngClass]="{'rotated': expandedCards[item.name]}" 
+                           src="/assets/drop-down-arrow.svg" 
+                           alt="expand-arrow" />
+                    </button>
+                  </div>
                 </div>
-                <div class="button-group">
-                  <button class="pet-page-button" (click)="navigateToPetMobile(item._id)">
-                    Pet Page
-                  </button>
-                  <button class="show-hidden-button" (click)="toggleCard(item.name)">
-                    {{ expandedCards[item.name] ? 'Hide Info' : 'Show Info' }}
-                    <img class="expand arrow" 
-                         [ngClass]="{'rotated': expandedCards[item.name]}" 
-                         src="/assets/drop-down-arrow.svg" 
-                         alt="expand-arrow" />
-                  </button>
-                </div>
-              </div>
 
-              <!-- Hidden Info -->
-              <div class="hidden-info-container">
-                <div class="hidden-info">
-                  <div class="info-group">
-                    <p class="pet-status-tag">Status:</p>
-                    <p class="pet-status">{{ item.status }}</p>
-                  </div>
-                  <div class="info-group">
-                    <p class="pet-breed-tag">Breed:</p>
-                    <p class="pet-breed">{{ item.breed }}</p>
-                  </div>
-                  <div class="info-group">
-                    <p class="pet-price-tag">Price:</p>
-                    <p class="pet-price">{{ item.price | currency : "USD" : "symbol" : "1.0-0" }}</p>
-                  </div>
-                  <div class="info-group">
-                    <p class="pet-location-tag">Location:</p>
-                    <p class="pet-location">{{ item.location }}</p>
+                <!-- Hidden Info -->
+                <div class="hidden-info-container">
+                  <div class="hidden-info">
+                    <div class="info-group">
+                      <p class="pet-status-tag">Status:</p>
+                      <p class="pet-status">{{ item.status }}</p>
+                    </div>
+                    <div class="info-group">
+                      <p class="pet-breed-tag">Breed:</p>
+                      <p class="pet-breed">{{ item.breed }}</p>
+                    </div>
+                    <div class="info-group">
+                      <p class="pet-price-tag">Price:</p>
+                      <p class="pet-price">{{ item.price | currency : "USD" : "symbol" : "1.0-0" }}</p>
+                    </div>
+                    <div class="info-group">
+                      <p class="pet-location-tag">Location:</p>
+                      <p class="pet-location">{{ item.location }}</p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </ng-container>
       </ng-container>
+      <ng-template #noFavorites>
+        <div class="no-favorites-message-container">
+          <div class="no-favorites-message">
+            You have no favorites.
+          </div>
+        </div>
+      </ng-template>
     </div>
   </div>
 </div>
