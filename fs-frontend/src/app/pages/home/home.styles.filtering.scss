@@ -1,3 +1,13 @@
+// Add this at the top of your file to create a reusable mixin
+@mixin no-select-or-drag {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    user-drag: none;
+}
+
 // Styles for the filter toggle button
 .filter-toggle-btn {
     border-radius: 25px;
@@ -20,6 +30,8 @@
 
 // Styles for the filter sidebar
 .filter-sidebar {
+    @include no-select-or-drag;
+    
     position: fixed;
     right: -340px;
     top: 85px;
@@ -50,6 +62,10 @@
         background: #888;
         border-radius: 3px;
     }
+
+    * { // This applies to all elements inside the sidebar
+        @include no-select-or-drag;
+    }
 }
 
 // Content within the filter sidebar
@@ -67,6 +83,8 @@
 
 // Styles for each filter group
 .filter-group {
+    @include no-select-or-drag;
+    
     margin-bottom: 16px;
     background: #eaeaea;
     border-radius: 10px;
@@ -74,6 +92,8 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 
     label {
+        @include no-select-or-drag;
+        
         display: block;
         margin-bottom: 0;
         color: #1a1a1a;
@@ -127,6 +147,8 @@
 
 // Close button for the filter sidebar
 .close-filters {
+    @include no-select-or-drag;
+    
     position: absolute;
     right: 10px;
     top: 10px;
