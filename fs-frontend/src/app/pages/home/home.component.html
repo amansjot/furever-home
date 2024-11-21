@@ -29,12 +29,13 @@
   <!-- Filter Sidebar -->
   <div class="filter-sidebar" [ngClass]="{ 'open': isFilterOpen }">
     <div class="filter-content">
-      <button class="close-filters" (click)="toggleFilters()">×</button>
+      <div class="header-row">
+        <h2>Filters</h2>
+        <button class="close-filters" (click)="toggleFilters()">×</button>
+      </div>
       
       <!-- Scrollable filters section -->
       <div class="filters-section">
-        <h2>Filters</h2>
-        
         <!-- Filter Groups -->
         <!-- 1. Animal Filter -->
         <div class="filter-group">
