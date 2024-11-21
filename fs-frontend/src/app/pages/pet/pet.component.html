@@ -6,13 +6,13 @@
   <!-- Image Carousel -->
   <h1 class="pet-page-title">{{ pet.name }}</h1>
   <div *ngIf="pet.pictures && pet.pictures.length" class="carousel">
-    <button (click)="prevImage()" class="carousel-control prev">‹</button>
+    <button (click)="prevImage()" *ngIf="pet.pictures && pet.pictures.length > 1" class="carousel-control prev">‹</button>
     <img
       [src]="pet.pictures[currentImageIndex]"
       alt="{{ pet.name }}"
       class="carousel-image"
     />
-    <button (click)="nextImage()" class="carousel-control next">›</button>
+    <button (click)="nextImage()" *ngIf="pet.pictures && pet.pictures.length > 1" class="carousel-control next">›</button>
     <button (click)="openModal()" class="expand-button">
       <img
         class="magnifying-glass-icon"
@@ -26,13 +26,13 @@
   <div *ngIf="isModalOpen" class="modal" (click)="handleModalClick($event)">
     <div class="modal-content">
       <span class="close" (click)="closeModal()">&times;</span>
-      <button (click)="prevImage()" class="modal-control prev">‹</button>
+      <button (click)="prevImage()" *ngIf="pet.pictures && pet.pictures.length > 1" class="modal-control prev">‹</button>
       <img
         [src]="pet.pictures[currentImageIndex]"
         alt="{{ pet.name }}"
         class="modal-image"
       />
-      <button (click)="nextImage()" class="modal-control next">›</button>
+      <button (click)="nextImage()" *ngIf="pet.pictures && pet.pictures.length > 1" class="modal-control next">›</button>
     </div>
   </div>
 
