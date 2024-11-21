@@ -36,7 +36,7 @@
       <!-- 1. Animal Filter -->
       <div class="filter-group">
         <label (click)="toggleFilter('animal')">Animal Type</label>
-        <div *ngIf="expandedFilters.animal">
+        <div [ngClass]="{'expanded': expandedFilters.animal}" *ngIf="expandedFilters.animal">
           <mat-radio-group [(ngModel)]="filters.animal" (change)="setFilter('animal', filters.animal)">
             <mat-radio-button *ngFor="let animal of ['Any', 'Dog', 'Cat', 'Bird', 'Fish', 'Reptile', 'Small Mammal', 'Other']" [value]="animal">
               {{ animal }}
