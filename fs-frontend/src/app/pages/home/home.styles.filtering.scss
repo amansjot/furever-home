@@ -70,7 +70,8 @@
 
 // Content within the filter sidebar
 .filter-content {
-
+    position: relative;
+    min-height: calc(98%); // Account for padding
 
     h2 {
         margin-bottom: 25px;
@@ -90,6 +91,7 @@
     border-radius: 10px;
     padding: 16px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    transition: all 0.2s ease;
 
     label {
         @include no-select-or-drag;
@@ -241,4 +243,35 @@
 .filter-section {
     border-bottom: 1px solid #eee;
     margin-bottom: 10px;
+}
+
+// Update the reset button styles
+.reset-filters-btn {
+    @include no-select-or-drag;
+    
+    position: absolute;
+    bottom: 20px;
+    left: 16px;
+    width: calc(100% - 32px);
+    padding: 12px 20px;
+    border: none;
+    border-radius: 25px;
+    background-color: #3f8a73;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+        background-color: #4ca68b;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    &:active {
+        transform: translateY(1px);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
 }
