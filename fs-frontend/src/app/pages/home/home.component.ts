@@ -48,6 +48,8 @@ export class HomeComponent {
 
   public favorites: string[] = [];
 
+  public isFilterOpen: boolean = false;
+
   constructor(
     private _loginSvc: LoginService,
     private buyerService: BuyerService,
@@ -313,5 +315,9 @@ export class HomeComponent {
     } else {
       return 'Other';
     }
+  }
+
+  toggleFilters(): void {
+    this.isFilterOpen = !this.isFilterOpen;
   }
 }
