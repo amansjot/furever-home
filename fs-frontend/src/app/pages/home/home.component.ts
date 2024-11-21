@@ -371,4 +371,30 @@ export class HomeComponent {
   toggleFilter(filterType: 'animal' | 'sex' | 'age' | 'price' | 'location'): void {
     this.expandedFilters[filterType] = !this.expandedFilters[filterType];
   }
+
+  public resetFilters(): void {
+    // Reset all filters to default values
+    this.filters = {
+      animal: 'Any',
+      sex: 'Any',
+      age: 'Any',
+      price: 'Any',
+      location: 'Any'
+    };
+    
+    // Reset expanded states
+    this.expandedFilters = {
+      animal: false,
+      sex: false,
+      age: false,
+      price: false,
+      location: false
+    };
+    
+    // Update localStorage
+    localStorage.setItem('filters', JSON.stringify(this.filters));
+    
+    // Reload data with reset filters
+    this.loadData();
+  }
 }
