@@ -61,7 +61,7 @@
         font-weight: bold;
         cursor: pointer;
         padding: 10px;
-        border-radius: 25px;
+        border-radius: 18px;
         background-color: #dadada;
         transition: background-color 0.3s ease;
 
@@ -73,6 +73,20 @@
     mat-radio-group {
         display: flex;
         flex-direction: column;
+
+        .mat-mdc-radio-button {
+            --mdc-radio-selected-focus-icon-color: #3f8a73;
+            --mdc-radio-selected-hover-icon-color: #3f8a73;
+            --mdc-radio-selected-icon-color: #3f8a73;
+            --mdc-radio-selected-pressed-icon-color: #3f8a73;
+            --mdc-radio-unselected-focus-icon-color: #666;
+            --mdc-radio-unselected-hover-icon-color: #666;
+            --mdc-radio-unselected-icon-color: #666;
+            --mdc-radio-unselected-pressed-icon-color: #666;
+            --mat-radio-ripple-color: rgba(63, 138, 115, 0.26);
+            --mat-radio-checked-ripple-color: rgba(63, 138, 115, 0.26);
+            --mdc-radio-state-layer-color: rgba(63, 138, 115, 0.1);
+        }
     }
 }
 
