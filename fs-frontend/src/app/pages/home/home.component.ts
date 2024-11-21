@@ -18,7 +18,7 @@ import { catchError, delay, switchMap } from 'rxjs/operators';
   standalone: true,
   imports: [CommonModule, MatMenuModule, MatButtonModule, MatRadioModule, FormsModule],
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  styleUrls: ['./home.styles.scss', './home.styles.filtering.scss', './home.styles.cards.scss'],
 })
 export class HomeComponent {
   public loading: boolean = true;
