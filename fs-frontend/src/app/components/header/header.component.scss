@@ -21,19 +21,30 @@ div {
 
 // Navbar styles
 .mat-toolbar {
-	background-color: #5cc8a8;
+	background: radial-gradient(ellipse 99% 99% at center, #4ca68b, #2f9d78, #1e8564);
 	position: fixed;
 	top: 0;
 	width: 100%;
 	min-height: 75px;
-	height: auto;
+	height: 75px;
 	border-bottom-left-radius: 25px;
 	border-bottom-right-radius: 25px;
-	transition: top 0.3s ease-in-out;
+	transition: all 0.2s ease-in-out;
 	z-index: 1001;
+	display: flex;
+	flex-direction: column;
+	padding-top: 20px;
 
 	&.hidden {
 		top: -75px;
+	}
+
+	&.expanded {
+		height: 300px;
+		.mobile-menu-content {
+			opacity: 1;
+				visibility: visible;
+		}
 	}
 }
 
@@ -44,7 +55,9 @@ div {
 	align-items: center;
 	z-index: 1002;
 	font-family: "Parkinsans", sans-serif;
-	padding-left: 10px;
+	padding-left: 20px;
+	align-self: flex-start;
+	margin-top: 5px;
 
 	a {
 		text-decoration: none;
@@ -96,31 +109,70 @@ div {
 }
 
 // Mobile menu
-.menu-overlay {
-	position: fixed;
-	top: 50px;
-	left: 0;
+.mobile-menu-content {
+	opacity: 0;
+	visibility: hidden;
 	width: 100%;
-	max-height: 0;
-	background-color: #5cc8a8;
-	transition: all .8s cubic-bezier(0.4, 0, 0.2, 1);
-	z-index: 999;
-	padding: 0;
-	box-sizing: border-box;
-	border-bottom-left-radius: 25px;
-	border-bottom-right-radius: 25px;
-	overflow: hidden;
+	transition: all 0.2s ease-in-out;
+	margin-top: 20px;
+	padding: 0 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: relative;
 
-	@media (min-width: 769px) {
-		display: none;
-	}
-
-	&.open {
-		max-height: 1000px;
+	@media (max-width: 768px) {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 	}
 
 	&.quick-close {
-		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		transition: all 0.2s ease-in-out;
+		
+		.mobile-login-btn button {
+			transition: all 0.1s ease-in-out;
+			transition-delay: 0s !important;
+		}
+	}
+
+	.mobile-login-btn {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 10px;
+		width: 100%;
+		max-width: 200px;
+		position: relative;
+
+		button {
+			@include button-styles;
+			width: 100%;
+			padding: 10px 15px;
+			opacity: 0;
+			transform: translateY(20px);
+			transition: all 0.2s ease-in-out;
+
+			// Stagger only on opening
+			@for $i from 1 through 5 {
+				&:nth-child(#{$i}) {
+					transition-delay: #{$i * 0.1}s;
+				}
+			}
+		}
+	}
+}
+
+// Add this to show buttons when menu is expanded
+.mat-toolbar.expanded {
+	.mobile-menu-content {
+		opacity: 1;
+		visibility: visible;
+
+		.mobile-login-btn button {
+			opacity: 1;
+			transform: translateY(0);
+		}
 	}
 }
 
@@ -161,6 +213,24 @@ button {
 
 		button {
 			@include button-styles;
+		}
+	}
+}
+
+// Add this for quick closing animation
+.mat-toolbar.closing {
+	transition: all 0.1s ease-in-out;
+	
+	.mobile-menu-content {
+		.mobile-login-btn {
+			align-items: center;
+		}
+		
+		button {
+			opacity: 0;
+			transform: translateY(20px);
+			transition: all 0.05s ease-in-out;
+			transition-delay: 0s !important;
 		}
 	}
 }
