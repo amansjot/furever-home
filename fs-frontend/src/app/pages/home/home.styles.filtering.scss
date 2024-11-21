@@ -1,0 +1,222 @@
+// Styles for the filter toggle button
+.filter-toggle-btn {
+    border-radius: 25px;
+    border: none;
+    background-color: #3f8a73;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    z-index: 100;
+
+    img {
+        width: 20px;
+        height: 20px;
+    }
+
+    &:hover {
+        background-color: #4ca68b;
+    }
+}
+
+// Styles for the filter sidebar
+.filter-sidebar {
+    position: fixed;
+    right: -340px;
+    top: 85px;
+    width: 300px;
+    height: calc(100vh - 115px);
+    background-color: #f5f5f5;
+    z-index: 1000;
+    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: -3px 0 20px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    border-radius: 25px;
+
+    padding: 10px 20px;
+
+    &.open {
+        right: 0;
+    }
+
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #e0e0e0;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 3px;
+    }
+}
+
+// Content within the filter sidebar
+.filter-content {
+
+
+    h2 {
+        margin-bottom: 25px;
+        color: #1a1a1a;
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+}
+
+// Styles for each filter group
+.filter-group {
+    margin-bottom: 16px;
+    background: #eaeaea;
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+
+    label {
+        display: block;
+        margin-bottom: 0;
+        color: #1a1a1a;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+
+        &:hover {
+            transform: translateY(-1px);
+        }
+    }
+
+    mat-radio-group {
+        margin-top: 12px;
+        padding: 8px 12px;
+        background-color: #e8e8e8;
+        border-radius: 6px;
+        display: block;
+        
+        .mat-mdc-radio-button {
+            margin: 10px 0;
+            color: #333;
+        }
+
+        .mat-mdc-radio-button {
+            --mdc-radio-selected-focus-icon-color: #3f8a73;
+            --mdc-radio-selected-hover-icon-color: #3f8a73;
+            --mdc-radio-selected-icon-color: #3f8a73;
+            --mdc-radio-selected-pressed-icon-color: #3f8a73;
+            --mdc-radio-unselected-focus-icon-color: #666;
+            --mdc-radio-unselected-hover-icon-color: #666;
+            --mdc-radio-unselected-icon-color: #666;
+            --mdc-radio-unselected-pressed-icon-color: #666;
+            --mat-radio-ripple-color: rgba(63, 138, 115, 0.26);
+            --mat-radio-checked-ripple-color: rgba(63, 138, 115, 0.26);
+            --mdc-radio-state-layer-color: rgba(63, 138, 115, 0.1);
+        }
+    }
+
+    &:hover {
+        background: #ddd;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+
+        mat-radio-group {
+            background: #ddd;
+        }
+    }
+}
+
+// Close button for the filter sidebar
+.close-filters {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background: #e8e8e8;
+    border: 1px solid #ddd;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+
+    &:hover {
+        background: #ddd;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    }
+}
+
+// Overlay for the filter sidebar
+.filter-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+
+    &.open {
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+
+// Styles for the top bar containing filter buttons
+.top-bar {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    margin-left: 1vw;
+
+    .button-row {
+        display: flex;
+        gap: 10px;
+    }
+}
+
+// Shared styles for filter toggle buttons and other buttons
+.filter-toggle-btn,
+.button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 25px;
+    border: none;
+    background-color: #3f8a73;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    img {
+        width: 20px;
+        height: 20px;
+    }
+
+    &:hover {
+        background-color: #4ca68b;
+    }
+}
+
+// Style for displaying the result count
+.result-count {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+// Style for sections within the filter sidebar
+.filter-section {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+}

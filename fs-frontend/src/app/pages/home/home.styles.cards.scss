@@ -1,79 +1,41 @@
-::ng-deep .mat-mdc-card.mdc-card.content-card.mat-elevation-z4 {
-    background-color: #e6e6e6;
-    border-radius: 8px;
-}
-
-.loading-container {
-    position: fixed;
-    /* Overlay the entire screen */
-    top: 75px;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(255, 255, 255, 0.8);
-    /* Optional: Semi-transparent background */
-    z-index: 9999;
-    /* Ensure it appears above everything else */
-    opacity: 1;
-    background-color: white;
-    transition: opacity 0.1s ease-out;
-}
-
-.loading-container.hidden {
-    opacity: 0;
-    pointer-events: none;
-    /* Prevent interactions with hidden loading screen */
-}
-
-.loading-gif {
-    margin-top: -75px;
-    width: 250px;
-    height: auto;
-}
-
-.main-content {
-    opacity: 0;
-    transition: opacity 0.3s ease-in;
-}
-
-.main-content.visible {
-    opacity: 1;
-}
-
-/* Layout Containers */
-.filters {
-    margin-bottom: 20px
-}
-
-.filters .button {
-    margin: 5px;
-}
-
-::ng-deep .mat-mdc-card {
-    margin-top: 75px;
-}
-
+// Container for all cards
 .cards {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 1vh 1vw;
+    padding: 0 1vw 1vh 1vw;
     box-sizing: border-box;
 }
 
+// Grid layout for pet cards
 .pet-card-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 15px;
     width: 100%;
     max-width: 100%;
     margin: 0;
+
+    // Responsive grid columns
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+    @media (min-width: 768px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    @media (min-width: 1024px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    @media (min-width: 1440px) {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    @media (min-width: 1920px) {
+        grid-template-columns: repeat(5, 1fr);
+    }
+    @media (min-width: 2200px) {
+        grid-template-columns: repeat(6, 1fr);
+    }
 }
 
-/* Card Base Styles */
+// Base styles for each pet card
 .pet-card {
     position: relative;
     display: flex;
@@ -86,13 +48,13 @@
     height: 450px;
     cursor: pointer;
     transition: transform 0.3s ease-in-out;
+
+    &:hover {
+        transform: scale(1.02);
+    }
 }
 
-.pet-card:hover {
-    transform: scale(1.02);
-}
-
-/* Card Image and Background */
+// Background image for pet card
 .pet-image-background {
     position: absolute;
     top: 0;
@@ -108,6 +70,7 @@
     border-radius: 15px;
 }
 
+// Favorite button on pet card
 .petcard-favorite-button {
     position: absolute;
     top: 11px;
@@ -125,20 +88,16 @@
     &:hover {
         background-color: rgba(255, 255, 255, 0.4);
     }
-
 }
 
-/* Card Information Sections */
+// Information card overlay
 .pet-info-card {
-    background: linear-gradient(to top,
-            rgba(0, 0, 0, 0.8),
-            rgba(0, 0, 0, 0.5) 40%,
-            rgba(0, 0, 0, 0.2) 80%,
-            transparent);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5) 40%, rgba(0, 0, 0, 0.2) 80%, transparent);
     user-select: none;
     padding-bottom: 15px;
 }
 
+// Displayed information on card
 .displayed-info {
     color: white;
     transform: translateY(0%);
@@ -152,10 +111,7 @@
     align-items: center;
 }
 
-.info-text {
-    flex: 1;
-}
-
+// Hidden information container
 .hidden-info-container {
     position: absolute;
     bottom: 0;
@@ -164,6 +120,7 @@
     pointer-events: none;
 }
 
+// Hidden information on card
 .hidden-info {
     color: #000000;
     opacity: 0;
@@ -173,7 +130,7 @@
     margin: 0 8px 8px 8px;
 }
 
-/* Hover and Expanded Effects */
+// Hover effects for larger screens
 @media (min-width: 1024px) {
     .pet-card:hover .displayed-info {
         transform: translateY(-175%);
@@ -198,16 +155,8 @@
         border-radius: 12px;
     }
 
-    .pet-card:hover {
-        transform: scale(1.02);
-    }
-
     .petcard-favorite-button {
         pointer-events: auto;
-    }
-
-    .petcard-favorite-button:hover {
-        background-color: rgba(255, 255, 255, 0.4);
     }
 
     .filters .button:hover {
@@ -221,7 +170,7 @@
     }
 }
 
-/* Expanded State */
+// Expanded state styles
 .pet-card.expanded .displayed-info {
     transform: translateY(-150%);
     opacity: 1;
@@ -246,7 +195,7 @@
     max-height: 60%;
 }
 
-/* Information Display Styles */
+// Information display styles
 .info-group {
     display: flex;
     align-items: baseline;
@@ -254,7 +203,7 @@
     padding: 5px 0;
 }
 
-/* Tag Styles */
+// Tag styles for pet attributes
 .pet-status-tag,
 .pet-price-tag,
 .pet-location-tag,
@@ -284,7 +233,7 @@
     background-color: rgb(202, 138, 71);
 }
 
-/* Text Styles */
+// Text styles for pet details
 .pet-name {
     font-size: 2rem;
     font-weight: bold;
@@ -306,37 +255,7 @@
     padding-left: 5px;
 }
 
-/* Filter Styles */
-.filters {
-    padding: 18px;
-    width: 100%;
-    margin: 0 auto;
-}
-
-.filters .button {
-    width: auto;
-    padding: 15px;
-    font-size: 16px;
-    margin-right: 10px;
-    box-shadow: none;
-    background-color: white;
-    color: #3f8a73;
-    transition: 0.3s ease;
-    border-radius: 30px !important;
-    border: 2px solid #3f8a73;
-}
-
-.filters .button:hover {
-    cursor: pointer;
-    background-color: #3f8a73;
-    color: white;
-}
-
-.filters .button.filtered {
-    background-color: #4ca68b;
-    color: white;
-}
-
+// Button styles
 .show-hidden-button,
 .pet-page-button {
     padding: 8px 12px;
@@ -352,6 +271,7 @@
     }
 }
 
+// Button group styles
 .button-group {
     display: flex;
     flex-direction: column;
@@ -360,15 +280,15 @@
     margin-left: auto;
 }
 
-/* Hide the button on larger screens */
+// Hide buttons on larger screens
 @media (min-width: 1024px) {
-
     .show-hidden-button,
     .pet-page-button {
         display: none;
     }
 }
 
+// Arrow icon styles
 .expand.arrow {
     width: 15px;
     height: 15px;
@@ -383,17 +303,9 @@
     transform: translateY(-1px) rotate(0deg);
 }
 
+// Favorite icon styles
 .favorite-icon {
     width: 20px;
     height: 20px;
     vertical-align: middle;
-}
-
-.result-count {
-    margin-left: 25px;
-    padding-bottom: 15px;
-}
-
-button {
-    font-family: "Outfit", sans-serif;
 }

@@ -6,6 +6,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { BuyerService } from '../../services/buyer.service';
+import { MatRadioModule } from '@angular/material/radio';
+import { FormsModule } from '@angular/forms';
 
 import { LoginService } from '../../services/login.service';
 import { forkJoin, of } from 'rxjs';
@@ -14,9 +16,9 @@ import { catchError, delay, switchMap } from 'rxjs/operators';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, MatMenuModule, MatButtonModule],
+  imports: [CommonModule, MatMenuModule, MatButtonModule, MatRadioModule, FormsModule],
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  styleUrls: ['./home.styles.scss', './home.styles.filtering.scss', './home.styles.cards.scss'],
 })
 export class HomeComponent {
   public loading: boolean = true;
@@ -47,6 +49,19 @@ export class HomeComponent {
   public expandedCards: { [key: string]: boolean } = {};
 
   public favorites: string[] = [];
+
+  public isFilterOpen: boolean = false;
+
+  private scrollPosition: number = 0;
+
+  // Track the expanded state of each filter group
+  public expandedFilters = {
+    animal: false,
+    sex: false,
+    age: false,
+    price: false,
+    location: false,
+  };
 
   constructor(
     private _loginSvc: LoginService,
@@ -177,8 +192,12 @@ export class HomeComponent {
     event.stopPropagation();
 
     item.isFavorite = !item.isFavorite; // Toggle the favorite status
-    // Update local storage or send to server
     this.updateFavoriteStatus(item);
+
+    // Immediately update the displayed items if the favorite filter is active
+    if (this.favoriteFilter) {
+      this.items = this.items.filter((i) => this.favorites.includes(i._id));
+    }
   }
 
   updateFavoriteStatus(item: InventoryItemModel): void {
@@ -313,5 +332,43 @@ export class HomeComponent {
     } else {
       return 'Other';
     }
+  }
+
+  toggleFilters(): void {
+    this.isFilterOpen = !this.isFilterOpen;
+
+    if (this.isFilterOpen) {
+      // Store the current scroll position
+      this.scrollPosition = window.pageYOffset;
+      // Add class to lock the scroll
+      document.body.classList.add('filter-open');
+      // Set the top position to maintain the scroll position
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${this.scrollPosition}px`;
+      document.body.style.width = '100%';
+    } else {
+      // Remove the class to unlock the scroll
+      document.body.classList.remove('filter-open');
+      // Reset the top position
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      // Restore the scroll position
+      window.scrollTo(0, this.scrollPosition);
+    }
+  }
+
+  ngOnDestroy(): void {
+    // Clean up any body classes and styles when component is destroyed
+    document.body.classList.remove('filter-open');
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    window.scrollTo(0, this.scrollPosition);
+  }
+
+  // Method to toggle the expanded state of a filter group
+  toggleFilter(filterType: 'animal' | 'sex' | 'age' | 'price' | 'location'): void {
+    this.expandedFilters[filterType] = !this.expandedFilters[filterType];
   }
 }
