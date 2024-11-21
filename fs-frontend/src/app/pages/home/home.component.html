@@ -45,7 +45,7 @@
                  src="/assets/drop-down-arrow.svg" 
                  alt="expand-arrow" />
           </label>
-          <div [ngClass]="{'expanded': expandedFilters.animal}" *ngIf="expandedFilters.animal">
+          <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.animal}">
             <mat-radio-group [(ngModel)]="filters.animal" (change)="setFilter('animal', filters.animal)">
               <mat-radio-button *ngFor="let animal of ['Any', 'Dog', 'Cat', 'Bird', 'Fish', 'Reptile', 'Small Mammal', 'Other']" [value]="animal">
                 {{ animal }}
@@ -63,7 +63,7 @@
                  src="/assets/drop-down-arrow.svg" 
                  alt="expand-arrow" />
           </label>
-          <div *ngIf="expandedFilters.sex">
+          <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.sex}">
             <mat-radio-group [(ngModel)]="filters.sex" (change)="setFilter('sex', filters.sex)">
               <mat-radio-button *ngFor="let sex of ['Any', 'Male', 'Female']" [value]="sex">
                 {{ sex }}
@@ -81,7 +81,7 @@
                  src="/assets/drop-down-arrow.svg" 
                  alt="expand-arrow" />
           </label>
-          <div *ngIf="expandedFilters.age">
+          <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.age}">
             <mat-radio-group [(ngModel)]="filters.age" (change)="setFilter('age', filters.age)">
               <mat-radio-button *ngFor="let age of ['Any', 'Very Young', 'Young', 'Adult', 'Senior']" [value]="age">
                 {{ age }}
@@ -99,7 +99,7 @@
                  src="/assets/drop-down-arrow.svg" 
                  alt="expand-arrow" />
           </label>
-          <div *ngIf="expandedFilters.price">
+          <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.price}">
             <mat-radio-group [(ngModel)]="filters.price" (change)="setFilter('price', filters.price)">
               <mat-radio-button *ngFor="let price of ['Any', 'Low', 'Medium', 'High']" [value]="price">
                 {{ price }}
@@ -117,7 +117,7 @@
                  src="/assets/drop-down-arrow.svg" 
                  alt="expand-arrow" />
           </label>
-          <div *ngIf="expandedFilters.location">
+          <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.location}">
             <mat-radio-group [(ngModel)]="filters.location" (change)="setFilter('location', filters.location)">
               <mat-radio-button *ngFor="let location of ['Any', 'New York', 'Los Angeles', 'Chicago', 'Houston', 'Other']" [value]="location">
                 {{ location }}

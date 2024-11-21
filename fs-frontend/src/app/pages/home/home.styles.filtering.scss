@@ -151,51 +151,51 @@
         }
     }
 
-    mat-radio-group {
-        margin-top: 12px;
-        padding: 8px 12px;
-        background-color: #e8e8e8;
-        border-radius: 6px;
-        display: block;
+    .filter-content-wrapper {
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height 0.3s ease-in-out;
         
-        .mat-mdc-radio-button {
-            margin: 10px 0;
-            color: #333;
+        &.expanded {
+            max-height: 300px;
         }
 
-        .mat-mdc-radio-button {
-            --mdc-radio-selected-focus-icon-color: #3f8a73;
-            --mdc-radio-selected-hover-icon-color: #3f8a73;
-            --mdc-radio-selected-icon-color: #3f8a73;
-            --mdc-radio-selected-pressed-icon-color: #3f8a73;
-            --mdc-radio-unselected-focus-icon-color: #666;
-            --mdc-radio-unselected-hover-icon-color: #666;
-            --mdc-radio-unselected-icon-color: #666;
-            --mdc-radio-unselected-pressed-icon-color: #666;
-            --mat-radio-ripple-color: rgba(63, 138, 115, 0.26);
-            --mat-radio-checked-ripple-color: rgba(63, 138, 115, 0.26);
-            --mdc-radio-state-layer-color: rgba(63, 138, 115, 0.1);
+        mat-radio-group {
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 10px;
+            
+            .mat-mdc-radio-button {
+                margin: 0;
+                flex: 0 1 auto;
+                min-width: fit-content;
+                color: #333;
+                transition: all 0.3s ease;
+            }
+
+            // Radio button theme colors
+            .mat-mdc-radio-button {
+                --mdc-radio-selected-focus-icon-color: #3f8a73;
+                --mdc-radio-selected-hover-icon-color: #3f8a73;
+                --mdc-radio-selected-icon-color: #3f8a73;
+                --mdc-radio-selected-pressed-icon-color: #3f8a73;
+                --mdc-radio-unselected-focus-icon-color: #666;
+                --mdc-radio-unselected-hover-icon-color: #666;
+                --mdc-radio-unselected-icon-color: #666;
+                --mdc-radio-unselected-pressed-icon-color: #666;
+                --mat-radio-ripple-color: rgba(63, 138, 115, 0.26);
+                --mat-radio-checked-ripple-color: rgba(63, 138, 115, 0.26);
+                --mdc-radio-state-layer-color: rgba(63, 138, 115, 0.1);
+            }
         }
     }
 
     &:hover {
         background: #ddd;
         box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-
-        mat-radio-group {
-            background: #ddd;
-        }
-    }
-
-    div[ngIf] {
-        overflow: hidden;
-        transition: max-height 0.3s ease-out;
-        max-height: 0;
-        
-        &.expanded {
-            max-height: 300px;
-            overflow-y: visible;
-        }
     }
 }
 
