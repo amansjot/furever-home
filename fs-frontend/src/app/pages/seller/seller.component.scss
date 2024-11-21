@@ -468,18 +468,28 @@ img {
 }
 
 .add-item-button {
-    padding: 10px 20px;
-    font-size: 1rem;
-    color: white;
-    background-color: #007bff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 25px;
     border: none;
-    border-radius: 5px;
+    font-size: 16px;
+    background-color: #3f8a73;
+    color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
-}
+    z-index: 100;
 
-.add-item-button:hover {
-    background-color: #0056b3;
+    img {
+        width: 20px;
+        height: 20px;
+        color: white;
+    }
+
+    &:hover {
+        background-color: #4ca68b;
+    }
 }
 
 

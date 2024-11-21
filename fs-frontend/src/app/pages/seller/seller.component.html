@@ -15,7 +15,8 @@
   <p *ngIf="rootSellerRoute == 'seller'" class="seller-info">Contact: {{ seller.sellerContact }}</p>
   <hr class="divider" />
   <button (click)="addItem(seller._id)" class="add-item-button">
-    Add a Pet
+    <img src="/assets/plus-icon.svg" alt="Add Item" />
+    <span>Add a Pet</span>
   </button>
   <hr class="divider" />
 
