@@ -115,8 +115,8 @@
   
   <!-- Pet Cards Grid -->
   <div class="cards">
-    <div class="pet-card-container">
-      <ng-container *ngIf="items.length > 0; else noFavorites">
+    <ng-container *ngIf="items.length > 0; else noFavorites">
+      <div class="pet-card-container">
         <ng-container *ngFor="let item of items">
           <!-- Pet Card -->
           <div *ngIf="
@@ -199,14 +199,14 @@
             </div>
           </div>
         </ng-container>
-      </ng-container>
-      <ng-template #noFavorites>
-        <div class="no-favorites-message-container">
-          <div class="no-favorites-message">
-            You have no favorites.
-          </div>
+      </div>
+    </ng-container>
+    <ng-template #noFavorites>
+      <div class="no-favorites-message-container">
+        <div class="no-favorites-message">
+          You have no favorites.
         </div>
-      </ng-template>
-    </div>
+      </div>
+    </ng-template>
   </div>
 </div>
