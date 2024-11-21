@@ -1,5 +1,6 @@
 .loading-container {
-    position: fixed; /* Overlay the entire screen */
+    position: fixed;
+    /* Overlay the entire screen */
     top: 75px;
     left: 0;
     width: 100%;
@@ -7,17 +8,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.8); /* Optional: Semi-transparent background */
-    z-index: 9999; /* Ensure it appears above everything else */
+    background-color: rgba(255, 255, 255, 0.8);
+    /* Optional: Semi-transparent background */
+    z-index: 9999;
+    /* Ensure it appears above everything else */
     opacity: 1;
     background-color: white;
     transition: opacity 0.1s ease-out;
-  }
-  
-  .loading-container.hidden {
+}
+
+.loading-container.hidden {
     opacity: 0;
-    pointer-events: none; /* Prevent interactions with hidden loading screen */
-  }
+    pointer-events: none;
+    /* Prevent interactions with hidden loading screen */
+}
 
 .loading-gif {
     margin-top: -75px;
@@ -102,4 +106,15 @@ mat-card-title {
 .mat-chip-list {
     display: flex;
     gap: 8px;
+}
+
+.main-content,
+button,
+::ng-deep .mat-chip,
+#title {
+    font-family: "Outfit", sans-serif !important;
+}
+
+.mat-chip-list {
+    --mdc-chip-label-text-font: 'Outfit', sans-serif;
 }

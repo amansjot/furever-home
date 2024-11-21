@@ -54,6 +54,7 @@ div {
 	display: flex;
 	align-items: center;
 	z-index: 1002;
+	font-family: "Parkinsans", sans-serif;
 	padding-left: 20px;
 	align-self: flex-start;
 	margin-top: 5px;
@@ -72,7 +73,8 @@ div {
 }
 
 // Button containers
-.login-btn, .desktop-login-btn {
+.login-btn,
+.desktop-login-btn {
 	position: absolute;
 	right: 10px;
 
@@ -95,6 +97,7 @@ div {
 	&:hover {
 		background-color: #3f8a73;
 	}
+
 	z-index: 1002;
 
 	@media (max-width: 768px) {
@@ -182,18 +185,24 @@ div {
 	margin-top: 30px;
 	padding: 20px;
 	margin-bottom: 20px;
-  
+
 	.login-btn {
-	  position: relative;
-	  right: auto;
-	  display: grid;
-	  grid-auto-rows: min-content;
+		position: relative;
+		right: auto;
+		display: grid;
+		grid-auto-rows: min-content;
 	}
-  }
+}
+
+button {
+	font-family: "Outfit", sans-serif;
+}
 
 // Responsive styles
 @media (max-width: 768px) {
-	.login-btn, .desktop-login-btn {
+
+	.login-btn,
+	.desktop-login-btn {
 		display: none;
 	}
 

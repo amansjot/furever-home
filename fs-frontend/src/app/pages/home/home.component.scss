@@ -1,10 +1,11 @@
 ::ng-deep .mat-mdc-card.mdc-card.content-card.mat-elevation-z4 {
     background-color: #e6e6e6;
     border-radius: 8px;
-  }
+}
 
 .loading-container {
-    position: fixed; /* Overlay the entire screen */
+    position: fixed;
+    /* Overlay the entire screen */
     top: 75px;
     left: 0;
     width: 100%;
@@ -12,17 +13,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.8); /* Optional: Semi-transparent background */
-    z-index: 9999; /* Ensure it appears above everything else */
+    background-color: rgba(255, 255, 255, 0.8);
+    /* Optional: Semi-transparent background */
+    z-index: 9999;
+    /* Ensure it appears above everything else */
     opacity: 1;
     background-color: white;
     transition: opacity 0.1s ease-out;
-  }
-  
-  .loading-container.hidden {
+}
+
+.loading-container.hidden {
     opacity: 0;
-    pointer-events: none; /* Prevent interactions with hidden loading screen */
-  }
+    pointer-events: none;
+    /* Prevent interactions with hidden loading screen */
+}
 
 .loading-gif {
     margin-top: -75px;
@@ -289,9 +293,9 @@
 
 .pet-age {
     font-size: 1rem;
-    font-weight: bold;
+    font-weight: normal;
     padding-top: 3px;
-    margin: 0;
+    margin: 0 0 0 1px;
 }
 
 .pet-status,
@@ -358,6 +362,7 @@
 
 /* Hide the button on larger screens */
 @media (min-width: 1024px) {
+
     .show-hidden-button,
     .pet-page-button {
         display: none;
@@ -387,4 +392,8 @@
 .result-count {
     margin-left: 25px;
     padding-bottom: 15px;
+}
+
+button {
+    font-family: "Outfit", sans-serif;
 }
