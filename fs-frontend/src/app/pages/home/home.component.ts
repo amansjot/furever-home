@@ -181,8 +181,12 @@ export class HomeComponent {
     event.stopPropagation();
 
     item.isFavorite = !item.isFavorite; // Toggle the favorite status
-    // Update local storage or send to server
     this.updateFavoriteStatus(item);
+
+    // Immediately update the displayed items if the favorite filter is active
+    if (this.favoriteFilter) {
+      this.items = this.items.filter((i) => this.favorites.includes(i._id));
+    }
   }
 
   updateFavoriteStatus(item: InventoryItemModel): void {
