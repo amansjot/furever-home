@@ -58,15 +58,15 @@
       </div>
       <div class="pet-attribute">
         <img src="/assets/pet-info-icons/home.svg" alt="Status icon" />
-        <p><strong>Status:</strong> {{ pet.status }}</p>
+        <p><strong>Status:</strong> {{ pet.status | titlecase }}</p>
       </div>
       <div class="pet-attribute">
         <img [src]="getAnimalIconPath(pet.animal)" alt="Animal icon" />
-        <p><strong>Animal:</strong> {{ pet.animal }}</p>
+        <p><strong>Animal:</strong> {{ pet.animal | titlecase }}</p>
       </div>
       <div class="pet-attribute">
         <img src="/assets/pet-info-icons/paw.svg" alt="Breed icon" />
-        <p><strong>Breed:</strong> {{ pet.breed }}</p>
+        <p><strong>Breed:</strong> {{ pet.breed | titlecase }}</p>
       </div>
       <div class="pet-attribute">
         <img src="/assets/pet-info-icons/calendar.svg" alt="Age icon" />

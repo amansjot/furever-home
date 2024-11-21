@@ -1,5 +1,6 @@
 .loading-container {
-    position: fixed; /* Overlay the entire screen */
+    position: fixed;
+    /* Overlay the entire screen */
     top: 75px;
     left: 0;
     width: 100%;
@@ -7,17 +8,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.8); /* Optional: Semi-transparent background */
-    z-index: 9999; /* Ensure it appears above everything else */
+    background-color: rgba(255, 255, 255, 0.8);
+    /* Optional: Semi-transparent background */
+    z-index: 9999;
+    /* Ensure it appears above everything else */
     opacity: 1;
     background-color: white;
     transition: opacity 0.1s ease-out;
-  }
-  
-  .loading-container.hidden {
+}
+
+.loading-container.hidden {
     opacity: 0;
-    pointer-events: none; /* Prevent interactions with hidden loading screen */
-  }
+    pointer-events: none;
+    /* Prevent interactions with hidden loading screen */
+}
 
 .loading-gif {
     margin-top: -75px;
@@ -117,14 +121,14 @@ img {
     border: none;
     border-radius: 40px;
     background-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0px 0px 2px 2px  rgba(124, 123, 123, 0.554);
+    box-shadow: 0px 0px 2px 2px rgba(124, 123, 123, 0.554);
     cursor: pointer;
     transition: background-color 0.3s ease;
 
     &:hover {
         background-color: rgba(255, 255, 255, 0.4);
     }
-    
+
 }
 
 #edit-button {
@@ -148,13 +152,11 @@ img {
 
 /* Card Information Sections */
 .pet-info-card {
-    background: linear-gradient(
-        to top,
-        rgba(0, 0, 0, 0.8),
-        rgba(0, 0, 0, 0.5) 40%,
-        rgba(0, 0, 0, 0.2) 80%,
-        transparent
-    );
+    background: linear-gradient(to top,
+            rgba(0, 0, 0, 0.8),
+            rgba(0, 0, 0, 0.5) 40%,
+            rgba(0, 0, 0, 0.2) 80%,
+            transparent);
     user-select: none;
     padding-bottom: 15px;
 }
@@ -365,7 +367,7 @@ img {
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    
+
     &:hover {
         background-color: rgba(255, 255, 255, 0.3);
     }
@@ -384,7 +386,7 @@ img {
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    
+
     &:hover {
         background-color: #3f8a73;
     }
@@ -395,26 +397,27 @@ img {
     .show-hidden-button {
         display: none;
     }
+
     .pet-page-button {
         display: none;
     }
 }
 
 .expand.arrow {
-  width: 15px;
-  height: 15px;
-  margin-left: 4px;
-  vertical-align: middle;
-  transform: translateY(-1px);
-  transition: transform 0.3s ease;
-  transform: translateY(-1px) rotate(180deg);
+    width: 15px;
+    height: 15px;
+    margin-left: 4px;
+    vertical-align: middle;
+    transform: translateY(-1px);
+    transition: transform 0.3s ease;
+    transform: translateY(-1px) rotate(180deg);
 }
 
 .expand.arrow.rotated {
-  transform: translateY(-1px) rotate(0deg);
+    transform: translateY(-1px) rotate(0deg);
 }
 
-.petcard-icon{
+.petcard-icon {
     margin-top: 3px;
     // width: 20px;
     // height: 20px;
@@ -434,37 +437,37 @@ img {
     margin: 0 auto;
     padding: 20px;
     border-radius: 10px;
-  }
-  
-  .seller-photo {
+}
+
+.seller-photo {
     width: 120px;
     height: 120px;
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 15px;
-  }
-  
-  .seller-org-name {
+}
+
+.seller-org-name {
     font-size: 1.8rem;
     font-weight: bold;
     margin: 10px 0;
     color: #333;
-  }
-  
-  .seller-info {
+}
+
+.seller-info {
     font-size: 1rem;
     color: #666;
     margin: 5px 0;
-  }
-  
-  .divider {
+}
+
+.divider {
     width: 80%;
     margin: 20px 0;
     border: none;
     border-top: 1px solid #ddd;
-  }
-  
-  .add-item-button {
+}
+
+.add-item-button {
     padding: 10px 20px;
     font-size: 1rem;
     color: white;
@@ -473,9 +476,13 @@ img {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-  }
-  
-  .add-item-button:hover {
+}
+
+.add-item-button:hover {
     background-color: #0056b3;
-  }
-  
+}
+
+
+button {
+    font-family: "Outfit", sans-serif;
+}

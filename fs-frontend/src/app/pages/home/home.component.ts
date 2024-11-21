@@ -109,13 +109,15 @@ export class HomeComponent {
         );
       }
 
-      this.loading = false;
+      // this.loading = false;
 
       // Update favorite status based on stored favorites
       this.items = this.items.map((item) => ({
         ...item,
         isFavorite: this.favorites.includes(item._id),
       }));
+
+      this.loading = false;
     } catch (err) {
       console.error(err);
       this.loading = false;
@@ -231,7 +233,7 @@ export class HomeComponent {
     const width = (event.target as Window).innerWidth;
     const wasVisible = this.isButtonVisible;
     this.isButtonVisible = width < 1024;
-    
+
     // Reset expanded cards when transitioning from mobile to desktop
     if (wasVisible && !this.isButtonVisible) {
       this.expandedCards = {};
@@ -286,9 +288,22 @@ export class HomeComponent {
   }
 
   getAnimalType(animal: string): string {
-    const reptiles = ['snake', 'lizard', 'tortoise', 'turtle', 'chameleon', 'gecko'];
-    const smallMammals = ['hamster', 'guinea pig', 'rabbit', 'chinchilla', 'mouse'];
-  
+    const reptiles = [
+      'snake',
+      'lizard',
+      'tortoise',
+      'turtle',
+      'chameleon',
+      'gecko',
+    ];
+    const smallMammals = [
+      'hamster',
+      'guinea pig',
+      'rabbit',
+      'chinchilla',
+      'mouse',
+    ];
+
     if (reptiles.includes(animal.toLowerCase())) {
       return 'Reptile';
     } else if (smallMammals.includes(animal.toLowerCase())) {
@@ -299,5 +314,4 @@ export class HomeComponent {
       return 'Other';
     }
   }
-  
 }
