@@ -58,10 +58,13 @@
             }
         }
 
+        .pfp-image {
+            border-radius: 50%;
+        }
+
         img {
             width: 120px;
             height: 120px;
-            border-radius: 50%;
             border: 5px solid white;
             object-fit: cover;
             position: absolute;
@@ -135,41 +138,32 @@
             opacity: 0.8;
 
             a {
-                color: #666;
-                font-size: 1.1rem;
-                padding: 8px;
-                width: 35px;
-                height: 35px;
+                width: 42px;
+                height: 42px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                border-radius: 8px;
-                background: rgba(255, 255, 255, 0.7);
+                border-radius: 50%;
                 transition: all 0.2s ease;
-                border: 1px solid rgba(0, 0, 0, 0.03);
-                
-                &[href*="linkedin"] {
-                    background: rgba(0, 119, 181, 0.05);
-                    color: #0077B5;
-                    
-                    &:hover {
-                        background: rgba(0, 119, 181, 0.1);
-                        transform: translateY(-2px);
-                        box-shadow: 
-                            0 4px 12px rgba(0, 119, 181, 0.1);
+                overflow: hidden;
+
+                img {
+                    width: 20px;
+                    height: 20px;
+                    position: static;
+                    transform: none;
+                    border: none;
+                    box-shadow: none;
+                    transition: all 0.2s ease;
+
+                    &[src*="linkedin"] {
+                        width: 16px;
+                        height: 16px;
                     }
                 }
 
-                &[href*="github"] {
-                    background: rgba(33, 33, 33, 0.05);
-                    color: #333;
-                    
-                    &:hover {
-                        background: rgba(33, 33, 33, 0.1);
-                        transform: translateY(-2px);
-                        box-shadow: 
-                            0 4px 12px rgba(0, 0, 0, 0.1);
-                    }
+                &:hover img {
+                    transform: scale(1.1);
                 }
             }
         }
@@ -306,6 +300,57 @@
             &:hover {
                 transform: translateY(-2px);
             }
+        }
+    }
+}
+
+// Color variants for social buttons
+.team-card {
+    &.mint .social-links a {
+        background: rgba(0, 202, 78, 0.1);
+        &:hover {
+            background: rgba(0, 202, 78, 0.15);
+            transform: translateY(-2px);
+        }
+    }
+
+    &.coral .social-links a {
+        background: rgba(255, 149, 0, 0.1);
+        &:hover {
+            background: rgba(255, 149, 0, 0.15);
+            transform: translateY(-2px);
+        }
+    }
+
+    &.lavender .social-links a {
+        background: rgba(151, 71, 255, 0.1);
+        &:hover {
+            background: rgba(151, 71, 255, 0.15);
+            transform: translateY(-2px);
+        }
+    }
+
+    &.peach .social-links a {
+        background: rgba(255, 45, 85, 0.1);
+        &:hover {
+            background: rgba(255, 45, 85, 0.15);
+            transform: translateY(-2px);
+        }
+    }
+
+    &.skyblue .social-links a {
+        background: rgba(0, 149, 255, 0.1);
+        &:hover {
+            background: rgba(0, 149, 255, 0.15);
+            transform: translateY(-2px);
+        }
+    }
+
+    &.lilac .social-links a {
+        background: rgba(151, 71, 255, 0.1);
+        &:hover {
+            background: rgba(151, 71, 255, 0.15);
+            transform: translateY(-2px);
         }
     }
 }
