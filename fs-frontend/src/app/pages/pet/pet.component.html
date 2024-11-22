@@ -3,16 +3,38 @@
 </div>
 
 <div [ngClass]="{ visible: !loading }" class="pet-container">
+  <div id="top">
+    <h1 class="pet-page-title">{{ pet.name }}</h1>
+    <!-- Favorite Button -->
+    <button *ngIf="isBuyer" class="petcard-favorite-button" (click)="toggleFavorite($event, pet)">
+      <!-- <button *ngIf="isBuyer" class="petcard-favorite-button"> -->
+      <img class="favorite-icon" 
+           [src]="pet.isFavorite ? '/assets/favorite-star-active.svg' : '/assets/favorite-star-inactive.svg'" 
+           alt="Favorite Icon" />
+    </button>
+  </div>
+
   <!-- Image Carousel -->
-  <h1 class="pet-page-title">{{ pet.name }}</h1>
   <div *ngIf="pet.pictures && pet.pictures.length" class="carousel">
-    <button (click)="prevImage()" *ngIf="pet.pictures && pet.pictures.length > 1" class="carousel-control prev">‹</button>
+    <button
+      (click)="prevImage()"
+      *ngIf="pet.pictures && pet.pictures.length > 1"
+      class="carousel-control prev"
+    >
+      ‹
+    </button>
     <img
       [src]="pet.pictures[currentImageIndex]"
       alt="{{ pet.name }}"
       class="carousel-image"
     />
-    <button (click)="nextImage()" *ngIf="pet.pictures && pet.pictures.length > 1" class="carousel-control next">›</button>
+    <button
+      (click)="nextImage()"
+      *ngIf="pet.pictures && pet.pictures.length > 1"
+      class="carousel-control next"
+    >
+      ›
+    </button>
     <button (click)="openModal()" class="expand-button">
       <img
         class="magnifying-glass-icon"
@@ -26,13 +48,25 @@
   <div *ngIf="isModalOpen" class="modal" (click)="handleModalClick($event)">
     <div class="modal-content">
       <span class="close" (click)="closeModal()">&times;</span>
-      <button (click)="prevImage()" *ngIf="pet.pictures && pet.pictures.length > 1" class="modal-control prev">‹</button>
+      <button
+        (click)="prevImage()"
+        *ngIf="pet.pictures && pet.pictures.length > 1"
+        class="modal-control prev"
+      >
+        ‹
+      </button>
       <img
         [src]="pet.pictures[currentImageIndex]"
         alt="{{ pet.name }}"
         class="modal-image"
       />
-      <button (click)="nextImage()" *ngIf="pet.pictures && pet.pictures.length > 1" class="modal-control next">›</button>
+      <button
+        (click)="nextImage()"
+        *ngIf="pet.pictures && pet.pictures.length > 1"
+        class="modal-control next"
+      >
+        ›
+      </button>
     </div>
   </div>
 
@@ -53,10 +87,6 @@
     <div class="pet-info">
       <h1 class="pet-page-header">Meet {{ pet.name }}!</h1>
       <div class="pet-attribute">
-        <img src="/assets/pet-info-icons/book.svg" alt="Description icon" />
-        <p><strong>Description:</strong> {{ pet.description }}</p>
-      </div>
-      <div class="pet-attribute">
         <img src="/assets/pet-info-icons/home.svg" alt="Status icon" />
         <p><strong>Status:</strong> {{ pet.status | titlecase }}</p>
       </div>
@@ -73,19 +103,28 @@
         <p><strong>Age:</strong> {{ formatAge(getAge(pet.birthdate)) }} old</p>
       </div>
       <div class="pet-attribute">
-        <img [src]="'/assets/gender/' + pet.sex.toLowerCase() + '.svg'" alt="Sex icon" />
+        <img
+          [src]="'/assets/gender/' + pet.sex.toLowerCase() + '.svg'"
+          alt="Sex icon"
+        />
         <p><strong>Sex:</strong> {{ pet.sex | titlecase }}</p>
       </div>
       <div class="pet-attribute">
-        <img src="/assets/pet-info-icons/location-pin.svg" alt="Location icon" />
+        <img
+          src="/assets/pet-info-icons/location-pin.svg"
+          alt="Location icon"
+        />
         <p><strong>Location:</strong> {{ pet.location }}</p>
       </div>
       <div class="pet-attribute">
         <img src="/assets/pet-info-icons/cash.svg" alt="Price icon" />
         <p><strong>Price:</strong> {{ pet.price | currency }}</p>
       </div>
+      <div class="pet-attribute">
+        <img src="/assets/pet-info-icons/book.svg" alt="Description icon" />
+        <p><strong>Description:</strong> {{ pet.description }}</p>
+      </div>
     </div>
-  
 
     <div class="pet-benefits">
       <div *ngIf="pet.benefits && pet.benefits.length">
@@ -95,7 +134,7 @@
           <span>{{ benefit }}</span>
         </div>
       </div>
-    </div>    
+    </div>
   </div>
 
   <div class="request-contact">

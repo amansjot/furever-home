@@ -8,6 +8,8 @@ import { LoginService } from '../../services/login.service';
 import { of, delay, switchMap, forkJoin, catchError } from 'rxjs';
 import { SellerService } from '../../services/seller.service';
 import { SellerModel } from '../../models/seller.model';
+import { BuyerService } from '../../services/buyer.service';
+import { InventoryItemModel } from '../../models/items.model';
 
 @Component({
   selector: 'app-pet',
@@ -21,6 +23,7 @@ export class PetComponent implements OnInit {
   public disableLogin: boolean = false;
   public authenticated: boolean = false;
   public isBuyer: boolean = false;
+  public favorites: string[] = [];
 
   public contactInfo: SellerModel | null = null;
 
@@ -32,6 +35,7 @@ export class PetComponent implements OnInit {
     private route: ActivatedRoute,
     private itemService: ItemService,
     private _loginSvc: LoginService,
+    private buyerService: BuyerService,
     private sellerService: SellerService,
     private router: Router,
     private dialog: MatDialog
@@ -47,6 +51,9 @@ export class PetComponent implements OnInit {
       }
     });
 
+    this.favorites = JSON.parse(localStorage.getItem('favorites') || '');
+    this.loadFavorites();
+
     const petId = this.route.snapshot.paramMap.get('id'); // Retrieve ID from route
 
     if (petId) {
@@ -61,6 +68,64 @@ export class PetComponent implements OnInit {
         }
       );
     }
+  }
+
+  loadFavorites(): void {
+    this.buyerService.getFavorites().subscribe({
+      next: (data) => {
+        this.favorites = data;
+
+        // Perform an initial check to see if the pet is favorited
+        if (this.pet && this.pet._id) {
+          this.pet.isFavorite = this.favorites.includes(this.pet._id); // Update the `isFavorite` property
+        }
+      },
+      error: (err) => {
+        this.favorites = JSON.parse(localStorage.getItem('favorites') || '');
+        console.log('Error loading favorites:', err);
+      },
+    });
+  }
+
+  // Toggle the favorite status of a card
+  toggleFavorite(event: MouseEvent, item: InventoryItemModel): void {
+    event.stopPropagation();
+
+    item.isFavorite = !item.isFavorite; // Toggle the favorite status
+
+    if (item.isFavorite) {
+      const target = (event.currentTarget as HTMLElement).querySelector('img');
+      if (target) {
+        // Add the 'pulse' class
+        target.classList.add('pulse');
+
+        // Remove the class after the animation ends
+        setTimeout(() => {
+          target.classList.remove('pulse');
+        }, 300); // Match the duration of the animation (0.3s in CSS)
+      }
+    }
+
+    this.updateFavoriteStatus(item);
+  }
+
+  updateFavoriteStatus(item: InventoryItemModel): void {
+    if (item.isFavorite) {
+      // Add to favorites if marked as favorite
+      this.favorites.push(item._id);
+    } else {
+      // Remove from favorites if unmarked
+      const index = this.favorites.indexOf(item._id);
+      if (index > -1) this.favorites.splice(index, 1);
+    }
+
+    localStorage.setItem('favorites', JSON.stringify(this.favorites));
+
+    // Send to the database
+    this.buyerService.updateFavorites(this.favorites).subscribe({
+      next: () => console.log('Favorites updated successfully'),
+      error: (err) => console.error('Error updating favorites:', err),
+    });
   }
 
   getAge(birthdate: Date | null): number {

@@ -3,7 +3,8 @@
 =================================== */
 
 .loading-container {
-  position: fixed; /* Overlay the entire screen */
+  position: fixed;
+  /* Overlay the entire screen */
   top: 75px;
   left: 0;
   width: 100%;
@@ -11,8 +12,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #ffffffcc; /* Optional: Semi-transparent background */
-  z-index: 9999; /* Ensure it appears above everything else */
+  background-color: #ffffffcc;
+  /* Optional: Semi-transparent background */
+  z-index: 9999;
+  /* Ensure it appears above everything else */
   opacity: 1;
   background-color: white;
   transition: opacity 0.1s ease-out;
@@ -20,7 +23,8 @@
 
 .loading-container.hidden {
   opacity: 0;
-  pointer-events: none; /* Prevent interactions with hidden loading screen */
+  pointer-events: none;
+  /* Prevent interactions with hidden loading screen */
 }
 
 .loading-gif {
@@ -43,10 +47,6 @@
   margin-top: 75px;
   background-color: #e6e6e6;
   border-radius: 20px;
-}
-
-.pet-page-title{
-  margin-top: 0px;
 }
 
 /* ===================================
@@ -81,6 +81,10 @@
 @media (min-width: 1024px) {
   .carousel-image {
     height: 750px;
+  }
+
+  .petcard-favorite-button {
+    pointer-events: auto;
   }
 }
 
@@ -250,8 +254,10 @@
 /* Container for pet details and benefits */
 .pet-details {
   display: flex;
-  flex-direction: column; /* Stack elements by default */
-  gap: 2vw; /* Add space between items */
+  flex-direction: column;
+  /* Stack elements by default */
+  gap: 2vw;
+  /* Add space between items */
 }
 
 .pet-info {
@@ -264,9 +270,9 @@
 
 .pet-attribute {
   display: flex;
-  align-items: center; 
-  gap: 1rem; 
-  margin-bottom: 10px; 
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 10px;
   background-color: #d1d1d1;
   padding: 5px;
   border-radius: 15px;
@@ -278,18 +284,18 @@
   width: 30px;
   height: 30px;
   object-fit: contain;
-  border-radius: 5px; 
+  border-radius: 5px;
   margin-left: 5px;
   pointer-events: none;
   user-select: none;
 }
 
 .pet-attribute p {
-  margin: 0; 
+  margin: 0;
   font-size: 1rem;
 }
 
-.pet-benefits{
+.pet-benefits {
   background-color: #dadada;
   padding: 2vw;
   border-radius: 20px;
@@ -297,15 +303,15 @@
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
-.pet-page-header{
+.pet-page-header {
   margin-top: 0px;
 }
 
 .benefit-item {
   display: flex;
-  align-items: center; 
-  gap: 1rem; 
-  margin-bottom: 10px; 
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 10px;
   background-color: #d1d1d1;
   padding: 5px;
   border-radius: 15px;
@@ -317,7 +323,7 @@
   width: 23px;
   height: 23px;
   object-fit: contain;
-  border-radius: 5px; 
+  border-radius: 5px;
   margin-left: 5px;
   pointer-events: none;
   user-select: none;
@@ -327,36 +333,57 @@
   background: radial-gradient(ellipse 99% 99% at center, #4ca68b, #2f9d78, #1e8564);
   border-radius: 20px;
   margin-top: 2vh;
-  display: flex; /* Use flexbox for alignment */
-  justify-content: center; /* Center the content horizontally */
-  align-items: center; /* Center the content vertically */
-  position: relative; /* Ensure the SVG can be absolutely positioned */
+  display: flex;
+  /* Use flexbox for alignment */
+  justify-content: center;
+  /* Center the content horizontally */
+  align-items: center;
+  /* Center the content vertically */
+  position: relative;
+  /* Ensure the SVG can be absolutely positioned */
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   overflow: hidden;
 }
 
 .request-pawprint-left {
-  position: absolute; /* Position the SVG independently of the button */
-  top: 50%; /* Center vertically */
-  left: 10px; /* Adjust horizontally (e.g., decorate the left edge) */
-  transform: translateY(-50%); /* Center vertically within the div */
-  width: 250px; /* Resize the paw print */
-  height: auto; /* Maintain aspect ratio */
-  filter: brightness(0) invert(1); /* Adjust for white color */
-  opacity: 0.5; /* Slightly transparent for decoration */
-  pointer-events: none; /* Make it unclickable */
+  position: absolute;
+  /* Position the SVG independently of the button */
+  top: 50%;
+  /* Center vertically */
+  left: 10px;
+  /* Adjust horizontally (e.g., decorate the left edge) */
+  transform: translateY(-50%);
+  /* Center vertically within the div */
+  width: 250px;
+  /* Resize the paw print */
+  height: auto;
+  /* Maintain aspect ratio */
+  filter: brightness(0) invert(1);
+  /* Adjust for white color */
+  opacity: 0.5;
+  /* Slightly transparent for decoration */
+  pointer-events: none;
+  /* Make it unclickable */
 }
 
 .request-pawprint-right {
-  position: absolute; /* Position the SVG independently of the button */
-  top: 50%; /* Center vertically */
-  right: -10px; /* Adjust horizontally (e.g., decorate the left edge) */
+  position: absolute;
+  /* Position the SVG independently of the button */
+  top: 50%;
+  /* Center vertically */
+  right: -10px;
+  /* Adjust horizontally (e.g., decorate the left edge) */
   transform: translateY(-50%) rotate(90deg);
-  width: 250px; /* Resize the paw print */
-  height: auto; /* Maintain aspect ratio */
-  filter: brightness(0) invert(1); /* Adjust for white color */
-  opacity: 0.5; /* Slightly transparent for decoration */
-  pointer-events: none; /* Make it unclickable */
+  width: 250px;
+  /* Resize the paw print */
+  height: auto;
+  /* Maintain aspect ratio */
+  filter: brightness(0) invert(1);
+  /* Adjust for white color */
+  opacity: 0.5;
+  /* Slightly transparent for decoration */
+  pointer-events: none;
+  /* Make it unclickable */
 }
 
 
@@ -366,14 +393,17 @@
   .request-contact {
     max-height: 70px;
   }
-  
+
   .request-pawprint-left {
     width: 200px;
-    left: -60px; /* Move farther left */
+    left: -60px;
+    /* Move farther left */
   }
+
   .request-pawprint-right {
     width: 200px;
-    right: -40px; /* Move farther right */
+    right: -40px;
+    /* Move farther right */
   }
 }
 
@@ -382,22 +412,29 @@
 
   .request-pawprint-left {
     width: 250px;
-    left: -40px; /* Move farther left */
+    left: -40px;
+    /* Move farther left */
   }
+
   .request-pawprint-right {
     width: 250px;
-    right: -40px; /* Move farther right */
+    right: -40px;
+    /* Move farther right */
   }
 
   .pet-details {
-    flex-direction: row; /* Align elements side-by-side */
-    align-items: flex-start; /* Align to the top */
+    flex-direction: row;
+    /* Align elements side-by-side */
+    align-items: flex-start;
+    /* Align to the top */
   }
 
   .pet-info,
   .pet-benefits {
-    flex: 1; /* Make both sections take up equal space */
-    max-width: 50%; /* Ensure each section occupies 50% */
+    flex: 1;
+    /* Make both sections take up equal space */
+    max-width: 50%;
+    /* Ensure each section occupies 50% */
     min-height: 470px;
   }
 }
@@ -406,11 +443,14 @@
 @media (min-width: 1440px) {
   .request-pawprint-left {
     width: 300px;
-    left: -60px; /* Move even farther left */
+    left: -60px;
+    /* Move even farther left */
   }
+
   .request-pawprint-right {
     width: 300px;
-    right: -60px; /* Move even farther right */
+    right: -60px;
+    /* Move even farther right */
   }
 }
 
@@ -448,4 +488,60 @@
 
 button {
   font-family: "Outfit", sans-serif;
+}
+
+#top {
+  height: 50px;
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Vertically center the items */
+  justify-content: space-between; /* Push the h1 to the left and button to the right */
+  padding: 0 0 20px 0;
+}
+
+.pet-page-title {
+  margin: 0;
+  line-height: 1;
+}
+
+.petcard-favorite-button {
+  position: relative; /* Remove absolute positioning for flexbox alignment */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%; /* Keep the button circular */
+  background-color: #4ca68b;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.petcard-favorite-button:hover {
+  background-color: #3da88ad3;
+}
+
+.favorite-icon {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.2s ease-in-out;
+}
+
+
+.favorite-icon.pulse {
+  animation: pulse-animation 0.3s ease-in-out;
+}
+
+@keyframes pulse-animation {
+  0% {
+    transform: scale(1);
+  }
+
+  60% {
+    transform: scale(1.4);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
