@@ -2,6 +2,10 @@
     margin-left: 25px;
     margin-right: 25px;
     background-color: rgba(255, 0, 0, 0);
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 .features-card {
@@ -9,6 +13,10 @@
     border-radius: 25px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     background-color: #ededed;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 .features-title {
@@ -55,6 +63,10 @@
     text-align: center;
     transition: transform 0.3s ease;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 
     &:hover {
         transform: translateY(-5px);
