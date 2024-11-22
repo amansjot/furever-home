@@ -3,13 +3,15 @@
     background-color: transparent;
     box-shadow: none;
     height: 100%;
-    margin-left: -25px;
-    margin-right: -25px;
- }
+    margin-left: 0;
+    margin-right: 0;
+}
 
  .landing-container {
-    margin-left: 25px;
-    margin-right: 25px;
+    margin-left: 0;
+    margin-right: 0;
+    overflow-x: hidden;
+    width: 100%;
  }
 // Container styles
 .landing-first-component-container {
