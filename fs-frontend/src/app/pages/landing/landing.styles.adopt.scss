@@ -7,6 +7,10 @@
 }
 
 .line-title {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     padding-left: 25px;
     padding-top: 25px;
     font-family: "Parkinsans", sans-serif;
