@@ -3,12 +3,17 @@
     background-color: transparent;
     box-shadow: none;
     height: 100%;
+    margin-left: -25px;
+    margin-right: -25px;
  }
 
+ .landing-container {
+    margin-left: 25px;
+    margin-right: 25px;
+ }
 // Container styles
 .landing-first-component-container {
     width: 100%;
-    max-width: 100%;
     box-sizing: border-box;
     padding: 0;
     margin: 0;
