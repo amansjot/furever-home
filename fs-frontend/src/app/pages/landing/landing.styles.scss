@@ -1,3 +1,9 @@
+// had to hide this shit idk how to fix it so fuck it
+::ng-deep .mat-mdc-card.mdc-card.content-card.mat-elevation-z4 {
+    background-color: transparent;
+    box-shadow: none;
+ }
+
 // Container styles
 .landing-container {
     width: 100%;
@@ -6,63 +12,61 @@
     padding: 0;
     margin: 0;
     overflow-x: hidden;
-}
+    border-radius: 25px;
 
-// Card container styles
-::ng-deep .mat-mdc-card.mdc-card.content-card.mat-elevation-z4 {
-    // Positioning and dimensions
-    position: relative;
-    top: 40px;
-    width: 100%;
-    min-height: 300px;
-    max-height: none;
-    height: auto;
-    
-    // Box model
-    box-sizing: border-box;
-    margin-top: 15px;
-    margin-bottom: 50px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    
-    // Display
-    display: flex;
-    align-items: flex-start;
-    overflow: hidden;
-
-    // Background styles
-    background-image: 
-        radial-gradient(
-            circle at 20% 100%,
-            rgba(19, 46, 36, 0.5) 0%,
-            rgba(46, 111, 87, 0.2) 33%,
-            rgba(108, 180, 143, 0.2) 33%,
-            rgba(52, 99, 83, 0.15) 66%,
-            rgba(148, 169, 161, .1) 66%,
-            rgba(47, 124, 96, .9) 99%
-        ),
-        linear-gradient(
-            40deg, 
-            hsla(161, 41%, 20%, 0.9), 
-            hsla(160, 54%, 40%, 0.6), 
-            hsla(162, 37%, 47%, 0.4),
-            hsla(167, 45%, 72%, 0.4)
-        ),
-        url('/assets/puppy.jpg');
-    background-repeat: no-repeat, no-repeat, no-repeat;
-    background-position: center, center, center 40%;
-    background-size: cover, cover, cover;
-
-    // Responsive styles
-    @media (max-width: 768px) {
-        top: 40px;
-        margin-bottom: 40px;
-        min-height: auto;
-    }
-
-    @media (max-width: 375px) {
-        top: 30px;
-        margin-bottom: 30px;
-    }
+     // Positioning and dimensions
+     position: relative;
+     top: 40px;
+     width: 100%;
+     min-height: 300px;
+     max-height: none;
+     height: auto;
+     
+     // Box model
+     box-sizing: border-box;
+     margin-top: 15px;
+     margin-bottom: 50px;
+     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+     
+     // Display
+     display: flex;
+     align-items: flex-start;
+     overflow: hidden;
+ 
+     // Background styles
+     background-image: 
+         radial-gradient(
+             circle at 20% 100%,
+             rgba(19, 46, 36, 0.5) 0%,
+             rgba(46, 111, 87, 0.2) 33%,
+             rgba(108, 180, 143, 0.2) 33%,
+             rgba(52, 99, 83, 0.15) 66%,
+             rgba(148, 169, 161, .1) 66%,
+             rgba(47, 124, 96, .9) 99%
+         ),
+         linear-gradient(
+             40deg, 
+             hsla(161, 41%, 20%, 0.9), 
+             hsla(160, 54%, 40%, 0.6), 
+             hsla(162, 37%, 47%, 0.4),
+             hsla(167, 45%, 72%, 0.4)
+         ),
+         url('/assets/puppy.jpg');
+     background-repeat: no-repeat, no-repeat, no-repeat;
+     background-position: center, center, center 40%;
+     background-size: cover, cover, cover;
+ 
+     // Responsive styles
+     @media (max-width: 768px) {
+         top: 40px;
+         margin-bottom: 40px;
+         min-height: auto;
+     }
+ 
+     @media (max-width: 375px) {
+         top: 30px;
+         margin-bottom: 30px;
+     }
 }
 
 // Main content styles
