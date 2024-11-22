@@ -2,7 +2,11 @@
   <img src="/assets/loading.gif" alt="Loading..." class="loading-gif" />
 </div>
 
-<div [ngClass]="{ visible: !loading }" class="seller-container main-content" *ngIf="seller">
+<div
+  [ngClass]="{ visible: !loading }"
+  class="seller-container main-content"
+  *ngIf="seller"
+>
   <img
     *ngIf="seller.sellerPhoto"
     [src]="seller.sellerPhoto"
@@ -12,7 +16,9 @@
   <h1 class="seller-org-name">{{ seller.orgName }}</h1>
   <p class="seller-info">Type: {{ seller.sellerType | titlecase }}</p>
   <p class="seller-info">Location: {{ seller.sellerLocation }}</p>
-  <p *ngIf="rootSellerRoute == 'seller'" class="seller-info">Contact: {{ seller.sellerContact }}</p>
+  <p *ngIf="rootSellerRoute == 'seller'" class="seller-info">
+    Contact: {{ seller.sellerContact }}
+  </p>
   <hr class="divider" />
   <button (click)="addItem(seller._id)" class="add-item-button">
     <img src="/assets/plus-icon.svg" alt="Add Item" />
@@ -38,6 +44,7 @@
     <button (click)="editItem(pet._id)">Edit</button>
     <button (click)="confirmDelete(pet._id)">Delete</button>
   </div> -->
+
   <div class="pet-card-container">
     <div *ngFor="let item of pets">
       <div
@@ -46,6 +53,7 @@
         (click)="navigateToPetDesktop($event, item._id)"
         [ngClass]="{ expanded: expandedCards[item.name] }"
       >
+        <!-- Pet Card Content -->
         <div
           class="pet-image-background"
           [style.background-image]="'url(' + item.pictures[0] + ')'"
@@ -93,6 +101,68 @@
             </div>
           </button>
 
+          <!-- Pet Info Card -->
+          <div class="pet-info-card">
+            <!-- Displayed Info -->
+            <div class="displayed-info">
+              <div class="info-text">
+                <h2 class="pet-name">{{ item.name }}</h2>
+                <p class="pet-age">
+                  {{ item.sex | titlecase }},
+                  {{ formatAge(getAge(item.birthdate)) }} old
+                </p>
+              </div>
+              <div class="button-group">
+                <button
+                  class="pet-page-button"
+                  (click)="navigateToPetMobile(item._id)"
+                >
+                  Pet Page
+                </button>
+                <button
+                  class="show-hidden-button"
+                  (click)="toggleCard(item.name)"
+                >
+                  {{ expandedCards[item.name] ? "Hide Info" : "Show Info" }}
+                  <img
+                    class="expand arrow"
+                    [ngClass]="{ rotated: expandedCards[item.name] }"
+                    src="/assets/drop-down-arrow.svg"
+                    alt="expand-arrow"
+                  />
+                </button>
+              </div>
+            </div>
+
+            <!-- Hidden Info -->
+            <div class="hidden-info-container">
+              <div class="hidden-info">
+                <div class="info-group">
+                  <p class="pet-status-tag">Status:</p>
+                  <p class="pet-status">{{ item.status }}</p>
+                </div>
+                <div class="info-group">
+                  <p class="pet-breed-tag">Breed:</p>
+                  <p class="pet-breed">{{ item.breed }}</p>
+                </div>
+                <div class="info-group">
+                  <p class="pet-price-tag">Price:</p>
+                  <p class="pet-price">
+                    {{ item.price | currency : "USD" : "symbol" : "1.0-0" }}
+                  </p>
+                </div>
+                <div class="info-group">
+                  <p class="pet-location-tag">Location:</p>
+                  <p class="pet-location">{{ item.location }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div
+          class="pet-image-background"
+          [style.background-image]="'url(' + item.pictures[0] + ')'"
+        >
           <div class="pet-info-card">
             <div class="displayed-info">
               <div class="info-text">
@@ -144,7 +214,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
