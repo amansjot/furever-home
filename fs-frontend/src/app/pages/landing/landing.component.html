@@ -21,5 +21,29 @@
 </div>
 
 <div class="landing-second-component-container">
-    <h1>Testing</h1>
+    <h2 class="line-title">Adopt Today!</h2>
+    <div class="pet-cards-wrapper">
+        <div class="pet-cards-outer">
+            <div #cardContainer class="pet-cards-container">
+                <div *ngFor="let pet of featuredPets" class="pet-card">
+                    <div class="pet-image">
+                        <img [src]="pet.pictures[0]" [alt]="pet.name" draggable="false">
+                    </div>
+                    <div class="pet-info">
+                        <h3>{{ pet.name }}</h3>
+                        <p>{{ pet.breed }}</p>
+                        <p class="price">{{ pet.price | currency }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-indicators">
+            <div
+                *ngFor="let page of [].constructor(totalPages); let i = index"
+                class="indicator"
+                [class.active]="i === currentPage"
+                (click)="scrollToPage(i)"
+            ></div>
+        </div>
+    </div>
 </div>
