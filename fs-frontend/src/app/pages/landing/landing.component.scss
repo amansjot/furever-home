@@ -5,35 +5,141 @@
 
     background-image: radial-gradient(
         circle at 20% 100%,
-        rgba(19, 46, 36, 0.1) 0%,
-        rgba(46, 111, 87, 0.1) 33%,
-        rgba(108, 180, 143, 0.1) 33%,
-        rgba(52, 99, 83, 0.1) 66%,
-        rgba(148, 169, 161, 0.1) 66%,
-        rgba(47, 124, 96, 0.1) 99%
+        rgba(19, 46, 36, 0.5) 0%,
+        rgba(46, 111, 87, 0.2) 33%,
+        rgba(108, 180, 143, 0.2) 33%,
+        rgba(52, 99, 83, 0.15) 66%,
+        rgba(148, 169, 161, .1) 66%,
+        rgba(47, 124, 96, .9) 99%
       ),
-      linear-gradient(40deg, #1e483b, #2f9d78, #4ca68b, #95d8c9);
-    background-repeat: no-repeat;
-    background-size: cover;
+      linear-gradient(40deg, 
+      hsla(161, 41%, 20%, 0.9), 
+      hsla(160, 54%, 40%, 0.6), 
+      hsla(162, 37%, 47%, 0.4),
+      hsla(167, 45%, 72%, 0.4)),
+      url('/assets/puppy.jpg');
+      background-repeat: no-repeat, no-repeat, no-repeat;
+      background-position: center, center, center 40%;
+      background-size: cover, cover, cover;
     min-height: 300px;
-    max-height: 600px;
-}
-
-
-// Loading screen container
-.loading-container {
-
+    max-height: none;
+    height: auto;
+    display: flex;
+    align-items: flex-start;
+    overflow: hidden;
 }
 
 .content {
-    padding: 10%;
-    max-width: 2400px;
+    padding: 3% 10%;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    box-sizing: border-box;
+
+    .content-left {
+        flex: 1;
+        min-width: 300px;
+        padding-top: 20px;
+        max-width: 60%;
+    }
+
+    .mobile-preview {
+        max-width: 300px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-start;
+        margin-right: 15%;
+        margin-top: 1.5%;
+
+        img {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.3));
+        }
+    }
+
+    // Media query for mobile devices
+    @media (max-width: 768px) {
+        padding: 20px 10px;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        
+        .content-left {
+            max-width: 100%;
+            padding: 0;
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+
+            .title-section {
+                justify-content: center;
+                padding: 0 10px;
+            }
+        }
+
+        p {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0 15px;
+            margin: 0 0 20px 0;
+            text-align: center;
+        }
+
+        .mobile-preview {
+            width: 100%;
+            max-width: none;
+            margin: 20px 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+            
+            img {
+                width: auto;
+                height: auto;
+                max-width: 200px;
+                max-height: 350px;
+            }
+        }
+
+        button {
+            margin: 0 auto;
+            display: block;
+        }
+    }
+
+    // Additional media query for very small devices
+    @media (max-width: 375px) {
+        padding: 15px 10px;
+        
+        .content-left {
+            padding: 0 5px;
+        }
+
+        p {
+            padding: 0 10px;
+        }
+        
+        .mobile-preview {
+            padding: 0;
+            
+            img {
+                max-width: 180px;
+                max-height: 300px;
+            }
+        }
+    }
 
     .title-section {
         display: flex;
         align-items: center;
         gap: clamp(10px, 2vw, 20px);
-        margin-bottom: 36px;
+        margin-bottom: 16px;
 
         img {
             height: clamp(40px, 4vw, 75px);
@@ -57,12 +163,15 @@
     font-size: clamp(0.9rem, 3vw, 1.25rem);
     font-weight: 300;
     line-height: 1.5;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     color: #fff;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .content button {
-    background: #eaeaea;
+    font-family: "Parkinsans", sans-serif;
+    background: #e6e6e6;
     color: #333;
     font-size: clamp(0.9rem, 4vw, 1rem);
     font-weight: 600;
