@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './landing.component.html',
-  styleUrl: './landing.styles.scss'
+  styleUrls: ['./landing.styles.first-comp.scss', './landing.styles.testimonials.scss'],
 })
 export class LandingComponent {
 
