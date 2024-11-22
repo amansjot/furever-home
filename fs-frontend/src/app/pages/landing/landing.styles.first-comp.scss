@@ -1,0 +1,253 @@
+::ng-deep .content[_ngcontent-ng-c878565217] {
+    padding: 0;
+    margin: 0;
+}
+
+// had to hide this shit idk how to fix it so fuck it
+::ng-deep .mat-mdc-card.mdc-card.content-card.mat-elevation-z4 {
+    background-color: transparent;
+    box-shadow: none;
+    height: 100%;
+    margin-top: 50px;
+    margin-left: 1%;
+    margin-right: 1%;
+    overflow: visible;
+}
+
+ .landing-container {
+    margin-left: 0;
+    margin-right: 0;
+    overflow-x: hidden;
+    width: 100%;
+    padding-bottom: 15px;
+ }
+// Container styles
+.landing-first-component-container {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+    border-radius: 25px;
+
+     // Positioning and dimensions
+     position: relative;
+     top: 20px;
+     width: 100%;
+     min-height: 300px;
+     max-height: none;
+     height: auto;
+     
+     // Box model
+     box-sizing: border-box;
+
+     margin-bottom: 50px;
+     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+     
+     // Display
+     display: flex;
+     align-items: flex-start;
+     overflow: hidden;
+ 
+     // Background styles
+     background-image: 
+         radial-gradient(
+             circle at 20% 100%,
+             rgba(19, 46, 36, 0.5) 0%,
+             rgba(46, 111, 87, 0.2) 33%,
+             rgba(108, 180, 143, 0.2) 33%,
+             rgba(52, 99, 83, 0.15) 66%,
+             rgba(148, 169, 161, .1) 66%,
+             rgba(47, 124, 96, .9) 99%
+         ),
+         linear-gradient(
+             40deg, 
+             hsla(161, 41%, 20%, 0.9), 
+             hsla(160, 54%, 40%, 0.6), 
+             hsla(162, 37%, 47%, 0.4),
+             hsla(167, 45%, 72%, 0.4)
+         ),
+         url('/assets/puppy.jpg');
+     background-repeat: no-repeat, no-repeat, no-repeat;
+     background-position: center, center, center 40%;
+     background-size: cover, cover, cover;
+ 
+     // Responsive styles
+     @media (max-width: 768px) {
+         top: 40px;
+         margin-bottom: 40px;
+         min-height: auto;
+     }
+ 
+     @media (max-width: 375px) {
+         top: 30px;
+         margin-bottom: 30px;
+     }
+}
+
+// Main content styles
+.content {
+    padding: 3% 10%;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    // Left content section
+    .content-left {
+        flex: 1;
+        min-width: 300px;
+        padding-top: 20px;
+        max-width: 60%;
+    }
+
+    // Title section
+    .title-section {
+        display: flex;
+        align-items: center;
+        gap: clamp(10px, 2vw, 20px);
+        margin-bottom: 16px;
+
+        img {
+            height: clamp(40px, 4vw, 75px);
+            width: auto;
+            min-height: 40px;
+            max-height: 75px;
+        }
+
+        h1 {
+            font-family: "Parkinsans", sans-serif;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            margin: 0;
+            color: #fff;
+        }
+    }
+
+    // Paragraph styles
+    p {
+        font-size: clamp(0.9rem, 3vw, 1.25rem);
+        font-weight: 300;
+        line-height: 1.5;
+        margin-bottom: 20px;
+        color: #fff;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    // Button styles
+    button {
+        font-family: "Parkinsans", sans-serif;
+        font-size: clamp(0.9rem, 4vw, 1rem);
+        font-weight: 600;
+        color: #333;
+        background: #e6e6e6;
+        padding: 8px 14px;
+        border: 0;
+        outline: 0;
+        border-radius: 25px;
+        transform: scale(1);
+        transition: all 0.3s ease-in;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        cursor: pointer;
+
+        &:is(:hover, :focus) {
+            transform: scale(0.98);
+            background-color: #38bd91;
+            color: #eaeaea;
+        }
+    }
+
+    // Mobile preview section
+    .mobile-preview {
+        max-width: 300px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-start;
+        margin-right: 15%;
+        margin-top: 1.5%;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+
+        img {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.3));
+        }
+    }
+
+    // Responsive styles
+    @media (max-width: 768px) {
+        padding: 20px 10px;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        
+        .content-left {
+            max-width: 100%;
+            padding: 0;
+            width: 100%;
+            text-align: center;
+
+            .title-section {
+                justify-content: center;
+                padding: 0 10px;
+            }
+        }
+
+        p {
+            width: 100%;
+            padding: 0 15px;
+            margin: 0 0 20px 0;
+            text-align: center;
+        }
+
+        .mobile-preview {
+            width: 100%;
+            max-width: none;
+            margin: 20px 0;
+            padding: 0;
+            justify-content: center;
+            align-items: center;
+            
+            img {
+                width: auto;
+                height: auto;
+                max-width: 200px;
+                max-height: 350px;
+            }
+        }
+
+        button {
+            margin: 0 auto;
+            display: block;
+        }
+    }
+
+    @media (max-width: 375px) {
+        padding: 15px 10px;
+        
+        .content-left {
+            padding: 0 5px;
+        }
+
+        p {
+            padding: 0 10px;
+        }
+        
+        .mobile-preview {
+            padding: 0;
+            
+            img {
+                max-width: 180px;
+                max-height: 300px;
+            }
+        }
+    }
+}
