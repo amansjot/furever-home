@@ -1,19 +1,19 @@
 .landing-second-component-container{
     margin-top: 75px;
     background-color: rgba(255, 0, 0, 0);
-    min-height: 500px;
+    min-height: 370px;
     padding: 0;
 }
 
 .line-title {
     font-family: "Parkinsans", sans-serif;
     font-weight: bold;
+    font-size: 1.5rem;
 }
 
 .pet-cards-wrapper {
     width: 100%;
     position: relative;
-    max-width: 2400px;
     margin: 0 auto;
 }
 
@@ -29,7 +29,6 @@
     -webkit-overflow-scrolling: touch;
     cursor: grab;
     scroll-snap-type: x mandatory;
-    margin-bottom: 10px;
     user-select: none;
     align-items: flex-start;
     justify-content: flex-start;
