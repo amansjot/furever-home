@@ -8,7 +8,7 @@ import { InventoryItemModel } from '../../models/items.model';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './landing.component.html',
-  styleUrls: ['./landing.styles.first-comp.scss', './landing.styles.testimonials.scss'],
+  styleUrls: ['./landing.styles.first-comp.scss', './landing.styles.adopt.scss'],
 })
 export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('cardContainer') cardContainer!: ElementRef;
