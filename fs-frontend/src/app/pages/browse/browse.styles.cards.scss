@@ -213,27 +213,28 @@
     padding: 2px 8px;
     border-radius: 15px;
     color: white;
+    font-weight: bold;
     font-size: 0.9rem;
     margin: 0;
-    align-self: start;
     min-width: 65px;
     text-align: center;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .pet-status-tag {
-    background-color: #2196F3;
+    background-color: #2196F3;  // Blue
 }
 
 .pet-breed-tag {
-    background-color: #673AB7;
+    background-color: #673AB7;  // Purple
 }
 
 .pet-price-tag {
-    background-color: #00a362;
+    background-color: #00a362;  // Green (matching landing page)
 }
 
 .pet-location-tag {
-    background-color: #F57C00;
+    background-color: #F57C00;  // Orange
 }
 
 // Text styles for pet details
@@ -258,6 +259,7 @@
 .pet-breed {
     margin: 0;
     padding-left: 5px;
+    font-weight: normal;  // Reset font weight for the value text
 }
 
 // Button styles
