@@ -1,7 +1,6 @@
 .adopt-today-container{
     margin-top: 75px;
-    margin-left: 25px;
-    margin-right: 25px;
+    margin-right: 35px;
     background-color: rgba(255, 0, 0, 0);
     min-height: 370px;
     padding: 0;
@@ -29,14 +28,14 @@
     position: relative;
     width: 100%;
     display: flex;
-    gap: 20px;
+    gap: 25px;
     overflow-x: auto;
-    padding-top: 5px;
-    padding-bottom: 20px;
+    padding: 5px 25px 20px 25px;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     cursor: grab;
-    scroll-snap-type: x mandatory;
+    scroll-snap-type: x proximity;
+    scroll-padding-left: 15px;
     user-select: none;
     align-items: flex-start;
     justify-content: flex-start;
