@@ -190,7 +190,7 @@ export class LoginService {
               this.token = response.token;
               this.loggedIn.next(true);
               this.fetchRoles(); // Fetch roles on registration
-              this._router.navigate(['/home']);
+              this._router.navigate(['/browse']);
               resolve(true);
             } else {
               this.token = '';
