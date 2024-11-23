@@ -84,7 +84,7 @@
     border: none;
     border-radius: 40px;
     background-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0px 0px 2px 2px rgba(124, 123, 123, 0.554);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.295);
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -113,6 +113,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 // Hidden information container
@@ -150,9 +151,7 @@
     .pet-card:hover .hidden-info {
         transform: translateY(0);
         opacity: 1;
-        backdrop-filter: blur(16px) saturate(180%);
-        -webkit-backdrop-filter: blur(16px) saturate(180%);
-        background-color: rgba(255, 255, 255, 0.66);
+        background-color: rgba(255, 255, 255, 0.85);
         border: 1px solid rgba(255, 255, 255, 0.125);
         filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.376));
         max-height: 60%;
@@ -170,13 +169,13 @@
     }
 
     .show-hidden-button:hover {
-        background-color: rgba(255, 255, 255, 0.3);
+        box-shadow: -1px 6px 10px rgba(0, 0, 0, 0.778);
     }
 }
 
 // Expanded state styles
 .pet-card.expanded .displayed-info {
-    transform: translateY(-150%);
+    transform: translateY(-160%);
     opacity: 1;
     display: flex;
     justify-content: space-between;
@@ -190,9 +189,7 @@
     transform: translateY(0);
     opacity: 1;
     display: block;
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
-    background-color: rgba(255, 255, 255, 0.66);
+    background-color: rgba(255, 255, 255, 0.85);
     border-radius: 15px;
     border: 1px solid rgba(255, 255, 255, 0.125);
     filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.376));
@@ -219,22 +216,24 @@
     font-size: 0.9rem;
     margin: 0;
     align-self: start;
+    min-width: 65px;
+    text-align: center;
 }
 
 .pet-status-tag {
-    background-color: rgb(81, 81, 254);
+    background-color: #2196F3;
 }
 
 .pet-breed-tag {
-    background-color: rgb(243, 22, 255);
+    background-color: #673AB7;
 }
 
 .pet-price-tag {
-    background-color: rgb(59, 147, 61);
+    background-color: #00a362;
 }
 
 .pet-location-tag {
-    background-color: rgb(202, 138, 71);
+    background-color: #F57C00;
 }
 
 // Text styles for pet details
@@ -242,6 +241,7 @@
     font-size: 2rem;
     font-weight: bold;
     margin: 0;
+    text-shadow: -1px 6px 17px rgba(0,0,0,0.51);
 }
 
 .pet-age {
@@ -249,6 +249,7 @@
     font-weight: normal;
     padding-top: 3px;
     margin: 0 0 0 1px;
+    text-shadow: -1px 6px 17px rgba(0,0,0,0.51);
 }
 
 .pet-status,
@@ -266,6 +267,7 @@
     border-radius: 20px;
     border: none;
     background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: -1px 6px 17px rgba(0, 0, 0, 0.317);
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
