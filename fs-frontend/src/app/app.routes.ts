@@ -14,4 +14,5 @@ export const routes: Routes = [
   { path: 'seller', loadComponent: () => import('./pages/seller/seller.component').then(m => m.SellerComponent), canActivate: [SellerGuardService] },
   { path: 'pet/:id', loadComponent: () => import('./pages/pet/pet.component').then(m => m.PetComponent) },
   { path: 'profile', loadComponent: () => import('./pages/profile/profile.component').then(m => m.ProfileComponent), canActivate: [AuthGuardService] },
+  { path: '**', redirectTo: '' } // if route is not found, redirect to landing page
 ];
