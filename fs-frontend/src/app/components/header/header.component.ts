@@ -48,7 +48,6 @@ export class HeaderComponent {
     } else {
       this.resetRoles();
     }
-    console.log("Change:" + this.authenticated);
   };
 
   private checkUserRoles(): void {

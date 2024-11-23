@@ -263,7 +263,6 @@ export class PetComponent implements OnInit {
     } else {
       this.isBuyer = false;
     }
-    console.log('Change:' + this.authenticated);
   };
 
   private checkUserRoles(): void {

@@ -304,7 +304,6 @@ export class BrowseComponent {
     } else {
       this.isBuyer = false;
     }
-    console.log('Change:' + this.authenticated);
   };
 
   private checkUserRoles(): void {
@@ -325,7 +324,6 @@ export class BrowseComponent {
       .subscribe(({ isBuyer }) => {
         this.isBuyer = isBuyer;
         if (this.isBuyer) {
-          console.log('yes!');
           this.loadFavorites();
         }
       });
