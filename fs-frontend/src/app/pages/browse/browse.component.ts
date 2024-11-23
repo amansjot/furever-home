@@ -23,14 +23,14 @@ import { catchError, delay, switchMap } from 'rxjs/operators';
     MatRadioModule,
     FormsModule,
   ],
-  templateUrl: './home.component.html',
+  templateUrl: './browse.component.html',
   styleUrls: [
-    './home.styles.scss',
-    './home.styles.filtering.scss',
-    './home.styles.cards.scss',
+    './browse.styles.scss',
+    './browse.styles.filtering.scss',
+    './browse.styles.cards.scss',
   ],
 })
-export class HomeComponent {
+export class BrowseComponent {
   public loading: boolean = true;
   public disableLogin: boolean = false;
   public authenticated: boolean = false;

@@ -1,7 +1,7 @@
 <div class="header-wrapper" [ngClass]="{ 'menu-is-open': isMenuOpen }">
   <mat-toolbar class="mat-toolbar" [ngClass]="{ hidden: isNavbarHidden, expanded: isMenuOpen }">
     <div class="title">
-      <a draggable="false" routerLink="/"
+      <a draggable="false" [routerLink]="authenticated ? '/browse' : '/'"
         ><img src="dog256.png" alt="Dog Icon" draggable="false" /> Furever Home</a
       >
     </div>

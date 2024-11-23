@@ -148,7 +148,7 @@ export class RegisterComponent implements OnInit {
       .register(data)
       .then((res) => {
         if (res) {
-          this._router.navigate(['/home']);
+          this._router.navigate(['/browse']);
         } else {
           this.errorMsg = 'Registration failed';
         }

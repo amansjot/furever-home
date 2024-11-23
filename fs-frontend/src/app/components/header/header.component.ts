@@ -92,7 +92,7 @@ export class HeaderComponent {
   logout() {
     this._loginSvc.logout();
     this.resetRoles();
-    this.router.navigate(['/login']);
+    this.router.navigate(['']);
   }
 
   async login() {
