@@ -39,13 +39,13 @@
         <!-- Filter Groups -->
         <!-- 1. Animal Filter -->
         <div class="filter-group">
-          <label (click)="toggleFilter('animal')">
-            Animal Type
+          <div class="filter-header" (click)="toggleFilter('animal')">
+            <span>Animal Type</span>
             <img class="filter-arrow" 
                  [ngClass]="{'rotated': expandedFilters.animal}" 
                  src="/assets/drop-down-arrow.svg" 
                  alt="expand-arrow" />
-          </label>
+          </div>
           <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.animal}">
             <mat-radio-group [(ngModel)]="filters.animal" (change)="setFilter('animal', filters.animal)">
               <mat-radio-button *ngFor="let animal of ['Any', 'Dog', 'Cat', 'Bird', 'Fish', 'Reptile', 'Small Mammal', 'Other']" [value]="animal">
@@ -57,13 +57,13 @@
 
         <!-- 2. Sex Filter -->
         <div class="filter-group">
-          <label (click)="toggleFilter('sex')">
-            Sex
+          <div class="filter-header" (click)="toggleFilter('sex')">
+            <span>Sex</span>
             <img class="filter-arrow" 
                  [ngClass]="{'rotated': expandedFilters.sex}" 
                  src="/assets/drop-down-arrow.svg" 
                  alt="expand-arrow" />
-          </label>
+          </div>
           <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.sex}">
             <mat-radio-group [(ngModel)]="filters.sex" (change)="setFilter('sex', filters.sex)">
               <mat-radio-button *ngFor="let sex of ['Any', 'Male', 'Female']" [value]="sex">
@@ -75,13 +75,13 @@
 
         <!-- 3. Age Filter -->
         <div class="filter-group">
-          <label (click)="toggleFilter('age')">
-            Age
+          <div class="filter-header" (click)="toggleFilter('age')">
+            <span>Age</span>
             <img class="filter-arrow" 
                  [ngClass]="{'rotated': expandedFilters.age}" 
                  src="/assets/drop-down-arrow.svg" 
                  alt="expand-arrow" />
-          </label>
+          </div>
           <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.age}">
             <mat-radio-group [(ngModel)]="filters.age" (change)="setFilter('age', filters.age)">
               <mat-radio-button *ngFor="let age of ['Any', 'Very Young', 'Young', 'Adult', 'Senior']" [value]="age">
@@ -93,13 +93,13 @@
 
         <!-- 4. Price Filter -->
         <div class="filter-group">
-          <label (click)="toggleFilter('price')">
-            Price
+          <div class="filter-header" (click)="toggleFilter('price')">
+            <span>Price</span>
             <img class="filter-arrow" 
                  [ngClass]="{'rotated': expandedFilters.price}" 
                  src="/assets/drop-down-arrow.svg" 
                  alt="expand-arrow" />
-          </label>
+          </div>
           <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.price}">
             <mat-radio-group [(ngModel)]="filters.price" (change)="setFilter('price', filters.price)">
               <mat-radio-button *ngFor="let price of ['Any', 'Low', 'Medium', 'High']" [value]="price">
@@ -111,13 +111,13 @@
 
         <!-- 5. Location Filter -->
         <div class="filter-group">
-          <label (click)="toggleFilter('location')">
-            Location
+          <div class="filter-header" (click)="toggleFilter('location')">
+            <span>Location</span>
             <img class="filter-arrow" 
                  [ngClass]="{'rotated': expandedFilters.location}" 
                  src="/assets/drop-down-arrow.svg" 
                  alt="expand-arrow" />
-          </label>
+          </div>
           <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.location}">
             <mat-radio-group [(ngModel)]="filters.location" (change)="setFilter('location', filters.location)">
               <mat-radio-button *ngFor="let location of ['Any', 'New York', 'Los Angeles', 'Chicago', 'Houston', 'Other']" [value]="location">
