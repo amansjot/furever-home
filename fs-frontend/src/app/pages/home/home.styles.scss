@@ -14,10 +14,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.8);
-    z-index: 9999; // Ensure it appears above everything else
-    opacity: 1;
     background-color: white;
+    z-index: 9999;
+    opacity: 1;
     transition: opacity 0.1s ease-out;
 }
 
@@ -66,6 +65,7 @@
     align-items: center;
     min-height: 415px; // Match the height of the pet card
     max-height: 450px;
+    transition: opacity 0.1s ease-out;
 }
 
 // No favorites message text
@@ -73,4 +73,33 @@
     font-size: 1.5rem;
     color: #666;
     text-align: center;
+}
+
+// Hidden state for content
+.hidden {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.1s ease-out !important;
+}
+
+// Main content container
+.main-content {
+  opacity: 0;
+  transition: opacity 0.3s ease-in;
+}
+
+// Visible state for main content
+.main-content.visible {
+  opacity: 1;
+}
+
+// Cards container
+.cards {
+  opacity: 1;
+  transition: opacity 0.1s ease-out;
+}
+
+.cards.hidden {
+  opacity: 0;
+  transition: opacity 0.1s ease-out;
 }

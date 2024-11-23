@@ -144,8 +144,8 @@
   <div class="filter-overlay" [ngClass]="{ 'open': isFilterOpen }" (click)="toggleFilters()"></div>
   
   <!-- Pet Cards Grid -->
-  <div class="cards">
-    <ng-container *ngIf="items.length > 0; else noFavorites">
+  <div class="cards" [ngClass]="{ hidden: loading }">
+    <ng-container *ngIf="!loading && getFilteredItems().length > 0; else noResults">
       <div class="pet-card-container">
         <ng-container *ngFor="let item of items">
           <!-- Pet Card -->
@@ -231,10 +231,10 @@
         </ng-container>
       </div>
     </ng-container>
-    <ng-template #noFavorites>
-      <div class="no-favorites-message-container">
+    <ng-template #noResults>
+      <div class="no-favorites-message-container" [ngClass]="{ hidden: loading }">
         <div class="no-favorites-message">
-          You have no favorites.
+          {{ favoriteFilter ? 'You have no favorites.' : 'No pets match your search criteria.' }}
         </div>
       </div>
     </ng-template>

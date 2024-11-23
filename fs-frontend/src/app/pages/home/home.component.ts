@@ -122,7 +122,6 @@ export class HomeComponent {
   async loadData(): Promise<void> {
     try {
       if (this.favoriteFilter) {
-        // this.itemCount = this.favorites.length;
         this.items = (
           await this.itemSvc.getInventoryItems(this.pageIndex, this.filters)
         ).filter((item) => this.favorites.includes(item._id));
@@ -134,8 +133,6 @@ export class HomeComponent {
         );
       }
 
-      // this.loading = false;
-
       // Update favorite status based on stored favorites
       this.items = this.items.map((item) => ({
         ...item,
@@ -144,8 +141,9 @@ export class HomeComponent {
 
       this.loading = false;
     } catch (err) {
-      console.error(err);
+      console.error('Error in loadData:', err);
       this.loading = false;
+      throw err; // Re-throw to be caught by the caller
     }
   }
 
@@ -244,9 +242,24 @@ export class HomeComponent {
   }
 
   toggleFavoriteFilter(): void {
-    this.favoriteFilter = !this.favoriteFilter;
-    localStorage.setItem('favoriteFilter', JSON.stringify(this.favoriteFilter));
-    this.loadData();
+    // Set loading state immediately
+    this.loading = true;
+    
+    // Delay the actual data change to ensure loading screen is visible first
+    setTimeout(() => {
+      this.favoriteFilter = !this.favoriteFilter;
+      localStorage.setItem('favoriteFilter', JSON.stringify(this.favoriteFilter));
+      
+      this.loadData().then(() => {
+        // Add a minimum delay before hiding loading screen
+        setTimeout(() => {
+          this.loading = false;
+        }, 300);
+      }).catch(error => {
+        console.error('Error loading data:', error);
+        this.loading = false;
+      });
+    }, 100);
   }
 
   navigateToPetDesktop(event: MouseEvent, petId: string): void {
@@ -422,5 +435,25 @@ export class HomeComponent {
 
     // Reload data with reset filters
     this.loadData();
+  }
+
+  getFilteredItems(): InventoryItemModel[] {
+    return this.items.filter(item => 
+      (this.filters.animal === 'Any' || this.filters.animal === this.getAnimalType(item.animal)) &&
+      (this.filters.sex === 'Any' || item.sex.toLowerCase() === this.filters.sex.toLowerCase()) &&
+      (this.filters.age === 'Any' ||
+        (this.filters.age === 'Very Young' && this.getAge(item.birthdate) < 1) ||
+        (this.filters.age === 'Young' && this.getAge(item.birthdate) >= 1 && this.getAge(item.birthdate) < 3) ||
+        (this.filters.age === 'Adult' && this.getAge(item.birthdate) >= 3 && this.getAge(item.birthdate) < 8) ||
+        (this.filters.age === 'Senior' && this.getAge(item.birthdate) > 8)) &&
+      (this.filters.price === 'Any' ||
+        (this.filters.price === 'Low' && item.price < 500) ||
+        (this.filters.price === 'Medium' && item.price >= 500 && item.price <= 1000) ||
+        (this.filters.price === 'High' && item.price > 1000)) &&
+      (this.filters.location === 'Any' ||
+        (this.filters.location === 'Other' &&
+          !['New York', 'Los Angeles', 'Chicago', 'Houston'].includes(item.location)) ||
+        item.location === this.filters.location)
+    );
   }
 }
