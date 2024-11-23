@@ -180,6 +180,10 @@
             object-fit: contain;
             filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.3));
         }
+
+        @media (min-width: 769px) {
+            margin-right: 0%;
+        }
     }
 
     // Responsive styles
