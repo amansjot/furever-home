@@ -30,11 +30,14 @@
     display: flex;
     gap: 25px;
     overflow-x: auto;
-    padding: 5px 25px 20px 25px;
+    padding: 10px 25px 20px 25px;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     cursor: grab;
-    scroll-snap-type: x proximity;
+    scroll-snap-type: x mandatory;
+    scroll-snap-stop: always;
+    scroll-behavior: smooth;
+    transition: all 0.3s ease-out;
     scroll-padding-left: 15px;
     user-select: none;
     align-items: flex-start;
@@ -46,12 +49,23 @@
     }
     -ms-overflow-style: none;
     scrollbar-width: none;
+
+    &:active {
+        scroll-snap-type: none;
+    }
+
+    &:not(:active) {
+        scroll-behavior: smooth;
+        transition: scroll-position 0.3s ease-out;
+    }
 }
 
 .pet-card {
     flex: 0 0 calc((100% - (var(--cards-per-page) - 1) * 20px) / var(--cards-per-page));
     min-width: 300px;
-    scroll-snap-align: start;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    transition: transform 0.3s ease-out;
     border-radius: 15px;
     overflow: hidden;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -73,6 +87,7 @@
 
     &:hover {
         transform: translateY(-5px);
+        transition: transform 0.2s ease-out;
     }
 
     .pet-image {

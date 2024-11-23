@@ -128,7 +128,7 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!this.isDragging) return;
         e.preventDefault();
         const x = e.pageX - container.offsetLeft;
-        const walk = (x - this.startX) * 2.5;
+        const walk = (x - this.startX) * 1.5;
         container.scrollLeft = this.scrollLeft - walk;
     };
 
@@ -192,21 +192,24 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     const pageWidth = this.cardWidth * this.cardsPerPage;
     const boundedIndex = Math.min(Math.max(0, pageIndex), this.totalPages - 1);
     
-    // Calculate the maximum possible scroll position
     const maxScroll = container.scrollWidth - container.clientWidth;
     let targetScroll = boundedIndex * pageWidth;
     
-    // If we're going to the last page, ensure we don't overflow
     if (boundedIndex === this.totalPages - 1) {
         targetScroll = maxScroll;
     }
 
-    requestAnimationFrame(() => {
-        container.scrollTo({
-            left: targetScroll,
-            behavior: smooth ? 'smooth' : 'auto'
-        });
-        this.currentPage = boundedIndex;
+    container.scrollTo({
+        left: targetScroll,
+        behavior: smooth ? 'smooth' : 'auto'
     });
+    
+    if (smooth) {
+        setTimeout(() => {
+            this.currentPage = boundedIndex;
+        }, 300);
+    } else {
+        this.currentPage = boundedIndex;
+    }
   }
 }
