@@ -2,11 +2,15 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } fr
 import { CommonModule } from '@angular/common';
 import { ItemService } from '../../services/item.service';
 import { InventoryItemModel } from '../../models/items.model';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+  ],
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.styles.first-comp.scss', './landing.styles.adopt.scss', './landing.styles.why-choose-us.scss', './landing.styles.testimonials.scss', './landing.styles.team.scss' ],
 })
