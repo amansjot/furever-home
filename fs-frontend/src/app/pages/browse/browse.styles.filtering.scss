@@ -109,7 +109,7 @@
 
 // Styles for each filter group
 .filter-group {
-    @include no-select-or-drag;;
+    @include no-select-or-drag;
     margin-bottom: 16px;
     background: #eaeaea;
     border-radius: 10px;
@@ -117,8 +117,7 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
     transition: all 0.2s ease;
 
-    label {
-        @include no-select-or-drag;
+    .filter-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
