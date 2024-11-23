@@ -125,7 +125,7 @@ export class HeaderComponent {
   toggleMenu() {
     if (this.isMenuOpen) {
       // When closing
-      const toolbar = document.querySelector('.mat-toolbar');
+      const toolbar = document.querySelector('.mat-toolbar') as HTMLElement;
       toolbar?.classList.add('closing');
       setTimeout(() => {
         this.isMenuOpen = false;
@@ -134,6 +134,16 @@ export class HeaderComponent {
     } else {
       // When opening
       this.isMenuOpen = true;
+      // Calculate and set height after a brief delay to ensure DOM is updated
+      setTimeout(() => {
+        const toolbar = document.querySelector('.mat-toolbar') as HTMLElement;
+        const mobileMenu = document.querySelector('.mobile-menu-content') as HTMLElement;
+        if (toolbar && mobileMenu) {
+          const menuHeight = mobileMenu.getBoundingClientRect().height;
+          const totalHeight = 75 + menuHeight + 40; // base height + menu + padding
+          toolbar.style.setProperty('--expanded-height', `${totalHeight}px`);
+        }
+      }, 0);
     }
   }
 

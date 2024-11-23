@@ -29,21 +29,25 @@ div {
 	height: 75px;
 	border-bottom-left-radius: 25px;
 	border-bottom-right-radius: 25px;
-	transition: all 0.2s ease-in-out;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	z-index: 1001;
 	display: flex;
 	flex-direction: column;
 	padding-top: 20px;
+	overflow: hidden;
 
 	&.hidden {
 		top: -75px;
 	}
 
 	&.expanded {
-		height: 300px;
+		height: var(--expanded-height, 300px);
+		min-height: 75px;
+		padding-bottom: 20px;
+
 		.mobile-menu-content {
 			opacity: 1;
-				visibility: visible;
+			visibility: visible;
 		}
 	}
 }
@@ -113,7 +117,7 @@ div {
 	opacity: 0;
 	visibility: hidden;
 	width: 100%;
-	transition: all 0.2s ease-in-out;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	margin-top: 20px;
 	padding: 0 20px;
 	display: flex;
@@ -144,6 +148,7 @@ div {
 		width: 100%;
 		max-width: 200px;
 		position: relative;
+		padding-bottom: 10px;
 
 		button {
 			@include button-styles;
@@ -151,10 +156,9 @@ div {
 			padding: 10px 15px;
 			opacity: 0;
 			transform: translateY(20px);
-			transition: all 0.2s ease-in-out;
-
-			// Stagger only on opening
-			@for $i from 1 through 5 {
+			
+			// Adjust stagger animation for up to 6 buttons
+			@for $i from 1 through 6 {
 				&:nth-child(#{$i}) {
 					transition-delay: #{$i * 0.1}s;
 				}
@@ -165,9 +169,12 @@ div {
 
 // Add this to show buttons when menu is expanded
 .mat-toolbar.expanded {
+	transition: all 0.3s ease-in-out;
+	
 	.mobile-menu-content {
 		opacity: 1;
 		visibility: visible;
+		transition: all 0.3s ease-in-out;
 
 		.mobile-login-btn button {
 			opacity: 1;

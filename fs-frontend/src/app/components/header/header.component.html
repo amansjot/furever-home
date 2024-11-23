@@ -9,10 +9,10 @@
     <!-- Desktop buttons -->
     <div class="desktop-login-btn" *ngIf="authenticated && showButtons">
       <button *ngIf="isAdmin" mat-mini-fab routerLink="/admin">Admin</button>
+      <button mat-mini-fab routerLink="/browse">Browse</button>
       <button *ngIf="isSeller" mat-mini-fab routerLink="/seller">
         My Pets
       </button>
-      <!-- <button *ngIf="isBuyer" mat-mini-fab routerLink="/favorites">Favorites</button> -->
       <button *ngIf="authenticated" mat-mini-fab routerLink="/profile">
         Profile
       </button>
@@ -45,6 +45,9 @@
         >
           Admin
         </button>
+        <button mat-mini-fab routerLink="/browse" (click)="onMenuItemClick()">
+          Browse
+        </button>
         <button
           *ngIf="isSeller"
           mat-mini-fab
@@ -53,14 +56,6 @@
         >
           My Pets
         </button>
-        <!-- <button
-          *ngIf="isBuyer"
-          mat-mini-fab
-          routerLink="/favorites"
-          (click)="onMenuItemClick()"
-        >
-          Favorites
-        </button> -->
         <button *ngIf="authenticated" mat-mini-fab routerLink="/profile">
           Profile
         </button>
