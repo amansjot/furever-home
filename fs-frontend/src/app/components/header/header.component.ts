@@ -16,7 +16,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   public disableLogin: boolean = false;
   public authenticated: boolean = false;
   public isAdmin: boolean = false;
@@ -25,6 +25,8 @@ export class HeaderComponent {
   public showButtons: boolean = true;
 
   private noHideRoutes: string[] = ['register', 'login'];
+
+  private contentDivOffset: number = 0;
 
   constructor(
     private _loginSvc: LoginService,
@@ -38,6 +40,25 @@ export class HeaderComponent {
         this.showButtons = !(event.url.includes("login") || event.url.includes("register"));
       }
     });
+  }
+
+  ngOnInit() {
+    this.updateContentDivOffset();
+
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        setTimeout(() => this.updateContentDivOffset(), 100);
+      }
+    });
+  }
+
+  private updateContentDivOffset(): void {
+    if (this.router.url === '/') {
+      const contentDiv = document.querySelector('.landing-first-component-container .content');
+      if (contentDiv) {
+        this.contentDivOffset = (contentDiv.getBoundingClientRect().bottom + window.pageYOffset) - 45;
+      }
+    }
   }
 
   onLoginChange = (loggedIn: boolean) => {
@@ -109,12 +130,20 @@ export class HeaderComponent {
   onWindowScroll() {
     if (!this.isMenuOpen) {
       const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-      const isNoHidePage = this.noHideRoutes.some(route => this.router.url.includes(route)); // Check if current route is in noHideRoutes
+      const isLandingPage = this.router.url === '/';
+      const isNoHidePage = this.noHideRoutes.some(route => this.router.url.includes(route));
 
-      if (!isNoHidePage) { // Only hide navbar if not on specified pages
-        this.isNavbarHidden = currentScrollPosition > this.lastScrollPosition;
+      if (!isNoHidePage) {
+        if (isLandingPage) {
+          // Only hide navbar when scrolled past the content div
+          this.isNavbarHidden = currentScrollPosition > this.lastScrollPosition && 
+                               currentScrollPosition > this.contentDivOffset;
+        } else {
+          // Original behavior for other pages
+          this.isNavbarHidden = currentScrollPosition > this.lastScrollPosition;
+        }
       } else {
-        this.isNavbarHidden = false; // Ensure navbar is visible on specified pages
+        this.isNavbarHidden = false;
       }
 
       this.lastScrollPosition = currentScrollPosition;
@@ -183,5 +212,6 @@ export class HeaderComponent {
         toolbar?.classList.remove('closing');
       }, 100);
     }
+    this.updateContentDivOffset();
   }
 }
