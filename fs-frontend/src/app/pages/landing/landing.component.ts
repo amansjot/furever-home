@@ -56,8 +56,7 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     
     this.resizeTimeout = window.setTimeout(() => {
       this.calculatePages();
-      this.updateCurrentPage();
-    }, 150); // Debounce time
+    }, 200);
   }
 
   private resizeTimeout: number | null = null;
@@ -67,54 +66,60 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!container) return;
 
     const containerWidth = container.clientWidth;
+    const oldCardsPerPage = this.cardsPerPage;
     
-    // Adjust maximum cards based on screen width
-    let maxCardsPerPage = 4; // Default max
-    
-    if (containerWidth >= 2000) {
-      maxCardsPerPage = 6; // For very wide screens (2560px)
-    } else if (containerWidth >= 1600) {
-      maxCardsPerPage = 5; // For wide screens
+    // Adjust cards per page based on container width
+    if (containerWidth >= 1200) {
+        this.cardsPerPage = 4;
+    } else if (containerWidth >= 992) {
+        this.cardsPerPage = 3;
+    } else if (containerWidth >= 576) {
+        this.cardsPerPage = 2;
+    } else {
+        this.cardsPerPage = 1;
     }
-    
-    this.cardsPerPage = Math.min(
-      maxCardsPerPage,
-      Math.max(1, Math.floor(containerWidth / this.cardWidth))
-    );
-    
-    // Set CSS variable for card width calculation
-    container.style.setProperty('--cards-per-page', this.cardsPerPage.toString());
+
+    // Calculate card width based on container and gaps
+    const totalGaps = this.cardsPerPage - 1;
+    const gapWidth = 25; // gap between cards
+    const availableWidth = containerWidth - (totalGaps * gapWidth) - 50; // 50px for container padding
+    this.cardWidth = (availableWidth / this.cardsPerPage);
     
     // Calculate new total pages
     this.totalPages = Math.ceil(this.featuredPets.length / this.cardsPerPage);
     
-    // Ensure current page is valid
-    this.currentPage = Math.min(Math.max(0, this.currentPage), this.totalPages - 1);
+    // Calculate current scroll position as a percentage
+    const scrollPercentage = container.scrollLeft / (container.scrollWidth - containerWidth);
     
-    // Force scroll position update
-    requestAnimationFrame(() => {
-      this.scrollToPage(this.currentPage, false);
-    });
+    // Calculate new target page based on scroll percentage
+    const newPage = Math.round(scrollPercentage * (this.totalPages - 1));
+    this.currentPage = Math.min(Math.max(0, newPage), this.totalPages - 1);
+    
+    // Update scroll position with a small delay to allow for DOM updates
+    setTimeout(() => {
+        this.scrollToPage(this.currentPage, false);
+    }, 50);
   }
 
-  private updateCurrentPage() {
-    const container = this.cardContainer?.nativeElement;
-    if (!container) return;
-
-    const scrollPosition = container.scrollLeft;
-    const pageWidth = this.cardWidth * this.cardsPerPage;
+  public scrollToPage(pageIndex: number, smooth: boolean = true) {
+    const container = this.cardContainer.nativeElement;
+    const pageWidth = this.cardWidth * this.cardsPerPage + ((this.cardsPerPage - 1) * 25); // Include gaps
+    const boundedIndex = Math.min(Math.max(0, pageIndex), this.totalPages - 1);
+    
     const maxScroll = container.scrollWidth - container.clientWidth;
+    let targetScroll = boundedIndex * pageWidth;
     
-    // Calculate the current page based on scroll position
-    let newPage = Math.round(scrollPosition / pageWidth);
-    
-    // Handle edge case for last page
-    if (Math.abs(scrollPosition - maxScroll) < 20) {
-        newPage = this.totalPages - 1;
+    // Ensure last page shows all cards properly
+    if (boundedIndex === this.totalPages - 1) {
+        targetScroll = maxScroll;
     }
+
+    container.scrollTo({
+        left: targetScroll,
+        behavior: smooth ? 'smooth' : 'auto'
+    });
     
-    // Update current page with bounds checking
-    this.currentPage = Math.min(Math.max(0, newPage), this.totalPages - 1);
+    this.currentPage = boundedIndex;
   }
 
   private setupDragScroll() {
@@ -210,29 +215,30 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private eventListeners: {[key: string]: (e: MouseEvent) => void} = {};
 
-  public scrollToPage(pageIndex: number, smooth: boolean = true) {
-    const container = this.cardContainer.nativeElement;
-    const pageWidth = this.cardWidth * this.cardsPerPage;
-    const boundedIndex = Math.min(Math.max(0, pageIndex), this.totalPages - 1);
-    
-    const maxScroll = container.scrollWidth - container.clientWidth;
-    let targetScroll = boundedIndex * pageWidth;
-    
-    if (boundedIndex === this.totalPages - 1) {
-        targetScroll = maxScroll;
-    }
+  private updateCurrentPage() {
+    const container = this.cardContainer?.nativeElement;
+    if (!container) return;
 
-    container.scrollTo({
-        left: targetScroll,
-        behavior: smooth ? 'smooth' : 'auto'
-    });
+    const scrollPosition = container.scrollLeft;
+    const containerWidth = container.clientWidth;
+    const maxScroll = container.scrollWidth - containerWidth;
     
-    if (smooth) {
-        setTimeout(() => {
-            this.currentPage = boundedIndex;
-        }, 300);
-    } else {
-        this.currentPage = boundedIndex;
+    // Calculate page width including gaps
+    const totalGaps = this.cardsPerPage - 1;
+    const gapWidth = 25;
+    const pageWidth = (this.cardWidth * this.cardsPerPage) + (totalGaps * gapWidth);
+    
+    // Calculate current page based on scroll position
+    let newPage = Math.round(scrollPosition / pageWidth);
+    
+    // Handle edge cases
+    if (scrollPosition <= 0) {
+        newPage = 0;
+    } else if (Math.abs(scrollPosition - maxScroll) < 10) {
+        newPage = this.totalPages - 1;
     }
+    
+    // Ensure page is within bounds
+    this.currentPage = Math.min(Math.max(0, newPage), this.totalPages - 1);
   }
 }

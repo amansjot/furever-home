@@ -34,18 +34,34 @@
     display: flex;
     gap: 25px;
     overflow-x: auto;
-    padding: 10px 0 20px 25px;
-    scroll-behavior: auto;
-    -webkit-overflow-scrolling: touch;
+    padding: 10px 25px 20px 25px;
     cursor: grab;
-    scroll-snap-type: none;
-    scroll-behavior: auto;
-    transition: scroll-behavior 0.3s ease-out;
-    scroll-padding-left: 15px;
     user-select: none;
     align-items: flex-start;
-    justify-content: flex-start;
-    margin-right: -25px;
+
+    .pet-card {
+        flex: 0 0 auto;
+        width: calc(25% - 25px);
+        min-width: 250px;
+        max-width: 320px;
+        
+        @media (max-width: 1200px) {
+            width: calc(33.333% - 25px);
+        }
+        
+        @media (max-width: 992px) {
+            width: calc(50% - 25px);
+        }
+        
+        @media (max-width: 576px) {
+            width: calc(100% - 25px);
+            min-width: 200px;
+        }
+
+        &:last-child {
+            margin-right: 25px;
+        }
+    }
 
     /* Hide scrollbar but keep functionality */
     &::-webkit-scrollbar {
@@ -53,16 +69,6 @@
     }
     -ms-overflow-style: none;
     scrollbar-width: none;
-
-    &:active {
-        scroll-snap-type: none;
-        transition: none;
-    }
-
-    &:not(:active) {
-        scroll-behavior: smooth;
-        transition: scroll-position 0.3s ease-out;
-    }
 }
 
 .pet-card {
