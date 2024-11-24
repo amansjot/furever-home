@@ -14,8 +14,10 @@ class Application {
       process.env.mongoConnectionString ||
         "mongodb+srv://singh:Aman@petadoption.nfugs.mongodb.net/"
     );
-    this.app.use(express.urlencoded({ extended: false }));
-    this.app.use(express.json());
+
+    // Increase payload size limits for JSON and URL-encoded data
+    this.app.use(express.json({ limit: "10mb" })); // Adjust the limit as needed
+    this.app.use(express.urlencoded({ extended: true, limit: "10mb" })); // Adjust the limit as needed
     this.initCors();
   }
 

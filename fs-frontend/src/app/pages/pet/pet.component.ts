@@ -193,7 +193,6 @@ export class PetComponent implements OnInit {
 
     if (!userId) {
       console.error('User ID is missing. Please ensure the user is logged in.');
-      alert('You must be logged in to request contact information.');
       return;
     }
 

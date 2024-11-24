@@ -72,4 +72,9 @@ export class ItemService {
   public deleteItemById(itemId: string): Observable<any> {
     return this.httpClient.delete(`${Config.apiBaseUrl}/items/${itemId}`);
   }
+  
+  // Method to add a pet to the seller's profile
+  public addPet(petData: any): Observable<any> {
+    return this.httpClient.post(`${Config.apiBaseUrl}/items`, petData);
+  }
 }
