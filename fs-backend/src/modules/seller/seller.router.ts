@@ -14,6 +14,12 @@ export class SellerRouter {
       SecurityMiddleware.hasRole("seller"),
       this.controller.getSellerProfile
     );
+      
+    this.router.get(
+        "/:userId",
+        SecurityMiddleware.validateUser,
+        this.controller.getSellerProfile
+      );
 
     // Route to get seller contact info by pet ID
     this.router.get(

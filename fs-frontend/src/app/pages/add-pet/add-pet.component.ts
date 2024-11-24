@@ -152,13 +152,25 @@ export class AddPetComponent implements OnInit {
   //   }
   // }
 
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
     this.submitted = true;
 
     if (this.petForm.invalid) return;
 
     const userId = this._loginSvc.getAuthenticatedUserId(); // Retrieve the current seller's ID
     const location = this._loginSvc.getAuthenticatedSellerLocation(); // Retrieve the current seller's location
+    const sellerType = this._loginSvc.getAuthenticatedSellerType();
+
+    const resolvedSellerType = await sellerType;
+
+    let petStatus: string = "Unknown";
+    if (resolvedSellerType === "breeder") {
+      petStatus = "Bred";
+    } else if (resolvedSellerType === "shelter") {
+      petStatus = "Sheltered";
+    } else if (resolvedSellerType === "rehoming") {
+      petStatus = "Rehoming";
+    }
 
     if (!userId || !location) {
       console.error('Seller data cannot be retrieved. Must be logged in.');
@@ -167,16 +179,16 @@ export class AddPetComponent implements OnInit {
 
     const formData = {
       ...this.petForm.value,
-      status: "N/A",
+      status: petStatus,
       location: location,
       sellerId: userId,
     };
 
-    console.log(JSON.stringify(formData, null, 2));
+    // console.log(JSON.stringify(formData, null, 2));
 
     this.itemService.addPet(formData).subscribe({
       next: () => {
-        alert('Pet added successfully!');
+        console.log('Pet added successfully!');
         this.router.navigate(['/seller']); // Navigate back to the seller's page
       },
       error: (err: any) => {

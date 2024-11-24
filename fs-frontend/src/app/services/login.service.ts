@@ -118,6 +118,26 @@ export class LoginService {
       return null;
     }
   }
+
+  public async getAuthenticatedSellerType(): Promise<string | null> {
+    if (!this.token) {
+      return null;
+    }
+  
+    try {
+      const decodedToken: any = jwtDecode(this.token);
+  
+      // Make an HTTP call to fetch the seller type
+      const response = await this.httpClient
+        .get<{ sellerType: string }>(`${Config.apiBaseUrl}/seller/${decodedToken._id}`)
+        .toPromise();
+  
+      return response?.sellerType || null; // Return the sellerType or null if not found
+    } catch (error) {
+      console.error('Error fetching sellerType:', error);
+      return null;
+    }
+  }
   
 
   /* Authorize the Token with Server */
