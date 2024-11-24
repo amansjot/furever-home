@@ -247,3 +247,131 @@ button {
 		}
 	}
 }
+
+.desktop-login-btn {
+	position: absolute;
+	right: 25px;
+	display: flex;
+	gap: 25px;
+	align-items: center;
+
+	// Hide desktop buttons on mobile
+	@media (max-width: 768px) {
+		display: none;
+	}
+
+	button {
+		background: none;
+		border: none;
+		color: white;
+		font-family: "Parkinsans", sans-serif;
+		font-size: 1.1rem;
+		padding: 5px 0;
+		position: relative;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		box-shadow: none;
+		width: auto;
+		
+		&::after {
+			content: '';
+			position: absolute;
+			bottom: 0;
+			left: 50%;
+			transform: translateX(-50%) scale(0);
+			width: 4px;
+			height: 4px;
+			background-color: white;
+			border-radius: 50%;
+			transition: transform 0.3s ease;
+		}
+
+		&:hover, &.active {
+			background: none;
+			transform: translateY(-2px);
+			
+			&::after {
+				transform: translateX(-50%) scale(1);
+			}
+		}
+
+		// Special styling for active state
+		&.active {
+			&::after {
+				transform: translateX(-50%) scale(1);
+				background-color: #ffffff;
+				box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+			}
+		}
+
+		&:active {
+			transform: translateY(0);
+		}
+
+		&[disabled] {
+			opacity: 0.5;
+			pointer-events: none;
+		}
+	}
+}
+
+// Update mobile menu styles to match
+.mobile-menu-content {
+	.mobile-login-btn {
+		button {
+			background: none;
+			border: none;
+			color: white;
+			font-family: "Parkinsans", sans-serif;
+			font-size: 1.1rem;
+			padding: 8px 0 8px 20px;
+			position: relative;
+			width: auto;
+			text-align: left;
+			
+			&::after {
+				content: '';
+				position: absolute;
+				left: 0;
+				top: 50%;
+				transform: translateY(-50%) scale(0);
+				width: 4px;
+				height: 4px;
+				background-color: white;
+				border-radius: 50%;
+				transition: transform 0.3s ease;
+			}
+
+			&:hover {
+				background: none;
+				transform: translateX(5px);
+				
+				&::after {
+					transform: translateY(-50%) scale(1);
+				}
+			}
+
+			// Active state styling
+			&.active {
+				transform: translateX(5px);
+				
+				&::after {
+					transform: translateY(-50%) scale(1);
+					background-color: #ffffff;
+					box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+				}
+			}
+		}
+	}
+}
+
+// Update hamburger button
+.hamburger-btn {
+	background: none;
+	border: none;
+	color: white;
+	
+	&:hover {
+		background: none;
+	}
+}

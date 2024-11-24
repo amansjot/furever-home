@@ -214,4 +214,12 @@ export class HeaderComponent implements OnInit {
     }
     this.updateContentDivOffset();
   }
+
+  // Add this method to check if a route is active
+  isRouteActive(route: string): boolean {
+    if (route === '/browse' && this.router.url === '/') {
+        return false;
+    }
+    return this.router.url.startsWith(route);
+  }
 }

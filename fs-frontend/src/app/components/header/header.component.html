@@ -8,20 +8,14 @@
 
     <!-- Desktop buttons -->
     <div class="desktop-login-btn" *ngIf="authenticated && showButtons">
-      <button *ngIf="isAdmin" mat-mini-fab routerLink="/admin">Admin</button>
-      <button mat-mini-fab routerLink="/browse">Browse</button>
-      <button *ngIf="isSeller" mat-mini-fab routerLink="/seller">
-        My Pets
-      </button>
-      <button *ngIf="authenticated" mat-mini-fab routerLink="/profile">
-        Profile
-      </button>
-      <button mat-mini-fab (click)="logout()">Logout</button>
+      <button *ngIf="isAdmin" routerLink="/admin" [class.active]="isRouteActive('/admin')">Admin</button>
+      <button routerLink="/browse" [class.active]="isRouteActive('/browse')">Browse</button>
+      <button *ngIf="isSeller" routerLink="/seller" [class.active]="isRouteActive('/seller')">My Pets</button>
+      <button *ngIf="authenticated" routerLink="/profile" [class.active]="isRouteActive('/profile')">Profile</button>
+      <button (click)="logout()">Logout</button>
     </div>
     <div class="desktop-login-btn" *ngIf="!authenticated && showButtons">
-      <button mat-mini-fab routerLink="/login" [disabled]="disableLogin">
-        Login
-      </button>
+      <button routerLink="/login" [class.active]="isRouteActive('/login')" [disabled]="disableLogin">Login</button>
     </div>
 
     <!-- Mobile hamburger -->
@@ -34,45 +28,18 @@
       <mat-icon>menu</mat-icon>
     </button>
 
-    <!-- Replace menu-overlay with mobile menu content directly in toolbar -->
+    <!-- Mobile menu -->
     <div class="mobile-menu-content" [ngClass]="{ open: isMenuOpen }">
-      <div class="mobile-login-btn" *ngIf="authenticated && showButtons">
-        <button
-          *ngIf="isAdmin"
-          mat-mini-fab
-          routerLink="/admin"
-          (click)="onMenuItemClick()"
-        >
-          Admin
-        </button>
-        <button mat-mini-fab routerLink="/browse" (click)="onMenuItemClick()">
-          Browse
-        </button>
-        <button
-          *ngIf="isSeller"
-          mat-mini-fab
-          routerLink="/seller"
-          (click)="onMenuItemClick()"
-        >
-          My Pets
-        </button>
-        <button *ngIf="authenticated" mat-mini-fab routerLink="/profile">
-          Profile
-        </button>
-        <button mat-mini-fab (click)="logout(); onMenuItemClick()">
-          Logout
-        </button>
-      </div>
-      <div class="mobile-login-btn" *ngIf="!authenticated && showButtons">
-        <button
-          mat-mini-fab
-          routerLink="/login"
-          [disabled]="disableLogin"
-          (click)="onMenuItemClick()"
-        >
-          Login
-        </button>
-      </div>
+        <div class="mobile-login-btn" *ngIf="authenticated && showButtons">
+            <button *ngIf="isAdmin" routerLink="/admin" [class.active]="isRouteActive('/admin')" (click)="onMenuItemClick()">Admin</button>
+            <button routerLink="/browse" [class.active]="isRouteActive('/browse')" (click)="onMenuItemClick()">Browse</button>
+            <button *ngIf="isSeller" routerLink="/seller" [class.active]="isRouteActive('/seller')" (click)="onMenuItemClick()">My Pets</button>
+            <button *ngIf="authenticated" routerLink="/profile" [class.active]="isRouteActive('/profile')" (click)="onMenuItemClick()">Profile</button>
+            <button (click)="logout(); onMenuItemClick()">Logout</button>
+        </div>
+        <div class="mobile-login-btn" *ngIf="!authenticated && showButtons">
+            <button routerLink="/login" [class.active]="isRouteActive('/login')" [disabled]="disableLogin" (click)="onMenuItemClick()">Login</button>
+        </div>
     </div>
   </mat-toolbar>
 </div>
