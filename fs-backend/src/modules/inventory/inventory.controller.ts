@@ -160,35 +160,62 @@ export class InventoryController {
     res: express.Response
   ): Promise<void> => {
     try {
+      // Step 1: Connect to the database
       const result = await this.mongoDBService.connect();
       if (!result) {
         res.status(500).send({ error: "Database connection failed" });
         return;
       }
+
+      // Step 2: Create the pet document
       let item: InventoryItemModel = {
-        name: req.body.name,
-        status: req.body.status,
-        pictures: req.body.pictures,
-        description: req.body.description,
-        typeOfPet: req.body.typeOfPet,
-        speciesBreed: req.body.speciesBreed,
-        age: req.body.age,
-        quantity: req.body.quantity,
-        price: req.body.price,
-        documentation: req.body.documentation,
-        sex: req.body.sex,
-        image: req.body.image,
-        location: req.body.location,
+        name: req.body.name, // Pet's name
+        status: req.body.status, // Pet's adoption status
+        pictures: req.body.pictures, // Array of picture URLs
+        animal: req.body.animal, // Animal type (e.g., dog, cat, etc.)
+        breed: req.body.breed, // Breed of the animal
+        price: req.body.price, // Price of the pet
+        sex: req.body.sex, // Sex of the animal (male/female)
+        location: req.body.location, // Location of the pet
+        description: req.body.description, // Description of the pet
+        benefits: req.body.benefits, // Array of benefits (e.g., Vet Records, Potty Training, etc.)
+        birthdate: req.body.birthdate, // Pet's birth date (YYYY-MM-DD format)
       };
-      const success = await this.mongoDBService.insertOne(
+
+      // Step 3: Insert the pet document into the Pets collection
+      const insertedItem = await this.mongoDBService.insertOne(
         this.settings.database,
         this.settings.collection,
         item
       );
-      if (success) res.send({ success: true });
-      else res.status(500).send({ error: "Failed to add item" });
-    } catch (error) {
-      res.status(500).send({ error: error });
+
+      if (!insertedItem || !insertedItem.insertedId) {
+        res.status(500).send({ error: "Failed to add item" });
+        return;
+      }
+
+      // Step 4: Update the seller's document with the new pet ID
+      const sellerId = req.body.sellerId;
+      const updateResult = await this.mongoDBService.updateOne(
+        this.settings.database,
+        "sellers",
+        { user: new ObjectId(sellerId) }, // Query to find the seller by "user" field
+        { $push: { pets: insertedItem.insertedId } } // Add the new pet's ID to the "pets" array
+      );
+
+      if (!updateResult.modifiedCount) {
+        res
+          .status(500)
+          .send({
+            error: "Pet added, but failed to update the seller's document",
+          });
+        return;
+      }
+
+      // Step 5: Send a success response
+      res.send({ success: true, petId: insertedItem.insertedId });
+    } catch (error: any) {
+      res.status(500).send({ error: error.message });
     }
   };
 
@@ -200,41 +227,44 @@ export class InventoryController {
 		@remarks: Handles the update item request
 		@async
 	*/
-	putUpdateItem = async (req: express.Request, res: express.Response): Promise<void> => {
-		try {
-			const result = await this.mongoDBService.connect();
-			if (!result) {
-				res.status(500).send({ error: "Database connection failed" });
-				return;
-			}
-			let item: InventoryItemModel = {
-				name: req.body.name,
-				status: req.body.status,
-				pictures: req.body.pictures,
-				description: req.body.description,
-				typeOfPet: req.body.typeOfPet,
-				speciesBreed: req.body.speciesBreed,
-				age: req.body.age,
-				quantity: req.body.quantity,
-				price: req.body.price,
-				documentation: req.body.documentation,
-				sex: req.body.sex,
-				image: req.body.image,
-				location: req.body.location
-			};
-			let command = { $set: item };
-			const success = await this.mongoDBService.updateOne(this.settings.database, this.settings.collection, { _id: new ObjectId(req.params.id) }, command);
-			if (success)
-				res.send({ success: true });
-			else
-				res.status(500).send({ error: "Failed to update item" });
+  putUpdateItem = async (
+    req: express.Request,
+    res: express.Response
+  ): Promise<void> => {
+    try {
+      const result = await this.mongoDBService.connect();
+      if (!result) {
+        res.status(500).send({ error: "Database connection failed" });
+        return;
+      }
+      let item: InventoryItemModel = {
+        name: req.body.name, // Pet's name
+        status: req.body.status, // Pet's adoption status
+        pictures: req.body.pictures, // Array of picture URLs
+        animal: req.body.animal, // Animal type (e.g., dog, cat, etc.)
+        breed: req.body.breed, // Breed of the animal
+        price: req.body.price, // Price of the pet
+        sex: req.body.sex, // Sex of the animal (male/female)
+        location: req.body.location, // Location of the pet
+        description: req.body.description, // Description of the pet
+        benefits: req.body.benefits, // Array of benefits (e.g., Vet Records, Potty Training, etc.)
+        birthdate: req.body.birthdate, // Pet's birth date (YYYY-MM-DD format)
+      };
+      let command = { $set: item };
+      const success = await this.mongoDBService.updateOne(
+        this.settings.database,
+        this.settings.collection,
+        { _id: new ObjectId(req.params.id) },
+        command
+      );
+      if (success) res.send({ success: true });
+      else res.status(500).send({ error: "Failed to update item" });
+    } catch (error) {
+      res.status(500).send({ error: error });
+    }
+  };
 
-		} catch (error) {
-			res.status(500).send({ error: error });
-		}
-	}
-
-	/* deleteItem(req: express.Request, res: express.Response): Promise<void>
+  /* deleteItem(req: express.Request, res: express.Response): Promise<void>
 			@param {express.Request} req: The request object
 			expects the partno of the item to be in the params array of the request object as id
 		@param {express.Response} res: The response object

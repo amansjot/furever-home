@@ -12,6 +12,7 @@ export const routes: Routes = [
   { path: 'favorites', loadComponent: () => import('./pages/favorites/favorites.component').then(m => m.FavoritesComponent), canActivate: [AuthGuardService] },
   { path: 'admin', loadComponent: () => import('./pages/admin/admin.component').then(m => m.AdminComponent), canActivate: [AdminGuardService] },
   { path: 'seller', loadComponent: () => import('./pages/seller/seller.component').then(m => m.SellerComponent), canActivate: [SellerGuardService] },
+  { path: 'pet/new', loadComponent: () => import('./pages/add-pet/add-pet.component').then(m => m.AddPetComponent), canActivate: [SellerGuardService] },
   { path: 'pet/:id', loadComponent: () => import('./pages/pet/pet.component').then(m => m.PetComponent) },
   { path: 'profile', loadComponent: () => import('./pages/profile/profile.component').then(m => m.ProfileComponent), canActivate: [AuthGuardService] },
   { path: '**', redirectTo: '' } // if route is not found, redirect to landing page

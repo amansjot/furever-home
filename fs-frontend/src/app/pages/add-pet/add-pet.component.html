@@ -1,0 +1,161 @@
+<div class="add-pet-container">
+  <mat-card class="add-pet-card">
+    <mat-card-title class="add-pet-title">Add a Pet</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="petForm" (ngSubmit)="onSubmit()">
+        <!-- Name -->
+        <mat-form-field class="full-width">
+          <mat-label>Name</mat-label>
+          <input
+            matInput
+            formControlName="name"
+            placeholder="Enter the pet's name"
+          />
+          <mat-error *ngIf="petForm.get('name')?.hasError('required')">
+            Name is required
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Animal Type -->
+        <mat-form-field class="full-width">
+          <mat-label>Animal Type</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="animal"
+            [matAutocomplete]="auto"
+            placeholder="Type or select an animal"
+          />
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option
+              *ngFor="let animalType of filteredAnimalTypes | async"
+              [value]="animalType"
+            >
+              {{ animalType }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="petForm.get('animal')?.hasError('required')">
+            Animal type is required
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Breed -->
+        <mat-form-field class="full-width">
+          <mat-label>Breed</mat-label>
+          <input
+            matInput
+            formControlName="breed"
+            placeholder="Enter the breed"
+          />
+          <mat-error *ngIf="petForm.get('breed')?.hasError('required')">
+            Breed is required
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Sex -->
+        <mat-form-field class="full-width">
+          <mat-label>Sex</mat-label>
+          <mat-select formControlName="sex">
+            <mat-option value="Male">Male</mat-option>
+            <mat-option value="Female">Female</mat-option>
+          </mat-select>
+          <mat-error *ngIf="petForm.get('sex')?.hasError('required')">
+            Sex is required
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Birth Date -->
+        <mat-form-field class="full-width">
+          <mat-label>Birth Date</mat-label>
+          <input matInput type="date" formControlName="birthdate" />
+          <mat-error *ngIf="petForm.get('birthdate')?.hasError('required')">
+            Birth Date is required
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Price -->
+        <mat-form-field class="full-width">
+          <mat-label>Price (USD)</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="price"
+            placeholder="Enter the price in USD"
+          />
+          <mat-error *ngIf="petForm.get('price')?.hasError('required')">
+            Price is required
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Description -->
+        <mat-form-field class="full-width">
+          <mat-label>Description</mat-label>
+          <textarea
+            matInput
+            formControlName="description"
+            placeholder="Include any extra details, fun facts, or important things to know"
+            rows="4"
+          ></textarea>
+          <mat-error *ngIf="petForm.get('description')?.hasError('required')">
+            Description is required
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Benefits -->
+        <mat-form-field class="full-width">
+          <mat-label>Benefits</mat-label>
+          <mat-select formControlName="benefits" multiple>
+            <mat-option *ngFor="let benefit of benefitsList" [value]="benefit">
+              {{ benefit }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Pictures -->
+        <div class="upload-section">
+          <label class="upload-label">Photos*</label>
+          <p class="upload-description">
+            The first upload will be used as the cover image. Choose wisely!
+          </p>
+          <div class="upload-area">
+            <input
+              type="file"
+              accept="image/*"
+              id="photo-upload"
+              (change)="onFileSelect($event)"
+              multiple
+            />
+            <label for="photo-upload">Choose Images</label>
+          </div>
+          <div class="image-preview">
+            <div
+              class="preview-image"
+              *ngFor="let photo of selectedPictures; let i = index"
+            >
+              <img [src]="photo" alt="Pet Photo" />
+              <button
+                type="button"
+                class="remove-button"
+                (click)="removePhoto(i)"
+                aria-label="Remove Photo"
+              >
+                ×
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="button-container">
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="petForm.invalid"
+          >
+            Add Pet
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

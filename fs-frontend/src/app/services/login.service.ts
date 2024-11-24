@@ -98,12 +98,27 @@ export class LoginService {
 
     try {
       const decodedToken: any = jwtDecode(this.token);
-      return decodedToken?._id || null; // Replace `userId` with the correct field in your token payload
+      return decodedToken?._id || null;
     } catch (error) {
       console.error('Error decoding token:', error);
       return null;
     }
   }
+
+  public getAuthenticatedSellerLocation(): string | null {
+    if (!this.token) {
+      return null;
+    }
+
+    try {
+      const decodedToken: any = jwtDecode(this.token);
+      return decodedToken?.location || null;
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+    }
+  }
+  
 
   /* Authorize the Token with Server */
   public authorize(): Observable<boolean> {
