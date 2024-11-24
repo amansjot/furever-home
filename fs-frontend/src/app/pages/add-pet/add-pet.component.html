@@ -17,75 +17,73 @@
         </mat-form-field>
 
         <!-- Animal Type -->
-        <mat-form-field class="full-width">
-          <mat-label>Animal Type</mat-label>
-          <input
-            type="text"
-            matInput
-            formControlName="animal"
-            [matAutocomplete]="auto"
-            placeholder="Type or select an animal"
-          />
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option
-              *ngFor="let animalType of filteredAnimalTypes | async"
-              [value]="animalType"
-            >
-              {{ animalType }}
-            </mat-option>
-          </mat-autocomplete>
-          <mat-error *ngIf="petForm.get('animal')?.hasError('required')">
-            Animal type is required
-          </mat-error>
-        </mat-form-field>
+        <div class="form-row">
+          <mat-form-field class="half-width">
+            <mat-label>Animal Type</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="animal"
+              [matAutocomplete]="auto"
+              placeholder="Type or select an animal"
+            />
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option
+                *ngFor="let animalType of filteredAnimalTypes | async"
+                [value]="animalType"
+              >
+                {{ animalType }}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="petForm.get('animal')?.hasError('required')">
+              Animal type is required
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="half-width">
+            <mat-label>Breed</mat-label>
+            <input
+              matInput
+              formControlName="breed"
+              placeholder="Enter the breed"
+            />
+            <mat-error *ngIf="petForm.get('breed')?.hasError('required')">
+              Breed is required
+            </mat-error>
+          </mat-form-field>
+        </div>
 
-        <!-- Breed -->
-        <mat-form-field class="full-width">
-          <mat-label>Breed</mat-label>
-          <input
-            matInput
-            formControlName="breed"
-            placeholder="Enter the breed"
-          />
-          <mat-error *ngIf="petForm.get('breed')?.hasError('required')">
-            Breed is required
-          </mat-error>
-        </mat-form-field>
+        <div class="form-row">
+          <mat-form-field class="third-width">
+            <mat-label>Sex</mat-label>
+            <mat-select formControlName="sex">
+              <mat-option value="Male">Male</mat-option>
+              <mat-option value="Female">Female</mat-option>
+            </mat-select>
+            <mat-error *ngIf="petForm.get('sex')?.hasError('required')">
+              Sex is required
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="third-width">
+            <mat-label>Birth Date</mat-label>
+            <input matInput type="date" formControlName="birthdate" />
+            <mat-error *ngIf="petForm.get('birthdate')?.hasError('required')">
+              Birth Date is required
+            </mat-error>
+          </mat-form-field>
 
-        <!-- Sex -->
-        <mat-form-field class="full-width">
-          <mat-label>Sex</mat-label>
-          <mat-select formControlName="sex">
-            <mat-option value="Male">Male</mat-option>
-            <mat-option value="Female">Female</mat-option>
-          </mat-select>
-          <mat-error *ngIf="petForm.get('sex')?.hasError('required')">
-            Sex is required
-          </mat-error>
-        </mat-form-field>
-
-        <!-- Birth Date -->
-        <mat-form-field class="full-width">
-          <mat-label>Birth Date</mat-label>
-          <input matInput type="date" formControlName="birthdate" />
-          <mat-error *ngIf="petForm.get('birthdate')?.hasError('required')">
-            Birth Date is required
-          </mat-error>
-        </mat-form-field>
-
-        <!-- Price -->
-        <mat-form-field class="full-width">
-          <mat-label>Price (USD)</mat-label>
-          <input
-            matInput
-            type="number"
-            formControlName="price"
-            placeholder="Enter the price in USD"
-          />
-          <mat-error *ngIf="petForm.get('price')?.hasError('required')">
-            Price is required
-          </mat-error>
-        </mat-form-field>
+          <mat-form-field class="third-width">
+            <mat-label>Price (USD)</mat-label>
+            <input
+              matInput
+              type="number"
+              formControlName="price"
+              placeholder="Enter the price in USD"
+            />
+            <mat-error *ngIf="petForm.get('price')?.hasError('required')">
+              Price is required
+            </mat-error>
+          </mat-form-field>
+        </div>
 
         <!-- Description -->
         <mat-form-field class="full-width">
