@@ -102,57 +102,85 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!container) return;
 
     const scrollPosition = container.scrollLeft;
-    const maxScroll = container.scrollWidth - container.clientWidth;
     const pageWidth = this.cardWidth * this.cardsPerPage;
+    const maxScroll = container.scrollWidth - container.clientWidth;
     
-    // Check if we're at or very close to the end
-    if (Math.abs(scrollPosition - maxScroll) < 10) {
-        this.currentPage = this.totalPages - 1;
-        return;
+    // Calculate the current page based on scroll position
+    let newPage = Math.round(scrollPosition / pageWidth);
+    
+    // Handle edge case for last page
+    if (Math.abs(scrollPosition - maxScroll) < 20) {
+        newPage = this.totalPages - 1;
     }
     
-    // Normal page calculation
-    const newPage = Math.round(scrollPosition / pageWidth);
+    // Update current page with bounds checking
     this.currentPage = Math.min(Math.max(0, newPage), this.totalPages - 1);
   }
 
   private setupDragScroll() {
     const container = this.cardContainer.nativeElement;
-    let dragStartPosition: number;
+    let startX: number;
+    let scrollLeft: number;
+    let lastX: number;
+    let velocity: number = 0;
+    let lastTimestamp: number;
+    let animationFrameId: number;
 
     const handleMouseDown = (e: MouseEvent) => {
         this.isDragging = true;
-        this.startX = e.pageX - container.offsetLeft;
-        this.scrollLeft = container.scrollLeft;
+        startX = e.pageX;
+        lastX = e.pageX;
+        scrollLeft = container.scrollLeft;
+        lastTimestamp = Date.now();
+        velocity = 0;
+        
         container.style.cursor = 'grabbing';
-        dragStartPosition = container.scrollLeft;
+        container.style.scrollBehavior = 'auto';
+        container.style.scrollSnapType = 'none';
+        
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+        }
     };
 
     const handleMouseMove = (e: MouseEvent) => {
         if (!this.isDragging) return;
         e.preventDefault();
-        const x = e.pageX - container.offsetLeft;
-        const walk = (x - this.startX) * 1.5;
-        container.scrollLeft = this.scrollLeft - walk;
+
+        const currentX = e.pageX;
+        const dx = currentX - lastX;
+        const timestamp = Date.now();
+        const dt = timestamp - lastTimestamp;
+        
+        velocity = (dx / (dt || 1)) * 0.5;
+        
+        animationFrameId = requestAnimationFrame(() => {
+            container.scrollLeft -= dx * 0.8;
+            this.updateCurrentPage();
+        });
+
+        lastX = currentX;
+        lastTimestamp = timestamp;
     };
 
     const handleMouseUp = () => {
         if (!this.isDragging) return;
-        
-        const dragEndPosition = container.scrollLeft;
-        const dragDistance = dragEndPosition - dragStartPosition;
-        
-        // More lenient threshold for page changes
-        if (Math.abs(dragDistance) > 20) { // Reduced threshold
-            const direction = dragDistance > 0 ? 1 : -1;
-            const targetPage = this.currentPage + direction;
-            this.scrollToPage(targetPage, true);
-        } else {
-            this.scrollToPage(this.currentPage, true);
-        }
-        
         this.isDragging = false;
         container.style.cursor = 'grab';
+
+        let momentum = velocity * 50;
+        let deceleration = 0.95;
+
+        const animate = () => {
+            if (Math.abs(momentum) > 0.1) {
+                container.scrollLeft -= momentum;
+                momentum *= deceleration;
+                this.updateCurrentPage();
+                animationFrameId = requestAnimationFrame(animate);
+            }
+        };
+
+        animate();
     };
 
     const handleMouseLeave = () => {
@@ -161,13 +189,17 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     };
 
+    container.addEventListener('scroll', () => {
+        if (!this.isDragging) {
+            this.updateCurrentPage();
+        }
+    });
+
     container.addEventListener('mousedown', handleMouseDown);
     container.addEventListener('mouseleave', handleMouseLeave);
     container.addEventListener('mouseup', handleMouseUp);
     container.addEventListener('mousemove', handleMouseMove);
-    container.addEventListener('scroll', () => this.updateCurrentPage());
 
-    // Store event listeners for cleanup
     this.eventListeners = {
         mousedown: handleMouseDown,
         mouseleave: handleMouseLeave,
@@ -177,19 +209,6 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private eventListeners: {[key: string]: (e: MouseEvent) => void} = {};
-
-  private snapToNearestCard() {
-    const container = this.cardContainer.nativeElement;
-    const scrollPosition = container.scrollLeft;
-    const pageWidth = this.cardWidth * this.cardsPerPage;
-    
-    // Calculate the nearest page based on scroll position
-    const nearestPage = Math.round(scrollPosition / pageWidth);
-    
-    // Ensure we can always reach the first page
-    const targetPage = Math.min(Math.max(0, nearestPage), this.totalPages - 1);
-    this.scrollToPage(targetPage, true);
-  }
 
   public scrollToPage(pageIndex: number, smooth: boolean = true) {
     const container = this.cardContainer.nativeElement;
