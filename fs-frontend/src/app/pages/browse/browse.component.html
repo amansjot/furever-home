@@ -34,6 +34,16 @@
           <span>{{ isGridView ? 'List View' : 'Grid View' }}</span>
         </button>
       </div>
+      
+      <!-- Updated filter chips container -->
+      <div class="applied-filters-container" *ngIf="hasActiveFilters()">
+        <span class="filter-label">Active filters:</span>
+        <div class="filter-chip" *ngFor="let filter of getActiveFilters()">
+          <span class="category">{{filter.category}}:</span>
+          <span class="value">{{filter.value}}</span>
+          <button class="remove-filter" (click)="removeFilter(filter.category, filter.value)">×</button>
+        </div>
+      </div>
     </div>
 
     <!-- Filter Sidebar -->
@@ -46,7 +56,7 @@
         
         <!-- Scrollable filters section -->
         <div class="filters-section">
-          <!-- Filter Groups -->
+          <!-- Other filter groups first -->
           <!-- 1. Animal Filter -->
           <div class="filter-group">
             <div class="filter-header" (click)="toggleFilter('animal')">
@@ -57,11 +67,14 @@
                   alt="expand-arrow" />
             </div>
             <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.animal}">
-              <mat-radio-group [(ngModel)]="filters.animal" (change)="setFilter('animal', filters.animal)">
-                <mat-radio-button *ngFor="let animal of ['Any', 'Dog', 'Cat', 'Bird', 'Fish', 'Reptile', 'Small Mammal', 'Other']" [value]="animal">
+              <div class="checkbox-group">
+                <mat-checkbox 
+                  *ngFor="let animal of ['Any', 'Dog', 'Cat', 'Bird', 'Fish', 'Reptile', 'Small Mammal', 'Other']"
+                  [checked]="filters.animal.includes(animal)"
+                  (change)="setFilter('animal', animal, $event.checked)">
                   {{ animal }}
-                </mat-radio-button>
-              </mat-radio-group>
+                </mat-checkbox>
+              </div>
             </div>
           </div>
 
@@ -75,11 +88,14 @@
                   alt="expand-arrow" />
             </div>
             <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.sex}">
-              <mat-radio-group [(ngModel)]="filters.sex" (change)="setFilter('sex', filters.sex)">
-                <mat-radio-button *ngFor="let sex of ['Any', 'Male', 'Female']" [value]="sex">
+              <div class="checkbox-group">
+                <mat-checkbox 
+                  *ngFor="let sex of ['Any', 'Male', 'Female']"
+                  [checked]="filters.sex.includes(sex)"
+                  (change)="setFilter('sex', sex, $event.checked)">
                   {{ sex }}
-                </mat-radio-button>
-              </mat-radio-group>
+                </mat-checkbox>
+              </div>
             </div>
           </div>
 
@@ -93,11 +109,14 @@
                   alt="expand-arrow" />
             </div>
             <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.age}">
-              <mat-radio-group [(ngModel)]="filters.age" (change)="setFilter('age', filters.age)">
-                <mat-radio-button *ngFor="let age of ['Any', 'Very Young', 'Young', 'Adult', 'Senior']" [value]="age">
+              <div class="checkbox-group">
+                <mat-checkbox 
+                  *ngFor="let age of ['Any', 'Very Young', 'Young', 'Adult', 'Senior']"
+                  [checked]="filters.age.includes(age)"
+                  (change)="setFilter('age', age, $event.checked)">
                   {{ age }}
-                </mat-radio-button>
-              </mat-radio-group>
+                </mat-checkbox>
+              </div>
             </div>
           </div>
 
@@ -111,11 +130,14 @@
                   alt="expand-arrow" />
             </div>
             <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.price}">
-              <mat-radio-group [(ngModel)]="filters.price" (change)="setFilter('price', filters.price)">
-                <mat-radio-button *ngFor="let price of ['Any', 'Low', 'Medium', 'High']" [value]="price">
+              <div class="checkbox-group">
+                <mat-checkbox 
+                  *ngFor="let price of ['Any', 'Low', 'Medium', 'High']"
+                  [checked]="filters.price.includes(price)"
+                  (change)="setFilter('price', price, $event.checked)">
                   {{ price }}
-                </mat-radio-button>
-              </mat-radio-group>
+                </mat-checkbox>
+              </div>
             </div>
           </div>
 
@@ -129,22 +151,44 @@
                   alt="expand-arrow" />
             </div>
             <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.location}">
-              <mat-radio-group [(ngModel)]="filters.location" (change)="setFilter('location', filters.location)">
-                <mat-radio-button *ngFor="let location of ['Any', 'New York', 'Los Angeles', 'Chicago', 'Houston', 'Other']" [value]="location">
+              <div class="checkbox-group">
+                <mat-checkbox 
+                  *ngFor="let location of ['Any', 'New York', 'Los Angeles', 'Chicago', 'Houston', 'Other']"
+                  [checked]="filters.location.includes(location)"
+                  (change)="setFilter('location', location, $event.checked)">
                   {{ location }}
-                </mat-radio-button>
-              </mat-radio-group>
+                </mat-checkbox>
+              </div>
+            </div>
+          </div>
+
+          <!-- Applied Filters Group -->
+          <div class="filter-group" *ngIf="hasActiveFilters()">
+            <div class="filter-header" (click)="toggleFilter('applied')">
+              <span>Applied Filters</span>
+              <img class="filter-arrow" 
+                  [ngClass]="{'rotated': expandedFilters.applied}" 
+                  src="/assets/icons/action-icons/drop-down-arrow.svg" 
+                  alt="expand-arrow" />
+            </div>
+            <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.applied}">
+              <div class="applied-filters-wrapper">
+                <div class="applied-filters">
+                  <div *ngFor="let filter of getActiveFilters()" class="applied-filter">
+                    <span class="filter-category">{{ filter.category }}:</span>
+                    <span class="filter-value">{{ filter.value }}</span>
+                    <button (click)="removeFilter(filter.category, filter.value)" class="remove-filter">×</button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Fixed reset button section -->
+        <!-- Reset button section -->
         <div class="reset-button-section">
-          <!-- <button class="apply-filters-btn" (click)="toggleFilters()">
-            Apply Filters
-          </button> -->
           <button class="reset-filters-btn" (click)="resetFilters()">
-            Reset All
+            Reset Filters
           </button>
         </div>
       </div>
@@ -157,29 +201,11 @@
     <div class="cards" [ngClass]="{ hidden: loading }">
       <ng-container *ngIf="!loading && getFilteredItems().length > 0; else noResults">
         <div class="pet-card-container" [ngClass]="{'grid-view': isGridView}">
-          <ng-container *ngFor="let item of items">
-            <!-- Pet Card -->
-            <div *ngIf="
-              (filters.animal === 'Any' || filters.animal === this.getAnimalType(item.animal)) &&
-              (filters.sex === 'Any' || item.sex.toLowerCase() === filters.sex.toLowerCase()) &&
-              (filters.age === 'Any' ||
-                (filters.age === 'Very Young' && getAge(item.birthdate) < 1) ||
-                (filters.age === 'Young' && getAge(item.birthdate) >= 1 && getAge(item.birthdate) < 3) ||
-                (filters.age === 'Adult' && getAge(item.birthdate) >= 3 && getAge(item.birthdate) < 8) ||
-                (filters.age === 'Senior' && getAge(item.birthdate) > 8)) &&
-              (filters.price === 'Any' ||
-                (filters.price === 'Low' && item.price < 500) ||
-                (filters.price === 'Medium' && item.price >= 500 && item.price <= 1000) ||
-                (filters.price === 'High' && item.price > 1000)) &&
-              (filters.location === 'Any' ||
-                (filters.location === 'Other' &&
-                  !['New York', 'Los Angeles', 'Chicago', 'Houston'].includes(item.location)) ||
-                item.location === filters.location)"
-              mat-card
-              class="pet-card"
-              (click)="navigateToPetDesktop($event, item._id)"
-              [ngClass]="{ 'expanded': expandedCards[item.name] }">
-              
+          <ng-container *ngFor="let item of getFilteredItems()">
+            <div mat-card
+                 class="pet-card"
+                 (click)="navigateToPetDesktop($event, item._id)"
+                 [ngClass]="{ 'expanded': expandedCards[item.name] }">
               <!-- Pet Card Content -->
               <div class="pet-image-background" [style.background-image]="'url(' + item.pictures[0] + ')'">
                 <!-- Favorite Button -->
