@@ -25,12 +25,6 @@ $navbar-height: 80px;
   margin-top: $navbar-height;
   margin-bottom: 10px;
   margin-left: 25px;
-
-  @media (max-width: 640px) {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-left: 0;
-  }
 }
 
 // Angular Material overrides
@@ -183,32 +177,6 @@ $navbar-height: 80px;
         span {
           margin-left: 8px;
         }
-
-        @media (max-width: 640px) {
-          display: flex;
-          width: 100%;
-          align-items: center;
-          justify-content: center;
-        }
-      }
-    }
-
-    @media (max-width: 640px) {
-      row-gap: 12px;
-      column-gap: 8px;
-      
-      button {
-        padding: 8px 16px;
-        height: 36px;
-        
-        &.filter-toggle-btn {
-          flex: 1;
-          min-width: 0;
-          
-          span {
-            margin-left: 4px;
-          }
-        }
       }
     }
   }
@@ -268,12 +236,45 @@ $navbar-height: 80px;
         }
       }
     }
+  }
+}
 
-    @media (max-width: 640px) {
-      .filter-chip {
-        padding: 6px 12px;
-        font-size: 0.8rem;
+// Media Queries
+@media (max-width: 640px) {
+  .browse-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-left: 0;
+  }
+
+  .top-bar .button-row {
+    row-gap: 12px;
+    column-gap: 8px;
+    
+    button {
+      padding: 8px 16px;
+      height: 36px;
+      
+      &.filter-toggle-btn {
+        flex: 1;
+        min-width: 0;
+        
+        span {
+          margin-left: 4px;
+        }
       }
     }
+  }
+
+  .top-bar .grid-toggle-btn {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .applied-filters-container .filter-chip {
+    padding: 6px 12px;
+    font-size: 0.8rem;
   }
 }
