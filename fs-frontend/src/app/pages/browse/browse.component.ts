@@ -67,7 +67,15 @@ export class BrowseComponent {
   private scrollPosition: number = 0;
 
   // Track the expanded state of each filter group
-  public expandedFilters = {
+  public expandedFilters: {
+    applied: boolean;
+    animal: boolean;
+    sex: boolean;
+    age: boolean;
+    price: boolean;
+    location: boolean;
+  } = {
+    applied: false,
     animal: false,
     sex: false,
     age: false,
@@ -448,7 +456,7 @@ export class BrowseComponent {
 
   // Method to toggle the expanded state of a filter group
   toggleFilter(
-    filterType: 'animal' | 'sex' | 'age' | 'price' | 'location'
+    filterType: 'applied' | 'animal' | 'sex' | 'age' | 'price' | 'location'
   ): void {
     this.expandedFilters[filterType] = !this.expandedFilters[filterType];
   }
@@ -464,6 +472,7 @@ export class BrowseComponent {
 
     // Reset expanded states
     this.expandedFilters = {
+      applied: false,
       animal: false,
       sex: false,
       age: false,
@@ -521,5 +530,44 @@ export class BrowseComponent {
     this.isGridView = !this.isGridView;
     // Reset expanded cards when toggling view
     this.expandedCards = {};
+  }
+
+  // Check if there are any active filters
+  hasActiveFilters(): boolean {
+    return Object.entries(this.filters).some(([key, values]) => 
+      !values.includes('Any') || (values.includes('Any') && values.length > 1)
+    );
+  }
+
+  // Get array of active filters for display
+  getActiveFilters(): {category: string, value: string}[] {
+    const activeFilters: {category: string, value: string}[] = [];
+    
+    Object.entries(this.filters).forEach(([category, values]) => {
+      if (!values.includes('Any')) {
+        values.forEach(value => {
+          activeFilters.push({
+            category: category.charAt(0).toUpperCase() + category.slice(1),
+            value: value
+          });
+        });
+      }
+    });
+    
+    return activeFilters;
+  }
+
+  // Remove a specific filter
+  removeFilter(category: string, value: string): void {
+    const filterKey = category.toLowerCase() as keyof typeof this.filters;
+    this.filters[filterKey] = this.filters[filterKey].filter(v => v !== value);
+    
+    // If no filters remain in category, set to 'Any'
+    if (this.filters[filterKey].length === 0) {
+      this.filters[filterKey] = ['Any'];
+    }
+    
+    localStorage.setItem('filters', JSON.stringify(this.filters));
+    this.loadData();
   }
 }

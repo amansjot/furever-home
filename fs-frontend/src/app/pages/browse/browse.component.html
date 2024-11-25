@@ -47,6 +47,7 @@
         <!-- Scrollable filters section -->
         <div class="filters-section">
           <!-- Filter Groups -->
+
           <!-- 1. Animal Filter -->
           <div class="filter-group">
             <div class="filter-header" (click)="toggleFilter('animal')">
@@ -153,15 +154,19 @@
           </div>
         </div>
 
-        <!-- Fixed reset button section -->
-        <div class="reset-button-section">
-          <!-- <button class="apply-filters-btn" (click)="toggleFilters()">
-            Apply Filters
-          </button> -->
-          <button class="reset-filters-btn" (click)="resetFilters()">
-            Reset All
-          </button>
+        <!-- Applied filters -->
+        <div class="applied-filters" *ngIf="hasActiveFilters()">
+          <div *ngFor="let filter of getActiveFilters()" class="applied-filter">
+            <span class="filter-category">{{ filter.category }}:</span>
+            <span class="filter-value">{{ filter.value }}</span>
+            <button (click)="removeFilter(filter.category, filter.value)" class="remove-filter">×</button>
+          </div>
         </div>
+        
+        <!-- Reset button -->
+        <button class="reset-filters-btn" (click)="resetFilters()">
+          Reset Filters
+        </button>
       </div>
     </div>
 
