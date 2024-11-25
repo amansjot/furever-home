@@ -1,15 +1,97 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
+import { Router, RouterLink } from '@angular/router';
+
+import {
+  atLeastOneSelected,
+  validZipCode,
+} from './special-validators';
 
 @Component({
   selector: 'app-questionnaire',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterLink,
+    MatCardModule,
+    MatFormFieldModule,
+    MatTabsModule,
+    MatButtonModule,
+    MatInputModule,
+    MatSelectModule,
+  ],
   templateUrl: './questionnaire.component.html',
-  styleUrls: ['./questionnaire.component.scss']
+  styleUrls: ['./questionnaire.component.scss'],
 })
-export class QuestionnaireComponent {
-  constructor(private router: Router) {}
+export class QuestionnaireComponent implements OnInit {
+  public errorMsg: string = '';
+  public disableSubmit: boolean = false;
 
-  onSubmit() {
-    this.router.navigate(['/home']); // Navigate to home after submitting the questionnaire
+  isLoading = false;
+
+  questionnaireForm: FormGroup = new FormGroup({
+    petType: new FormControl('', Validators.required),
+    petSize: new FormControl('', Validators.required),
+    petSex: new FormControl('', Validators.required),
+    petAge: new FormControl('', Validators.required),
+    petLifestyle: new FormControl([], atLeastOneSelected),
+    petPersonality: new FormControl([], atLeastOneSelected),
+    petLocation: new FormControl('', [Validators.required, validZipCode]),
+  });
+
+  // Options for dropdowns
+  animalTypes = ['Dog', 'Cat', 'Reptile', 'Bird', 'Fish', 'Small Mammal', 'Other'];
+  animalPersonalities = [
+    'Energetic',
+    'Calm',
+    'Affectionate',
+    'Independent',
+    'Social',
+    'Protective',
+    'Intelligent',
+    'Adventurous',
+  ];
+  animalLifestyles = ['Good with Families', 'Ideal for Singles or Couples', 'Low Maintenance', 'Outdoors-Friendly', 'Better Suited for Indoors', 'House Pet', 'Apartment Pet', 'Good with Other Pets', 'Allergy-Friendly', 'Therapeutic', 'Travel-Friendly'];
+
+  constructor(private _router: Router) {}
+
+  ngOnInit(): void {}
+
+  onSubmit(): void {
+    if (!this.questionnaireForm.valid) {
+      this.errorMsg = 'Please fill out all required fields.';
+      return;
+    }
+
+    this.disableSubmit = true;
+    this.errorMsg = '';
+
+    const preferences = this.questionnaireForm.value;
+
+    console.log('Submitted Preferences:', preferences);
+
+    this.isLoading = true;
+    
+    setTimeout(() => {
+      this.isLoading = false; 
+    }, 2000);
+
+    // Perform submission logic here, e.g., send data to the server
+    // Navigate or display confirmation
+    this._router.navigate(['/home']);
+    this.disableSubmit = false;
   }
 }

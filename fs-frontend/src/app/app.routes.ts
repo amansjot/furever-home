@@ -13,5 +13,6 @@ export const routes: Routes = [
   { path: 'admin', loadComponent: () => import('./pages/admin/admin.component').then(m => m.AdminComponent), canActivate: [AdminGuardService] },
   { path: 'seller', loadComponent: () => import('./pages/seller/seller.component').then(m => m.SellerComponent), canActivate: [SellerGuardService] },
   { path: 'pet/:id', loadComponent: () => import('./pages/pet/pet.component').then(m => m.PetComponent) },
-  { path: 'profile', loadComponent: () => import('./pages/profile/profile.component').then(m => m.ProfileComponent), canActivate: [AuthGuardService] }
+  { path: 'profile', loadComponent: () => import('./pages/profile/profile.component').then(m => m.ProfileComponent), canActivate: [AuthGuardService] },
+  { path: 'questionnaire', loadComponent: () => import('./pages/questionnaire/questionnaire.component').then((m) => m.QuestionnaireComponent), canActivate: [AuthGuardService] },
 ];

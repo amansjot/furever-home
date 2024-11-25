@@ -148,7 +148,12 @@ export class RegisterComponent implements OnInit {
       .register(data)
       .then((res) => {
         if (res) {
-          this._router.navigate(['/home']);
+          // Redirect buyer to questionnaire page, seller to home page
+          if (role === 'buyer') {
+            this._router.navigate(['/questionnaire']);
+          } else {
+            this._router.navigate(['/home']);
+          }
         } else {
           this.errorMsg = 'Registration failed';
         }

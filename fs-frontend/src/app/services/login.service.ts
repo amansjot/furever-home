@@ -175,7 +175,14 @@ export class LoginService {
               this.token = response.token;
               this.loggedIn.next(true);
               this.fetchRoles(); // Fetch roles on registration
-              this._router.navigate(['/home']);
+              
+              // Conditional redirection based on role
+              if (data.role === 'buyer') {
+                this._router.navigate(['/questionnaire']); // Redirect buyers to the questionnaire page
+              } else if (data.role === 'seller') {
+                this._router.navigate(['/home']); // Redirect sellers to the home page
+              }
+              
               resolve(true);
             } else {
               this.token = '';
