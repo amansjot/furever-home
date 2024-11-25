@@ -19,7 +19,7 @@
           <img src="/assets/icons/action-icons/filter.svg" alt="Filters" />
           <span>Refine Results</span>
         </button>
-        <button class="filter-toggle-btn" (click)="toggleFavoriteFilter()">
+        <button *ngIf="authenticated" class="filter-toggle-btn" (click)="toggleFavoriteFilter()">
           <ng-container *ngIf="favoriteFilter; else showFavorites">
             <img src="/assets/icons/action-icons/close-icon.svg" alt="Close Icon" class="close-icon" />
             Show All Pets
