@@ -5,238 +5,245 @@
 
 <!-- Main Content Container -->
 <div [ngClass]="{ visible: !loading }" class="main-content">
-  
-  <!-- Top Bar with Filter Button and Results Count -->
-  <div class="top-bar">
-    <div class="button-row">
-      <button class="filter-toggle-btn" (click)="toggleFilters()">
-        <img src="/assets/filter-icon.svg" alt="Filters" />
-        <span>Refine Results</span>
-      </button>
-      <button class="filter-toggle-btn" (click)="toggleFavoriteFilter()">
-        <ng-container *ngIf="favoriteFilter; else showFavorites">
-          <img src="/assets/close-icon.svg" alt="Close Icon" class="close-icon" />
-          Show All Pets
-        </ng-container>
-        <ng-template #showFavorites>
-          <img class="tab-star-icon" src="/assets/favorite-star-inactive.svg" alt="Favorite Icon" />
-          Show Favorites
-        </ng-template>
-      </button>
-    </div>
+
+  <!-- Browse Title -->
+  <div class="browse-title">
+    Adoptable Pets
   </div>
 
-  <!-- Filter Sidebar -->
-  <div class="filter-sidebar" [ngClass]="{ 'open': isFilterOpen }">
-    <div class="filter-content">
-      <div class="header-row">
-        <h2>Filters</h2>
-        <button class="close-filters" (click)="toggleFilters()">×</button>
-      </div>
-      
-      <!-- Scrollable filters section -->
-      <div class="filters-section">
-        <!-- Filter Groups -->
-        <!-- 1. Animal Filter -->
-        <div class="filter-group">
-          <div class="filter-header" (click)="toggleFilter('animal')">
-            <span>Animal Type</span>
-            <img class="filter-arrow" 
-                 [ngClass]="{'rotated': expandedFilters.animal}" 
-                 src="/assets/drop-down-arrow.svg" 
-                 alt="expand-arrow" />
-          </div>
-          <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.animal}">
-            <mat-radio-group [(ngModel)]="filters.animal" (change)="setFilter('animal', filters.animal)">
-              <mat-radio-button *ngFor="let animal of ['Any', 'Dog', 'Cat', 'Bird', 'Fish', 'Reptile', 'Small Mammal', 'Other']" [value]="animal">
-                {{ animal }}
-              </mat-radio-button>
-            </mat-radio-group>
-          </div>
-        </div>
-
-        <!-- 2. Sex Filter -->
-        <div class="filter-group">
-          <div class="filter-header" (click)="toggleFilter('sex')">
-            <span>Sex</span>
-            <img class="filter-arrow" 
-                 [ngClass]="{'rotated': expandedFilters.sex}" 
-                 src="/assets/drop-down-arrow.svg" 
-                 alt="expand-arrow" />
-          </div>
-          <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.sex}">
-            <mat-radio-group [(ngModel)]="filters.sex" (change)="setFilter('sex', filters.sex)">
-              <mat-radio-button *ngFor="let sex of ['Any', 'Male', 'Female']" [value]="sex">
-                {{ sex }}
-              </mat-radio-button>
-            </mat-radio-group>
-          </div>
-        </div>
-
-        <!-- 3. Age Filter -->
-        <div class="filter-group">
-          <div class="filter-header" (click)="toggleFilter('age')">
-            <span>Age</span>
-            <img class="filter-arrow" 
-                 [ngClass]="{'rotated': expandedFilters.age}" 
-                 src="/assets/drop-down-arrow.svg" 
-                 alt="expand-arrow" />
-          </div>
-          <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.age}">
-            <mat-radio-group [(ngModel)]="filters.age" (change)="setFilter('age', filters.age)">
-              <mat-radio-button *ngFor="let age of ['Any', 'Very Young', 'Young', 'Adult', 'Senior']" [value]="age">
-                {{ age }}
-              </mat-radio-button>
-            </mat-radio-group>
-          </div>
-        </div>
-
-        <!-- 4. Price Filter -->
-        <div class="filter-group">
-          <div class="filter-header" (click)="toggleFilter('price')">
-            <span>Price</span>
-            <img class="filter-arrow" 
-                 [ngClass]="{'rotated': expandedFilters.price}" 
-                 src="/assets/drop-down-arrow.svg" 
-                 alt="expand-arrow" />
-          </div>
-          <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.price}">
-            <mat-radio-group [(ngModel)]="filters.price" (change)="setFilter('price', filters.price)">
-              <mat-radio-button *ngFor="let price of ['Any', 'Low', 'Medium', 'High']" [value]="price">
-                {{ price }}
-              </mat-radio-button>
-            </mat-radio-group>
-          </div>
-        </div>
-
-        <!-- 5. Location Filter -->
-        <div class="filter-group">
-          <div class="filter-header" (click)="toggleFilter('location')">
-            <span>Location</span>
-            <img class="filter-arrow" 
-                 [ngClass]="{'rotated': expandedFilters.location}" 
-                 src="/assets/drop-down-arrow.svg" 
-                 alt="expand-arrow" />
-          </div>
-          <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.location}">
-            <mat-radio-group [(ngModel)]="filters.location" (change)="setFilter('location', filters.location)">
-              <mat-radio-button *ngFor="let location of ['Any', 'New York', 'Los Angeles', 'Chicago', 'Houston', 'Other']" [value]="location">
-                {{ location }}
-              </mat-radio-button>
-            </mat-radio-group>
-          </div>
-        </div>
-      </div>
-
-      <!-- Fixed reset button section -->
-      <div class="reset-button-section">
-        <!-- <button class="apply-filters-btn" (click)="toggleFilters()">
-          Apply Filters
-        </button> -->
-        <button class="reset-filters-btn" (click)="resetFilters()">
-          Reset All
+  <div class="browse-container">
+    <!-- Top Bar with Filter Button and Results Count -->
+    <div class="top-bar">
+      <div class="button-row">
+        <button class="filter-toggle-btn" (click)="toggleFilters()">
+          <img src="/assets/filter-icon.svg" alt="Filters" />
+          <span>Refine Results</span>
+        </button>
+        <button class="filter-toggle-btn" (click)="toggleFavoriteFilter()">
+          <ng-container *ngIf="favoriteFilter; else showFavorites">
+            <img src="/assets/close-icon.svg" alt="Close Icon" class="close-icon" />
+            Show All Pets
+          </ng-container>
+          <ng-template #showFavorites>
+            <img class="tab-star-icon" src="/assets/favorite-star-inactive.svg" alt="Favorite Icon" />
+            Show Favorites
+          </ng-template>
         </button>
       </div>
     </div>
-  </div>
 
-  <!-- Filter Overlay -->
-  <div class="filter-overlay" [ngClass]="{ 'open': isFilterOpen }" (click)="toggleFilters()"></div>
-  
-  <!-- Pet Cards Grid -->
-  <div class="cards" [ngClass]="{ hidden: loading }">
-    <ng-container *ngIf="!loading && getFilteredItems().length > 0; else noResults">
-      <div class="pet-card-container">
-        <ng-container *ngFor="let item of items">
-          <!-- Pet Card -->
-          <div *ngIf="
-            (filters.animal === 'Any' || filters.animal === this.getAnimalType(item.animal)) &&
-            (filters.sex === 'Any' || item.sex.toLowerCase() === filters.sex.toLowerCase()) &&
-            (filters.age === 'Any' ||
-              (filters.age === 'Very Young' && getAge(item.birthdate) < 1) ||
-              (filters.age === 'Young' && getAge(item.birthdate) >= 1 && getAge(item.birthdate) < 3) ||
-              (filters.age === 'Adult' && getAge(item.birthdate) >= 3 && getAge(item.birthdate) < 8) ||
-              (filters.age === 'Senior' && getAge(item.birthdate) > 8)) &&
-            (filters.price === 'Any' ||
-              (filters.price === 'Low' && item.price < 500) ||
-              (filters.price === 'Medium' && item.price >= 500 && item.price <= 1000) ||
-              (filters.price === 'High' && item.price > 1000)) &&
-            (filters.location === 'Any' ||
-              (filters.location === 'Other' &&
-                !['New York', 'Los Angeles', 'Chicago', 'Houston'].includes(item.location)) ||
-              item.location === filters.location)"
-            mat-card
-            class="pet-card"
-            (click)="navigateToPetDesktop($event, item._id)"
-            [ngClass]="{ 'expanded': expandedCards[item.name] }">
-            
-            <!-- Pet Card Content -->
-            <div class="pet-image-background" [style.background-image]="'url(' + item.pictures[0] + ')'">
-              <!-- Favorite Button -->
-              <button *ngIf="isBuyer" class="petcard-favorite-button" (click)="toggleFavorite($event, item)">
-                <img class="favorite-icon" 
-                     [src]="item.isFavorite ? '/assets/favorite-star-active.svg' : '/assets/favorite-star-inactive.svg'" 
-                     alt="Favorite Icon" />
-              </button>
+    <!-- Filter Sidebar -->
+    <div class="filter-sidebar" [ngClass]="{ 'open': isFilterOpen }">
+      <div class="filter-content">
+        <div class="header-row">
+          <h2>Filters</h2>
+          <button class="close-filters" (click)="toggleFilters()">×</button>
+        </div>
+        
+        <!-- Scrollable filters section -->
+        <div class="filters-section">
+          <!-- Filter Groups -->
+          <!-- 1. Animal Filter -->
+          <div class="filter-group">
+            <div class="filter-header" (click)="toggleFilter('animal')">
+              <span>Animal Type</span>
+              <img class="filter-arrow" 
+                  [ngClass]="{'rotated': expandedFilters.animal}" 
+                  src="/assets/drop-down-arrow.svg" 
+                  alt="expand-arrow" />
+            </div>
+            <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.animal}">
+              <mat-radio-group [(ngModel)]="filters.animal" (change)="setFilter('animal', filters.animal)">
+                <mat-radio-button *ngFor="let animal of ['Any', 'Dog', 'Cat', 'Bird', 'Fish', 'Reptile', 'Small Mammal', 'Other']" [value]="animal">
+                  {{ animal }}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
 
-              <!-- Pet Info Card -->
-              <div class="pet-info-card">
-                <!-- Displayed Info -->
-                <div class="displayed-info">
-                  <div class="info-text">
-                    <h2 class="pet-name">{{ item.name }}</h2>
-                    <p class="pet-age">
-                      {{ item.sex | titlecase }},
-                      {{ formatAge(getAge(item.birthdate)) }} old
-                    </p>
+          <!-- 2. Sex Filter -->
+          <div class="filter-group">
+            <div class="filter-header" (click)="toggleFilter('sex')">
+              <span>Sex</span>
+              <img class="filter-arrow" 
+                  [ngClass]="{'rotated': expandedFilters.sex}" 
+                  src="/assets/drop-down-arrow.svg" 
+                  alt="expand-arrow" />
+            </div>
+            <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.sex}">
+              <mat-radio-group [(ngModel)]="filters.sex" (change)="setFilter('sex', filters.sex)">
+                <mat-radio-button *ngFor="let sex of ['Any', 'Male', 'Female']" [value]="sex">
+                  {{ sex }}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <!-- 3. Age Filter -->
+          <div class="filter-group">
+            <div class="filter-header" (click)="toggleFilter('age')">
+              <span>Age</span>
+              <img class="filter-arrow" 
+                  [ngClass]="{'rotated': expandedFilters.age}" 
+                  src="/assets/drop-down-arrow.svg" 
+                  alt="expand-arrow" />
+            </div>
+            <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.age}">
+              <mat-radio-group [(ngModel)]="filters.age" (change)="setFilter('age', filters.age)">
+                <mat-radio-button *ngFor="let age of ['Any', 'Very Young', 'Young', 'Adult', 'Senior']" [value]="age">
+                  {{ age }}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <!-- 4. Price Filter -->
+          <div class="filter-group">
+            <div class="filter-header" (click)="toggleFilter('price')">
+              <span>Price</span>
+              <img class="filter-arrow" 
+                  [ngClass]="{'rotated': expandedFilters.price}" 
+                  src="/assets/drop-down-arrow.svg" 
+                  alt="expand-arrow" />
+            </div>
+            <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.price}">
+              <mat-radio-group [(ngModel)]="filters.price" (change)="setFilter('price', filters.price)">
+                <mat-radio-button *ngFor="let price of ['Any', 'Low', 'Medium', 'High']" [value]="price">
+                  {{ price }}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <!-- 5. Location Filter -->
+          <div class="filter-group">
+            <div class="filter-header" (click)="toggleFilter('location')">
+              <span>Location</span>
+              <img class="filter-arrow" 
+                  [ngClass]="{'rotated': expandedFilters.location}" 
+                  src="/assets/drop-down-arrow.svg" 
+                  alt="expand-arrow" />
+            </div>
+            <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.location}">
+              <mat-radio-group [(ngModel)]="filters.location" (change)="setFilter('location', filters.location)">
+                <mat-radio-button *ngFor="let location of ['Any', 'New York', 'Los Angeles', 'Chicago', 'Houston', 'Other']" [value]="location">
+                  {{ location }}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fixed reset button section -->
+        <div class="reset-button-section">
+          <!-- <button class="apply-filters-btn" (click)="toggleFilters()">
+            Apply Filters
+          </button> -->
+          <button class="reset-filters-btn" (click)="resetFilters()">
+            Reset All
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Overlay -->
+    <div class="filter-overlay" [ngClass]="{ 'open': isFilterOpen }" (click)="toggleFilters()"></div>
+
+    <!-- Pet Cards Grid -->
+    <div class="cards" [ngClass]="{ hidden: loading }">
+      <ng-container *ngIf="!loading && getFilteredItems().length > 0; else noResults">
+        <div class="pet-card-container">
+          <ng-container *ngFor="let item of items">
+            <!-- Pet Card -->
+            <div *ngIf="
+              (filters.animal === 'Any' || filters.animal === this.getAnimalType(item.animal)) &&
+              (filters.sex === 'Any' || item.sex.toLowerCase() === filters.sex.toLowerCase()) &&
+              (filters.age === 'Any' ||
+                (filters.age === 'Very Young' && getAge(item.birthdate) < 1) ||
+                (filters.age === 'Young' && getAge(item.birthdate) >= 1 && getAge(item.birthdate) < 3) ||
+                (filters.age === 'Adult' && getAge(item.birthdate) >= 3 && getAge(item.birthdate) < 8) ||
+                (filters.age === 'Senior' && getAge(item.birthdate) > 8)) &&
+              (filters.price === 'Any' ||
+                (filters.price === 'Low' && item.price < 500) ||
+                (filters.price === 'Medium' && item.price >= 500 && item.price <= 1000) ||
+                (filters.price === 'High' && item.price > 1000)) &&
+              (filters.location === 'Any' ||
+                (filters.location === 'Other' &&
+                  !['New York', 'Los Angeles', 'Chicago', 'Houston'].includes(item.location)) ||
+                item.location === filters.location)"
+              mat-card
+              class="pet-card"
+              (click)="navigateToPetDesktop($event, item._id)"
+              [ngClass]="{ 'expanded': expandedCards[item.name] }">
+              
+              <!-- Pet Card Content -->
+              <div class="pet-image-background" [style.background-image]="'url(' + item.pictures[0] + ')'">
+                <!-- Favorite Button -->
+                <button *ngIf="isBuyer" class="petcard-favorite-button" (click)="toggleFavorite($event, item)">
+                  <img class="favorite-icon" 
+                      [src]="item.isFavorite ? '/assets/favorite-star-active.svg' : '/assets/favorite-star-inactive.svg'" 
+                      alt="Favorite Icon" />
+                </button>
+
+                <!-- Pet Info Card -->
+                <div class="pet-info-card">
+                  <!-- Displayed Info -->
+                  <div class="displayed-info">
+                    <div class="info-text">
+                      <h2 class="pet-name">{{ item.name }}</h2>
+                      <p class="pet-age">
+                        {{ item.sex | titlecase }},
+                        {{ formatAge(getAge(item.birthdate)) }} old
+                      </p>
+                    </div>
+                    <div class="button-group">
+                      <button class="pet-page-button" (click)="navigateToPetMobile(item._id)">
+                        Pet Page
+                      </button>
+                      <button class="show-hidden-button" (click)="toggleCard(item.name)">
+                        {{ expandedCards[item.name] ? 'Hide Info' : 'Show Info' }}
+                        <img class="expand arrow" 
+                            [ngClass]="{'rotated': expandedCards[item.name]}" 
+                            src="/assets/drop-down-arrow.svg" 
+                            alt="expand-arrow" />
+                      </button>
+                    </div>
                   </div>
-                  <div class="button-group">
-                    <button class="pet-page-button" (click)="navigateToPetMobile(item._id)">
-                      Pet Page
-                    </button>
-                    <button class="show-hidden-button" (click)="toggleCard(item.name)">
-                      {{ expandedCards[item.name] ? 'Hide Info' : 'Show Info' }}
-                      <img class="expand arrow" 
-                           [ngClass]="{'rotated': expandedCards[item.name]}" 
-                           src="/assets/drop-down-arrow.svg" 
-                           alt="expand-arrow" />
-                    </button>
-                  </div>
-                </div>
 
-                <!-- Hidden Info -->
-                <div class="hidden-info-container">
-                  <div class="hidden-info">
-                    <div class="info-group">
-                      <p class="pet-status-tag">Status:</p>
-                      <p class="pet-status">{{ item.status }}</p>
-                    </div>
-                    <div class="info-group">
-                      <p class="pet-breed-tag">Breed:</p>
-                      <p class="pet-breed">{{ item.breed }}</p>
-                    </div>
-                    <div class="info-group">
-                      <p class="pet-price-tag">Price:</p>
-                      <p class="pet-price">{{ item.price | currency : "USD" : "symbol" : "1.0-0" }}</p>
-                    </div>
-                    <div class="info-group">
-                      <p class="pet-location-tag">Location:</p>
-                      <p class="pet-location">{{ item.location }}</p>
+                  <!-- Hidden Info -->
+                  <div class="hidden-info-container">
+                    <div class="hidden-info">
+                      <div class="info-group">
+                        <p class="pet-status-tag">Status:</p>
+                        <p class="pet-status">{{ item.status }}</p>
+                      </div>
+                      <div class="info-group">
+                        <p class="pet-breed-tag">Breed:</p>
+                        <p class="pet-breed">{{ item.breed }}</p>
+                      </div>
+                      <div class="info-group">
+                        <p class="pet-price-tag">Price:</p>
+                        <p class="pet-price">{{ item.price | currency : "USD" : "symbol" : "1.0-0" }}</p>
+                      </div>
+                      <div class="info-group">
+                        <p class="pet-location-tag">Location:</p>
+                        <p class="pet-location">{{ item.location }}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </ng-container>
-      </div>
-    </ng-container>
-    <ng-template #noResults>
-      <div class="no-favorites-message-container" [ngClass]="{ hidden: loading }">
-        <div class="no-favorites-message">
-          {{ favoriteFilter ? 'You have no favorites.' : 'No pets match your search criteria.' }}
+          </ng-container>
         </div>
-      </div>
-    </ng-template>
+      </ng-container>
+      <ng-template #noResults>
+        <div class="no-favorites-message-container" [ngClass]="{ hidden: loading }">
+          <div class="no-favorites-message">
+            {{ favoriteFilter ? 'You have no favorites.' : 'No pets match your search criteria.' }}
+          </div>
+        </div>
+      </ng-template>
+    </div>
   </div>
 </div>
