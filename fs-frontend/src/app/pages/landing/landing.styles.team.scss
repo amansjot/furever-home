@@ -1,3 +1,12 @@
+@mixin no-select-or-drag {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    user-drag: none;
+}
+
 .team-container {
     padding: 4rem 2rem;
     
@@ -136,6 +145,7 @@
             gap: 1rem;
             margin-top: 1.2rem;
             opacity: 0.8;
+            @include no-select-or-drag;
 
             a {
                 width: 42px;
@@ -146,8 +156,10 @@
                 border-radius: 50%;
                 transition: all 0.2s ease;
                 overflow: hidden;
+                @include no-select-or-drag;
 
                 img {
+                    @include no-select-or-drag;
                     width: 20px;
                     height: 20px;
                     position: static;
