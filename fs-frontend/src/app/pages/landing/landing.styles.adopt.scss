@@ -38,12 +38,15 @@
     cursor: grab;
     user-select: none;
     align-items: flex-start;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
 
     .pet-card {
         flex: 0 0 auto;
         width: calc(25% - 25px);
         min-width: 250px;
         max-width: 320px;
+        scroll-snap-align: start;
         
         @media (max-width: 1200px) {
             width: calc(33.333% - 25px);
