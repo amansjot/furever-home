@@ -34,7 +34,10 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.itemService.getInventoryItems(0, {}).then(items => {
       this.featuredPets = items.slice(0, 8);
-      this.calculatePages();
+      setTimeout(() => {
+        this.calculatePages();
+        this.updateCurrentPage();
+      }, 0);
     });
 
     window.addEventListener('resize', this.handleResize.bind(this));
@@ -70,17 +73,14 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     // Calculate how many cards fit in the view and set total pages
     if (containerWidth >= 1200) {
         this.cardsPerPage = 4;
-        this.totalPages = 2;  // Always show 2 indicators for large screens
+        this.totalPages = Math.ceil(this.featuredPets.length / this.cardsPerPage);
     } else if (containerWidth >= 576) {
         this.cardsPerPage = 2;
-        this.totalPages = 4;  // Always show 4 indicators for medium screens
+        this.totalPages = Math.ceil(this.featuredPets.length / this.cardsPerPage);
     } else {
         this.cardsPerPage = 1;
-        this.totalPages = 8;  // Always show 8 indicators for small screens
+        this.totalPages = Math.ceil(this.featuredPets.length / this.cardsPerPage);
     }
-    
-    // Update current page
-    this.updateCurrentPage();
   }
 
   public scrollToPage(pageIndex: number, smooth: boolean = true) {
@@ -199,21 +199,25 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     const container = this.cardContainer?.nativeElement;
     if (!container) return;
 
-    const cardWidth = container.querySelector('.pet-card').offsetWidth;
+    // Wait for cards to be rendered
+    const card = container.querySelector('.pet-card');
+    if (!card) {
+        // If cards aren't loaded yet, try again in a moment
+        setTimeout(() => this.updateCurrentPage(), 100);
+        return;
+    }
+
+    const cardWidth = card.offsetWidth;
     const gap = 25;
     const scrollPosition = container.scrollLeft;
     const maxScroll = container.scrollWidth - container.clientWidth;
     
-    // If we're at or very close to the max scroll position, select the last page
     if (Math.abs(scrollPosition - maxScroll) < 10) {
         this.currentPage = this.totalPages - 1;
         return;
     }
     
-    // Calculate current page based on cards per page
     this.currentPage = Math.round(scrollPosition / ((cardWidth + gap) * this.cardsPerPage));
-    
-    // Ensure we don't exceed the maximum page index
     this.currentPage = Math.min(this.currentPage, this.totalPages - 1);
   }
 }
