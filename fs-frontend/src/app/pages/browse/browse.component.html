@@ -34,6 +34,16 @@
           <span>{{ isGridView ? 'List View' : 'Grid View' }}</span>
         </button>
       </div>
+      
+      <!-- Updated filter chips container -->
+      <div class="applied-filters-container" *ngIf="hasActiveFilters()">
+        <span class="filter-label">Active filters:</span>
+        <div class="filter-chip" *ngFor="let filter of getActiveFilters()">
+          <span class="category">{{filter.category}}:</span>
+          <span class="value">{{filter.value}}</span>
+          <button class="remove-filter" (click)="removeFilter(filter.category, filter.value)">×</button>
+        </div>
+      </div>
     </div>
 
     <!-- Filter Sidebar -->
