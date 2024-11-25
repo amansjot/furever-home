@@ -105,7 +105,21 @@ export class LoginService {
     }
   }
 
-  public getAuthenticatedSellerLocation(): string | null {
+  public getAuthenticatedRoles(): string[] {
+    if (!this.token) {
+      return [];
+    }
+
+    try {
+      const decodedToken: any = jwtDecode(this.token);
+      return decodedToken?.roles || [];
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return [];
+    }
+  }
+
+  public getAuthenticatedLocation(): string | null {
     if (!this.token) {
       return null;
     }
