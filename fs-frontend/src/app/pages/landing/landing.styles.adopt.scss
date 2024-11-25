@@ -146,6 +146,22 @@
     gap: 8px;
     margin-top: 20px;
     padding: 10px 0;
+
+    @media (min-width: 1200px) {
+        // Large screens - 2 indicators
+        .indicator:nth-child(n+3) {
+            display: none;
+        }
+    }
+
+    @media (min-width: 576px) and (max-width: 1199px) {
+        // Medium screens - 4 indicators
+        .indicator:nth-child(n+5) {
+            display: none;
+        }
+    }
+
+    // Small screens show all 8 indicators by default
 }
 
 .indicator {
