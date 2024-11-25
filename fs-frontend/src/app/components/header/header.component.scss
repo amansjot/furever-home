@@ -143,6 +143,8 @@ div {
 		.mobile-login-btn button {
 			transition: all 0.1s ease-in-out;
 			transition-delay: 0s !important;
+			transform: translateX(-100%);
+			opacity: 0;
 		}
 	}
 
@@ -157,13 +159,11 @@ div {
 		padding-bottom: 10px;
 
 		button {
-			@include button-styles;
-			width: 100%;
-			padding: 10px 15px;
 			opacity: 0;
-			transform: translateY(20px);
+			transform: translateX(-100%);
+			transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 			
-			// Adjust stagger animation for up to 6 buttons
+			// Stagger animation with both slide and fade
 			@for $i from 1 through 6 {
 				&:nth-child(#{$i}) {
 					transition-delay: #{$i * 0.1}s;
@@ -173,18 +173,15 @@ div {
 	}
 }
 
-// Add this to show buttons when menu is expanded
+// Update expanded state
 .mat-toolbar.expanded {
-	transition: all 0.3s ease-in-out;
-	
 	.mobile-menu-content {
 		opacity: 1;
 		visibility: visible;
-		transition: all 0.3s ease-in-out;
 
 		.mobile-login-btn button {
 			opacity: 1;
-			transform: translateY(0);
+			transform: translateX(0);
 		}
 	}
 }
@@ -230,19 +227,15 @@ button {
 	}
 }
 
-// Add this for quick closing animation
+// Update closing animation
 .mat-toolbar.closing {
-	transition: all 0.1s ease-in-out;
+	transition: all 0.2s ease-in-out;
 	
 	.mobile-menu-content {
-		.mobile-login-btn {
-			align-items: center;
-		}
-		
-		button {
+		.mobile-login-btn button {
 			opacity: 0;
-			transform: translateY(20px);
-			transition: all 0.05s ease-in-out;
+			transform: translateX(-100%);
+			transition: all 0.2s ease-in-out;
 			transition-delay: 0s !important;
 		}
 	}
