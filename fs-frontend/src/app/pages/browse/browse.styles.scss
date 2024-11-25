@@ -30,8 +30,7 @@ $navbar-height: 80px;
 ::ng-deep {
   .content[_ngcontent-ng-c878565217] {
     padding: 0;
-    margin-left: 1%;
-    margin-right: 1%;
+    margin: 0;
     margin-bottom: 0 !important;
   }
 
@@ -51,9 +50,10 @@ $navbar-height: 80px;
 .browse-container {
   background-color: #e6e6e6;
   border-radius: 20px;
-  width: 100%;
-  padding: 0;
-  padding-top: 1px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  width: calc(100% - 2%);
+  padding: 1px 0 0 0;
+  margin: 0 1% 25px 1%;
 }
 
 // Loading states
