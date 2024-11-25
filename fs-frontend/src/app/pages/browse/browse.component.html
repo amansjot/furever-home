@@ -11,14 +11,19 @@
     Adoptable Pets
   </div>
 
+  <!-- Browse Container -->
   <div class="browse-container">
+
     <!-- Top Bar with Filter Button and Results Count -->
     <div class="top-bar">
       <div class="button-row">
+        <!-- Refine Results Button -->
         <button class="filter-toggle-btn" (click)="toggleFilters()">
           <img src="/assets/icons/action-icons/filter.svg" alt="Filters" />
           <span>Refine Results</span>
         </button>
+
+        <!-- Show Favorites Button (Visible if authenticated) -->
         <button *ngIf="authenticated" class="filter-toggle-btn" (click)="toggleFavoriteFilter()">
           <ng-container *ngIf="favoriteFilter; else showFavorites">
             <img src="/assets/icons/action-icons/close-icon.svg" alt="Close Icon" class="close-icon" />
@@ -29,13 +34,15 @@
             Show Favorites
           </ng-template>
         </button>
+
+        <!-- Grid/List View Toggle Button -->
         <button class="grid-toggle-btn" (click)="toggleGridView()">
           <img src="/assets/icons/action-icons/grid.svg" alt="Grid View" />
           <span>{{ isGridView ? 'List View' : 'Grid View' }}</span>
         </button>
       </div>
-      
-      <!-- Updated filter chips container -->
+
+      <!-- Applied Filters Container -->
       <div class="applied-filters-container" *ngIf="hasActiveFilters()">
         <span class="filter-label">Active filters:</span>
         <div class="filter-chip" *ngFor="let filter of getActiveFilters()">
@@ -53,11 +60,10 @@
           <h2>Filters</h2>
           <button class="close-filters" (click)="toggleFilters()">×</button>
         </div>
-        
-        <!-- Scrollable filters section -->
+
+        <!-- Scrollable Filters Section -->
         <div class="filters-section">
-          <!-- Other filter groups first -->
-          <!-- 1. Animal Filter -->
+          <!-- Animal Filter Group -->
           <div class="filter-group">
             <div class="filter-header" (click)="toggleFilter('animal')">
               <span>Animal Type</span>
@@ -78,7 +84,7 @@
             </div>
           </div>
 
-          <!-- 2. Sex Filter -->
+          <!-- Sex Filter Group -->
           <div class="filter-group">
             <div class="filter-header" (click)="toggleFilter('sex')">
               <span>Sex</span>
@@ -99,7 +105,7 @@
             </div>
           </div>
 
-          <!-- 3. Age Filter -->
+          <!-- Age Filter Group -->
           <div class="filter-group">
             <div class="filter-header" (click)="toggleFilter('age')">
               <span>Age</span>
@@ -120,7 +126,7 @@
             </div>
           </div>
 
-          <!-- 4. Price Filter -->
+          <!-- Price Filter Group -->
           <div class="filter-group">
             <div class="filter-header" (click)="toggleFilter('price')">
               <span>Price</span>
@@ -141,7 +147,7 @@
             </div>
           </div>
 
-          <!-- 5. Location Filter -->
+          <!-- Location Filter Group -->
           <div class="filter-group">
             <div class="filter-header" (click)="toggleFilter('location')">
               <span>Location</span>
@@ -185,7 +191,7 @@
           </div>
         </div>
 
-        <!-- Reset button section -->
+        <!-- Reset Filters Button -->
         <div class="reset-button-section">
           <button class="reset-filters-btn" (click)="resetFilters()">
             Reset Filters
