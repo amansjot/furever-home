@@ -24,10 +24,12 @@ $navbar-height: 80px;
   font-weight: 700;
   margin-top: $navbar-height;
   margin-bottom: 10px;
+  margin-left: 25px;
 
   @media (max-width: 640px) {
     text-align: center;
-    font-size: 2rem;
+    font-size: 2.5rem;
+    margin-left: 0;
   }
 }
 
