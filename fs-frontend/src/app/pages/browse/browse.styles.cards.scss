@@ -79,7 +79,7 @@
                         gap: 4px;
                         
                         .pet-page-button {
-                            flex: 0.8;  // Take less space than the show info button
+                            flex: 0.8;
                             padding: 4px 8px;
                             font-size: 0.8rem;
                             border-radius: 15px;
@@ -89,7 +89,7 @@
                         }
 
                         .show-hidden-button {
-                            flex: 1.2;  // Take more space to fit the arrow
+                            flex: 1.2;
                             padding: 4px 8px;
                             font-size: 0.8rem;
                             border-radius: 15px;
@@ -107,15 +107,32 @@
                 }
 
                 &.expanded {
+                    position: relative;
                     height: auto;
+                    min-height: 300px;
                     
+                    .pet-image-background {
+                        position: relative;
+                        min-height: 300px;
+                    }
+
+                    .displayed-info {
+                        position: relative;
+                        margin-top: 85px;
+                        transform: none;
+                        bottom: -10px;
+                    }
+
                     .hidden-info {
-                        position: static;
+                        position: relative;
+                        margin-top: 10px;
                         background-color: white;
                         margin: 2%;
                         padding: 10px;
                         border-radius: 15px;
                         width: auto;
+                        opacity: 1;
+                        transform: none;
                         box-sizing: border-box;
 
                         .info-group {
@@ -143,6 +160,7 @@
                     }
 
                     .pet-info-card {
+                        position: relative;
                         height: 100%;
                         width: 100%;
                         box-sizing: border-box;
