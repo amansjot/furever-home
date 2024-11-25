@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { BuyerService } from '../../services/buyer.service';
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { LoginService } from '../../services/login.service';
 import { forkJoin, of } from 'rxjs';
@@ -22,6 +23,7 @@ import { catchError, delay, switchMap } from 'rxjs/operators';
     MatButtonModule,
     MatRadioModule,
     FormsModule,
+    MatCheckboxModule,
   ],
   templateUrl: './browse.component.html',
   styleUrls: [
@@ -42,11 +44,11 @@ export class BrowseComponent {
 
   // Define filters and their default values
   public filters = {
-    animal: 'Any',
-    sex: 'Any',
-    age: 'Any',
-    price: 'Any',
-    location: 'Any',
+    animal: ['Any'],
+    sex: ['Any'],
+    age: ['Any'],
+    price: ['Any'],
+    location: ['Any']
   };
 
   public favoriteFilter: boolean = false;
@@ -83,10 +85,26 @@ export class BrowseComponent {
   ) {}
 
   ngOnInit(): void {
+    // Initialize filters as arrays
+    this.filters = {
+      animal: ['Any'],
+      sex: ['Any'],
+      age: ['Any'],
+      price: ['Any'],
+      location: ['Any']
+    };
+
     // Load saved filters from localStorage if they exist
     const savedFilters = localStorage.getItem('filters');
     if (savedFilters) {
-      this.filters = JSON.parse(savedFilters);
+      const parsed = JSON.parse(savedFilters);
+      // Ensure each filter category is an array
+      Object.keys(parsed).forEach(key => {
+        if (!Array.isArray(parsed[key])) {
+          parsed[key] = [parsed[key]];
+        }
+      });
+      this.filters = parsed;
     }
 
     // Load saved favorite filter state
@@ -183,13 +201,37 @@ export class BrowseComponent {
   // Method to set the filter value and reload data
   setFilter(
     type: 'animal' | 'sex' | 'age' | 'price' | 'location',
-    value: string
-  ) {
-    this.filters[type] = value;
-    console.log(`${type} filter set to: ${value}`);
+    value: string,
+    checked: boolean
+  ): void {
+    // Initialize as array if not already
+    if (!Array.isArray(this.filters[type])) {
+      this.filters[type] = [];
+    }
 
+    if (checked) {
+      // If "Any" is selected, clear other selections
+      if (value === 'Any') {
+        this.filters[type] = ['Any'];
+      } else {
+        // Remove "Any" if it exists and add the new value
+        this.filters[type] = this.filters[type].filter(v => v !== 'Any');
+        if (!this.filters[type].includes(value)) {
+          this.filters[type].push(value);
+        }
+      }
+    } else {
+      // Remove the value
+      this.filters[type] = this.filters[type].filter(v => v !== value);
+      // If no filters selected, default to "Any"
+      if (this.filters[type].length === 0) {
+        this.filters[type] = ['Any'];
+      }
+    }
+
+    // Save to localStorage and reload data
     localStorage.setItem('filters', JSON.stringify(this.filters));
-    this.loadData(); // Reload data based on the updated filters
+    this.loadData();
   }
 
   // Toggle the expanded state of a card
@@ -412,13 +454,12 @@ export class BrowseComponent {
   }
 
   public resetFilters(): void {
-    // Reset all filters to default values
     this.filters = {
-      animal: 'Any',
-      sex: 'Any',
-      age: 'Any',
-      price: 'Any',
-      location: 'Any',
+      animal: ['Any'],
+      sex: ['Any'],
+      age: ['Any'],
+      price: ['Any'],
+      location: ['Any']
     };
 
     // Reset expanded states
@@ -438,23 +479,42 @@ export class BrowseComponent {
   }
 
   getFilteredItems(): InventoryItemModel[] {
-    return this.items.filter(item => 
-      (this.filters.animal === 'Any' || this.filters.animal === this.getAnimalType(item.animal)) &&
-      (this.filters.sex === 'Any' || item.sex.toLowerCase() === this.filters.sex.toLowerCase()) &&
-      (this.filters.age === 'Any' ||
-        (this.filters.age === 'Very Young' && this.getAge(item.birthdate) < 1) ||
-        (this.filters.age === 'Young' && this.getAge(item.birthdate) >= 1 && this.getAge(item.birthdate) < 3) ||
-        (this.filters.age === 'Adult' && this.getAge(item.birthdate) >= 3 && this.getAge(item.birthdate) < 8) ||
-        (this.filters.age === 'Senior' && this.getAge(item.birthdate) > 8)) &&
-      (this.filters.price === 'Any' ||
-        (this.filters.price === 'Low' && item.price < 500) ||
-        (this.filters.price === 'Medium' && item.price >= 500 && item.price <= 1000) ||
-        (this.filters.price === 'High' && item.price > 1000)) &&
-      (this.filters.location === 'Any' ||
-        (this.filters.location === 'Other' &&
-          !['New York', 'Los Angeles', 'Chicago', 'Houston'].includes(item.location)) ||
-        item.location === this.filters.location)
-    );
+    return this.items.filter(item => {
+      const animalMatch = this.filters.animal.includes('Any') || 
+        this.filters.animal.includes(this.getAnimalType(item.animal));
+      
+      const sexMatch = this.filters.sex.includes('Any') || 
+        this.filters.sex.some(s => item.sex.toLowerCase() === s.toLowerCase());
+      
+      const ageMatch = this.filters.age.includes('Any') || 
+        this.filters.age.some(age => {
+          const itemAge = this.getAge(item.birthdate);
+          return (
+            (age === 'Very Young' && itemAge < 1) ||
+            (age === 'Young' && itemAge >= 1 && itemAge < 3) ||
+            (age === 'Adult' && itemAge >= 3 && itemAge < 8) ||
+            (age === 'Senior' && itemAge > 8)
+          );
+        });
+      
+      const priceMatch = this.filters.price.includes('Any') || 
+        this.filters.price.some(price => {
+          return (
+            (price === 'Low' && item.price < 500) ||
+            (price === 'Medium' && item.price >= 500 && item.price <= 1000) ||
+            (price === 'High' && item.price > 1000)
+          );
+        });
+      
+      const locationMatch = this.filters.location.includes('Any') || 
+        this.filters.location.some(loc => {
+          return loc === 'Other' 
+            ? !['New York', 'Los Angeles', 'Chicago', 'Houston'].includes(item.location)
+            : item.location === loc;
+        });
+
+      return animalMatch && sexMatch && ageMatch && priceMatch && locationMatch;
+    });
   }
 
   toggleGridView(): void {
