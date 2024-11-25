@@ -1,9 +1,9 @@
 <div class="header-wrapper" [ngClass]="{ 'menu-is-open': isMenuOpen }">
   <mat-toolbar class="mat-toolbar" [ngClass]="{ hidden: isNavbarHidden, expanded: isMenuOpen }">
     <div class="title">
-      <a draggable="false" [routerLink]="authenticated ? '/browse' : '/'"
-        ><img src="dog256.png" alt="Dog Icon" draggable="false" /> Furever Home</a
-      >
+      <a draggable="false" routerLink="/">
+        <img src="dog256.png" alt="Dog Icon" draggable="false" /> Furever Home
+      </a>
     </div>
 
     <!-- Desktop buttons -->
@@ -15,6 +15,7 @@
       <button (click)="logout()">Logout</button>
     </div>
     <div class="desktop-login-btn" *ngIf="!authenticated && showButtons">
+      <button routerLink="/browse" [class.active]="isRouteActive('/browse')">Browse</button>
       <button routerLink="/login" [class.active]="isRouteActive('/login')">Login</button>
     </div>
 
@@ -38,6 +39,7 @@
             <button (click)="logout(); onMenuItemClick()">Logout</button>
         </div>
         <div class="mobile-login-btn" *ngIf="!authenticated && showButtons">
+            <button routerLink="/browse" [class.active]="isRouteActive('/browse')" (click)="onMenuItemClick()">Browse</button>
             <button routerLink="/login" [class.active]="isRouteActive('/login')" (click)="onMenuItemClick()">Login</button>
         </div>
     </div>

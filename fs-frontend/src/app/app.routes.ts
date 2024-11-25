@@ -6,7 +6,7 @@ import { SellerGuardService } from './guards/seller-guard.service';
 
 export const routes: Routes = [
   { path: '', loadComponent: () => import('./pages/landing/landing.component').then(m => m.LandingComponent) },
-  { path: 'browse', component: BrowseComponent, canActivate: [AuthGuardService] },
+  { path: 'browse', component: BrowseComponent },
   { path: 'login', loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent) },
   { path: 'register', loadComponent: () => import('./pages/register/register.component').then(m => m.RegisterComponent) },
   { path: 'favorites', loadComponent: () => import('./pages/favorites/favorites.component').then(m => m.FavoritesComponent), canActivate: [AuthGuardService] },

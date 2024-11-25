@@ -143,26 +143,57 @@
         box-sizing: border-box;
     }
 
-    // Button styles
-    button {
-        font-family: "Parkinsans", sans-serif;
-        font-size: clamp(0.9rem, 4vw, 1rem);
-        font-weight: 600;
-        color: #333;
-        background: #e6e6e6;
-        padding: 8px 14px;
-        border: 0;
-        outline: 0;
-        border-radius: 25px;
-        transform: scale(1);
-        transition: all 0.3s ease-in;
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-        cursor: pointer;
+    // Button container styles
+    .button-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
 
-        &:is(:hover, :focus) {
-            transform: scale(0.98);
-            background-color: #38bd91;
-            color: #eaeaea;
+        button {
+            font-family: "Parkinsans", sans-serif;
+            font-size: clamp(0.9rem, 4vw, 1rem);
+            font-weight: 600;
+            color: #333;
+            background: #e6e6e6;
+            padding: 8px 14px;
+            border: 0;
+            outline: 0;
+            border-radius: 25px;
+            transform: scale(1);
+            transition: all 0.3s ease-in;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            cursor: pointer;
+
+            &:is(:hover, :focus) {
+                transform: scale(0.98);
+                background-color: #38bd91;
+                color: #eaeaea;
+            }
+
+            &.browse {
+                background-color: #38bd91;
+                color: #eaeaea;
+
+                &:is(:hover, :focus) {
+                    background-color: #2fa67d;
+                }
+            }
+        }
+
+        @media (max-width: 768px) {
+            flex-direction: row;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+            
+            button {
+                margin: 0;
+            }
+        }
+
+        @media (max-width: 375px) {
+            gap: 10px;
         }
     }
 
@@ -235,8 +266,7 @@
         }
 
         button {
-            margin: 0 auto;
-            display: block;
+            margin: 0;
         }
     }
 
