@@ -46,8 +46,7 @@
         
         <!-- Scrollable filters section -->
         <div class="filters-section">
-          <!-- Filter Groups -->
-
+          <!-- Other filter groups first -->
           <!-- 1. Animal Filter -->
           <div class="filter-group">
             <div class="filter-header" (click)="toggleFilter('animal')">
@@ -152,21 +151,36 @@
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Applied filters -->
-        <div class="applied-filters" *ngIf="hasActiveFilters()">
-          <div *ngFor="let filter of getActiveFilters()" class="applied-filter">
-            <span class="filter-category">{{ filter.category }}:</span>
-            <span class="filter-value">{{ filter.value }}</span>
-            <button (click)="removeFilter(filter.category, filter.value)" class="remove-filter">×</button>
+          <!-- Applied Filters Group -->
+          <div class="filter-group" *ngIf="hasActiveFilters()">
+            <div class="filter-header" (click)="toggleFilter('applied')">
+              <span>Applied Filters</span>
+              <img class="filter-arrow" 
+                  [ngClass]="{'rotated': expandedFilters.applied}" 
+                  src="/assets/icons/action-icons/drop-down-arrow.svg" 
+                  alt="expand-arrow" />
+            </div>
+            <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.applied}">
+              <div class="applied-filters-wrapper">
+                <div class="applied-filters">
+                  <div *ngFor="let filter of getActiveFilters()" class="applied-filter">
+                    <span class="filter-category">{{ filter.category }}:</span>
+                    <span class="filter-value">{{ filter.value }}</span>
+                    <button (click)="removeFilter(filter.category, filter.value)" class="remove-filter">×</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        
-        <!-- Reset button -->
-        <button class="reset-filters-btn" (click)="resetFilters()">
-          Reset Filters
-        </button>
+
+        <!-- Reset button section -->
+        <div class="reset-button-section">
+          <button class="reset-filters-btn" (click)="resetFilters()">
+            Reset Filters
+          </button>
+        </div>
       </div>
     </div>
 
