@@ -37,6 +37,121 @@
     @media (min-width: 2200px) {
         grid-template-columns: repeat(6, 1fr);
     }
+
+    @media (max-width: 640px) {
+        grid-template-columns: 1fr;
+        
+        &.grid-view {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            padding: 0 10px;
+
+            .pet-card {
+                height: 300px;
+
+                .displayed-info {
+                    transform: none;  
+                    bottom: 0;
+                    position: relative;
+                    margin-top: 100px;
+                    padding: 5px;
+                    flex-direction: column;
+                    align-items: flex-start;
+
+                    .info-text {
+                        width: 100%;
+                        margin-bottom: 5px;
+                        
+                        .pet-name {
+                            font-size: 1.5rem;
+                        }
+                        
+                        .pet-age {
+                            font-size: 0.9rem;
+                            padding-top: 2px;
+                        }
+                    }
+
+                    .button-group {
+                        width: 100%;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        gap: 4px;
+                        
+                        .pet-page-button {
+                            flex: 0.8;
+                            padding: 4px 8px;
+                            font-size: 0.8rem;
+                            border-radius: 15px;
+                            min-width: 0;
+                            text-align: center;
+                            white-space: nowrap;
+                        }
+
+                        .show-hidden-button {
+                            flex: 1.2;
+                            padding: 4px 8px;
+                            font-size: 0.8rem;
+                            border-radius: 15px;
+                            min-width: 0;
+                            text-align: center;
+                            white-space: nowrap;
+
+                            .expand.arrow {
+                                width: 12px;
+                                height: 12px;
+                                margin-left: 2px;
+                            }
+                        }
+                    }
+                }
+
+                &.expanded {
+                    height: auto;
+                    
+                    .hidden-info {
+                        position: static;
+                        background-color: white;
+                        padding: 10px;
+                        margin: 0;
+                        border-radius: 0 0 15px 15px;
+
+                        .info-group {
+                            gap: 3px;
+                            padding: 2px 0;
+                            font-size: 0.9rem;
+
+                            .pet-status-tag,
+                            .pet-price-tag,
+                            .pet-location-tag,
+                            .pet-breed-tag {
+                                padding: 1px 6px;
+                                font-size: 0.8rem;
+                                min-width: 50px;
+                            }
+
+                            .pet-status,
+                            .pet-price,
+                            .pet-location,
+                            .pet-breed {
+                                font-size: 0.8rem;
+                                padding-left: 3px;
+                            }
+                        }
+                    }
+
+                    .pet-info-card {
+                        height: 100%;
+                    }
+
+                    .displayed-info {
+                        transform: translateY(-0%);
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+    }
 }
 
 // Base styles for each pet card
@@ -338,5 +453,28 @@
 
     100% {
         transform: scale(1);
+    }
+}
+
+// Grid toggle button styles
+.grid-toggle-btn {
+    display: none;  // Hidden by default
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: none;
+    background-color: #f5f5f5;
+    color: #333;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: #e0e0e0;
+    }
+
+    @media (max-width: 640px) {
+        display: inline-block;
     }
 }

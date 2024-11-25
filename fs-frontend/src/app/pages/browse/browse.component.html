@@ -29,6 +29,9 @@
             Show Favorites
           </ng-template>
         </button>
+        <button class="grid-toggle-btn" (click)="toggleGridView()">
+          {{ isGridView ? 'List View' : 'Grid View' }}
+        </button>
       </div>
     </div>
 
@@ -152,7 +155,7 @@
     <!-- Pet Cards Grid -->
     <div class="cards" [ngClass]="{ hidden: loading }">
       <ng-container *ngIf="!loading && getFilteredItems().length > 0; else noResults">
-        <div class="pet-card-container">
+        <div class="pet-card-container" [ngClass]="{'grid-view': isGridView}">
           <ng-container *ngFor="let item of items">
             <!-- Pet Card -->
             <div *ngIf="

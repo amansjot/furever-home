@@ -73,6 +73,8 @@ export class BrowseComponent {
     location: false,
   };
 
+  public isGridView: boolean = false;
+
   constructor(
     private _loginSvc: LoginService,
     private buyerService: BuyerService,
@@ -453,5 +455,11 @@ export class BrowseComponent {
           !['New York', 'Los Angeles', 'Chicago', 'Houston'].includes(item.location)) ||
         item.location === this.filters.location)
     );
+  }
+
+  toggleGridView(): void {
+    this.isGridView = !this.isGridView;
+    // Reset expanded cards when toggling view
+    this.expandedCards = {};
   }
 }
