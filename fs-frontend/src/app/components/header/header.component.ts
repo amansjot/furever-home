@@ -3,41 +3,46 @@ import { LoginService } from '../../services/login.service';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
-import { NavigationEnd, Router, RouterLink, RouterModule } from '@angular/router';
+import {
+  NavigationEnd,
+  Router,
+  RouterLink,
+  RouterModule,
+} from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { forkJoin, of } from 'rxjs';
-import { catchError, delay, switchMap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, MatToolbarModule, MatButtonModule, MatIconModule, RouterLink, RouterModule],
+  imports: [
+    CommonModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    RouterLink,
+    RouterModule,
+  ],
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  public disableLogin: boolean = false;
   public authenticated: boolean = false;
-  public isAdmin: boolean = false;
-  public isSeller: boolean = false;
-  public isBuyer: boolean = false;
+  public roles: string[] = [];
   public showButtons: boolean = true;
 
   private noHideRoutes: string[] = ['register', 'login'];
 
   private contentDivOffset: number = 0;
 
-  constructor(
-    private _loginSvc: LoginService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {
+  constructor(private _loginSvc: LoginService, private router: Router) {
     _loginSvc.loggedIn.subscribe(this.onLoginChange);
 
     router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.showButtons = !(event.url.includes("login") || event.url.includes("register"));
+        this.showButtons = !(
+          event.url.includes('login') || event.url.includes('register')
+        );
       }
     });
   }
@@ -54,9 +59,12 @@ export class HeaderComponent implements OnInit {
 
   private updateContentDivOffset(): void {
     if (this.router.url === '/') {
-      const contentDiv = document.querySelector('.landing-first-component-container .content');
+      const contentDiv = document.querySelector(
+        '.landing-first-component-container .content'
+      );
       if (contentDiv) {
-        this.contentDivOffset = (contentDiv.getBoundingClientRect().bottom + window.pageYOffset) - 45;
+        this.contentDivOffset =
+          contentDiv.getBoundingClientRect().bottom + window.pageYOffset - 45;
       }
     }
   }
@@ -65,60 +73,21 @@ export class HeaderComponent implements OnInit {
     this.authenticated = loggedIn;
 
     if (loggedIn) {
-      this.checkUserRoles();
+      if (localStorage.getItem('roles')) {
+        this.roles = JSON.parse(localStorage.getItem('roles') || '');
+      } else {
+        this.roles = this._loginSvc.getAuthenticatedRoles();
+        localStorage.setItem("roles", JSON.stringify(this.roles));
+      }
     } else {
-      this.resetRoles();
+      this.roles = [];
     }
   };
 
-  private checkUserRoles(): void {
-    of(null).pipe(
-      delay(250),
-      switchMap(() =>
-        forkJoin({
-          isBuyer: this._loginSvc.isBuyer().pipe(
-            catchError((error) => {
-              console.error('Error checking buyer role:', error);
-              return of(false);
-            })
-          ),
-          isSeller: this._loginSvc.isSeller().pipe(
-            catchError((error) => {
-              console.error('Error checking seller role:', error);
-              return of(false);
-            })
-          ),
-          isAdmin: this._loginSvc.isAdmin().pipe(
-            catchError((error) => {
-              console.error('Error checking admin role:', error);
-              return of(false);
-            })
-          ),
-        })
-      )
-    ).subscribe(({ isBuyer, isSeller, isAdmin }) => {
-      this.isBuyer = isBuyer;
-      this.isSeller = isSeller;
-      this.isAdmin = isAdmin;
-    });
-  }
-
-  private resetRoles(): void {
-    this.isAdmin = false;
-    this.isBuyer = false;
-    this.isSeller = false;
-  }
-
   logout() {
     this._loginSvc.logout();
-    this.resetRoles();
+    this.roles = [];
     this.router.navigate(['']);
-  }
-
-  async login() {
-    this.disableLogin = true;
-    await this._loginSvc.login("silber@udel.edu", "pass");
-    this.disableLogin = false;
   }
 
   // Navbar CSS and scrolling functionality
@@ -129,15 +98,19 @@ export class HeaderComponent implements OnInit {
   @HostListener('window:scroll', [])
   onWindowScroll() {
     if (!this.isMenuOpen) {
-      const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+      const currentScrollPosition =
+        window.pageYOffset || document.documentElement.scrollTop;
       const isLandingPage = this.router.url === '/';
-      const isNoHidePage = this.noHideRoutes.some(route => this.router.url.includes(route));
+      const isNoHidePage = this.noHideRoutes.some((route) =>
+        this.router.url.includes(route)
+      );
 
       if (!isNoHidePage) {
         if (isLandingPage) {
           // Only hide navbar when scrolled past the content div
-          this.isNavbarHidden = currentScrollPosition > this.lastScrollPosition && 
-                               currentScrollPosition > this.contentDivOffset;
+          this.isNavbarHidden =
+            currentScrollPosition > this.lastScrollPosition &&
+            currentScrollPosition > this.contentDivOffset;
         } else {
           // Original behavior for other pages
           this.isNavbarHidden = currentScrollPosition > this.lastScrollPosition;
@@ -165,7 +138,9 @@ export class HeaderComponent implements OnInit {
       // Calculate and set height after a brief delay to ensure DOM is updated
       setTimeout(() => {
         const toolbar = document.querySelector('.mat-toolbar') as HTMLElement;
-        const mobileMenu = document.querySelector('.mobile-menu-content') as HTMLElement;
+        const mobileMenu = document.querySelector(
+          '.mobile-menu-content'
+        ) as HTMLElement;
         if (toolbar && mobileMenu) {
           const menuHeight = mobileMenu.getBoundingClientRect().height;
           const totalHeight = 75 + menuHeight + 40; // base height + menu + padding
@@ -193,10 +168,10 @@ export class HeaderComponent implements OnInit {
   onMenuItemClick() {
     const toolbar = document.querySelector('.mat-toolbar');
     const mobileMenu = document.querySelector('.mobile-menu-content');
-    
+
     mobileMenu?.classList.add('quick-close');
     this.isMenuOpen = false;
-    
+
     setTimeout(() => {
       mobileMenu?.classList.remove('quick-close');
     }, 300);
@@ -218,7 +193,7 @@ export class HeaderComponent implements OnInit {
   // Add this method to check if a route is active
   isRouteActive(route: string): boolean {
     if (route === '/browse' && this.router.url === '/') {
-        return false;
+      return false;
     }
     return this.router.url.startsWith(route);
   }

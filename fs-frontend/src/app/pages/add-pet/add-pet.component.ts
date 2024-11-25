@@ -158,7 +158,7 @@ export class AddPetComponent implements OnInit {
     if (this.petForm.invalid) return;
 
     const userId = this._loginSvc.getAuthenticatedUserId(); // Retrieve the current seller's ID
-    const location = this._loginSvc.getAuthenticatedSellerLocation(); // Retrieve the current seller's location
+    const location = this._loginSvc.getAuthenticatedLocation(); // Retrieve the current seller's location
     const sellerType = this._loginSvc.getAuthenticatedSellerType();
 
     const resolvedSellerType = await sellerType;
