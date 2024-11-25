@@ -298,6 +298,7 @@
 }
 
 // Media queries 
+// Add even more compact styles for very small screens
 
 // Mobile
 @media (max-width: 640px) {
@@ -441,7 +442,46 @@
     }
 }
 
-// Tablet
+// small aa fuck (iphone se or iphone 11)
+@media (max-width: 376px) {
+    .cards .pet-card-container.grid-view {
+        .pet-card.expanded {
+            .hidden-info-container .hidden-info {
+                .info-group {
+                    gap: 2px !important;
+                    padding: 1px 0 !important;
+                    margin: 2px 0 !important;
+                    
+                    .pet-status-tag,
+                    .pet-price-tag,
+                    .pet-location-tag,
+                    .pet-breed-tag {
+                        padding: 1px 4px !important;
+                        font-size: 0.65rem !important;
+                        min-width: 35px !important;
+                        border-radius: 10px !important;
+                        line-height: 1.4 !important;
+                    }
+
+                    .pet-status,
+                    .pet-price,
+                    .pet-location,
+                    .pet-breed {
+                        font-size: 0.65rem !important;
+                        padding-left: 2px !important;
+                        max-width: 100px !important;
+                        white-space: nowrap !important;
+                        overflow: hidden !important;
+                        text-overflow: ellipsis !important;
+                        line-height: 1.4 !important;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// mobile
 @media (min-width: 768px) {
     .pet-card-container {
         grid-template-columns: repeat(2, 1fr);
