@@ -339,6 +339,6 @@ export class PetComponent implements OnInit {
   }
 
   getAnimalIconPath(animal: string): string {
-    return '/assets/animal-types/' + this.getAnimalType(animal) + '.svg';
+    return '/assets/icons/multicolored-icons/animal-types/' + this.getAnimalType(animal) + '.svg';
   }
 }

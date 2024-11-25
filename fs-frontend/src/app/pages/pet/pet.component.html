@@ -9,7 +9,7 @@
     <button *ngIf="isBuyer" class="petcard-favorite-button" (click)="toggleFavorite($event, pet)">
       <!-- <button *ngIf="isBuyer" class="petcard-favorite-button"> -->
       <img class="favorite-icon" 
-           [src]="pet.isFavorite ? '/assets/favorite-star-active.svg' : '/assets/favorite-star-inactive.svg'" 
+           [src]="pet.isFavorite ? '/assets/icons/action-icons/favorite-star-active.svg' : '/assets/icons/action-icons/favorite-star-inactive.svg'" 
            alt="Favorite Icon" />
     </button>
   </div>
@@ -38,7 +38,7 @@
     <button (click)="openModal()" class="expand-button">
       <img
         class="magnifying-glass-icon"
-        src="/assets/magnifying-glass.svg"
+        src="/assets/icons/action-icons/magnifying-glass.svg"
         alt="expand-arrow"
       />
     </button>
@@ -87,7 +87,7 @@
     <div class="pet-info">
       <h1 class="pet-page-header">Meet {{ pet.name }}!</h1>
       <div class="pet-attribute">
-        <img src="/assets/pet-info-icons/home.svg" alt="Status icon" />
+        <img src="/assets/icons/multicolored-icons/home.svg" alt="Status icon" />
         <p><strong>Status:</strong> {{ pet.status | titlecase }}</p>
       </div>
       <div class="pet-attribute">
@@ -95,33 +95,33 @@
         <p><strong>Animal:</strong> {{ pet.animal | titlecase }}</p>
       </div>
       <div class="pet-attribute">
-        <img src="/assets/pet-info-icons/paw.svg" alt="Breed icon" />
+        <img src="/assets/icons/multicolored-icons/paw.svg" alt="Breed icon" />
         <p><strong>Breed:</strong> {{ pet.breed | titlecase }}</p>
       </div>
       <div class="pet-attribute">
-        <img src="/assets/pet-info-icons/calendar.svg" alt="Age icon" />
+        <img src="/assets/icons/multicolored-icons/calendar.svg" alt="Age icon" />
         <p><strong>Age:</strong> {{ formatAge(getAge(pet.birthdate)) }} old</p>
       </div>
       <div class="pet-attribute">
         <img
-          [src]="'/assets/gender/' + pet.sex.toLowerCase() + '.svg'"
+          [src]="'/assets/icons/multicolored-icons/gender/' + pet.sex.toLowerCase() + '.svg'"
           alt="Sex icon"
         />
         <p><strong>Sex:</strong> {{ pet.sex | titlecase }}</p>
       </div>
       <div class="pet-attribute">
         <img
-          src="/assets/pet-info-icons/location-pin.svg"
+          src="/assets/icons/multicolored-icons/location-pin.svg"
           alt="Location icon"
         />
         <p><strong>Location:</strong> {{ pet.location }}</p>
       </div>
       <div class="pet-attribute">
-        <img src="/assets/pet-info-icons/cash.svg" alt="Price icon" />
+        <img src="/assets/icons/multicolored-icons/cash.svg" alt="Price icon" />
         <p><strong>Price:</strong> {{ pet.price | currency }}</p>
       </div>
       <div class="pet-attribute">
-        <img src="/assets/pet-info-icons/book.svg" alt="Description icon" />
+        <img src="/assets/icons/multicolored-icons/book.svg" alt="Description icon" />
         <p><strong>Description:</strong> {{ pet.description }}</p>
       </div>
     </div>
@@ -130,7 +130,7 @@
       <div *ngIf="pet.benefits && pet.benefits.length">
         <h1 class="pet-page-header">Included:</h1>
         <div class="benefit-item" *ngFor="let benefit of pet.benefits">
-          <img src="/assets/pet-info-icons/checkmark.svg" alt="Benefit icon" />
+          <img src="/assets/icons/multicolored-icons/checkmark.svg" alt="Benefit icon" />
           <span>{{ benefit }}</span>
         </div>
       </div>

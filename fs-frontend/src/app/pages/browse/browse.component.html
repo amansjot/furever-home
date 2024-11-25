@@ -16,21 +16,22 @@
     <div class="top-bar">
       <div class="button-row">
         <button class="filter-toggle-btn" (click)="toggleFilters()">
-          <img src="/assets/filter-icon.svg" alt="Filters" />
+          <img src="/assets/icons/action-icons/filter.svg" alt="Filters" />
           <span>Refine Results</span>
         </button>
         <button class="filter-toggle-btn" (click)="toggleFavoriteFilter()">
           <ng-container *ngIf="favoriteFilter; else showFavorites">
-            <img src="/assets/close-icon.svg" alt="Close Icon" class="close-icon" />
+            <img src="/assets/icons/action-icons/close-icon.svg" alt="Close Icon" class="close-icon" />
             Show All Pets
           </ng-container>
           <ng-template #showFavorites>
-            <img class="tab-star-icon" src="/assets/favorite-star-inactive.svg" alt="Favorite Icon" />
+            <img class="tab-star-icon" src="/assets/icons/action-icons/favorite-star-inactive.svg" alt="Favorite Icon" />
             Show Favorites
           </ng-template>
         </button>
         <button class="grid-toggle-btn" (click)="toggleGridView()">
-          {{ isGridView ? 'List View' : 'Grid View' }}
+          <img src="/assets/icons/action-icons/grid.svg" alt="Grid View" />
+          <span>{{ isGridView ? 'List View' : 'Grid View' }}</span>
         </button>
       </div>
     </div>
@@ -52,7 +53,7 @@
               <span>Animal Type</span>
               <img class="filter-arrow" 
                   [ngClass]="{'rotated': expandedFilters.animal}" 
-                  src="/assets/drop-down-arrow.svg" 
+                  src="/assets/icons/action-icons/drop-down-arrow.svg" 
                   alt="expand-arrow" />
             </div>
             <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.animal}">
@@ -70,7 +71,7 @@
               <span>Sex</span>
               <img class="filter-arrow" 
                   [ngClass]="{'rotated': expandedFilters.sex}" 
-                  src="/assets/drop-down-arrow.svg" 
+                  src="/assets/icons/action-icons/drop-down-arrow.svg" 
                   alt="expand-arrow" />
             </div>
             <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.sex}">
@@ -88,7 +89,7 @@
               <span>Age</span>
               <img class="filter-arrow" 
                   [ngClass]="{'rotated': expandedFilters.age}" 
-                  src="/assets/drop-down-arrow.svg" 
+                  src="/assets/icons/action-icons/drop-down-arrow.svg" 
                   alt="expand-arrow" />
             </div>
             <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.age}">
@@ -106,7 +107,7 @@
               <span>Price</span>
               <img class="filter-arrow" 
                   [ngClass]="{'rotated': expandedFilters.price}" 
-                  src="/assets/drop-down-arrow.svg" 
+                  src="/assets/icons/action-icons/drop-down-arrow.svg" 
                   alt="expand-arrow" />
             </div>
             <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.price}">
@@ -124,7 +125,7 @@
               <span>Location</span>
               <img class="filter-arrow" 
                   [ngClass]="{'rotated': expandedFilters.location}" 
-                  src="/assets/drop-down-arrow.svg" 
+                  src="/assets/icons/action-icons/drop-down-arrow.svg" 
                   alt="expand-arrow" />
             </div>
             <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.location}">
@@ -184,7 +185,7 @@
                 <!-- Favorite Button -->
                 <button *ngIf="isBuyer" class="petcard-favorite-button" (click)="toggleFavorite($event, item)">
                   <img class="favorite-icon" 
-                      [src]="item.isFavorite ? '/assets/favorite-star-active.svg' : '/assets/favorite-star-inactive.svg'" 
+                      [src]="item.isFavorite ? '/assets/icons/action-icons/favorite-star-active.svg' : '/assets/icons/action-icons/favorite-star-inactive.svg'" 
                       alt="Favorite Icon" />
                 </button>
 
@@ -207,7 +208,7 @@
                         {{ expandedCards[item.name] ? 'Hide Info' : 'Show Info' }}
                         <img class="expand arrow" 
                             [ngClass]="{'rotated': expandedCards[item.name]}" 
-                            src="/assets/drop-down-arrow.svg" 
+                            src="/assets/icons/action-icons/drop-down-arrow.svg" 
                             alt="expand-arrow" />
                       </button>
                     </div>

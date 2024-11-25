@@ -136,28 +136,6 @@ $navbar-height: 80px;
     justify-content: flex-start;
     align-items: flex-start;
     
-    @media (max-width: 640px) {
-      row-gap: 12px;
-      column-gap: 8px;
-      
-      button {
-        padding: 8px 16px;
-        
-        &.filter-toggle-btn {
-          flex: 1;
-          min-width: 0;
-          
-          span {
-            margin-left: 4px;
-          }
-        }
-        
-        &.grid-toggle-btn {
-          width: 100%;
-        }
-      }
-    }
-
     button {
       white-space: nowrap;
       font-size: 0.85rem;
@@ -171,12 +149,13 @@ $navbar-height: 80px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0;
+      height: 42px;
+      box-sizing: border-box;
       
       &:hover {
         background-color: #4ca68b;
       }
-      
+
       img {
         width: 16px;
         height: 16px;
@@ -190,7 +169,43 @@ $navbar-height: 80px;
       }
 
       &.grid-toggle-btn {
-        padding: 12px 24px;
+        display: none;
+
+        img {
+          width: 16px;
+          height: 16px;
+          flex-shrink: 0;
+        }
+
+        span {
+          margin-left: 8px;
+        }
+
+        @media (max-width: 640px) {
+          display: flex;
+          width: 100%;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+
+    @media (max-width: 640px) {
+      row-gap: 12px;
+      column-gap: 8px;
+      
+      button {
+        padding: 8px 16px;
+        height: 36px;
+        
+        &.filter-toggle-btn {
+          flex: 1;
+          min-width: 0;
+          
+          span {
+            margin-left: 4px;
+          }
+        }
       }
     }
   }
