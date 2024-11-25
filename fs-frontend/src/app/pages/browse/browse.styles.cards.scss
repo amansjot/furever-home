@@ -17,158 +17,6 @@
 
     // Responsive grid columns
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-
-    @media (min-width: 768px) {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    @media (min-width: 1024px) {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    @media (min-width: 1440px) {
-        grid-template-columns: repeat(4, 1fr);
-    }
-
-    @media (min-width: 1920px) {
-        grid-template-columns: repeat(5, 1fr);
-    }
-
-    @media (min-width: 2200px) {
-        grid-template-columns: repeat(6, 1fr);
-    }
-
-    @media (max-width: 640px) {
-        grid-template-columns: 1fr;
-        
-        &.grid-view {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            padding: 0 10px;
-
-            .pet-card {
-                height: 300px;
-
-                .displayed-info {
-                    transform: none;  
-                    bottom: -10px;
-                    position: relative;
-                    margin-top: 85px;
-                    padding: 5px;
-                    flex-direction: column;
-                    align-items: flex-start;
-
-                    .info-text {
-                        width: 100%;
-                        margin-bottom: 5px;
-                        
-                        .pet-name {
-                            font-size: 1.5rem;
-                        }
-                        
-                        .pet-age {
-                            font-size: 0.9rem;
-                            padding-top: 2px;
-                        }
-                    }
-
-                    .button-group {
-                        width: 100%;
-                        flex-direction: row;
-                        justify-content: space-between;
-                        gap: 4px;
-                        
-                        .pet-page-button {
-                            flex: 0.8;
-                            padding: 4px 8px;
-                            font-size: 0.8rem;
-                            border-radius: 15px;
-                            min-width: 0;
-                            text-align: center;
-                            white-space: nowrap;
-                        }
-
-                        .show-hidden-button {
-                            flex: 1.2;
-                            padding: 4px 8px;
-                            font-size: 0.8rem;
-                            border-radius: 15px;
-                            min-width: 0;
-                            text-align: center;
-                            white-space: nowrap;
-
-                            .expand.arrow {
-                                width: 12px;
-                                height: 12px;
-                                margin-left: 2px;
-                            }
-                        }
-                    }
-                }
-
-                &.expanded {
-                    position: relative;
-                    height: auto;
-                    min-height: 300px;
-                    
-                    .pet-image-background {
-                        position: relative;
-                        min-height: 300px;
-                    }
-
-                    .displayed-info {
-                        position: relative;
-                        margin-top: 85px;
-                        transform: none;
-                        bottom: -10px;
-                    }
-
-                    .hidden-info {
-                        position: relative;
-                        margin-top: 10px;
-                        background-color: white;
-                        margin: 2%;
-                        padding: 10px;
-                        border-radius: 15px;
-                        width: auto;
-                        opacity: 1;
-                        transform: none;
-                        box-sizing: border-box;
-
-                        .info-group {
-                            gap: 3px;
-                            padding: 2px 0;
-                            font-size: 0.9rem;
-
-                            .pet-status-tag,
-                            .pet-price-tag,
-                            .pet-location-tag,
-                            .pet-breed-tag {
-                                padding: 1px 6px;
-                                font-size: 0.8rem;
-                                min-width: 50px;
-                            }
-
-                            .pet-status,
-                            .pet-price,
-                            .pet-location,
-                            .pet-breed {
-                                font-size: 0.8rem;
-                                padding-left: 3px;
-                            }
-                        }
-                    }
-
-                    .pet-info-card {
-                        position: relative;
-                        height: 100%;
-                        width: 100%;
-                        box-sizing: border-box;
-                    }
-                }
-            }
-        }
-    }
 }
 
 // Base styles for each pet card
@@ -269,44 +117,6 @@
     padding: 12px;
     transition: transform 0.3s ease, opacity 0.3s ease;
     margin: 0 8px 8px 8px;
-}
-
-// Hover effects for larger screens
-@media (min-width: 1024px) {
-    .pet-card:hover .displayed-info {
-        transform: translateY(-175%);
-        opacity: 1;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-top-left-radius: 15px;
-        border-top-right-radius: 15px;
-        filter: drop-shadow(0px 0px 8px #000000);
-    }
-
-    .pet-card:hover .hidden-info {
-        transform: translateY(0);
-        opacity: 1;
-        background-color: rgba(255, 255, 255, 0.85);
-        border: 1px solid rgba(255, 255, 255, 0.125);
-        filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.376));
-        max-height: 60%;
-        border-radius: 12px;
-    }
-
-    .petcard-favorite-button {
-        pointer-events: auto;
-    }
-
-    .filters .button:hover {
-        cursor: pointer;
-        background-color: #3f8a73;
-        color: white;
-    }
-
-    .show-hidden-button:hover {
-        box-shadow: -1px 6px 10px rgba(0, 0, 0, 0.778);
-    }
 }
 
 // Expanded state styles
@@ -424,15 +234,6 @@
     margin-left: auto;
 }
 
-// Hide buttons on larger screens
-@media (min-width: 1024px) {
-
-    .show-hidden-button,
-    .pet-page-button {
-        display: none;
-    }
-}
-
 // Arrow icon styles
 .expand.arrow {
     width: 15px;
@@ -494,8 +295,222 @@
     &:hover {
         background-color: #e0e0e0;
     }
+}
 
-    @media (max-width: 640px) {
+// Media queries 
+
+// Mobile
+@media (max-width: 640px) {
+
+    .pet-card-container {
+        grid-template-columns: 1fr;
+    }
+
+    .grid-toggle-btn {
         display: inline-block;
+    }
+    
+    .grid-view {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 0 10px;
+
+        .pet-card {
+            height: 300px;
+
+            .displayed-info {
+                transform: none;  
+                bottom: -10px;
+                position: relative;
+                margin-top: 85px;
+                padding: 5px;
+                flex-direction: column;
+                align-items: flex-start;
+
+                .info-text {
+                    width: 100%;
+                    margin-bottom: 5px;
+                    
+                    .pet-name {
+                        font-size: 1.5rem;
+                    }
+                    
+                    .pet-age {
+                        font-size: 0.9rem;
+                        padding-top: 2px;
+                    }
+                }
+
+                .button-group {
+                    width: 100%;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    gap: 4px;
+                    
+                    .pet-page-button {
+                        flex: 0.8;
+                        padding: 4px 8px;
+                        font-size: 0.8rem;
+                        border-radius: 15px;
+                        min-width: 0;
+                        text-align: center;
+                        white-space: nowrap;
+                    }
+
+                    .show-hidden-button {
+                        flex: 1.2;
+                        padding: 4px 8px;
+                        font-size: 0.8rem;
+                        border-radius: 15px;
+                        min-width: 0;
+                        text-align: center;
+                        white-space: nowrap;
+
+                        .expand.arrow {
+                            width: 12px;
+                            height: 12px;
+                            margin-left: 2px;
+                        }
+                    }
+                }
+            }
+
+            &.expanded {
+                position: relative;
+                height: auto;
+                min-height: 300px;
+                
+                .pet-image-background {
+                    position: relative;
+                    min-height: 300px;
+                }
+
+                .displayed-info {
+                    position: relative;
+                    margin-top: 85px;
+                    transform: none;
+                    bottom: -10px;
+                }
+
+                .hidden-info {
+                    position: relative;
+                    margin-top: 10px;
+                    background-color: white;
+                    margin: 2%;
+                    padding: 10px;
+                    border-radius: 15px;
+                    width: auto;
+                    opacity: 1;
+                    transform: none;
+                    box-sizing: border-box;
+
+                    .info-group {
+                        gap: 3px;
+                        padding: 2px 0;
+                        font-size: 0.9rem;
+
+                        .pet-status-tag,
+                        .pet-price-tag,
+                        .pet-location-tag,
+                        .pet-breed-tag {
+                            padding: 1px 6px;
+                            font-size: 0.8rem;
+                            min-width: 50px;
+                        }
+
+                        .pet-status,
+                        .pet-price,
+                        .pet-location,
+                        .pet-breed {
+                            font-size: 0.8rem;
+                            padding-left: 3px;
+                        }
+                    }
+                }
+
+                .pet-info-card {
+                    position: relative;
+                    height: 100%;
+                    width: 100%;
+                    box-sizing: border-box;
+                }
+            }
+        }
+    }
+}
+
+// Tablet
+@media (min-width: 768px) {
+    .pet-card-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+// Desktop
+@media (min-width: 1024px) {
+    .pet-card-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .pet-card:hover .displayed-info {
+        transform: translateY(-175%);
+        opacity: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        filter: drop-shadow(0px 0px 8px #000000);
+    }
+
+    .pet-card:hover .hidden-info {
+        transform: translateY(0);
+        opacity: 1;
+        background-color: rgba(255, 255, 255, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.125);
+        filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.376));
+        max-height: 60%;
+        border-radius: 12px;
+    }
+
+    .petcard-favorite-button {
+        pointer-events: auto;
+    }
+
+    .filters .button:hover {
+        cursor: pointer;
+        background-color: #3f8a73;
+        color: white;
+    }
+
+    .show-hidden-button:hover {
+        box-shadow: -1px 6px 10px rgba(0, 0, 0, 0.778);
+    }
+
+    .show-hidden-button,
+    .pet-page-button {
+        display: none;
+    }
+
+}
+
+// Large
+@media (min-width: 1440px) {
+    .pet-card-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+// Extra Large
+@media (min-width: 1920px) {    
+    .pet-card-container {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+// Extra Extra Large
+@media (min-width: 2200px) {    
+    .pet-card-container {
+        grid-template-columns: repeat(6, 1fr);
     }
 }

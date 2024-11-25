@@ -26,10 +26,6 @@
     &:hover {
         background-color: #4ca68b;
     }
-
-    @media (max-width: 640px) {
-        padding: 16px 40px;
-    }
 }
 
 // Styles for the filter sidebar
@@ -519,16 +515,7 @@
   }
 }
 
-@media (max-width: 640px) {
-  .applied-filters {
-    padding: 8px;
-  }
 
-  .applied-filter {
-    padding: 4px 10px;
-    font-size: 0.85rem;
-  }
-}
 
 .filter-content-wrapper {
     &.expanded {
