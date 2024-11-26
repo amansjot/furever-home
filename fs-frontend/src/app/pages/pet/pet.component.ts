@@ -10,11 +10,12 @@ import { SellerService } from '../../services/seller.service';
 import { SellerModel } from '../../models/seller.model';
 import { BuyerService } from '../../services/buyer.service';
 import { InventoryItemModel } from '../../models/items.model';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-pet',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './pet.component.html',
   styleUrls: ['./pet.component.scss'],
 })

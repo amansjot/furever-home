@@ -7,17 +7,24 @@
   <div class="pet-page-content">
 
     <div id="top">
-      <h1 class="pet-page-title">{{ pet.name }}</h1>
-      <div class="pet-price-title">{{ pet.price | currency }}</div>
-      <!-- Favorite Button -->
-      <button *ngIf="isBuyer" 
-              class="petcard-favorite-button" 
-              [ngClass]="{'favorited': pet.isFavorite}"
-              (click)="toggleFavorite($event, pet)">
-        <img class="favorite-icon" 
-             [src]="pet.isFavorite ? '/assets/icons/action-icons/favorite-star-active.svg' : '/assets/icons/action-icons/favorite-star-inactive.svg'" 
-             alt="Favorite Icon" />
-      </button>
+      <div class="breadcrumb">
+        <a [routerLink]="['/browse']">Browse</a>
+        <span class="separator">/</span>
+        <span class="current">{{ pet.name }}</span>
+      </div>
+      
+      <div class="content-row">
+        <h1 class="pet-page-title">{{ pet.name }}</h1>
+        <div class="pet-price-title">{{ pet.price | currency }}</div>
+        <button *ngIf="isBuyer" 
+                class="petcard-favorite-button" 
+                [ngClass]="{'favorited': pet.isFavorite}"
+                (click)="toggleFavorite($event, pet)">
+          <img class="favorite-icon" 
+               [src]="pet.isFavorite ? '/assets/icons/action-icons/favorite-star-active.svg' : '/assets/icons/action-icons/favorite-star-inactive.svg'" 
+               alt="Favorite Icon" />
+        </button>
+      </div>
     </div>
     
     <!-- Image Carousel -->

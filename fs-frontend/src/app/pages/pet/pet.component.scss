@@ -82,11 +82,17 @@ $navbar-height: 80px;
 }
 
 #top {
-  height: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;  // Space between breadcrumb and content row
+  padding: 0 0 20px 0;
+  width: 100%;
+}
+
+.content-row {
   display: flex;
   align-items: center;
   gap: 20px;
-  padding: 0 0 20px 0;
   width: 100%;
 }
 
@@ -623,4 +629,31 @@ $navbar-height: 80px;
 
 button {
   font-family: "Outfit", sans-serif;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  width: 100%;
+
+  a {
+    color: #00a362;
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #007a4a;
+      text-decoration: underline;
+    }
+  }
+
+  .separator {
+    color: #666;
+    margin: 0 8px;
+  }
+
+  .current {
+    color: #666;
+  }
 }
