@@ -636,11 +636,14 @@ button {
   align-items: center;
   font-size: 0.9rem;
   width: 100%;
+  flex-wrap: wrap;  // Allow wrapping for long breadcrumbs
+  gap: 4px;  // Space between wrapped items
 
   a {
     color: #00a362;
     text-decoration: none;
     transition: color 0.2s ease;
+    white-space: nowrap;  // Prevent name breaking
 
     &:hover {
       color: #007a4a;
@@ -650,11 +653,13 @@ button {
 
   .separator {
     color: #666;
-    margin: 0 8px;
+    margin: 0 4px;
+    white-space: nowrap;
   }
 
   .current {
     color: #666;
+    white-space: nowrap;
   }
 }
 

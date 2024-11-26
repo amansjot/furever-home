@@ -10,6 +10,10 @@
       <div class="breadcrumb">
         <a [routerLink]="['/browse']">Browse</a>
         <span class="separator">/</span>
+        <ng-container *ngFor="let item of breadcrumbHistory">
+          <a [routerLink]="['/pet', item.id]">{{ item.name }}</a>
+          <span class="separator">/</span>
+        </ng-container>
         <span class="current">{{ pet.name }}</span>
       </div>
       
