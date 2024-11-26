@@ -657,3 +657,105 @@ button {
     color: #666;
   }
 }
+
+/* ===================================
+   Similar Pets Section
+=================================== */
+.similar-pets {
+  margin-top: 2vh;
+  padding: 2vw;
+  border-radius: 20px;
+}
+
+.similar-pets-title {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.similar-pets-grid {
+  display: grid;
+  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.similar-pet-card {
+  position: relative;
+  height: 250px;
+  border-radius: 15px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+
+.similar-pet-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.similar-pet-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  color: white;
+
+  .pet-name {
+    font-size: 1.2rem;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .pet-age {
+    font-size: 0.9rem;
+    margin: 3px 0 0 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .similar-pets-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .similar-pets-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1440px) {
+  .similar-pets-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.similarity-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgba(0, 163, 98, 0.9);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 1px 8px;
+  z-index: 1;
+}
+
+.similar-pet-card {
+  &:hover {
+    .similarity-badge {
+      background-color: rgba(0, 163, 98, 1);
+    }
+  }
+}

@@ -177,3 +177,24 @@
     </div>
   </div>
 </div>
+
+<!-- Similar Pets Section -->
+<div class="similar-pets" *ngIf="similarPets.length > 0">
+  <h2 class="similar-pets-title">Similar Pets</h2>
+  <div class="similar-pets-grid">
+    <div *ngFor="let similarPet of similarPets" 
+         class="similar-pet-card"
+         (click)="navigateToSimilarPet(similarPet._id)">
+      <div class="similarity-badge">
+        {{ similarPet.similarityScore }}% Match
+      </div>
+      <img [src]="similarPet.pictures[0]" 
+           [alt]="similarPet.name" 
+           class="similar-pet-image">
+      <div class="similar-pet-info">
+        <h3 class="pet-name">{{ similarPet.name }}</h3>
+        <p class="pet-age">{{ formatAge(getAge(similarPet.birthdate)) }} old</p>
+      </div>
+    </div>
+  </div>
+</div>

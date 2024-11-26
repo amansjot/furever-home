@@ -24,6 +24,7 @@ export interface InventoryItemModel{
 	location: string;
 	isFavorite?: boolean; // track favorite status 
 	_id: string;
+	similarityScore?: number;
 }
 export const emptyItem: InventoryItemModel = {
     name: '',

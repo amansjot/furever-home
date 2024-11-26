@@ -12,6 +12,10 @@ import { BuyerService } from '../../services/buyer.service';
 import { InventoryItemModel } from '../../models/items.model';
 import { RouterModule } from '@angular/router';
 
+interface SimilarPet extends InventoryItemModel {
+  similarityScore: number;
+}
+
 @Component({
   selector: 'app-pet',
   standalone: true,
@@ -31,6 +35,7 @@ export class PetComponent implements OnInit {
   pet: any;
   currentImageIndex: number = 0;
   isModalOpen: boolean = false; // Track modal state
+  similarPets: SimilarPet[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -62,6 +67,7 @@ export class PetComponent implements OnInit {
         (pet) => {
           this.pet = pet;
           this.loading = false;
+          this.loadSimilarPets();
         },
         (error) => {
           this.loading = false;
@@ -341,5 +347,73 @@ export class PetComponent implements OnInit {
 
   getAnimalIconPath(animal: string): string {
     return '/assets/icons/multicolored-icons/animal-types/' + this.getAnimalType(animal) + '.svg';
+  }
+
+  loadSimilarPets(): void {
+    if (!this.pet) return;
+
+    this.itemService.getInventoryItems(0, {}).then(
+      (items: InventoryItemModel[]) => {
+        // Calculate similarity scores for each pet
+        const scoredPets = items
+          .filter(item => item._id !== this.pet._id) // Exclude current pet
+          .map(item => {
+            const score = this.calculateSimilarityScore(item);
+            return { ...item, similarityScore: score };
+          })
+          .sort((a, b) => b.similarityScore - a.similarityScore) // Sort by highest score
+          .slice(0, 4); // Get top 4 most similar pets
+
+        this.similarPets = scoredPets;
+      }
+    ).catch((error) => {
+      console.error('Error loading similar pets:', error);
+    });
+  }
+
+  private calculateSimilarityScore(item: InventoryItemModel): number {
+    let score = 0;
+
+    // Same animal type (highest weight: 40%)
+    if (item.animal === this.pet.animal) {
+      score += 40;
+    }
+
+    // Age similarity (weight: 20%)
+    const currentPetAge = this.getAge(this.pet.birthdate);
+    const itemAge = this.getAge(item.birthdate);
+    const ageDifference = Math.abs(currentPetAge - itemAge);
+    if (ageDifference < 1) score += 20;
+    else if (ageDifference < 2) score += 15;
+    else if (ageDifference < 4) score += 10;
+    else if (ageDifference < 6) score += 5;
+
+    // Price range similarity (weight: 20%)
+    const priceRatio = item.price / this.pet.price;
+    if (priceRatio >= 0.8 && priceRatio <= 1.2) score += 20;
+    else if (priceRatio >= 0.6 && priceRatio <= 1.4) score += 15;
+    else if (priceRatio >= 0.4 && priceRatio <= 1.6) score += 10;
+
+    // Same sex (weight: 10%)
+    if (item.sex === this.pet.sex) {
+      score += 10;
+    }
+
+    // Same breed (weight: 10%)
+    if (item.breed === this.pet.breed) {
+      score += 10;
+    }
+
+    // Round to nearest whole number
+    return Math.round(score);
+  }
+
+  navigateToSimilarPet(petId: string): void {
+    // Scroll to top before navigation
+    window.scrollTo(0, 0);
+    this.router.navigate(['/pet', petId]).then(() => {
+      // Reload the page to ensure fresh data
+      window.location.reload();
+    });
   }
 }
