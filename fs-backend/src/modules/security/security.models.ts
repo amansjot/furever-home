@@ -14,4 +14,6 @@ export interface UserLoginModel{
     username: string;
     password: string;
     roles: string[];
+    resetPasswordToken?: string;
+    resetPasswordExpires?: Date;
 }

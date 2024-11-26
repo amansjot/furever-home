@@ -90,6 +90,30 @@ export class LoginService {
       );
   }
 
+  /* Forgot Password Functionality */
+  public forgotPassword(email: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.httpClient
+        .post<TokenResponseObject>(`${Config.apiBaseUrl}/security/forgot-password`, { email })
+        .subscribe({
+          next: async (response) => {
+            if (response.token && response.token.length > 0) {
+              this.token = response.token;
+              resolve(true);
+            } else {
+              this.token = '';
+              resolve(false);
+            }
+          },
+          error: (error) => {
+            this.token = '';
+            console.error(error);
+            reject(error);
+          },
+        });
+    });
+  }
+
   /* Authorize the Token with Server */
   public authorize(): Observable<boolean> {
     return this.httpClient

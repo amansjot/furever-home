@@ -48,4 +48,18 @@ export class LoginComponent {
 
   }
 
+  async forgotPassword() {
+    const email = this.loginForm.get("email")?.value;
+    if (!email || !this.loginForm.get("email")?.valid) {
+      this.errorMsg = "Please enter a valid email address to reset your password.";
+      return;
+    }
+  
+    try {
+      await this._loginSvc.forgotPassword(email);
+      alert("Password reset email sent! Please check your inbox.");
+    } catch (error) {
+      this.errorMsg = "Failed to send reset email. Please try again.";
+    }
+  }
 }

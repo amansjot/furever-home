@@ -19,6 +19,7 @@ export class SecurityRouter {
     public getRouter(): express.Router {
         this.router.post("/login", this.controller.postLogin);
         this.router.post("/register", this.controller.postRegister);
+        this.router.post("/forgot-password", this.controller.postForgotPassword);
         this.router.get("/authorize",[SecurityMiddleware.validateUser], this.controller.getAuthorize);
         this.router.get("/hasrole/:role",[SecurityMiddleware.validateUser], this.controller.getHasRole);
         return this.router;
