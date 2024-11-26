@@ -10,11 +10,21 @@ import { SellerService } from '../../services/seller.service';
 import { SellerModel } from '../../models/seller.model';
 import { BuyerService } from '../../services/buyer.service';
 import { InventoryItemModel } from '../../models/items.model';
+import { RouterModule } from '@angular/router';
+
+interface SimilarPet extends InventoryItemModel {
+  similarityScore: number;
+}
+
+interface BreadcrumbItem {
+  name: string;
+  id: string;
+}
 
 @Component({
   selector: 'app-pet',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './pet.component.html',
   styleUrls: ['./pet.component.scss'],
 })
@@ -30,6 +40,9 @@ export class PetComponent implements OnInit {
   pet: any;
   currentImageIndex: number = 0;
   isModalOpen: boolean = false; // Track modal state
+  similarPets: SimilarPet[] = [];
+  breadcrumbHistory: BreadcrumbItem[] = [];
+  maxHistory = 4;  // Maximum number of pets in history
 
   constructor(
     private route: ActivatedRoute,
@@ -54,20 +67,37 @@ export class PetComponent implements OnInit {
     this.favorites = JSON.parse(localStorage.getItem('favorites') || '');
     this.loadFavorites();
 
-    const petId = this.route.snapshot.paramMap.get('id'); // Retrieve ID from route
-
-    if (petId) {
-      this.itemService.getItemById(petId).then(
-        (pet) => {
-          this.pet = pet;
-          this.loading = false;
-        },
-        (error) => {
-          this.loading = false;
-          console.error('Error fetching pet details:', error);
-        }
-      );
+    // Load history from localStorage
+    const savedHistory = localStorage.getItem('petHistory');
+    if (savedHistory) {
+      this.breadcrumbHistory = JSON.parse(savedHistory);
     }
+
+    // Subscribe to route changes
+    this.route.params.subscribe(params => {
+      const petId = params['id'];
+      if (petId) {
+        // If we're navigating back to a pet in history, trim the history
+        const petIndex = this.breadcrumbHistory.findIndex(item => item.id === petId);
+        if (petIndex !== -1) {
+          this.breadcrumbHistory = this.breadcrumbHistory.slice(0, petIndex);
+          localStorage.setItem('petHistory', JSON.stringify(this.breadcrumbHistory));
+        }
+
+        // Load the current pet
+        this.itemService.getItemById(petId).then(
+          (pet) => {
+            this.pet = pet;
+            this.loading = false;
+            this.loadSimilarPets();
+          },
+          (error) => {
+            this.loading = false;
+            console.error('Error fetching pet details:', error);
+          }
+        );
+      }
+    });
   }
 
   loadFavorites(): void {
@@ -340,5 +370,92 @@ export class PetComponent implements OnInit {
 
   getAnimalIconPath(animal: string): string {
     return '/assets/icons/multicolored-icons/animal-types/' + this.getAnimalType(animal) + '.svg';
+  }
+
+  loadSimilarPets(): void {
+    if (!this.pet) return;
+
+    this.itemService.getInventoryItems(0, {}).then(
+      (items: InventoryItemModel[]) => {
+        // Calculate similarity scores for each pet
+        const scoredPets = items
+          .filter(item => item._id !== this.pet._id) // Exclude current pet
+          .map(item => {
+            const score = this.calculateSimilarityScore(item);
+            return { ...item, similarityScore: score };
+          })
+          .sort((a, b) => b.similarityScore - a.similarityScore) // Sort by highest score
+          .slice(0, 4); // Get top 4 most similar pets
+
+        this.similarPets = scoredPets;
+      }
+    ).catch((error) => {
+      console.error('Error loading similar pets:', error);
+    });
+  }
+
+  private calculateSimilarityScore(item: InventoryItemModel): number {
+    let score = 0;
+
+    // Same animal type (highest weight: 40%)
+    if (item.animal === this.pet.animal) {
+      score += 40;
+    }
+
+    // Age similarity (weight: 20%)
+    const currentPetAge = this.getAge(this.pet.birthdate);
+    const itemAge = this.getAge(item.birthdate);
+    const ageDifference = Math.abs(currentPetAge - itemAge);
+    if (ageDifference < 1) score += 20;
+    else if (ageDifference < 2) score += 15;
+    else if (ageDifference < 4) score += 10;
+    else if (ageDifference < 6) score += 5;
+
+    // Price range similarity (weight: 20%)
+    const priceRatio = item.price / this.pet.price;
+    if (priceRatio >= 0.8 && priceRatio <= 1.2) score += 20;
+    else if (priceRatio >= 0.6 && priceRatio <= 1.4) score += 15;
+    else if (priceRatio >= 0.4 && priceRatio <= 1.6) score += 10;
+
+    // Same sex (weight: 10%)
+    if (item.sex === this.pet.sex) {
+      score += 10;
+    }
+
+    // Same breed (weight: 10%)
+    if (item.breed === this.pet.breed) {
+      score += 10;
+    }
+
+    // Round to nearest whole number
+    return Math.round(score);
+  }
+
+  navigateToSimilarPet(petId: string): void {
+    // Add current pet to history if not already there
+    const newItem = { name: this.pet.name, id: this.pet._id };
+    
+    // Check if we're not navigating to a pet already in history
+    if (!this.breadcrumbHistory.some(item => item.id === petId)) {
+      // Add current pet to history
+      this.breadcrumbHistory.push(newItem);
+      
+      // Keep only the last 4 items
+      if (this.breadcrumbHistory.length > this.maxHistory) {
+        this.breadcrumbHistory.shift(); // Remove oldest item
+      }
+      
+      // Save to localStorage
+      localStorage.setItem('petHistory', JSON.stringify(this.breadcrumbHistory));
+    }
+    
+    this.router.navigate(['/pet', petId]);
+  }
+
+  // Add this method to handle breadcrumb navigation
+  goToPreviousPet(petId: string): void {
+    if (petId) {
+      this.router.navigate(['/pet', petId]);
+    }
   }
 }

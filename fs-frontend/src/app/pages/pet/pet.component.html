@@ -3,163 +3,202 @@
 </div>
 
 <div [ngClass]="{ visible: !loading }" class="pet-container">
-  <div id="top">
-    <h1 class="pet-page-title">{{ pet.name }}</h1>
-    <!-- Favorite Button -->
-    <button *ngIf="isBuyer" class="petcard-favorite-button" (click)="toggleFavorite($event, pet)">
-      <!-- <button *ngIf="isBuyer" class="petcard-favorite-button"> -->
-      <img class="favorite-icon" 
-           [src]="pet.isFavorite ? '/assets/icons/action-icons/favorite-star-active.svg' : '/assets/icons/action-icons/favorite-star-inactive.svg'" 
-           alt="Favorite Icon" />
-    </button>
-  </div>
 
-  <!-- Image Carousel -->
-  <div *ngIf="pet.pictures && pet.pictures.length" class="carousel">
-    <button
-      (click)="prevImage()"
-      *ngIf="pet.pictures && pet.pictures.length > 1"
-      class="carousel-control prev"
-    >
-      ‹
-    </button>
-    <img
-      [src]="pet.pictures[currentImageIndex]"
-      alt="{{ pet.name }}"
-      class="carousel-image"
-    />
-    <button
-      (click)="nextImage()"
-      *ngIf="pet.pictures && pet.pictures.length > 1"
-      class="carousel-control next"
-    >
-      ›
-    </button>
-    <button (click)="openModal()" class="expand-button">
-      <img
-        class="magnifying-glass-icon"
-        src="/assets/icons/action-icons/magnifying-glass.svg"
-        alt="expand-arrow"
-      />
-    </button>
-  </div>
+  <div class="pet-page-content">
 
-  <!-- Modal for expanded image view -->
-  <div *ngIf="isModalOpen" class="modal" (click)="handleModalClick($event)">
-    <div class="modal-content">
-      <span class="close" (click)="closeModal()">&times;</span>
+    <div id="top">
+      <div class="breadcrumb">
+        <a [routerLink]="['/browse']">Browse</a>
+        <span class="separator">/</span>
+        <ng-container *ngFor="let item of breadcrumbHistory">
+          <a [routerLink]="['/pet', item.id]">{{ item.name }}</a>
+          <span class="separator">/</span>
+        </ng-container>
+        <span class="current">{{ pet.name }}</span>
+      </div>
+      
+      <div class="content-row">
+        <h1 class="pet-page-title">{{ pet.name }}</h1>
+        <div class="pet-price-title">{{ pet.price | currency }}</div>
+        <button *ngIf="isBuyer" 
+                class="petcard-favorite-button" 
+                [ngClass]="{'favorited': pet.isFavorite}"
+                (click)="toggleFavorite($event, pet)">
+          <img class="favorite-icon" 
+               [src]="pet.isFavorite ? '/assets/icons/action-icons/favorite-star-active.svg' : '/assets/icons/action-icons/favorite-star-inactive.svg'" 
+               alt="Favorite Icon" />
+        </button>
+      </div>
+    </div>
+    
+    <!-- Image Carousel -->
+    <div *ngIf="pet.pictures && pet.pictures.length" class="carousel">
       <button
         (click)="prevImage()"
         *ngIf="pet.pictures && pet.pictures.length > 1"
-        class="modal-control prev"
+        class="carousel-control prev"
       >
         ‹
       </button>
       <img
         [src]="pet.pictures[currentImageIndex]"
         alt="{{ pet.name }}"
-        class="modal-image"
+        class="carousel-image"
       />
       <button
         (click)="nextImage()"
         *ngIf="pet.pictures && pet.pictures.length > 1"
-        class="modal-control next"
+        class="carousel-control next"
       >
         ›
       </button>
+      <button (click)="openModal()" class="expand-button">
+        <img
+          class="magnifying-glass-icon"
+          src="/assets/icons/action-icons/magnifying-glass.svg"
+          alt="expand-arrow"
+        />
+      </button>
     </div>
-  </div>
 
-  <!-- Thumbnail Navigation -->
-  <div *ngIf="pet.pictures && pet.pictures.length" class="thumbnail-container">
-    <img
-      *ngFor="let picture of pet.pictures; let i = index"
-      [src]="picture"
-      [class.active]="i === currentImageIndex"
-      (click)="goToImage(i)"
-      class="thumbnail-image"
-      alt="{{ pet.name }} thumbnail"
-    />
-  </div>
-
-  <!-- Pet info card (top one) -->
-  <div class="pet-details">
-    <div class="pet-info">
-      <h1 class="pet-page-header">Meet {{ pet.name }}!</h1>
-      <div class="pet-attribute">
-        <img src="/assets/icons/multicolored-icons/home.svg" alt="Status icon" />
-        <p><strong>Status:</strong> {{ pet.status | titlecase }}</p>
-      </div>
-      <div class="pet-attribute">
-        <img [src]="getAnimalIconPath(pet.animal)" alt="Animal icon" />
-        <p><strong>Animal:</strong> {{ pet.animal | titlecase }}</p>
-      </div>
-      <div class="pet-attribute">
-        <img src="/assets/icons/multicolored-icons/paw.svg" alt="Breed icon" />
-        <p><strong>Breed:</strong> {{ pet.breed | titlecase }}</p>
-      </div>
-      <div class="pet-attribute">
-        <img src="/assets/icons/multicolored-icons/calendar.svg" alt="Age icon" />
-        <p><strong>Age:</strong> {{ formatAge(getAge(pet.birthdate)) }} old</p>
-      </div>
-      <div class="pet-attribute">
+    <!-- Modal for expanded image view -->
+    <div *ngIf="isModalOpen" class="modal" (click)="handleModalClick($event)">
+      <div class="modal-content">
+        <span class="close" (click)="closeModal()">&times;</span>
+        <button
+          (click)="prevImage()"
+          *ngIf="pet.pictures && pet.pictures.length > 1"
+          class="modal-control prev"
+        >
+          ‹
+        </button>
         <img
-          [src]="'/assets/icons/multicolored-icons/gender/' + pet.sex.toLowerCase() + '.svg'"
-          alt="Sex icon"
+          [src]="pet.pictures[currentImageIndex]"
+          alt="{{ pet.name }}"
+          class="modal-image"
         />
-        <p><strong>Sex:</strong> {{ pet.sex | titlecase }}</p>
-      </div>
-      <div class="pet-attribute">
-        <img
-          src="/assets/icons/multicolored-icons/location-pin.svg"
-          alt="Location icon"
-        />
-        <p><strong>Location:</strong> {{ pet.location }}</p>
-      </div>
-      <div class="pet-attribute">
-        <img src="/assets/icons/multicolored-icons/cash.svg" alt="Price icon" />
-        <p><strong>Price:</strong> {{ pet.price | currency }}</p>
-      </div>
-      <div class="pet-attribute">
-        <img src="/assets/icons/multicolored-icons/book.svg" alt="Description icon" />
-        <p><strong>Description:</strong> {{ pet.description }}</p>
+        <button
+          (click)="nextImage()"
+          *ngIf="pet.pictures && pet.pictures.length > 1"
+          class="modal-control next"
+        >
+          ›
+        </button>
       </div>
     </div>
 
-    <div class="pet-benefits">
-      <div *ngIf="pet.benefits && pet.benefits.length">
-        <h1 class="pet-page-header">Included:</h1>
-        <div class="benefit-item" *ngFor="let benefit of pet.benefits">
-          <img src="/assets/icons/multicolored-icons/checkmark.svg" alt="Benefit icon" />
-          <span>{{ benefit }}</span>
+    <!-- Thumbnail Navigation -->
+    <div *ngIf="pet.pictures && pet.pictures.length" class="thumbnail-container">
+      <img
+        *ngFor="let picture of pet.pictures; let i = index"
+        [src]="picture"
+        [class.active]="i === currentImageIndex"
+        (click)="goToImage(i)"
+        class="thumbnail-image"
+        alt="{{ pet.name }} thumbnail"
+      />
+    </div>
+
+    <!-- Pet info card (top one) -->
+    <div class="pet-details">
+      <div class="pet-info">
+        <h1 class="pet-page-header">Meet {{ pet.name }}!</h1>
+        <div class="pet-attribute">
+          <img src="/assets/icons/multicolored-icons/home.svg" alt="Status icon" />
+          <p><strong>Status:</strong> {{ pet.status | titlecase }}</p>
+        </div>
+        <div class="pet-attribute">
+          <img [src]="getAnimalIconPath(pet.animal)" alt="Animal icon" />
+          <p><strong>Animal:</strong> {{ pet.animal | titlecase }}</p>
+        </div>
+        <div class="pet-attribute">
+          <img src="/assets/icons/multicolored-icons/paw.svg" alt="Breed icon" />
+          <p><strong>Breed:</strong> {{ pet.breed | titlecase }}</p>
+        </div>
+        <div class="pet-attribute">
+          <img src="/assets/icons/multicolored-icons/calendar.svg" alt="Age icon" />
+          <p><strong>Age:</strong> {{ formatAge(getAge(pet.birthdate)) }} old</p>
+        </div>
+        <div class="pet-attribute">
+          <img
+            [src]="'/assets/icons/multicolored-icons/gender/' + pet.sex.toLowerCase() + '.svg'"
+            alt="Sex icon"
+          />
+          <p><strong>Sex:</strong> {{ pet.sex | titlecase }}</p>
+        </div>
+        <div class="pet-attribute">
+          <img
+            src="/assets/icons/multicolored-icons/location-pin.svg"
+            alt="Location icon"
+          />
+          <p><strong>Location:</strong> {{ pet.location }}</p>
+        </div>
+        <div class="pet-attribute">
+          <img src="/assets/icons/multicolored-icons/cash.svg" alt="Price icon" />
+          <p><strong>Price:</strong> {{ pet.price | currency }}</p>
+        </div>
+        <div class="pet-attribute">
+          <img src="/assets/icons/multicolored-icons/book.svg" alt="Description icon" />
+          <p><strong>Description:</strong> {{ pet.description }}</p>
+        </div>
+      </div>
+
+      <div class="pet-benefits">
+        <div *ngIf="pet.benefits && pet.benefits.length">
+          <h1 class="pet-page-header">Included:</h1>
+          <div class="benefit-item" *ngFor="let benefit of pet.benefits">
+            <img src="/assets/icons/multicolored-icons/checkmark.svg" alt="Benefit icon" />
+            <span>{{ benefit }}</span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="request-contact">
-    <div *ngIf="isBuyer" class="button-container">
-      <button
-        [disabled]="isNotEmptyObject(contactInfo)"
-        class="request-button"
-        (click)="requestContact()"
-      >
-        {{
-          contactInfo && isNotEmptyObject(contactInfo)
-            ? "Contact Received: " + contactInfo.sellerContact
-            : "Request Contact"
-        }}
-      </button>
-      <img
-        class="request-pawprint-left"
-        src="/assets/paw-trail.svg"
-        alt="paw print trail"
-      />
-      <img
-        class="request-pawprint-right"
-        src="/assets/paw-trail.svg"
-        alt="paw print trail"
-      />
+    <div class="request-contact">
+      <div *ngIf="isBuyer" class="button-container">
+        <button
+          [disabled]="isNotEmptyObject(contactInfo)"
+          class="request-button"
+          (click)="requestContact()"
+        >
+          {{
+            contactInfo && isNotEmptyObject(contactInfo)
+              ? "Contact Received: " + contactInfo.sellerContact
+              : "Request Contact"
+          }}
+        </button>
+        <img
+          class="request-pawprint-left"
+          src="/assets/paw-trail.svg"
+          alt="paw print trail"
+        />
+        <img
+          class="request-pawprint-right"
+          src="/assets/paw-trail.svg"
+          alt="paw print trail"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Similar Pets Section -->
+<div class="similar-pets" *ngIf="similarPets.length > 0">
+  <h2 class="similar-pets-title">Similar Pets</h2>
+  <div class="similar-pets-grid">
+    <div *ngFor="let similarPet of similarPets" 
+         class="similar-pet-card"
+         (click)="navigateToSimilarPet(similarPet._id)">
+      <div class="similarity-badge">
+        {{ similarPet.similarityScore }}% Match
+      </div>
+      <img [src]="similarPet.pictures[0]" 
+           [alt]="similarPet.name" 
+           class="similar-pet-image">
+      <div class="similar-pet-info">
+        <h3 class="pet-name">{{ similarPet.name }}</h3>
+        <p class="pet-age">{{ formatAge(getAge(similarPet.birthdate)) }} old</p>
+      </div>
     </div>
   </div>
 </div>
