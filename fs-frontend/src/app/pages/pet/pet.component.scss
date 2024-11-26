@@ -146,14 +146,15 @@ $navbar-height: 80px;
   vertical-align: middle;
 
   &.favorited {
-    background-color: #dcdcdc;
+    background-color: #c7cac8;
     .favorite-icon {
       width: 20px;
       height: 20px;
-      filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2))
-               drop-shadow(0 0 5px rgba(0, 0, 0, 0.1))
-               drop-shadow(0 0 2px rgba(255, 255, 255, 0.1));
+      filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.0))
+               drop-shadow(0 0 5px rgba(0, 0, 0, 0.0))
+               drop-shadow(0 0 2px rgba(255, 255, 255, 0.0));
     }
+    border: 1px solid #bababa;
   }
 
 }
