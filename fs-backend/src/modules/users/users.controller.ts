@@ -33,9 +33,7 @@ export class UserController {
       res.send(user);
     } catch (error) {
       res.status(500).send({ error });
-    } finally {
-      this.mongoDBService.close();
-    }
+    } 
   };
 
   // Method to get the user profile based on authenticated user's userId
@@ -69,8 +67,6 @@ export class UserController {
       res.send(user);
     } catch (error) {
       res.status(500).send({ error });
-    } finally {
-      this.mongoDBService.close();
     }
   };
 
@@ -117,8 +113,6 @@ export class UserController {
     } catch (error) {
       console.error("Error adding user:", error);
       res.status(500).send({ error: "Internal Server Error" });
-    } finally {
-      this.mongoDBService.close();
     }
   };
 
@@ -176,8 +170,6 @@ export class UserController {
     } catch (error) {
       console.error("Error updating user profile:", error);
       res.status(500).send({ error: "Internal Server Error" });
-    } finally {
-      this.mongoDBService.close();
     }
   };
   

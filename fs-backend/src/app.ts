@@ -71,6 +71,21 @@ class Application {
   // Sets up routes for the express server
   public buildRoutes(): void {
     this.app.use("/api", new ApiRouter().getRouter());
+
+    // Global error handler
+    this.app.use(
+      (
+        err: any,
+        req: express.Request,
+        res: express.Response,
+        next: express.NextFunction
+      ) => {
+        console.error("Unhandled error:", err);
+        res.status(err.status || 500).send({
+          error: err.message || "Internal Server Error",
+        });
+      }
+    );
   }
 
   // Closes the MongoDB connection and shuts down the server

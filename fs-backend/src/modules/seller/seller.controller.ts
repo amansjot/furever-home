@@ -36,8 +36,6 @@ export class SellerController {
       res.send(seller);
     } catch (error) {
       res.status(500).send({ error });
-    } finally {
-      this.mongoDBService.close();
     }
   };
 
@@ -72,8 +70,6 @@ export class SellerController {
       res.send(seller);
     } catch (error) {
       res.status(500).send({ error });
-    } finally {
-      this.mongoDBService.close();
     }
   };
 
@@ -102,8 +98,6 @@ export class SellerController {
       res.send(pet);
     } catch (error) {
       res.status(500).send({ error });
-    } finally {
-      this.mongoDBService.close();
     }
   };
 
@@ -146,8 +140,6 @@ export class SellerController {
     } catch (error) {
       console.error("Error fetching seller contact:", error);
       res.status(500).send({ error: "Internal server error" });
-    } finally {
-      this.mongoDBService.close();
     }
   };
     
@@ -186,8 +178,6 @@ export class SellerController {
     } catch (error) {
       console.error('Error adding request to seller:', error);
       res.status(500).send({ error: 'Internal server error' });
-    } finally {
-      this.mongoDBService.close();
     }
   };
     
