@@ -154,7 +154,6 @@ export class BrowseComponent {
           await this.itemSvc.getInventoryItems(this.pageIndex, this.filters)
         ).filter((item) => this.favorites.includes(item._id));
       } else {
-        this.itemCount = await this.itemSvc.getInventoryCount(this.filters);
         this.items = await this.itemSvc.getInventoryItems(
           this.pageIndex,
           this.filters

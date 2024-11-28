@@ -11,25 +11,25 @@ export class ItemService {
   constructor(private httpClient: HttpClient) {}
   public pageSize: number = Config.pageSize;
 
-  public getInventoryCount(filters: any = {}): Promise<number> {
-    let params = new HttpParams();
-    for (const key in filters) {
-      if (filters[key] !== 'Any') {
-        params = params.set(key, filters[key]);
-      }
-    }
+  // public getInventoryCount(filters: any = {}): Promise<number> {
+  //   let params = new HttpParams();
+  //   for (const key in filters) {
+  //     if (filters[key] !== 'Any') {
+  //       params = params.set(key, filters[key]);
+  //     }
+  //   }
 
-    return new Promise<number>((resolve, reject) => {
-      this.httpClient.get<{ count: number }>(`${Config.apiBaseUrl}/items/count`, { params }).subscribe({
-        next: (data) => {
-          resolve(data.count);
-        },
-        error: (err) => {
-          reject(err);
-        },
-      });
-    });
-  }
+  //   return new Promise<number>((resolve, reject) => {
+  //     this.httpClient.get<{ count: number }>(`${Config.apiBaseUrl}/items/count`, { params }).subscribe({
+  //       next: (data) => {
+  //         resolve(data.count);
+  //       },
+  //       error: (err) => {
+  //         reject(err);
+  //       },
+  //     });
+  //   });
+  // }
 
   // Modified to accept page and filters as parameters
   public getInventoryItems(page: number, filters: any = {}): Promise<InventoryItemModel[]> {
