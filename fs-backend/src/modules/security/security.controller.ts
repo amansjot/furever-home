@@ -107,7 +107,6 @@ export class SecurityController {
           console.error(err);
           res.status(500).send(err);
         } finally {
-          this.mongoDBService.close();
           resolve();
         }
       }
@@ -196,8 +195,6 @@ export class SecurityController {
     } catch (err) {
       console.error(err);
       res.status(500).send({ error: "Registration failed" });
-    } finally {
-      this.mongoDBService.close();
     }
   };
 }

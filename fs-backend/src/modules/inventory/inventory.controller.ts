@@ -130,22 +130,27 @@ export class InventoryController {
       let result = await this.mongoDBService.connect();
       if (!result) {
         res.status(500).send({ error: "Database connection failed" });
-        return;
+        return; // Return immediately after sending the response
       }
+  
       let items = await this.mongoDBService.findOne<InventoryItemModel>(
         this.settings.database,
         this.settings.collection,
         { _id: new ObjectId(req.params.id) }
       );
+  
       if (!items) {
-        res.send(404).send({ error: "Item not found" });
+        res.status(404).send({ error: "Item not found" }); // Use status + send or json
         return;
       }
-      res.send(items);
+  
+      res.status(200).json(items); // Ensure this is the last response in this block
     } catch (error) {
-      res.status(500).send({ error: error });
+      console.error("Error fetching item:", error);
+      res.status(500).send({ error: "Internal server error" });
     }
   };
+  
 
   /* postAddItem(req: express.Request, res: express.Response): Promise<void>
 		@param {express.Request} req: The request object
@@ -334,8 +339,6 @@ export class InventoryController {
     } catch (error) {
       console.error(error);
       res.status(500).send({ error: error });
-    } finally {
-      this.mongoDBService.close();
     }
   };
 
