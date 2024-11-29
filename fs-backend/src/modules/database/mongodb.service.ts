@@ -15,7 +15,7 @@ export class MongoDBService {
       return true; // Avoid reconnecting if already connected
     }
     try {
-      console.log("Connecting to MongoDB...");
+      // console.log("Connecting to MongoDB...");
       this.isConnected = true;
       await this.client.connect();
       return true;
