@@ -26,6 +26,7 @@ export class SellerComponent implements OnInit {
   public authenticated: boolean = false;
   public isBuyer: boolean = false;
   public isButtonVisible = window.innerWidth < 1024;
+  public isGridView: boolean = false;
 
   seller: any;
   pets: any[] = [];
@@ -66,6 +67,12 @@ export class SellerComponent implements OnInit {
         );
       });
     }
+  }
+
+  toggleGridView(): void {
+    this.isGridView = !this.isGridView;
+    // Reset expanded cards when toggling view
+    this.expandedCards = {};
   }
 
   // Track the expanded state of each card using the pet's name as the key
@@ -135,10 +142,9 @@ export class SellerComponent implements OnInit {
     this.expandedCards[name] = !this.expandedCards[name];
   }
 
-  addItem(sellerId: string): void {}
-
   editItem(event: MouseEvent, itemId: string): void {
     event.stopPropagation();
+    this.router.navigate(['/pet/edit', itemId]);
   }
 
   confirmDelete(event: MouseEvent, itemId: string): void {

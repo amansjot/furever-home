@@ -1,10 +1,50 @@
-.add-pet-container {
+.loading-container {
+    position: fixed;
+    /* Overlay the entire screen */
+    top: 75px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    /* Optional: Semi-transparent background */
+    z-index: 9999;
+    /* Ensure it appears above everything else */
+    opacity: 1;
+    background-color: white;
+    transition: opacity 0.1s ease-out;
+}
+
+.loading-container.hidden {
+    opacity: 0;
+    pointer-events: none;
+    /* Prevent interactions with hidden loading screen */
+}
+
+.loading-gif {
+    margin-top: -75px;
+    width: 250px;
+    height: auto;
+}
+
+.main-content {
+    opacity: 0;
+    transition: opacity 0.3s ease-in;
+}
+
+.main-content.visible {
+    opacity: 1;
+}
+
+.edit-pet-container {
     display: flex;
     justify-content: center;
     margin-top: -90px;
 }
 
-.add-pet-card {
+.edit-pet-card {
     max-width: 600px;
     width: 100%;
     padding: 20px;
@@ -13,7 +53,7 @@
     border-radius: 15px;
 }
 
-.add-pet-title {
+.edit-pet-title {
     font-size: 24px;
     font-weight: bold;
     text-align: center;
@@ -438,6 +478,23 @@ mat-card {
         background-color: #cccccc !important;
         color: #666666 !important;
     }
+}
+
+#cancel-button {
+    color: #c65858;
+    border: 1px solid #c65858;
+    background-color: transparent;
+
+    /* Hover state */
+    &:hover:not([disabled]) {
+        color: white;
+        background-color: #e56a6a !important;
+    }
+}
+
+
+button {
+    font-family: "Outfit", sans-serif;
 }
 
 /* ===================================
