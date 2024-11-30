@@ -53,6 +53,7 @@ img {
     align-items: center;
     padding: 0 1vw 1vh 1vw;
     box-sizing: border-box;
+    width: 100%;
 }
 
 // Grid layout for pet cards
@@ -65,26 +66,6 @@ img {
 
     // Responsive grid columns
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-
-    @media (min-width: 768px) {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    @media (min-width: 1024px) {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    @media (min-width: 1440px) {
-        grid-template-columns: repeat(4, 1fr);
-    }
-
-    @media (min-width: 1920px) {
-        grid-template-columns: repeat(5, 1fr);
-    }
-
-    @media (min-width: 2200px) {
-        grid-template-columns: repeat(6, 1fr);
-    }
 }
 
 // Base styles for each pet card
@@ -98,6 +79,10 @@ img {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     height: 450px;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
     cursor: pointer;
     transition: transform 0.3s ease-in-out;
 
@@ -132,7 +117,7 @@ img {
     border: none;
     border-radius: 40px;
     background-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0px 0px 2px 2px rgba(124, 123, 123, 0.554);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.295);
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -161,6 +146,7 @@ img {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 // Hidden information container
@@ -182,49 +168,9 @@ img {
     margin: 0 8px 8px 8px;
 }
 
-// Hover effects for larger screens
-@media (min-width: 1024px) {
-    .pet-card:hover .displayed-info {
-        transform: translateY(-175%);
-        opacity: 1;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-top-left-radius: 15px;
-        border-top-right-radius: 15px;
-        filter: drop-shadow(0px 0px 8px #000000);
-    }
-
-    .pet-card:hover .hidden-info {
-        transform: translateY(0);
-        opacity: 1;
-        backdrop-filter: blur(16px) saturate(180%);
-        -webkit-backdrop-filter: blur(16px) saturate(180%);
-        background-color: rgba(255, 255, 255, 0.66);
-        border: 1px solid rgba(255, 255, 255, 0.125);
-        filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.376));
-        max-height: 60%;
-        border-radius: 12px;
-    }
-
-    .petcard-favorite-button {
-        pointer-events: auto;
-    }
-
-    .filters .button:hover {
-        cursor: pointer;
-        background-color: #3f8a73;
-        color: white;
-    }
-
-    .show-hidden-button:hover {
-        background-color: rgba(255, 255, 255, 0.3);
-    }
-}
-
 // Expanded state styles
 .pet-card.expanded .displayed-info {
-    transform: translateY(-150%);
+    transform: translateY(-160%);
     opacity: 1;
     display: flex;
     justify-content: space-between;
@@ -238,9 +184,7 @@ img {
     transform: translateY(0);
     opacity: 1;
     display: block;
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
-    background-color: rgba(255, 255, 255, 0.66);
+    background-color: rgba(255, 255, 255, 0.85);
     border-radius: 15px;
     border: 1px solid rgba(255, 255, 255, 0.125);
     filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.376));
@@ -264,25 +208,28 @@ img {
     padding: 2px 8px;
     border-radius: 15px;
     color: white;
+    font-weight: bold;
     font-size: 0.9rem;
     margin: 0;
-    align-self: start;
+    min-width: 65px;
+    text-align: center;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .pet-status-tag {
-    background-color: rgb(81, 81, 254);
+    background-color: #2196F3;  // Blue
 }
 
 .pet-breed-tag {
-    background-color: rgb(243, 22, 255);
+    background-color: #673AB7;  // Purple
 }
 
 .pet-price-tag {
-    background-color: rgb(59, 147, 61);
+    background-color: #00a362;  // Green (matching landing page)
 }
 
 .pet-location-tag {
-    background-color: rgb(202, 138, 71);
+    background-color: #F57C00;  // Orange
 }
 
 // Text styles for pet details
@@ -290,6 +237,7 @@ img {
     font-size: 2rem;
     font-weight: bold;
     margin: 0;
+    text-shadow: -1px 6px 17px rgba(0,0,0,0.51);
 }
 
 .pet-age {
@@ -297,6 +245,7 @@ img {
     font-weight: normal;
     padding-top: 3px;
     margin: 0 0 0 1px;
+    text-shadow: -1px 6px 17px rgba(0,0,0,0.51);
 }
 
 .pet-status,
@@ -305,6 +254,7 @@ img {
 .pet-breed {
     margin: 0;
     padding-left: 5px;
+    font-weight: normal;  // Reset font weight for the value text
 }
 
 // Button styles
@@ -314,6 +264,7 @@ img {
     border-radius: 20px;
     border: none;
     background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: -1px 6px 17px rgba(0, 0, 0, 0.317);
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -330,15 +281,6 @@ img {
     gap: 8px;
     align-items: flex-end;
     margin-left: auto;
-}
-
-// Hide buttons on larger screens
-@media (min-width: 1024px) {
-
-    .show-hidden-button,
-    .pet-page-button {
-        display: none;
-    }
 }
 
 // Arrow icon styles
@@ -360,6 +302,9 @@ img {
 .favorite-icon {
     width: 20px;
     height: 20px;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.8))
+               drop-shadow(0 0 5px rgba(0, 0, 0, 0.6))
+               drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
     vertical-align: middle;
     transition: transform 0.2s ease-in-out;
 }
@@ -382,6 +327,285 @@ img {
     }
 }
 
+// Grid toggle button styles
+.grid-toggle-btn {
+    display: none;  // Hidden by default
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: none;
+    background-color: #f5f5f5;
+    color: #333;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: #e0e0e0;
+    }
+}
+
+// Media queries 
+// Add even more compact styles for very small screens
+
+// Mobile
+@media (max-width: 640px) {
+
+    .pet-card-container {
+        grid-template-columns: 1fr;
+    }
+
+    .grid-toggle-btn {
+        display: inline-block;
+    }
+    
+    .grid-view {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 0 10px;
+
+        .pet-card {
+            height: 300px;
+
+            .displayed-info {
+                transform: none;  
+                bottom: -10px;
+                position: relative;
+                margin-top: 85px;
+                padding: 5px;
+                flex-direction: column;
+                align-items: flex-start;
+
+                .info-text {
+                    width: 100%;
+                    margin-bottom: 5px;
+                    
+                    .pet-name {
+                        font-size: 1.5rem;
+                    }
+                    
+                    .pet-age {
+                        font-size: 0.9rem;
+                        padding-top: 2px;
+                    }
+                }
+
+                .button-group {
+                    width: 100%;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    gap: 4px;
+                    
+                    .pet-page-button {
+                        flex: 0.8;
+                        padding: 4px 8px;
+                        font-size: 0.8rem;
+                        border-radius: 15px;
+                        min-width: 0;
+                        text-align: center;
+                        white-space: nowrap;
+                    }
+
+                    .show-hidden-button {
+                        flex: 1.2;
+                        padding: 4px 8px;
+                        font-size: 0.8rem;
+                        border-radius: 15px;
+                        min-width: 0;
+                        text-align: center;
+                        white-space: nowrap;
+
+                        .expand.arrow {
+                            width: 12px;
+                            height: 12px;
+                            margin-left: 2px;
+                        }
+                    }
+                }
+            }
+
+            &.expanded {
+                position: relative;
+                height: auto;
+                min-height: 300px;
+                
+                .pet-image-background {
+                    position: relative;
+                    min-height: 300px;
+                }
+
+                .displayed-info {
+                    position: relative;
+                    margin-top: 85px;
+                    transform: none;
+                    bottom: -10px;
+                }
+
+                .hidden-info {
+                    position: relative;
+                    margin-top: 10px;
+                    background-color: rgba(255, 255, 255, 0.85);
+                    border-radius: 15px;
+                    border: 1px solid rgba(255, 255, 255, 0.125);
+                    filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.376));
+                    margin: 2%;
+                    padding: 10px;
+                    width: auto;
+                    opacity: 1;
+                    transform: none;
+                    box-sizing: border-box;
+
+                    .info-group {
+                        gap: 3px;
+                        padding: 2px 0;
+                        font-size: 0.9rem;
+
+                        .pet-status-tag,
+                        .pet-price-tag,
+                        .pet-location-tag,
+                        .pet-breed-tag {
+                            padding: 1px 6px;
+                            font-size: 0.8rem;
+                            min-width: 50px;
+                        }
+
+                        .pet-status,
+                        .pet-price,
+                        .pet-location,
+                        .pet-breed {
+                            font-size: 0.8rem;
+                            padding-left: 3px;
+                        }
+                    }
+                }
+
+                .pet-info-card {
+                    position: relative;
+                    height: 100%;
+                    width: 100%;
+                    box-sizing: border-box;
+                }
+            }
+        }
+    }
+}
+
+// small aa fuck (iphone se or iphone 11)
+@media (max-width: 376px) {
+    .cards .pet-card-container.grid-view {
+        .pet-card.expanded {
+            .hidden-info-container .hidden-info {
+                .info-group {
+                    gap: 2px !important;
+                    padding: 1px 0 !important;
+                    margin: 2px 0 !important;
+                    
+                    .pet-status-tag,
+                    .pet-price-tag,
+                    .pet-location-tag,
+                    .pet-breed-tag {
+                        padding: 1px 4px !important;
+                        font-size: 0.65rem !important;
+                        min-width: 35px !important;
+                        border-radius: 10px !important;
+                        line-height: 1.4 !important;
+                    }
+
+                    .pet-status,
+                    .pet-price,
+                    .pet-location,
+                    .pet-breed {
+                        font-size: 0.65rem !important;
+                        padding-left: 2px !important;
+                        max-width: 100px !important;
+                        white-space: nowrap !important;
+                        overflow: hidden !important;
+                        text-overflow: ellipsis !important;
+                        line-height: 1.4 !important;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// mobile
+@media (min-width: 768px) {
+    .pet-card-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+// Desktop
+@media (min-width: 1024px) {
+    .pet-card-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .pet-card:hover .displayed-info {
+        transform: translateY(-175%);
+        opacity: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        filter: drop-shadow(0px 0px 8px #000000);
+    }
+
+    .pet-card:hover .hidden-info {
+        transform: translateY(0);
+        opacity: 1;
+        background-color: rgba(255, 255, 255, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.125);
+        filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.376));
+        max-height: 60%;
+        border-radius: 12px;
+    }
+
+    .petcard-favorite-button {
+        pointer-events: auto;
+    }
+
+    .filters .button:hover {
+        cursor: pointer;
+        background-color: #3f8a73;
+        color: white;
+    }
+
+    .show-hidden-button:hover {
+        box-shadow: -1px 6px 10px rgba(0, 0, 0, 0.778);
+    }
+
+    .show-hidden-button,
+    .pet-page-button {
+        display: none;
+    }
+
+}
+
+// Large
+@media (min-width: 1440px) {
+    .pet-card-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+// Extra Large
+@media (min-width: 1920px) {    
+    .pet-card-container {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+// Extra Extra Large
+@media (min-width: 2200px) {    
+    .pet-card-container {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
 .petcard-button {
     position: absolute;
     top: 11px;
@@ -399,6 +623,10 @@ img {
         background-color: rgba(255, 255, 255, 0.4);
     }
 
+    img {
+        width: 20px;
+        height: 20px;
+    }
 }
 
 #edit-button {

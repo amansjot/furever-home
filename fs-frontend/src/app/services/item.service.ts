@@ -77,4 +77,9 @@ export class ItemService {
   public addPet(petData: any): Observable<any> {
     return this.httpClient.post(`${Config.apiBaseUrl}/items`, petData);
   }
+
+  // Method to update a pet's details
+  public updatePetDetails(petData: any, petId: string): Observable<any> {
+    return this.httpClient.put(`${Config.apiBaseUrl}/items/${petId}`, petData);
+  }
 }
