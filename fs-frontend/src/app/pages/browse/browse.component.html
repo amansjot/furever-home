@@ -226,7 +226,7 @@
                   <!-- Displayed Info -->
                   <div class="displayed-info">
                     <div class="info-text">
-                      <h2 class="pet-name">{{ item.name }}</h2>
+                      <h2 class="pet-name" *ngIf="item">{{ item.name }}</h2>
                       <p class="pet-age">
                         {{ item.sex | titlecase }},
                         {{ formatAge(getAge(item.birthdate)) }} old

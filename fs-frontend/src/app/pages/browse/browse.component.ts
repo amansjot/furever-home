@@ -325,12 +325,13 @@ export class BrowseComponent {
     }
 
     if (!this.isButtonVisible) {
+      localStorage.setItem('petHistoryStart', 'browse');
       this.router.navigate([`/pet/${petId}`]);
     }
   }
 
   navigateToPetMobile(petId: string): void {
-    console.log('mobile');
+    localStorage.setItem('petHistoryStart', 'browse');
     this.router.navigate([`/pet/${petId}`]);
   }
 

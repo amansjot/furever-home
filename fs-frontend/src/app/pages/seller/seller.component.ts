@@ -121,12 +121,13 @@ export class SellerComponent implements OnInit {
     }
 
     if (!this.isButtonVisible) {
+      localStorage.setItem('petHistoryStart', 'seller');
       this.router.navigate([`/pet/${petId}`]);
     }
   }
 
   navigateToPetMobile(petId: string): void {
-    console.log('mobile');
+    localStorage.setItem('petHistoryStart', 'seller');
     this.router.navigate([`/pet/${petId}`]);
   }
 
