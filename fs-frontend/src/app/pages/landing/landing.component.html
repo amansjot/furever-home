@@ -1,231 +1,432 @@
 <div class="landing-container">
-    <div class="landing-first-component-container">
-        <div class="content">
-            <div class="content-left">
-                <div class="title-section">
-                    <img src="dog256.png" alt="Dog Icon" draggable="false"/>
-                    <h1>Furever Home</h1>
-                </div>
-                <p>
-                    Find your perfect companion and give them a forever home! 
-                    Our platform connects you with pets from loving breeders 
-                    and shelters, making it easy to discover the unique personalities 
-                    and stories behind each animal. Explore, connect, 
-                    and make memories with a furry friend who's waiting just for you.
-                </p>
-                <div class="button-container">
-                    <button class="get-started" [routerLink]="['/register']">Get Started</button>
-                    <button class="browse" [routerLink]="['/browse']">Start Browsing</button>
-                </div>
-            </div>
-            <div class="mobile-preview">
-                <img src="assets/mobile.png" alt="Mobile Preview" draggable="false"/>
-            </div>
+  <div class="landing-first-component-container">
+    <div class="content">
+      <div class="content-left">
+        <div class="title-section">
+          <img src="dog256.png" alt="Dog Icon" draggable="false" />
+          <h1>Furever Home</h1>
         </div>
+        <p>
+          Find your perfect companion and give them a forever home! Our platform
+          connects you with pets from loving breeders and shelters, making it
+          easy to discover the unique personalities and stories behind each
+          animal. Explore, connect, and make memories with a furry friend who's
+          waiting just for you.
+        </p>
+        <div class="button-container">
+          <button class="get-started" [routerLink]="['/register']">
+            Get Started
+          </button>
+          <button class="browse" [routerLink]="['/browse']">
+            Start Browsing
+          </button>
+        </div>
+      </div>
+      <div class="mobile-preview">
+        <img src="assets/mobile.png" alt="Mobile Preview" draggable="false" />
+      </div>
     </div>
+  </div>
 </div>
 
 <div class="why-choose-us-container">
-    <h2 class="features-title">Why Choose Us?</h2>
-    <div class="features-card">
-        <div class="features-grid">
-            <div class="feature-card">
-                <img class="feature-icon" src="/assets/icons/multicolored-icons/home.svg" alt="Home icon" draggable="false"/>
-                <h3>Perfect Match</h3>
-                <p>Find your ideal companion through our detailed matching system</p>
-            </div>
-            <div class="feature-card">
-                <img class="feature-icon" src="/assets/icons/multicolored-icons/checkmark.svg" alt="Checkmark icon" draggable="false"/>
-                <h3>Verified Sellers</h3>
-                <p>All our breeders and shelters are thoroughly vetted</p>
-            </div>
-            <div class="feature-card">
-                <img class="feature-icon" src="/assets/icons/multicolored-icons/heart.svg" alt="Heart icon" draggable="false"/>
-                <h3>Support</h3>
-                <p>Ongoing assistance and resources for pet parents</p>
-            </div>
-            <div class="feature-card">
-                <img class="feature-icon" src="/assets/icons/multicolored-icons/shield.svg" alt="Shield icon" draggable="false"/>
-                <h3>Safe Process</h3>
-                <p>Secure adoption process with guaranteed satisfaction</p>
-            </div>
-        </div>
+  <h2 class="features-title">Why Choose Us?</h2>
+  <div class="features-card">
+    <div class="features-grid">
+      <div class="feature-card">
+        <img
+          class="feature-icon"
+          src="/assets/icons/multicolored-icons/home.svg"
+          alt="Home icon"
+          draggable="false"
+        />
+        <h3>Perfect Match</h3>
+        <p>Find your ideal companion through our detailed matching system</p>
+      </div>
+      <div class="feature-card">
+        <img
+          class="feature-icon"
+          src="/assets/icons/multicolored-icons/checkmark.svg"
+          alt="Checkmark icon"
+          draggable="false"
+        />
+        <h3>Verified Sellers</h3>
+        <p>All our breeders and shelters are thoroughly vetted</p>
+      </div>
+      <div class="feature-card">
+        <img
+          class="feature-icon"
+          src="/assets/icons/multicolored-icons/heart.svg"
+          alt="Heart icon"
+          draggable="false"
+        />
+        <h3>Support</h3>
+        <p>Ongoing assistance and resources for pet parents</p>
+      </div>
+      <div class="feature-card">
+        <img
+          class="feature-icon"
+          src="/assets/icons/multicolored-icons/shield.svg"
+          alt="Shield icon"
+          draggable="false"
+        />
+        <h3>Safe Process</h3>
+        <p>Secure adoption process with guaranteed satisfaction</p>
+      </div>
     </div>
+  </div>
 </div>
 
 <div class="adopt-today-container">
-    <h2 class="features-title">Adopt Today.</h2>
-    <div class="pet-cards-wrapper">
-        <div class="pet-cards-outer">
-            <div #cardContainer class="pet-cards-container">
-                <div *ngFor="let pet of featuredPets" class="pet-card">
-                    <div class="pet-image">
-                        <img [src]="pet.pictures[0]" [alt]="pet.name" draggable="false">
-                    </div>
-                    <div class="pet-info">
-                        <h3>{{ pet.name }}</h3>
-                        <p>{{ pet.breed }}</p>
-                        <p class="price">{{ pet.price | currency }}</p>
-                    </div>
-                </div>
-            </div>
+  <h2 class="features-title">Adopt Today.</h2>
+  <div class="pet-cards-wrapper">
+    <div class="pet-cards-outer">
+      <div #cardContainer class="pet-cards-container">
+        <div *ngFor="let pet of featuredPets" class="pet-card">
+          <div class="pet-image">
+            <img [src]="pet.pictures[0]" [alt]="pet.name" draggable="false" />
+          </div>
+          <div class="pet-info">
+            <h3>{{ pet.name }}</h3>
+            <p>{{ pet.breed }}</p>
+            <p class="price">{{ pet.price | currency }}</p>
+          </div>
         </div>
-        <div class="card-indicators">
-            <div
-                *ngFor="let page of [].constructor(totalPages); let i = index"
-                class="indicator"
-                [class.active]="i === currentPage"
-                (click)="scrollToPage(i)"
-            ></div>
-        </div>
+      </div>
     </div>
+    <div class="card-indicators">
+      <div
+        *ngFor="let page of [].constructor(totalPages); let i = index"
+        class="indicator"
+        [class.active]="i === currentPage"
+        (click)="scrollToPage(i)"
+      ></div>
+    </div>
+  </div>
 </div>
 
 <div class="testimonials-container">
-    <h2 class="features-title">Success Stories:</h2>
-    <div class="testimonials-grid">
-        <div class="testimonial-card large accent-blue">
-            <div class="user-info">
-                <img src="assets/testimonial-pfps/fakepfp1.jpg" alt="Sarah M." draggable="false">
-                <div class="user-details">
-                    <h4>Sydney S.</h4>
-                    <p class="location">New York, NY</p>
-                </div>
-            </div>
-            <p class="review">"Finding Luna through Furever Home was the best decision we've made. The process was seamless, and now we can't imagine life without her. The support we received was exceptional!"</p>
+  <h2 class="features-title">Success Stories:</h2>
+  <div class="testimonials-grid">
+    <div class="testimonial-card large accent-blue">
+      <div class="user-info">
+        <img
+          src="assets/testimonial-pfps/fakepfp1.jpg"
+          alt="Sarah M."
+          draggable="false"
+        />
+        <div class="user-details">
+          <h4>Sydney S.</h4>
+          <p class="location">New York, NY</p>
         </div>
-        <div class="testimonial-card accent-purple">
-            <div class="user-info">
-                <img src="assets/testimonial-pfps/fakepfp2.jpg" alt="James P." draggable="false">
-                <div class="user-details">
-                    <h4>Sean C.</h4>
-                    <p class="location">Austin, TX</p>
-                </div>
-            </div>
-            <p class="review">"The matching system really works! Max is everything we were looking for in a companion."</p>
-        </div>
-        <div class="testimonial-card accent-green tall">
-            <div class="user-info">
-                <img src="assets/testimonial-pfps/fakepfp3.jpg" alt="Emily R." draggable="false">
-                <div class="user-details">
-                    <h4>Megan F.</h4>
-                    <p class="location">Seattle, WA</p>
-                </div>
-            </div>
-            <p class="review">"From start to finish, the adoption process was transparent and professional. Our new puppy has brought so much joy to our family. The guidance we received was invaluable!"</p>
-        </div>
-        <div class="testimonial-card accent-orange">
-            <div class="user-info">
-                <img src="assets/testimonial-pfps/fakepfp4.jpg" alt="Michael K." draggable="false">
-                <div class="user-details">
-                    <h4>Johnny S.</h4>
-                    <p class="location">Chicago, IL</p>
-                </div>
-            </div>
-            <p class="review">"Best pet adoption platform ever! The verification process gave us peace of mind."</p>
-        </div>
-        <div class="testimonial-card accent-pink">
-            <div class="user-info">
-                <img src="assets/testimonial-pfps/fakepfp5.jpg" alt="Lisa T." draggable="false">
-                <div class="user-details">
-                    <h4>Johnny D.</h4>
-                    <p class="location">Miami, FL</p>
-                </div>
-            </div>
-            <p class="review">"The whole experience felt personal and caring. Our cat is perfect for us!"</p>
-        </div>
+      </div>
+      <p class="review">
+        "Finding Luna through Furever Home was the best decision we've made. The
+        process was seamless, and now we can't imagine life without her. The
+        support we received was exceptional!"
+      </p>
     </div>
+    <div class="testimonial-card accent-purple">
+      <div class="user-info">
+        <img
+          src="assets/testimonial-pfps/fakepfp2.jpg"
+          alt="James P."
+          draggable="false"
+        />
+        <div class="user-details">
+          <h4>Sean C.</h4>
+          <p class="location">Austin, TX</p>
+        </div>
+      </div>
+      <p class="review">
+        "The matching system really works! Max is everything we were looking for
+        in a companion."
+      </p>
+    </div>
+    <div class="testimonial-card accent-green tall">
+      <div class="user-info">
+        <img
+          src="assets/testimonial-pfps/fakepfp3.jpg"
+          alt="Emily R."
+          draggable="false"
+        />
+        <div class="user-details">
+          <h4>Megan F.</h4>
+          <p class="location">Seattle, WA</p>
+        </div>
+      </div>
+      <p class="review">
+        "From start to finish, the adoption process was transparent and
+        professional. Our new puppy has brought so much joy to our family. The
+        guidance we received was invaluable!"
+      </p>
+    </div>
+    <div class="testimonial-card accent-orange">
+      <div class="user-info">
+        <img
+          src="assets/testimonial-pfps/fakepfp4.jpg"
+          alt="Michael K."
+          draggable="false"
+        />
+        <div class="user-details">
+          <h4>Johnny S.</h4>
+          <p class="location">Chicago, IL</p>
+        </div>
+      </div>
+      <p class="review">
+        "Best pet adoption platform ever! The verification process gave us peace
+        of mind."
+      </p>
+    </div>
+    <div class="testimonial-card accent-pink">
+      <div class="user-info">
+        <img
+          src="assets/testimonial-pfps/fakepfp5.jpg"
+          alt="Lisa T."
+          draggable="false"
+        />
+        <div class="user-details">
+          <h4>Johnny D.</h4>
+          <p class="location">Miami, FL</p>
+        </div>
+      </div>
+      <p class="review">
+        "The whole experience felt personal and caring. Our cat is perfect for
+        us!"
+      </p>
+    </div>
+  </div>
 </div>
 
 <div class="team-container">
-    <h2 class="features-title">Meet our Team!</h2>
-    <div class="team-grid">
-        <div class="team-card mint">
-            <img src="/assets/team/kyle.png" alt="Your Name" draggable="false" class="pfp-image">
-            <h3>Kyle Malice</h3>
-            <p class="role">Computer Science Student</p>
-            <p class="education">University of Delaware '25</p>
-            <p class="bio">Passionate about web and mobile development, specializing in cross-platform solutions. Skilled in creating responsive and user-centric designs for both web and mobile platforms.</p>
-            <div class="social-links">
-                <a href="https://www.linkedin.com/in/kyle-malice/" target="_blank" rel="noopener noreferrer" draggable="false">
-                    <img src="/assets/icons/socials/linkedin.svg" alt="LinkedIn" draggable="false">
-                </a>
-                <a href="https://github.com/MaliceKy" target="_blank" rel="noopener noreferrer" draggable="false">
-                    <img src="/assets/icons/socials/github.svg" alt="GitHub" draggable="false">
-                </a>
-            </div>
-        </div>
-
-        <div class="team-card coral">
-            <img src="/assets/team/member2.png" alt="Team Member 2" draggable="false" class="pfp-image">
-            <h3>Team Member 2</h3>
-            <p class="role">Computer Science Student</p>
-            <p class="education">University of Delaware '25</p>
-            <p class="bio">Interested in backend development and database management. Working with Node.js and MongoDB to create scalable solutions.</p>
-            <div class="social-links">
-                <a href="https://linkedin.com/in/member2" target="_blank" rel="noopener noreferrer" draggable="false">
-                    <img src="/assets/icons/socials/linkedin.svg" alt="LinkedIn" draggable="false">
-                </a>
-                <a href="https://github.com/member2" target="_blank" rel="noopener noreferrer" draggable="false">
-                    <img src="/assets/icons/socials/github.svg" alt="GitHub" draggable="false">
-                </a>
-            </div>
-        </div>
-
-        <div class="team-card lavender">
-            <img src="team-member-3.jpg" alt="Team Member 3" draggable="false" class="pfp-image">
-            <h3>Team Member 3</h3>
-            <p class="role">Computer Science Student</p>
-            <p class="education">University of Delaware '25</p>
-            <p class="bio">Focused on frontend development and UI/UX design. Creating intuitive user experiences with Angular and TypeScript.</p>
-            <div class="social-links">
-                <a href="https://linkedin.com/in/member3" target="_blank" rel="noopener noreferrer" draggable="false">
-                    <img src="/assets/icons/socials/linkedin.svg" alt="LinkedIn" draggable="false">
-                </a>
-                <a href="https://github.com/member3" target="_blank" rel="noopener noreferrer" draggable="false">
-                    <img src="/assets/icons/socials/github.svg" alt="GitHub" draggable="false">
-                </a>
-            </div>
-        </div>
-
-        <div class="team-card peach">
-            <img src="team-member-4.jpg" alt="Team Member 4" draggable="false" class="pfp-image">
-            <h3>Team Member 4</h3>
-            <p class="role">Computer Science Student</p>
-            <p class="education">University of Delaware '25</p>
-            <p class="bio">Specializing in API development and system architecture. Building robust backend systems with Express and MongoDB.</p>
-            <div class="social-links">
-                <a href="https://linkedin.com/in/member4" target="_blank" rel="noopener noreferrer" draggable="false">
-                    <img src="/assets/icons/socials/linkedin.svg" alt="LinkedIn" draggable="false">
-                </a>
-                <a href="https://github.com/member4" target="_blank" rel="noopener noreferrer" draggable="false">
-                    <img src="/assets/icons/socials/github.svg" alt="GitHub" draggable="false">
-                </a>
-            </div>
-        </div>
-
-        <div class="team-card skyblue">
-            <img src="team-member-5.jpg" alt="Team Member 5" draggable="false" class="pfp-image">
-            <h3>Team Member 5</h3>
-            <p class="role">Computer Science Student</p>
-            <p class="education">University of Delaware '25</p>
-            <p class="bio">Enthusiastic about cloud computing and DevOps. Working with AWS and Docker for deployment solutions.</p>
-            <div class="social-links">
-                <a href="https://linkedin.com/in/member5" target="_blank" rel="noopener noreferrer" draggable="false">
-                    <img src="/assets/icons/socials/linkedin.svg" alt="LinkedIn" draggable="false">
-                </a>
-                <a href="https://github.com/member5" target="_blank" rel="noopener noreferrer" draggable="false">
-                    <img src="/assets/icons/socials/github.svg" alt="GitHub" draggable="false">
-                </a>
-            </div>
-        </div>
-
-        <div class="team-card lilac">
-            <img src="/assets/team/bagel.png" alt="Team Member 6" draggable="false" class="pfp-image">
-            <h3>Bagel Malice</h3>
-            <p class="role">Director of Happiness</p>
-            <p class="education">University of Delaware '25</p>
-            <p class="bio">Passionate about bones, belly rubs, and turning every walk into a sniffathon. A cross-platform expert in couch cuddles and leaving muddy pawprints everywhere!</p>
-        </div>
+  <h2 class="features-title">Meet our Team!</h2>
+  <div class="team-grid">
+    <div class="team-card mint">
+      <img
+        src="/assets/team/kyle.png"
+        alt="Kyle Malice"
+        draggable="false"
+        class="pfp-image"
+      />
+      <h3>Kyle Malice</h3>
+      <p class="role">Computer Science Student</p>
+      <p class="education">University of Delaware '25</p>
+      <p class="bio">
+        Passionate about web and mobile development, specializing in
+        cross-platform solutions. Skilled in creating responsive and
+        user-centric designs for both web and mobile platforms.
+      </p>
+      <div class="social-links">
+        <a
+          href="https://www.linkedin.com/in/kyle-malice/"
+          target="_blank"
+          rel="noopener noreferrer"
+          draggable="false"
+        >
+          <img
+            src="/assets/icons/socials/linkedin.svg"
+            alt="LinkedIn"
+            draggable="false"
+          />
+        </a>
+        <a
+          href="https://github.com/MaliceKy"
+          target="_blank"
+          rel="noopener noreferrer"
+          draggable="false"
+        >
+          <img
+            src="/assets/icons/socials/github.svg"
+            alt="GitHub"
+            draggable="false"
+          />
+        </a>
+      </div>
     </div>
+
+    <div class="team-card coral">
+      <img
+        src="/assets/team/aman.png"
+        alt="Aman Singh"
+        draggable="false"
+        class="pfp-image"
+      />
+      <h3>Aman Singh</h3>
+      <p class="role">Computer Science Student</p>
+      <p class="education">University of Delaware '25</p>
+      <p class="bio">
+        Highly interested in software engineering and web development. Skilled in web
+        technologies such as React, Angular, and Node.js. Excited to create powerful web applications!
+      </p>
+      <div class="social-links">
+        <a
+          href="https://linkedin.com/in/amns"
+          target="_blank"
+          rel="noopener noreferrer"
+          draggable="false"
+        >
+          <img
+            src="/assets/icons/socials/linkedin.svg"
+            alt="LinkedIn"
+            draggable="false"
+          />
+        </a>
+        <a
+          href="https://github.com/amansjot"
+          target="_blank"
+          rel="noopener noreferrer"
+          draggable="false"
+        >
+          <img
+            src="/assets/icons/socials/github.svg"
+            alt="GitHub"
+            draggable="false"
+          />
+        </a>
+      </div>
+    </div>
+
+    <div class="team-card lavender">
+      <img
+        src="team-member-3.jpg"
+        alt="Team Member 3"
+        draggable="false"
+        class="pfp-image"
+      />
+      <h3>Team Member 3</h3>
+      <p class="role">Computer Science Student</p>
+      <p class="education">University of Delaware '25</p>
+      <p class="bio">
+        Focused on frontend development and UI/UX design. Creating intuitive
+        user experiences with Angular and TypeScript.
+      </p>
+      <div class="social-links">
+        <a
+          href="https://linkedin.com/in/member3"
+          target="_blank"
+          rel="noopener noreferrer"
+          draggable="false"
+        >
+          <img
+            src="/assets/icons/socials/linkedin.svg"
+            alt="LinkedIn"
+            draggable="false"
+          />
+        </a>
+        <a
+          href="https://github.com/member3"
+          target="_blank"
+          rel="noopener noreferrer"
+          draggable="false"
+        >
+          <img
+            src="/assets/icons/socials/github.svg"
+            alt="GitHub"
+            draggable="false"
+          />
+        </a>
+      </div>
+    </div>
+
+    <div class="team-card peach">
+      <img
+        src="team-member-4.jpg"
+        alt="Team Member 4"
+        draggable="false"
+        class="pfp-image"
+      />
+      <h3>Team Member 4</h3>
+      <p class="role">Computer Science Student</p>
+      <p class="education">University of Delaware '25</p>
+      <p class="bio">
+        Specializing in API development and system architecture. Building robust
+        backend systems with Express and MongoDB.
+      </p>
+      <div class="social-links">
+        <a
+          href="https://linkedin.com/in/member4"
+          target="_blank"
+          rel="noopener noreferrer"
+          draggable="false"
+        >
+          <img
+            src="/assets/icons/socials/linkedin.svg"
+            alt="LinkedIn"
+            draggable="false"
+          />
+        </a>
+        <a
+          href="https://github.com/member4"
+          target="_blank"
+          rel="noopener noreferrer"
+          draggable="false"
+        >
+          <img
+            src="/assets/icons/socials/github.svg"
+            alt="GitHub"
+            draggable="false"
+          />
+        </a>
+      </div>
+    </div>
+
+    <div class="team-card skyblue">
+      <img
+        src="team-member-5.jpg"
+        alt="Team Member 5"
+        draggable="false"
+        class="pfp-image"
+      />
+      <h3>Team Member 5</h3>
+      <p class="role">Computer Science Student</p>
+      <p class="education">University of Delaware '25</p>
+      <p class="bio">
+        Enthusiastic about cloud computing and DevOps. Working with AWS and
+        Docker for deployment solutions.
+      </p>
+      <div class="social-links">
+        <a
+          href="https://linkedin.com/in/member5"
+          target="_blank"
+          rel="noopener noreferrer"
+          draggable="false"
+        >
+          <img
+            src="/assets/icons/socials/linkedin.svg"
+            alt="LinkedIn"
+            draggable="false"
+          />
+        </a>
+        <a
+          href="https://github.com/member5"
+          target="_blank"
+          rel="noopener noreferrer"
+          draggable="false"
+        >
+          <img
+            src="/assets/icons/socials/github.svg"
+            alt="GitHub"
+            draggable="false"
+          />
+        </a>
+      </div>
+    </div>
+
+    <div class="team-card lilac">
+      <img
+        src="/assets/team/bagel.png"
+        alt="Team Member 6"
+        draggable="false"
+        class="pfp-image"
+      />
+      <h3>Bagel Malice</h3>
+      <p class="role">Director of Happiness</p>
+      <p class="education">University of Delaware '25</p>
+      <p class="bio">
+        Passionate about bones, belly rubs, and turning every walk into a
+        sniffathon. A cross-platform expert in couch cuddles and leaving muddy
+        pawprints everywhere!
+      </p>
+    </div>
+  </div>
 </div>
