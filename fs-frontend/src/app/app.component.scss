@@ -7,7 +7,11 @@
 	display:flex;
 	flex-direction: column;
 }
+app-header {
+	z-index: 9999 !important;
+}
 .content{
+	z-index: 1;
 	padding:10px 20px;
 	flex:1;
 	display: inline-block;
