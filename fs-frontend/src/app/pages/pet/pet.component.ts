@@ -42,7 +42,8 @@ export class PetComponent implements OnInit {
   isModalOpen: boolean = false; // Track modal state
   similarPets: SimilarPet[] = [];
   breadcrumbHistory: BreadcrumbItem[] = [];
-  maxHistory = 4;  // Maximum number of pets in history
+  petHistoryStart: string = 'browse';
+  maxHistory = 4; // Maximum number of pets in history
 
   constructor(
     private route: ActivatedRoute,
@@ -73,15 +74,23 @@ export class PetComponent implements OnInit {
       this.breadcrumbHistory = JSON.parse(savedHistory);
     }
 
+    // Load history start
+    this.petHistoryStart = localStorage.getItem('petHistoryStart') || "browse";
+
     // Subscribe to route changes
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe((params) => {
       const petId = params['id'];
       if (petId) {
         // If we're navigating back to a pet in history, trim the history
-        const petIndex = this.breadcrumbHistory.findIndex(item => item.id === petId);
+        const petIndex = this.breadcrumbHistory.findIndex(
+          (item) => item.id === petId
+        );
         if (petIndex !== -1) {
           this.breadcrumbHistory = this.breadcrumbHistory.slice(0, petIndex);
-          localStorage.setItem('petHistory', JSON.stringify(this.breadcrumbHistory));
+          localStorage.setItem(
+            'petHistory',
+            JSON.stringify(this.breadcrumbHistory)
+          );
         }
 
         // Load the current pet
@@ -369,18 +378,23 @@ export class PetComponent implements OnInit {
   }
 
   getAnimalIconPath(animal: string): string {
-    return '/assets/icons/multicolored-icons/animal-types/' + this.getAnimalType(animal) + '.svg';
+    return (
+      '/assets/icons/multicolored-icons/animal-types/' +
+      this.getAnimalType(animal) +
+      '.svg'
+    );
   }
 
   loadSimilarPets(): void {
     if (!this.pet) return;
 
-    this.itemService.getInventoryItems(0, {}).then(
-      (items: InventoryItemModel[]) => {
+    this.itemService
+      .getInventoryItems(0, {})
+      .then((items: InventoryItemModel[]) => {
         // Calculate similarity scores for each pet
         const scoredPets = items
-          .filter(item => item._id !== this.pet._id) // Exclude current pet
-          .map(item => {
+          .filter((item) => item._id !== this.pet._id) // Exclude current pet
+          .map((item) => {
             const score = this.calculateSimilarityScore(item);
             return { ...item, similarityScore: score };
           })
@@ -388,10 +402,10 @@ export class PetComponent implements OnInit {
           .slice(0, 4); // Get top 4 most similar pets
 
         this.similarPets = scoredPets;
-      }
-    ).catch((error) => {
-      console.error('Error loading similar pets:', error);
-    });
+      })
+      .catch((error) => {
+        console.error('Error loading similar pets:', error);
+      });
   }
 
   private calculateSimilarityScore(item: InventoryItemModel): number {
@@ -434,21 +448,27 @@ export class PetComponent implements OnInit {
   navigateToSimilarPet(petId: string): void {
     // Add current pet to history if not already there
     const newItem = { name: this.pet.name, id: this.pet._id };
-    
+
+    localStorage.setItem('petHistoryStart', 'browse');
+    this.petHistoryStart = 'browse';
+
     // Check if we're not navigating to a pet already in history
-    if (!this.breadcrumbHistory.some(item => item.id === petId)) {
+    if (!this.breadcrumbHistory.some((item) => item.id === petId)) {
       // Add current pet to history
       this.breadcrumbHistory.push(newItem);
-      
+
       // Keep only the last 4 items
-      if (this.breadcrumbHistory.length > this.maxHistory) {
+      if (this.breadcrumbHistory.length > this.maxHistory - 1) {
         this.breadcrumbHistory.shift(); // Remove oldest item
       }
-      
+
       // Save to localStorage
-      localStorage.setItem('petHistory', JSON.stringify(this.breadcrumbHistory));
+      localStorage.setItem(
+        'petHistory',
+        JSON.stringify(this.breadcrumbHistory)
+      );
     }
-    
+
     this.router.navigate(['/pet', petId]);
   }
 

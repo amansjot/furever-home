@@ -3,34 +3,44 @@
 </div>
 
 <div [ngClass]="{ visible: !loading }" class="pet-container">
-
   <div class="pet-page-content">
-
     <div id="top">
       <div class="breadcrumb">
-        <a [routerLink]="['/browse']">Browse</a>
+        <a [routerLink]="['/', petHistoryStart]">{{
+          petHistoryStart === "browse" ? "Browse" : "My Pets"
+        }}</a>
         <span class="separator">/</span>
-        <ng-container *ngFor="let item of breadcrumbHistory">
-          <a [routerLink]="['/pet', item.id]">{{ item.name }}</a>
-          <span class="separator">/</span>
+        <ng-container *ngIf="petHistoryStart === 'browse'">
+          <ng-container *ngFor="let item of breadcrumbHistory">
+            <a [routerLink]="['/pet', item.id]">{{ item.name }}</a>
+            <span class="separator">/</span>
+          </ng-container>
         </ng-container>
         <span class="current">{{ pet.name }}</span>
       </div>
-      
+
       <div class="content-row">
         <h1 class="pet-page-title">{{ pet.name }}</h1>
         <div class="pet-price-title">{{ pet.price | currency }}</div>
-        <button *ngIf="isBuyer" 
-                class="petcard-favorite-button" 
-                [ngClass]="{'favorited': pet.isFavorite}"
-                (click)="toggleFavorite($event, pet)">
-          <img class="favorite-icon" 
-               [src]="pet.isFavorite ? '/assets/icons/action-icons/favorite-star-active.svg' : '/assets/icons/action-icons/favorite-star-inactive.svg'" 
-               alt="Favorite Icon" />
+        <button
+          *ngIf="isBuyer"
+          class="petcard-favorite-button"
+          [ngClass]="{ favorited: pet.isFavorite }"
+          (click)="toggleFavorite($event, pet)"
+        >
+          <img
+            class="favorite-icon"
+            [src]="
+              pet.isFavorite
+                ? '/assets/icons/action-icons/favorite-star-active.svg'
+                : '/assets/icons/action-icons/favorite-star-inactive.svg'
+            "
+            alt="Favorite Icon"
+          />
         </button>
       </div>
     </div>
-    
+
     <!-- Image Carousel -->
     <div *ngIf="pet.pictures && pet.pictures.length" class="carousel">
       <button
@@ -88,7 +98,10 @@
     </div>
 
     <!-- Thumbnail Navigation -->
-    <div *ngIf="pet.pictures && pet.pictures.length" class="thumbnail-container">
+    <div
+      *ngIf="pet.pictures && pet.pictures.length"
+      class="thumbnail-container"
+    >
       <img
         *ngFor="let picture of pet.pictures; let i = index"
         [src]="picture"
@@ -104,7 +117,10 @@
       <div class="pet-info">
         <h1 class="pet-page-header">Meet {{ pet.name }}!</h1>
         <div class="pet-attribute">
-          <img src="/assets/icons/multicolored-icons/home.svg" alt="Status icon" />
+          <img
+            src="/assets/icons/multicolored-icons/home.svg"
+            alt="Status icon"
+          />
           <p><strong>Status:</strong> {{ pet.status | titlecase }}</p>
         </div>
         <div class="pet-attribute">
@@ -112,16 +128,28 @@
           <p><strong>Animal:</strong> {{ pet.animal | titlecase }}</p>
         </div>
         <div class="pet-attribute">
-          <img src="/assets/icons/multicolored-icons/paw.svg" alt="Breed icon" />
+          <img
+            src="/assets/icons/multicolored-icons/paw.svg"
+            alt="Breed icon"
+          />
           <p><strong>Breed:</strong> {{ pet.breed | titlecase }}</p>
         </div>
         <div class="pet-attribute">
-          <img src="/assets/icons/multicolored-icons/calendar.svg" alt="Age icon" />
-          <p><strong>Age:</strong> {{ formatAge(getAge(pet.birthdate)) }} old</p>
+          <img
+            src="/assets/icons/multicolored-icons/calendar.svg"
+            alt="Age icon"
+          />
+          <p>
+            <strong>Age:</strong> {{ formatAge(getAge(pet.birthdate)) }} old
+          </p>
         </div>
         <div class="pet-attribute">
           <img
-            [src]="'/assets/icons/multicolored-icons/gender/' + pet.sex.toLowerCase() + '.svg'"
+            [src]="
+              '/assets/icons/multicolored-icons/gender/' +
+              pet.sex.toLowerCase() +
+              '.svg'
+            "
             alt="Sex icon"
           />
           <p><strong>Sex:</strong> {{ pet.sex | titlecase }}</p>
@@ -134,11 +162,17 @@
           <p><strong>Location:</strong> {{ pet.location }}</p>
         </div>
         <div class="pet-attribute">
-          <img src="/assets/icons/multicolored-icons/cash.svg" alt="Price icon" />
+          <img
+            src="/assets/icons/multicolored-icons/cash.svg"
+            alt="Price icon"
+          />
           <p><strong>Price:</strong> {{ pet.price | currency }}</p>
         </div>
         <div class="pet-attribute">
-          <img src="/assets/icons/multicolored-icons/book.svg" alt="Description icon" />
+          <img
+            src="/assets/icons/multicolored-icons/book.svg"
+            alt="Description icon"
+          />
           <p><strong>Description:</strong> {{ pet.description }}</p>
         </div>
       </div>
@@ -147,7 +181,10 @@
         <div *ngIf="pet.benefits && pet.benefits.length">
           <h1 class="pet-page-header">Included:</h1>
           <div class="benefit-item" *ngFor="let benefit of pet.benefits">
-            <img src="/assets/icons/multicolored-icons/checkmark.svg" alt="Benefit icon" />
+            <img
+              src="/assets/icons/multicolored-icons/checkmark.svg"
+              alt="Benefit icon"
+            />
             <span>{{ benefit }}</span>
           </div>
         </div>
@@ -186,15 +223,19 @@
 <div class="similar-pets" *ngIf="similarPets.length > 0">
   <h2 class="similar-pets-title">Similar Pets</h2>
   <div class="similar-pets-grid">
-    <div *ngFor="let similarPet of similarPets" 
-         class="similar-pet-card"
-         (click)="navigateToSimilarPet(similarPet._id)">
+    <div
+      *ngFor="let similarPet of similarPets"
+      class="similar-pet-card"
+      (click)="navigateToSimilarPet(similarPet._id)"
+    >
       <div class="similarity-badge">
         {{ similarPet.similarityScore }}% Match
       </div>
-      <img [src]="similarPet.pictures[0]" 
-           [alt]="similarPet.name" 
-           class="similar-pet-image">
+      <img
+        [src]="similarPet.pictures[0]"
+        [alt]="similarPet.name"
+        class="similar-pet-image"
+      />
       <div class="similar-pet-info">
         <h3 class="pet-name">{{ similarPet.name }}</h3>
         <p class="pet-age">{{ formatAge(getAge(similarPet.birthdate)) }} old</p>
