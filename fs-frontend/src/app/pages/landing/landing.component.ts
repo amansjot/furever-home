@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } fr
 import { CommonModule } from '@angular/common';
 import { ItemService } from '../../services/item.service';
 import { InventoryItemModel } from '../../models/items.model';
-import { RouterModule } from '@angular/router';
+import { RouterLink, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-landing',
@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     RouterModule,
+    RouterLink
   ],
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.styles.first-comp.scss', './landing.styles.adopt.scss', './landing.styles.why-choose-us.scss', './landing.styles.testimonials.scss', './landing.styles.team.scss' ],
@@ -39,6 +40,8 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
         this.updateCurrentPage();
       }, 0);
     });
+
+    localStorage.setItem('petHistoryStart', 'browse');
 
     window.addEventListener('resize', this.handleResize.bind(this));
   }

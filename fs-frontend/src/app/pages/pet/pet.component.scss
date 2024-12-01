@@ -603,13 +603,23 @@ $navbar-height: 80px;
 
 .button-container {
   margin: 20px 0;
+  color: white;
+  height: 50px;
+
+  div {
+    line-height: 50px;
+
+    .link {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
 }
 
 .request-button {
   min-width: 150px;
   padding: 12px 24px;
   background-color: #4dbd9b;
-  color: white;
   font-weight: 500;
   font-size: 16px;
   cursor: pointer;

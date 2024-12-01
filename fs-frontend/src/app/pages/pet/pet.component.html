@@ -192,8 +192,9 @@
     </div>
 
     <div class="request-contact">
-      <div *ngIf="isBuyer" class="button-container">
+      <div class="button-container">
         <button
+          *ngIf="isBuyer"
           [disabled]="isNotEmptyObject(contactInfo)"
           class="request-button"
           (click)="requestContact()"
@@ -204,6 +205,9 @@
               : "Request Contact"
           }}
         </button>
+        <div *ngIf="!authenticated">
+          <span class="link" routerLink="/register">Create an account</span> to favorite or request {{ pet.name }}! 
+        </div>
         <img
           class="request-pawprint-left"
           src="/assets/paw-trail.svg"
