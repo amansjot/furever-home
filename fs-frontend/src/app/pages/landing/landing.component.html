@@ -82,7 +82,7 @@
   <div class="pet-cards-wrapper">
     <div class="pet-cards-outer">
       <div #cardContainer class="pet-cards-container">
-        <div *ngFor="let pet of featuredPets" class="pet-card">
+        <div *ngFor="let pet of featuredPets" class="pet-card" [routerLink]="['/pet', pet._id]">
           <div class="pet-image">
             <img [src]="pet.pictures[0]" [alt]="pet.name" draggable="false" />
           </div>
