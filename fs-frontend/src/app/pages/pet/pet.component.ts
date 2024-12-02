@@ -65,7 +65,11 @@ export class PetComponent implements OnInit {
       }
     });
 
-    this.favorites = JSON.parse(localStorage.getItem('favorites') || '');
+    if (localStorage.getItem("favorites")) {
+      this.favorites = JSON.parse(localStorage.getItem('favorites') || "");
+    } else {
+      this.favorites = [];
+    }
     this.loadFavorites();
 
     // Load history from localStorage
