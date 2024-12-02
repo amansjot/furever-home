@@ -68,7 +68,12 @@ export class QuestionnaireComponent implements OnInit {
 
   constructor(private _router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
+  
+  skipQuestionnaire(): void {
+    console.log('Questionnaire skipped. Redirecting to home...');
+    this._router.navigate(['/home']);
+  }
 
   onSubmit(): void {
     if (!this.questionnaireForm.valid) {

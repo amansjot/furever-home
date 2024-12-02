@@ -1,5 +1,16 @@
 <div class="questionnaire-container">
-  <h2>Pet Preferences Questionnaire</h2>
+  <div class="questionnaire-header">
+    <h2>Pet Preferences Questionnaire</h2>
+    <button 
+      class="skip-btn"
+      type="button"
+      mat-raised-button
+      color="warn"
+      (click)="skipQuestionnaire()">
+      Skip
+    </button>
+  </div>
+
   <form [formGroup]="questionnaireForm" (ngSubmit)="onSubmit()">
     <!-- Animal Type -->
     <mat-form-field appearance="fill">
@@ -96,5 +107,15 @@
       [class.loading]="isLoading">
     
     Submit</button>
+
+    <!-- Skip Button -->
+    <button 
+      class="skip-btn"
+      type="button" 
+      mat-raised-button 
+      color="warn" 
+      (click)="skipQuestionnaire()">
+      Skip
+    </button>
   </form>
 </div>
