@@ -76,8 +76,10 @@ export class HeaderComponent implements OnInit {
       if (localStorage.getItem('roles')) {
         this.roles = JSON.parse(localStorage.getItem('roles') || '');
       } else {
-        this.roles = this._loginSvc.getAuthenticatedRoles();
-        localStorage.setItem("roles", JSON.stringify(this.roles));
+        setTimeout(() => {
+          this.roles = this._loginSvc.getAuthenticatedRoles();
+          localStorage.setItem("roles", JSON.stringify(this.roles));
+        }, 100);
       }
     } else {
       this.roles = [];

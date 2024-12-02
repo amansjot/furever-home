@@ -4,7 +4,7 @@ import { Config } from '../config';
 import { Observable, ReplaySubject, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { jwtDecode }  from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 interface TokenResponseObject {
   token: string;
@@ -107,10 +107,11 @@ export class LoginService {
 
   public getAuthenticatedRoles(): string[] {
     if (!this.token) {
-      return [];
+      return ['a'];
     }
 
     try {
+      console.log("[");
       const decodedToken: any = jwtDecode(this.token);
       return decodedToken?.roles || [];
     } catch (error) {
@@ -137,22 +138,23 @@ export class LoginService {
     if (!this.token) {
       return null;
     }
-  
+
     try {
       const decodedToken: any = jwtDecode(this.token);
-  
+
       // Make an HTTP call to fetch the seller type
       const response = await this.httpClient
-        .get<{ sellerType: string }>(`${Config.apiBaseUrl}/seller/${decodedToken._id}`)
+        .get<{ sellerType: string }>(
+          `${Config.apiBaseUrl}/seller/${decodedToken._id}`
+        )
         .toPromise();
-  
+
       return response?.sellerType || null; // Return the sellerType or null if not found
     } catch (error) {
       console.error('Error fetching sellerType:', error);
       return null;
     }
   }
-  
 
   /* Authorize the Token with Server */
   public authorize(): Observable<boolean> {
