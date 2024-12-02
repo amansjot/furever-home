@@ -127,6 +127,7 @@ export class BrowseComponent {
         this._loginSvc.loggedIn.subscribe(this.onLoginChange);
       } else {
         this.isBuyer = false;
+        this.favoriteFilter = false;
       }
     });
     if (localStorage.getItem("favorites")) {
