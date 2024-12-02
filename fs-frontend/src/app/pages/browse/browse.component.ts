@@ -129,7 +129,11 @@ export class BrowseComponent {
         this.isBuyer = false;
       }
     });
-    this.favorites = JSON.parse(localStorage.getItem('favorites') || '');
+    if (localStorage.getItem("favorites")) {
+      this.favorites = JSON.parse(localStorage.getItem('favorites') || "");
+    } else {
+      this.favorites = [];
+    }
     this.loadData();
   }
 

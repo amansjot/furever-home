@@ -83,11 +83,11 @@
     <div class="pet-cards-outer">
       <div #cardContainer class="pet-cards-container">
         <div *ngFor="let pet of featuredPets" class="pet-card" [routerLink]="['/pet', pet._id]">
-          <div class="pet-image">
-            <img [src]="pet.pictures[0]" *ngIf="pet" [alt]="pet.name" draggable="false" />
+          <div class="pet-image" *ngIf="pet">
+            <img [src]="pet.pictures[0]" [alt]="pet.name" draggable="false" />
           </div>
-          <div class="pet-info">
-            <h3 *ngIf="pet">{{ pet.name }}</h3>
+          <div class="pet-info" *ngIf="pet">
+            <h3>{{ pet.name }}</h3>
             <p>{{ pet.breed }}</p>
             <p class="price">{{ pet.price | currency }}</p>
           </div>
@@ -382,8 +382,8 @@
       <p class="role">Computer Science Student</p>
       <p class="education">University of Delaware '25</p>
       <p class="bio">
-        Enthusiastic about cloud computing and DevOps. Working with AWS and
-        Docker for deployment solutions.
+        Focused on frontend development and UI/UX design. Creating intuitive
+        user experiences with Angular and TypeScript.
       </p>
       <div class="social-links">
         <a
