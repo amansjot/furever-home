@@ -83,11 +83,11 @@
     <div class="pet-cards-outer">
       <div #cardContainer class="pet-cards-container">
         <div *ngFor="let pet of featuredPets" class="pet-card" [routerLink]="['/pet', pet._id]">
-          <div class="pet-image">
-            <img [src]="pet.pictures[0]" *ngIf="pet" [alt]="pet.name" draggable="false" />
+          <div class="pet-image" *ngIf="pet">
+            <img [src]="pet.pictures[0]" [alt]="pet.name" draggable="false" />
           </div>
-          <div class="pet-info">
-            <h3 *ngIf="pet">{{ pet.name }}</h3>
+          <div class="pet-info" *ngIf="pet">
+            <h3>{{ pet.name }}</h3>
             <p>{{ pet.breed }}</p>
             <p class="price">{{ pet.price | currency }}</p>
           </div>
