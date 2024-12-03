@@ -30,7 +30,7 @@ div {
 	border-bottom-left-radius: 25px;
 	border-bottom-right-radius: 25px;
 	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-	z-index: 1001;
+	z-index: 999 !important;
 	display: flex;
 	flex-direction: column;
 	padding-top: 20px;
