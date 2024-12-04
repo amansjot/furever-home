@@ -42,22 +42,25 @@
               class="pet-image-background"
               [style.background-image]="'url(' + item.pictures[0] + ')'"
             >
+              <!-- Action buttons -->
               <button
-                class="petcard-button"
+                class="petcard-action-button"
                 id="edit-button"
                 (click)="editItem($event, item._id)"
               >
                 <img
+                  class="action-icon"
                   src="/assets/icons/action-icons/edit-pencil.svg"
                   alt="Edit Pet"
                 />
               </button>
               <button
-                class="petcard-button"
+                class="petcard-action-button"
                 id="delete-button"
                 (click)="confirmDelete($event, item._id)"
               >
                 <img
+                class="action-icon"
                   src="/assets/icons/action-icons/delete-trash.svg"
                   alt="Delete Pet"
                 />

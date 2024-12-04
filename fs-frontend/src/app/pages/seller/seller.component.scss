@@ -108,7 +108,7 @@ img {
 }
 
 // Favorite button on pet card
-.petcard-favorite-button {
+.petcard-action-button {
     position: absolute;
     top: 11px;
     right: 10px;
@@ -299,7 +299,7 @@ img {
 }
 
 // Favorite icon styles
-.favorite-icon {
+.action-icon {
     width: 20px;
     height: 20px;
     filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.8))
@@ -309,7 +309,7 @@ img {
     transition: transform 0.2s ease-in-out;
 }
 
-.favorite-icon.pulse {
+.action-icon.pulse {
     animation: pulse-animation 0.3s ease-in-out;
 }
 
@@ -564,7 +564,7 @@ img {
         border-radius: 12px;
     }
 
-    .petcard-favorite-button {
+    .petcard-action-button {
         pointer-events: auto;
     }
 
@@ -632,7 +632,7 @@ img {
 #edit-button {
     // background-color: white;
     color: white;
-    right: 72px;
+    right: 58px;
 
     &:hover {
         background-color: #4ca68b;
