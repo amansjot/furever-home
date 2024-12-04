@@ -69,6 +69,10 @@ export class ItemService {
     });
   }
 
+  public setItemStatus(itemId: string, status: string): Observable<any> {
+    return this.httpClient.put(`${Config.apiBaseUrl}/items/status/${itemId}`, { status: status });
+  }
+
   public deleteItemById(itemId: string): Observable<any> {
     return this.httpClient.delete(`${Config.apiBaseUrl}/items/${itemId}`);
   }

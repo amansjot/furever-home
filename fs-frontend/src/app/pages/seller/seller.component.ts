@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { SellerService } from '../../services/seller.service';
 import { ItemService } from '../../services/item.service';
@@ -11,6 +12,8 @@ import {
 } from '@angular/router';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { SellerModel } from '../../models/seller.model';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-seller',
@@ -27,12 +30,14 @@ export class SellerComponent implements OnInit {
   public isBuyer: boolean = false;
   public isButtonVisible = window.innerWidth < 1024;
   public isGridView: boolean = false;
+  public itemStatuses: { [key: string]: string } = {}; // Tracks statuses for items by ID
 
   seller: any;
   pets: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
+    private _loginSvc: LoginService,
     private sellerService: SellerService,
     private itemService: ItemService,
     private router: Router,
@@ -155,7 +160,8 @@ export class SellerComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
         action: 'Remove Pet',
-        message: 'Are you sure you want to permanently remove this pet?',
+        message:
+          'Are you sure you want to permanently remove this pet? This cannot be undone.',
       },
       width: '400px',
     });
@@ -168,14 +174,24 @@ export class SellerComponent implements OnInit {
     });
   }
 
-  confirmAdopted(event: MouseEvent, itemId: string): void {
+  confirmAdopted(
+    event: MouseEvent,
+    itemId: string,
+    alreadyAdopted: boolean
+  ): void {
     event.stopPropagation();
+
+    if (alreadyAdopted) {
+      this.setAdopted(itemId, alreadyAdopted);
+      return;
+    }
 
     // Open the confirmation dialog
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
         action: 'Confirm',
-        message: 'Are you sure you want to mark this pet as adopted?',
+        message:
+          'Are you sure you want to mark this pet as adopted? This can be undone.',
       },
       width: '400px',
     });
@@ -183,13 +199,43 @@ export class SellerComponent implements OnInit {
     // Handle the user's confirmation
     dialogRef.afterClosed().subscribe((isConfirmed) => {
       if (isConfirmed) {
-        this.setAdopted(itemId);
+        this.setAdopted(itemId, alreadyAdopted);
       }
     });
   }
 
-  setAdopted(itemId: string) {
-    console.log('x');
+  async setAdopted(itemId: string, alreadyAdopted: boolean) {
+    let status = '';
+    if (alreadyAdopted) {
+      const sellerType = await this._loginSvc.getAuthenticatedSellerType();
+      switch (sellerType) {
+        case 'shelter':
+          status = 'Sheltered';
+          break;
+        case 'breeder':
+          status = 'Bred';
+          break;
+        case 'rehoming':
+          status = 'Rehoming';
+          break;
+      }
+    } else {
+      status = 'Unavailable';
+    }
+
+    this.itemService.setItemStatus(itemId, status).subscribe({
+      next: () => {
+        this.itemStatuses[itemId] = status.toLowerCase();
+        console.log("Item's adoption status changed!");
+      },
+      error: (err: any) => {
+        console.error("Error changing item's adoption status:", err);
+      },
+    });
+  }
+
+  getItemStatus(item: any): string {
+    return this.itemStatuses[item._id] || item.status.toLowerCase();
   }
 
   deleteItem(itemId: string): void {

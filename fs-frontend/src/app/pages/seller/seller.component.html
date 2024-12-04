@@ -35,13 +35,14 @@
             mat-card
             class="pet-card"
             (click)="navigateToPetDesktop($event, item._id)"
-            [ngClass]="{ expanded: expandedCards[item.name] }"
-            
+            [ngClass]="{
+              expanded: expandedCards[item.name],
+              unavailable: getItemStatus(item) === 'unavailable'
+            }"
           >
             <!-- Pet Card Content -->
             <div
               class="pet-image-background"
-              [ngClass]="{ unavailable: item.status.toLowerCase() === 'unavailable' }"
               [style.background-image]="'url(' + item.pictures[0] + ')'"
             >
               <!-- Action buttons -->
@@ -70,7 +71,13 @@
               <button
                 class="petcard-action-button"
                 id="check-button"
-                (click)="confirmAdopted($event, item._id)"
+                (click)="
+                  confirmAdopted(
+                    $event,
+                    item._id,
+                    getItemStatus(item) === 'unavailable'
+                  )
+                "
               >
                 <img
                   class="action-icon"

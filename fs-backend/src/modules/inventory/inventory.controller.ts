@@ -132,25 +132,24 @@ export class InventoryController {
         res.status(500).send({ error: "Database connection failed" });
         return; // Return immediately after sending the response
       }
-  
+
       let items = await this.mongoDBService.findOne<InventoryItemModel>(
         this.settings.database,
         this.settings.collection,
         { _id: new ObjectId(req.params.id) }
       );
-  
+
       if (!items) {
         res.status(404).send({ error: "Item not found" }); // Use status + send or json
         return;
       }
-  
+
       res.status(200).json(items); // Ensure this is the last response in this block
     } catch (error) {
       console.error("Error fetching item:", error);
       res.status(500).send({ error: "Internal server error" });
     }
   };
-  
 
   /* postAddItem(req: express.Request, res: express.Response): Promise<void>
 		@param {express.Request} req: The request object
@@ -209,11 +208,9 @@ export class InventoryController {
       );
 
       if (!updateResult.modifiedCount) {
-        res
-          .status(500)
-          .send({
-            error: "Pet added, but failed to update the seller's document",
-          });
+        res.status(500).send({
+          error: "Pet added, but failed to update the seller's document",
+        });
         return;
       }
 
@@ -266,6 +263,46 @@ export class InventoryController {
       else res.status(500).send({ error: "Failed to update item" });
     } catch (error) {
       res.status(500).send({ error: error });
+    }
+  };
+
+  updateItemStatus = async (
+    req: express.Request,
+    res: express.Response
+  ): Promise<void> => {
+    try {
+      const result = await this.mongoDBService.connect();
+      if (!result) {
+        res.status(500).send({ error: "Database connection failed" });
+        return;
+      }
+
+      const itemId = req.params.id;
+      const newStatus = req.body.status;
+
+      if (!itemId || !newStatus) {
+        res
+          .status(400)
+          .send({ error: "Invalid request. Item ID and status are required." });
+        return;
+      }
+
+      const updateResult = await this.mongoDBService.updateOne(
+        this.settings.database,
+        this.settings.collection,
+        { _id: new ObjectId(itemId) },
+        { $set: { status: newStatus } } // Explicitly set only the status field
+      );
+
+      if (updateResult.modifiedCount === 0) {
+        res.status(404).send({ error: "Item not found or status unchanged" });
+        return;
+      }
+
+      res.status(200).send({ success: true, updatedStatus: newStatus });
+    } catch (error) {
+      console.error("Error updating item status:", error);
+      res.status(500).send({ error: "Internal Server Error" });
     }
   };
 

@@ -180,36 +180,4 @@ export class SellerController {
       res.status(500).send({ error: 'Internal server error' });
     }
   };
-    
-  public getSellerData = async (req: Request, res: Response): Promise<void> => {
-    try {
-      const userId = req.params.userId;
-  
-      // Check if userId is provided
-      if (!userId) {
-        res.status(400).send({ error: "User ID is required" });
-        return;
-      }
-  
-      // Query the database to find the seller document by "user" field
-      const seller = await this.mongoDBService.findOne<SellerModel>(
-        "yourDatabaseName", // Replace with your actual database name
-        "sellers", // Replace with your actual collection name
-        { user: new ObjectId(userId) }
-      );
-  
-      // If no seller is found, send a 404 error
-      if (!seller) {
-        res.status(404).send({ error: "Seller not found" });
-        return;
-      }
-  
-      // Send the seller data as the response
-      res.status(200).send(seller);
-    } catch (error) {
-      console.error("Error fetching seller data:", error);
-      res.status(500).send({ error: "Internal server error" });
-    }
-  };
-  
 }
