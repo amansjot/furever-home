@@ -13,7 +13,14 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-edit-dialog',
   standalone: true,
-  imports: [MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, CommonModule, FormsModule],
+  imports: [
+    MatButtonModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    CommonModule,
+    FormsModule,
+  ],
   templateUrl: './edit-dialog.component.html',
   styles: [
     `
@@ -22,6 +29,15 @@ import { FormsModule } from '@angular/forms';
         font-family: 'Outfit', sans-serif;
         font-weight: bold;
         margin-bottom: 16px;
+      }
+
+      div.dialog-subtitle {
+        background-color: #f6eaea;
+        border: 1px solid #ff9595;
+        padding: 10px;
+        margin: auto;
+        width: 80%;
+        text-align: center;
       }
 
       mat-dialog-content.dialog-content {
@@ -63,12 +79,15 @@ import { FormsModule } from '@angular/forms';
 })
 export class EditDialogComponent {
   values: string[];
+  description;
 
   constructor(
     public dialogRef: MatDialogRef<EditDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { fields: string[]; values: string[] }
+    @Inject(MAT_DIALOG_DATA)
+    public data: { fields: string[]; values: string[]; description: string }
   ) {
     this.values = [...data.values]; // Initialize values with a copy of passed-in values
+    this.description = data.description;
   }
 
   onCancel(): void {
@@ -80,10 +99,12 @@ export class EditDialogComponent {
   }
 
   toTitleCase(field: string): string {
-    return field.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase());
+    return field
+      .replace(/([A-Z])/g, ' $1')
+      .replace(/^./, (str) => str.toUpperCase());
   }
 
   formatFields(fields: string[]): string {
-    return fields.map(this.toTitleCase).join(" & ");
+    return fields.map(this.toTitleCase).join(' & ');
   }
 }

@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { InventoryItemModel } from '../models/items.model';
 import { Config } from '../config';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -85,5 +85,20 @@ export class ItemService {
   // Method to update a pet's details
   public updatePetDetails(petData: any, petId: string): Observable<any> {
     return this.httpClient.put(`${Config.apiBaseUrl}/items/${petId}`, petData);
+  }
+
+  // Method to update pet locations
+  public updatePetLocations(petIDs: Object[], newLocation: string): Observable<any> {
+    const updateRequests = petIDs.map((petID) =>
+      this.updatePetLocation(petID, newLocation) // Call the private method for each ID
+    );
+
+    return forkJoin(updateRequests); // Combine all requests into a single observable
+  }
+
+  // Private method to update a single pet's location
+  private updatePetLocation(petId: Object, newLocation: string): Observable<any> {
+    const petIdStr = petId.toString();
+    return this.httpClient.put(`${Config.apiBaseUrl}/items/location/${petIdStr}`, { location: newLocation });
   }
 }

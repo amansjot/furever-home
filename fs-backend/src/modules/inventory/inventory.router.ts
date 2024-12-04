@@ -24,6 +24,7 @@ export class InventoryRouter {
 		this.router.post("/", [SecurityMiddleware.validateUser,SecurityMiddleware.hasRole("seller")], this.controller.postAddItem);
 		this.router.put("/:id", [SecurityMiddleware.validateUser,SecurityMiddleware.hasRole("seller")], this.controller.putUpdateItem);
 		this.router.put("/status/:id", [SecurityMiddleware.validateUser,SecurityMiddleware.hasRole("seller")], this.controller.updateItemStatus);
+		this.router.put("/location/:id", [SecurityMiddleware.validateUser], this.controller.updateItemLocation);
 		this.router.delete("/:id", [SecurityMiddleware.validateUser,SecurityMiddleware.hasRole("seller")], this.controller.deleteItem);
         return this.router;
     }

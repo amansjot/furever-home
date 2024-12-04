@@ -8,6 +8,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class SellerService {
+  updatePetLocations() {
+    throw new Error('Method not implemented.');
+  }
   constructor(private httpClient: HttpClient) {}
 
   // Method to fetch the authenticated seller's profile
