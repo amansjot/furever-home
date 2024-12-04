@@ -5,15 +5,11 @@
 
 <!-- Main Content Container -->
 <div [ngClass]="{ visible: !loading }" class="main-content">
-
   <!-- Browse Title -->
-  <div class="browse-title">
-    Adoptable Pets
-  </div>
+  <div class="browse-title">Adoptable Pets</div>
 
   <!-- Browse Container -->
   <div class="browse-container">
-
     <!-- Top Bar with Filter Button and Results Count -->
     <div class="top-bar">
       <div class="button-row">
@@ -24,13 +20,25 @@
         </button>
 
         <!-- Show Favorites Button (Visible if authenticated) -->
-        <button *ngIf="authenticated" class="filter-toggle-btn" (click)="toggleFavoriteFilter()">
+        <button
+          *ngIf="authenticated"
+          class="filter-toggle-btn"
+          (click)="toggleFavoriteFilter()"
+        >
           <ng-container *ngIf="favoriteFilter; else showFavorites">
-            <img src="/assets/icons/action-icons/close-icon.svg" alt="Close Icon" class="close-icon" />
+            <img
+              src="/assets/icons/action-icons/close-icon.svg"
+              alt="Close Icon"
+              class="close-icon"
+            />
             Show All Pets
           </ng-container>
           <ng-template #showFavorites>
-            <img class="tab-star-icon" src="/assets/icons/action-icons/favorite-star-inactive.svg" alt="Favorite Icon" />
+            <img
+              class="tab-star-icon"
+              src="/assets/icons/action-icons/favorite-star-inactive.svg"
+              alt="Favorite Icon"
+            />
             Show Favorites
           </ng-template>
         </button>
@@ -38,7 +46,7 @@
         <!-- Grid/List View Toggle Button -->
         <button class="grid-toggle-btn" (click)="toggleGridView()">
           <img src="/assets/icons/action-icons/grid.svg" alt="Grid View" />
-          <span>{{ isGridView ? 'List View' : 'Grid View' }}</span>
+          <span>{{ isGridView ? "List View" : "Grid View" }}</span>
         </button>
       </div>
 
@@ -46,15 +54,20 @@
       <div class="applied-filters-container" *ngIf="hasActiveFilters()">
         <span class="filter-label">Active filters:</span>
         <div class="filter-chip" *ngFor="let filter of getActiveFilters()">
-          <span class="category">{{filter.category}}:</span>
-          <span class="value">{{filter.value}}</span>
-          <button class="remove-filter" (click)="removeFilter(filter.category, filter.value)">×</button>
+          <span class="category">{{ filter.category }}:</span>
+          <span class="value">{{ filter.value }}</span>
+          <button
+            class="remove-filter"
+            (click)="removeFilter(filter.category, filter.value)"
+          >
+            ×
+          </button>
         </div>
       </div>
     </div>
 
     <!-- Filter Sidebar -->
-    <div class="filter-sidebar" [ngClass]="{ 'open': isFilterOpen }">
+    <div class="filter-sidebar" [ngClass]="{ open: isFilterOpen }">
       <div class="filter-content">
         <div class="header-row">
           <h2>Filters</h2>
@@ -67,17 +80,34 @@
           <div class="filter-group">
             <div class="filter-header" (click)="toggleFilter('animal')">
               <span>Animal Type</span>
-              <img class="filter-arrow" 
-                  [ngClass]="{'rotated': expandedFilters.animal}" 
-                  src="/assets/icons/action-icons/drop-down-arrow.svg" 
-                  alt="expand-arrow" />
+              <img
+                class="filter-arrow"
+                [ngClass]="{ rotated: expandedFilters.animal }"
+                src="/assets/icons/action-icons/drop-down-arrow.svg"
+                alt="expand-arrow"
+              />
             </div>
-            <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.animal}">
+            <div
+              class="filter-content-wrapper"
+              [ngClass]="{ expanded: expandedFilters.animal }"
+            >
               <div class="checkbox-group">
-                <mat-checkbox 
-                  *ngFor="let animal of ['Any', 'Dog', 'Cat', 'Bird', 'Fish', 'Reptile', 'Small Mammal', 'Other']"
+                <mat-checkbox
+                  *ngFor="
+                    let animal of [
+                      'Any',
+                      'Dog',
+                      'Cat',
+                      'Bird',
+                      'Fish',
+                      'Reptile',
+                      'Small Mammal',
+                      'Other'
+                    ]
+                  "
                   [checked]="filters.animal.includes(animal)"
-                  (change)="setFilter('animal', animal, $event.checked)">
+                  (change)="setFilter('animal', animal, $event.checked)"
+                >
                   {{ animal }}
                 </mat-checkbox>
               </div>
@@ -88,17 +118,23 @@
           <div class="filter-group">
             <div class="filter-header" (click)="toggleFilter('sex')">
               <span>Sex</span>
-              <img class="filter-arrow" 
-                  [ngClass]="{'rotated': expandedFilters.sex}" 
-                  src="/assets/icons/action-icons/drop-down-arrow.svg" 
-                  alt="expand-arrow" />
+              <img
+                class="filter-arrow"
+                [ngClass]="{ rotated: expandedFilters.sex }"
+                src="/assets/icons/action-icons/drop-down-arrow.svg"
+                alt="expand-arrow"
+              />
             </div>
-            <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.sex}">
+            <div
+              class="filter-content-wrapper"
+              [ngClass]="{ expanded: expandedFilters.sex }"
+            >
               <div class="checkbox-group">
-                <mat-checkbox 
+                <mat-checkbox
                   *ngFor="let sex of ['Any', 'Male', 'Female']"
                   [checked]="filters.sex.includes(sex)"
-                  (change)="setFilter('sex', sex, $event.checked)">
+                  (change)="setFilter('sex', sex, $event.checked)"
+                >
                   {{ sex }}
                 </mat-checkbox>
               </div>
@@ -109,17 +145,25 @@
           <div class="filter-group">
             <div class="filter-header" (click)="toggleFilter('age')">
               <span>Age</span>
-              <img class="filter-arrow" 
-                  [ngClass]="{'rotated': expandedFilters.age}" 
-                  src="/assets/icons/action-icons/drop-down-arrow.svg" 
-                  alt="expand-arrow" />
+              <img
+                class="filter-arrow"
+                [ngClass]="{ rotated: expandedFilters.age }"
+                src="/assets/icons/action-icons/drop-down-arrow.svg"
+                alt="expand-arrow"
+              />
             </div>
-            <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.age}">
+            <div
+              class="filter-content-wrapper"
+              [ngClass]="{ expanded: expandedFilters.age }"
+            >
               <div class="checkbox-group">
-                <mat-checkbox 
-                  *ngFor="let age of ['Any', 'Very Young', 'Young', 'Adult', 'Senior']"
+                <mat-checkbox
+                  *ngFor="
+                    let age of ['Any', 'Very Young', 'Young', 'Adult', 'Senior']
+                  "
                   [checked]="filters.age.includes(age)"
-                  (change)="setFilter('age', age, $event.checked)">
+                  (change)="setFilter('age', age, $event.checked)"
+                >
                   {{ age }}
                 </mat-checkbox>
               </div>
@@ -130,17 +174,23 @@
           <div class="filter-group">
             <div class="filter-header" (click)="toggleFilter('price')">
               <span>Price</span>
-              <img class="filter-arrow" 
-                  [ngClass]="{'rotated': expandedFilters.price}" 
-                  src="/assets/icons/action-icons/drop-down-arrow.svg" 
-                  alt="expand-arrow" />
+              <img
+                class="filter-arrow"
+                [ngClass]="{ rotated: expandedFilters.price }"
+                src="/assets/icons/action-icons/drop-down-arrow.svg"
+                alt="expand-arrow"
+              />
             </div>
-            <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.price}">
+            <div
+              class="filter-content-wrapper"
+              [ngClass]="{ expanded: expandedFilters.price }"
+            >
               <div class="checkbox-group">
-                <mat-checkbox 
+                <mat-checkbox
                   *ngFor="let price of ['Any', 'Low', 'Medium', 'High']"
                   [checked]="filters.price.includes(price)"
-                  (change)="setFilter('price', price, $event.checked)">
+                  (change)="setFilter('price', price, $event.checked)"
+                >
                   {{ price }}
                 </mat-checkbox>
               </div>
@@ -151,17 +201,32 @@
           <div class="filter-group">
             <div class="filter-header" (click)="toggleFilter('location')">
               <span>Location</span>
-              <img class="filter-arrow" 
-                  [ngClass]="{'rotated': expandedFilters.location}" 
-                  src="/assets/icons/action-icons/drop-down-arrow.svg" 
-                  alt="expand-arrow" />
+              <img
+                class="filter-arrow"
+                [ngClass]="{ rotated: expandedFilters.location }"
+                src="/assets/icons/action-icons/drop-down-arrow.svg"
+                alt="expand-arrow"
+              />
             </div>
-            <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.location}">
+            <div
+              class="filter-content-wrapper"
+              [ngClass]="{ expanded: expandedFilters.location }"
+            >
               <div class="checkbox-group">
-                <mat-checkbox 
-                  *ngFor="let location of ['Any', 'New York', 'Los Angeles', 'Chicago', 'Houston', 'Other']"
+                <mat-checkbox
+                  *ngFor="
+                    let location of [
+                      'Any',
+                      'New York',
+                      'Los Angeles',
+                      'Chicago',
+                      'Houston',
+                      'Other'
+                    ]
+                  "
                   [checked]="filters.location.includes(location)"
-                  (change)="setFilter('location', location, $event.checked)">
+                  (change)="setFilter('location', location, $event.checked)"
+                >
                   {{ location }}
                 </mat-checkbox>
               </div>
@@ -172,18 +237,31 @@
           <div class="filter-group" *ngIf="hasActiveFilters()">
             <div class="filter-header" (click)="toggleFilter('applied')">
               <span>Applied Filters</span>
-              <img class="filter-arrow" 
-                  [ngClass]="{'rotated': expandedFilters.applied}" 
-                  src="/assets/icons/action-icons/drop-down-arrow.svg" 
-                  alt="expand-arrow" />
+              <img
+                class="filter-arrow"
+                [ngClass]="{ rotated: expandedFilters.applied }"
+                src="/assets/icons/action-icons/drop-down-arrow.svg"
+                alt="expand-arrow"
+              />
             </div>
-            <div class="filter-content-wrapper" [ngClass]="{'expanded': expandedFilters.applied}">
+            <div
+              class="filter-content-wrapper"
+              [ngClass]="{ expanded: expandedFilters.applied }"
+            >
               <div class="applied-filters-wrapper">
                 <div class="applied-filters">
-                  <div *ngFor="let filter of getActiveFilters()" class="applied-filter">
+                  <div
+                    *ngFor="let filter of getActiveFilters()"
+                    class="applied-filter"
+                  >
                     <span class="filter-category">{{ filter.category }}:</span>
                     <span class="filter-value">{{ filter.value }}</span>
-                    <button (click)="removeFilter(filter.category, filter.value)" class="remove-filter">×</button>
+                    <button
+                      (click)="removeFilter(filter.category, filter.value)"
+                      class="remove-filter"
+                    >
+                      ×
+                    </button>
                   </div>
                 </div>
               </div>
@@ -201,24 +279,46 @@
     </div>
 
     <!-- Filter Overlay -->
-    <div class="filter-overlay" [ngClass]="{ 'open': isFilterOpen }" (click)="toggleFilters()"></div>
+    <div
+      class="filter-overlay"
+      [ngClass]="{ open: isFilterOpen }"
+      (click)="toggleFilters()"
+    ></div>
 
     <!-- Pet Cards Grid -->
     <div class="cards" [ngClass]="{ hidden: loading }">
-      <ng-container *ngIf="!loading && getFilteredItems().length > 0; else noResults">
-        <div class="pet-card-container" [ngClass]="{'grid-view': isGridView}">
+      <ng-container
+        *ngIf="!loading && getFilteredItems().length > 0; else noResults"
+      >
+        <div class="pet-card-container"  [ngClass]="{ 'grid-view': isGridView }">
           <ng-container *ngFor="let item of getFilteredItems()">
-            <div mat-card
-                 class="pet-card"
-                 (click)="navigateToPetDesktop($event, item._id)"
-                 [ngClass]="{ 'expanded': expandedCards[item.name] }">
+            <div
+              mat-card
+              class="pet-card"
+              *ngIf="item.status.toLowerCase() !== 'unavailable'"
+              (click)="navigateToPetDesktop($event, item._id)"
+              [ngClass]="{ expanded: expandedCards[item.name] }"
+            >
               <!-- Pet Card Content -->
-              <div class="pet-image-background" [style.background-image]="'url(' + item.pictures[0] + ')'">
+              <div
+                class="pet-image-background"
+                [style.background-image]="'url(' + item.pictures[0] + ')'"
+              >
                 <!-- Favorite Button -->
-                <button *ngIf="isBuyer" class="petcard-favorite-button" (click)="toggleFavorite($event, item)">
-                  <img class="favorite-icon" 
-                      [src]="item.isFavorite ? '/assets/icons/action-icons/favorite-star-active.svg' : '/assets/icons/action-icons/favorite-star-inactive.svg'" 
-                      alt="Favorite Icon" />
+                <button
+                  *ngIf="isBuyer"
+                  class="petcard-favorite-button"
+                  (click)="toggleFavorite($event, item)"
+                >
+                  <img
+                    class="favorite-icon"
+                    [src]="
+                      item.isFavorite
+                        ? '/assets/icons/action-icons/favorite-star-active.svg'
+                        : '/assets/icons/action-icons/favorite-star-inactive.svg'
+                    "
+                    alt="Favorite Icon"
+                  />
                 </button>
 
                 <!-- Pet Info Card -->
@@ -233,15 +333,25 @@
                       </p>
                     </div>
                     <div class="button-group">
-                      <button class="pet-page-button" (click)="navigateToPetMobile(item._id)">
+                      <button
+                        class="pet-page-button"
+                        (click)="navigateToPetMobile(item._id)"
+                      >
                         Pet Page
                       </button>
-                      <button class="show-hidden-button" (click)="toggleCard(item.name)">
-                        {{ expandedCards[item.name] ? 'Hide Info' : 'Show Info' }}
-                        <img class="expand arrow" 
-                            [ngClass]="{'rotated': expandedCards[item.name]}" 
-                            src="/assets/icons/action-icons/drop-down-arrow.svg" 
-                            alt="expand-arrow" />
+                      <button
+                        class="show-hidden-button"
+                        (click)="toggleCard(item.name)"
+                      >
+                        {{
+                          expandedCards[item.name] ? "Hide Info" : "Show Info"
+                        }}
+                        <img
+                          class="expand arrow"
+                          [ngClass]="{ rotated: expandedCards[item.name] }"
+                          src="/assets/icons/action-icons/drop-down-arrow.svg"
+                          alt="expand-arrow"
+                        />
                       </button>
                     </div>
                   </div>
@@ -259,7 +369,11 @@
                       </div>
                       <div class="info-group">
                         <p class="pet-price-tag">Price:</p>
-                        <p class="pet-price">{{ item.price | currency : "USD" : "symbol" : "1.0-0" }}</p>
+                        <p class="pet-price">
+                          {{
+                            item.price | currency : "USD" : "symbol" : "1.0-0"
+                          }}
+                        </p>
                       </div>
                       <div class="info-group">
                         <p class="pet-location-tag">Location:</p>
@@ -274,9 +388,16 @@
         </div>
       </ng-container>
       <ng-template #noResults>
-        <div class="no-favorites-message-container" [ngClass]="{ hidden: loading }">
+        <div
+          class="no-favorites-message-container"
+          [ngClass]="{ hidden: loading }"
+        >
           <div class="no-favorites-message">
-            {{ favoriteFilter ? 'You have no favorites.' : 'No pets match your search criteria.' }}
+            {{
+              favoriteFilter
+                ? "You have no favorites."
+                : "No pets match your search criteria."
+            }}
           </div>
         </div>
       </ng-template>

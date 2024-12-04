@@ -168,6 +168,30 @@ export class SellerComponent implements OnInit {
     });
   }
 
+  confirmAdopted(event: MouseEvent, itemId: string): void {
+    event.stopPropagation();
+
+    // Open the confirmation dialog
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        action: 'Confirm',
+        message: 'Are you sure you want to mark this pet as adopted?',
+      },
+      width: '400px',
+    });
+
+    // Handle the user's confirmation
+    dialogRef.afterClosed().subscribe((isConfirmed) => {
+      if (isConfirmed) {
+        this.setAdopted(itemId);
+      }
+    });
+  }
+
+  setAdopted(itemId: string) {
+    console.log('x');
+  }
+
   deleteItem(itemId: string): void {
     this.itemService.deleteItemById(itemId).subscribe({
       next: () => {

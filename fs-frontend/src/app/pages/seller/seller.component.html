@@ -36,10 +36,12 @@
             class="pet-card"
             (click)="navigateToPetDesktop($event, item._id)"
             [ngClass]="{ expanded: expandedCards[item.name] }"
+            
           >
             <!-- Pet Card Content -->
             <div
               class="pet-image-background"
+              [ngClass]="{ unavailable: item.status.toLowerCase() === 'unavailable' }"
               [style.background-image]="'url(' + item.pictures[0] + ')'"
             >
               <!-- Action buttons -->
@@ -60,7 +62,7 @@
                 (click)="confirmDelete($event, item._id)"
               >
                 <img
-                class="action-icon"
+                  class="action-icon"
                   src="/assets/icons/action-icons/delete-trash.svg"
                   alt="Delete Pet"
                 />
@@ -68,10 +70,10 @@
               <button
                 class="petcard-action-button"
                 id="check-button"
-                (click)="confirmDelete($event, item._id)"
+                (click)="confirmAdopted($event, item._id)"
               >
                 <img
-                class="action-icon"
+                  class="action-icon"
                   src="/assets/icons/action-icons/check.svg"
                   alt="Mark Pet as Adopted"
                 />

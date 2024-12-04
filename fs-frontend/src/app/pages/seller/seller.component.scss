@@ -91,6 +91,11 @@ img {
     }
 }
 
+.unavailable {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
 // Background image for pet card
 .pet-image-background {
     position: absolute;
