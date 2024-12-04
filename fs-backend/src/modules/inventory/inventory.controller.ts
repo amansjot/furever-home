@@ -306,6 +306,47 @@ export class InventoryController {
     }
   };
 
+  updateItemLocation = async (
+    req: express.Request,
+    res: express.Response
+  ): Promise<void> => {
+    try {
+      const result = await this.mongoDBService.connect();
+      if (!result) {
+        res.status(500).send({ error: "Database connection failed" });
+        return;
+      }
+  
+      const itemId = req.params.id;
+      const newLocation = req.body.location;
+  
+      if (!itemId || !newLocation) {
+        res
+          .status(400)
+          .send({ error: "Invalid request. Item ID and location are required." });
+        return;
+      }
+  
+      const updateResult = await this.mongoDBService.updateOne(
+        this.settings.database,
+        this.settings.collection,
+        { _id: new ObjectId(itemId) },
+        { $set: { location: newLocation } } // Explicitly set only the location field
+      );
+  
+      if (updateResult.modifiedCount === 0) {
+        res.status(404).send({ error: "Item not found or location unchanged" });
+        return;
+      }
+  
+      res.status(200).send({ success: true, updatedLocation: newLocation });
+    } catch (error) {
+      console.error("Error updating item location:", error);
+      res.status(500).send({ error: "Internal Server Error" });
+    }
+  };
+  
+
   /* deleteItem(req: express.Request, res: express.Response): Promise<void>
 			@param {express.Request} req: The request object
 			expects the partno of the item to be in the params array of the request object as id
