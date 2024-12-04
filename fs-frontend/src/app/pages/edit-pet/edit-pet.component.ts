@@ -116,12 +116,13 @@ export class EditPetComponent implements OnInit {
           this.loadPet(petId);
         } else {
           console.error('Error: this pet is not yours!');
-          this.router.navigate(['/login']);
+          this.router.navigate(['/seller']);
         }
       },
       error: (err) => {
         this.loading = false;
         console.error('Error loading seller:', err);
+        this.router.navigate(['/login']);
       },
     });
   }

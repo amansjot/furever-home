@@ -65,6 +65,17 @@
                   alt="Delete Pet"
                 />
               </button>
+              <button
+                class="petcard-action-button"
+                id="check-button"
+                (click)="confirmDelete($event, item._id)"
+              >
+                <img
+                class="action-icon"
+                  src="/assets/icons/action-icons/check.svg"
+                  alt="Mark Pet as Adopted"
+                />
+              </button>
 
               <!-- Pet Info Card -->
               <div class="pet-info-card">
