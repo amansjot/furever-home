@@ -252,7 +252,7 @@
         transition: max-height 0.3s ease-in-out;
 
         &.expanded {
-            max-height: 320px;
+            max-height: 1000px;
         }
 
         .checkbox-group {
@@ -514,7 +514,7 @@
 .filter-content-wrapper {
     &.expanded {
         .applied-filters-wrapper {
-            max-height: 300px; // Adjust this value as needed
+            max-height: 1000px; // Adjust this value as needed
             opacity: 1;
         }
     }
