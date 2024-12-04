@@ -22,6 +22,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { async, map, Observable, startWith } from 'rxjs';
 import { ItemService } from '../../services/item.service';
 import { LoginService } from '../../services/login.service';
+import { SellerService } from '../../services/seller.service';
 
 @Component({
   selector: 'app-edit-pet',
@@ -36,7 +37,7 @@ import { LoginService } from '../../services/login.service';
     MatSelectModule,
     MatButtonModule,
     MatAutocompleteModule,
-    RouterLink
+    RouterLink,
   ],
   templateUrl: './edit-pet.component.html',
   styleUrls: ['./edit-pet.component.scss'],
@@ -82,6 +83,7 @@ export class EditPetComponent implements OnInit {
     private route: ActivatedRoute,
     private itemService: ItemService,
     private _loginSvc: LoginService,
+    private sellerService: SellerService,
     private router: Router
   ) {}
 
@@ -107,21 +109,45 @@ export class EditPetComponent implements OnInit {
     };
   }
 
+  checkSeller(petId: string) {
+    this.sellerService.getSellerProfile().subscribe({
+      next: (data) => {
+        if (data.pets && data.pets.includes(petId)) {
+          this.loadPet(petId);
+        } else {
+          console.error('Error: this pet is not yours!');
+          this.router.navigate(['/login']);
+        }
+      },
+      error: (err) => {
+        this.loading = false;
+        console.error('Error loading seller:', err);
+      },
+    });
+  }
+
+  loadPet(petId: string) {
+    // Load the current pet
+    this.itemService.getItemById(petId).then(
+      (pet) => {
+        this.pet = pet;
+        this.loading = false;
+        this.loadPetData(this.pet);
+      },
+      (error) => {
+        this.loading = false;
+        console.error('Error fetching pet details:', error);
+      }
+    );
+  }
+
   ngOnInit(): void {
     const petId = this.route.snapshot.paramMap.get('id');
+
     if (petId) {
-      // Load the current pet
-      this.itemService.getItemById(petId).then(
-        (pet) => {
-          this.pet = pet;
-          this.loading = false;
-          this.loadPetData(this.pet);
-        },
-        (error) => {
-          this.loading = false;
-          console.error('Error fetching pet details:', error);
-        }
-      );
+      this.checkSeller(petId);
+    } else {
+      this.router.navigate(['/login']);
     }
 
     this.animalTypes.sort(); // Alphabetize animal list

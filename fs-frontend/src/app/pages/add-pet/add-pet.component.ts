@@ -17,10 +17,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { async, map, Observable, startWith } from 'rxjs';
 import { ItemService } from '../../services/item.service';
 import { LoginService } from '../../services/login.service';
+import { SellerService } from '../../services/seller.service';
 
 @Component({
   selector: 'app-add-pet',
@@ -74,6 +75,9 @@ export class AddPetComponent implements OnInit {
   public submitted = false;
   public filteredAnimalTypes: Observable<string[]> = new Observable();
 
+  public rootSellerRoute: string = '';
+  seller: any;
+
   constructor(
     private itemService: ItemService,
     private _loginSvc: LoginService,
@@ -103,6 +107,18 @@ export class AddPetComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initForm();
+
+    if (localStorage.getItem("roles")) {
+      const rolesArr = this._loginSvc.getAuthenticatedRoles();
+      if (!rolesArr.includes('seller')) {
+        console.error("Error: not a seller!");
+        this.router.navigate(['/login']);
+      }
+    }
+  }
+
+  private initForm() {
     this.animalTypes.sort(); // Alphabetize animal list
 
     this.petForm = new FormGroup({
