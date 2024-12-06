@@ -110,21 +110,29 @@ export class EditPetComponent implements OnInit {
   }
 
   checkSeller(petId: string) {
-    this.sellerService.getSellerProfile().subscribe({
-      next: (data) => {
-        if (data.pets && data.pets.includes(petId)) {
-          this.loadPet(petId);
-        } else {
-          console.error('Error: this pet is not yours!');
-          this.router.navigate(['/seller']);
-        }
-      },
-      error: (err) => {
+    if (localStorage.getItem('roles')) {
+      const rolesArr = this._loginSvc.getAuthenticatedRoles();
+      if (!rolesArr.includes('admin')) {
+        this.sellerService.getSellerProfile().subscribe({
+          next: (data) => {
+            if (data.pets && data.pets.includes(petId)) {
+              this.loadPet(petId);
+            } else {
+              console.error('Error: this pet is not yours!');
+              this.router.navigate(['/seller']);
+            }
+          },
+          error: (err) => {
+            this.loading = false;
+            console.error('Error loading seller:', err);
+            this.router.navigate(['/login']);
+          },
+        });
+      } else {
+        this.loadPet(petId);
         this.loading = false;
-        console.error('Error loading seller:', err);
-        this.router.navigate(['/login']);
-      },
-    });
+      }
+    }
   }
 
   loadPet(petId: string) {

@@ -32,7 +32,7 @@ export class ItemService {
   // }
 
   // Modified to accept page and filters as parameters
-  public getInventoryItems(page: number, filters: any = {}): Promise<InventoryItemModel[]> {
+  public getInventoryItems(page: number = 0, filters: any = {}): Promise<InventoryItemModel[]> {
     const start = page * this.pageSize;
     const end = start + this.pageSize - 1;
 

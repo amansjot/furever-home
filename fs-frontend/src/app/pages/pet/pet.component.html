@@ -191,7 +191,7 @@
       </div>
     </div>
 
-    <div class="request-contact">
+    <div class="request-contact" *ngIf="!authenticated || isBuyer">
       <div class="button-container">
         <button
           *ngIf="isBuyer"
