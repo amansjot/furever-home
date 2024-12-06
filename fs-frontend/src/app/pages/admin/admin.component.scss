@@ -1,5 +1,35 @@
+// Variables
+$transition-quick: opacity 0.1s ease-out;
+$transition-normal: opacity 0.3s ease-in;
+$navbar-height: 80px;
+
+// Title styles
+.admin-title {
+    user-select: none;
+    text-align: start;
+    font-size: 2.5rem;
+    color: #252525;
+    font-family: 'Outfit', "Helvetica Neue", sans-serif;
+    font-weight: 700;
+    margin-top: $navbar-height;
+    margin-bottom: 10px;
+    margin-left: 25px;
+}
+
+// Main containers
+.admin-container {
+    background-color: #e6e6e6;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    width: calc(100% - 70px);
+    padding: 25px;
+    min-height: 80vh;
+    margin: 0 25px 25px 25px;
+}
+
 .loading-container {
-    position: fixed; /* Overlay the entire screen */
+    position: fixed;
+    /* Overlay the entire screen */
     top: 75px;
     left: 0;
     width: 100%;
@@ -7,17 +37,40 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.8); /* Optional: Semi-transparent background */
-    z-index: 9999; /* Ensure it appears above everything else */
+    background-color: rgba(255, 255, 255, 0.8);
+    /* Optional: Semi-transparent background */
+    z-index: 9999;
+    /* Ensure it appears above everything else */
     opacity: 1;
     background-color: white;
     transition: opacity 0.1s ease-out;
-  }
-  
-  .loading-container.hidden {
+}
+
+.loading-container.hidden {
     opacity: 0;
-    pointer-events: none; /* Prevent interactions with hidden loading screen */
-  }
+    pointer-events: none;
+    /* Prevent interactions with hidden loading screen */
+}
+
+// Angular Material overrides
+::ng-deep {
+    .content[_ngcontent-ng-c878565217] {
+        padding: 0;
+        margin: 0;
+        margin-bottom: 0 !important;
+    }
+
+    .mat-mdc-card {
+        &.mdc-card.content-card.mat-elevation-z4 {
+            background-color: transparent;
+            box-shadow: none;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+    }
+}
 
 .loading-gif {
     margin-top: -75px;
@@ -25,15 +78,82 @@
     height: auto;
 }
 
+// Content containers
 .main-content {
     opacity: 0;
-    transition: opacity 0.3s ease-in;
-}
+    transition: $transition-normal;
 
-.main-content.visible {
-    opacity: 1;
+    &.visible {
+        opacity: 1;
+    }
 }
 
 ::ng-deep .mat-mdc-card {
     margin-top: 75px;
 }
+
+// Tab styles
+::ng-deep .mat-tab-group {
+    margin-top: 20px;
+}
+
+::ng-deep .mat-tab-label {
+    font-size: 1.2rem;
+    font-family: 'Outfit', "Helvetica Neue", sans-serif;
+    font-weight: 600;
+    color: #252525;
+}
+
+::ng-deep .mat-tab-label-active {
+    color: #007BFF; // Active tab color
+}
+
+.tab-content {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px;
+}
+
+// Pet table styles
+.pet-table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 20px;
+
+    table {
+        width: 100%;
+        border-spacing: 0;
+
+        th,
+        td {
+            padding: 16px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+        }
+
+        td {
+            border-bottom: 1px solid #e0e0e0;
+        }
+    }
+
+    .mat-button {
+        margin: 0 5px;
+    }
+}
+
+.search-container {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 16px;
+  }
+  
+  .search-bar {
+    width: 300px;
+  }
+  

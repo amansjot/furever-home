@@ -12,7 +12,6 @@ import {
 } from '@angular/router';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { SellerModel } from '../../models/seller.model';
 import { LoginService } from '../../services/login.service';
 
 @Component({
@@ -27,7 +26,6 @@ export class SellerComponent implements OnInit {
   public loading: boolean = true;
   public disableLogin: boolean = false;
   public authenticated: boolean = false;
-  public isBuyer: boolean = false;
   public isButtonVisible = window.innerWidth < 1024;
   public isGridView: boolean = false;
   public itemStatuses: { [key: string]: string } = {}; // Tracks statuses for items by ID
