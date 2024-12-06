@@ -119,22 +119,37 @@ $navbar-height: 80px;
 // Pet table styles
 .pet-table-container {
     width: 100%;
-    overflow-x: auto;
     margin-top: 20px;
 
-    table {
+    .table-wrapper {
         width: 100%;
+        overflow-x: auto;
+        /* Enable horizontal scrolling */
+        overflow-y: hidden;
+        /* Optional: Hide vertical scrolling if not needed */
+    }
+
+    mat-table {
+        min-width: 800px;
+        /* Ensure the table has a minimum width for horizontal scrolling */
+        width: 100%;
+        /* Make the table take the full width of the container */
         border-spacing: 0;
 
         th,
         td {
             padding: 16px;
             text-align: left;
+            word-wrap: break-word;
         }
 
         th {
             background-color: #f5f5f5;
             font-weight: bold;
+            position: sticky;
+            top: 0;
+            /* Sticky headers */
+            z-index: 1;
         }
 
         td {
@@ -145,15 +160,89 @@ $navbar-height: 80px;
     .mat-button {
         margin: 0 5px;
     }
+
+    .actions-cell {
+        text-align: center;
+        /* Center content in the cell */
+        width: 300px;
+        /* Explicitly set a larger width for the Actions column */
+    }
+
+    .button-group {
+        display: flex;
+        justify-content: space-between;
+        /* Spread buttons evenly */
+        gap: 10px;
+        /* Add spacing between buttons */
+    }
+
+    .button-group button {
+        flex: 1;
+        /* Ensure buttons adjust to available space */
+        min-width: 80px;
+        /* Minimum width for buttons */
+        padding: 8px 16px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        border-radius: 5px;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .button-group button:hover {
+        transform: scale(1.05);
+    }
+
+    .button-group button[color="warn"] {
+        background-color: #f44336;
+        color: white;
+    }
+
+    .button-group button[color="warn"]:hover {
+        background-color: #d32f2f;
+    }
+
+    .button-group button[color="accent"] {
+        background-color: #ff9800;
+        color: white;
+    }
+
+    .button-group button[color="accent"]:hover {
+        background-color: #f57c00;
+    }
+
+    .button-group button[color="primary"] {
+        background-color: #3f51b5;
+        color: white;
+    }
+
+    .button-group button[color="primary"]:hover {
+        background-color: #303f9f;
+    }
 }
 
 .search-container {
     display: flex;
     justify-content: flex-start;
     margin-bottom: 16px;
-  }
-  
-  .search-bar {
+}
+
+.search-bar {
     width: 300px;
-  }
-  
+}
+
+.roles-chips {
+    display: flex;
+    justify-content: center;
+    /* Center-align the chips */
+    gap: 8px;
+    /* Adds space between each chip */
+    flex-wrap: wrap;
+    /* Wrap to a new line if necessary */
+}
+
+.mat-chip-list {
+    display: flex;
+    gap: 8px;
+}

@@ -10,6 +10,9 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { ProfileService } from '../../services/profile.service';
+import { UserModel } from '../../models/users.model';
+import { MatChipsModule } from '@angular/material/chips';
 
 @Component({
   selector: 'app-admin',
@@ -20,16 +23,16 @@ import { MatInputModule } from '@angular/material/input';
     MatTableModule,
     RouterModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatChipsModule
   ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss',
 })
 export class AdminComponent implements OnInit {
-  // public pets: InventoryItemModel[] = [];
   public loading: boolean = true;
-  public isSeller: boolean = false;
-  public displayedColumns: string[] = [
+
+  public petsColumns: string[] = [
     'name',
     'status',
     'animal',
@@ -41,20 +44,53 @@ export class AdminComponent implements OnInit {
   ];
   public pets = new MatTableDataSource<InventoryItemModel>([]);
 
+  public userColumns: string[] = [
+    'name',
+    'location',
+    'username',
+    'roles'
+  ];
+  public users = new MatTableDataSource<UserModel>([]);
+
   constructor(
     private _loginSvc: LoginService,
     private itemSvc: ItemService,
+    private profileSvc: ProfileService,
     private router: Router,
     private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.loadPets();
+    this.loadUsers();
 
     this.pets.filterPredicate = (data: InventoryItemModel, filter: string) => {
-      const dataStr = JSON.stringify(data).toLowerCase();
+      const { pictures, ...filteredData } = data;
+      const dataStr = JSON.stringify(filteredData).toLowerCase();
       return dataStr.includes(filter);
     };
+
+    this.users.filterPredicate = (data: UserModel, filter: string) => {
+      const { password, ...filteredData } = data;
+      const dataStr = JSON.stringify(filteredData).toLowerCase();
+      return dataStr.includes(filter);
+    };
+  }
+  
+  async loadUsers(): Promise<void> {
+    try {
+      this.users.data = await this.profileSvc.getAllUsers();
+      this.users.data.forEach(user => {
+        if (user.roles) {
+          user.roles = user.roles.sort((a: string, b: string) => a.localeCompare(b));
+        }
+      });
+      this.loading = false;
+    } catch (err) {
+      console.error('Error in loadData:', err);
+      this.loading = false;
+      throw err;
+    }
   }
 
   async loadPets(): Promise<void> {
@@ -68,9 +104,14 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  applyFilter(event: Event): void {
+  applyFilterPets(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.pets.filter = filterValue.trim().toLowerCase();
+  }
+  
+  applyFilterUsers(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.users.filter = filterValue.trim().toLowerCase();
   }
 
   confirmDelete(itemId: string): void {

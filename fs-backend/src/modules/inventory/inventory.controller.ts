@@ -114,6 +114,7 @@ export class InventoryController {
       res.status(500).send({ error: error });
     }
   };
+  
   /* getItem(req: express.Request, res: express.Response): Promise<void>
 		@param {express.Request} req: The request object
 			expects the partnumber of the item to be in the params array of the request object as id

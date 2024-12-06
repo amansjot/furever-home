@@ -7,7 +7,12 @@ export class UserRouter {
   private controller: UserController = new UserController();
 
   public getRouter(): express.Router {
-    // this.router.get("/:id", this.controller.getUser);
+    this.router.get(
+      "/",
+      SecurityMiddleware.validateUser,
+      SecurityMiddleware.hasRole("admin"),
+      this.controller.getAllUsers
+    );
     this.router.get(
       "/me",
       SecurityMiddleware.validateUser,
@@ -19,13 +24,11 @@ export class UserRouter {
       this.controller.postAddUser
     );
     this.router.put(
-        "/:id",
-        SecurityMiddleware.validateUser,
-        this.controller.updateUser
-      );
+      "/:id",
+      SecurityMiddleware.validateUser,
+      this.controller.updateUser
+    );
 
     return this.router;
-  };
-
-
+  }
 }

@@ -10,8 +10,75 @@
       <mat-tab label="Manage Users">
         <div class="tab-content">
           <h3>Manage Users</h3>
-          <!-- Add your Manage Users content here -->
-          <p>Content for managing users goes here.</p>
+          <div class="pet-table-container">
+            <div class="search-container">
+              <mat-form-field appearance="fill" class="search-bar">
+                <mat-label>Search Users</mat-label>
+                <input
+                  matInput
+                  (input)="applyFilterUsers($event)"
+                  placeholder="Type to search"
+                />
+              </mat-form-field>
+            </div>
+            <div class="table-wrapper">
+              <mat-table [dataSource]="users" class="mat-elevation-z8" matSort>
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                  <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                  <mat-cell *matCellDef="let user">
+                    {{ user.firstName + " " + user.lastName }}
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Location Column -->
+                <ng-container matColumnDef="location">
+                  <mat-header-cell *matHeaderCellDef>
+                    Location
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let user">
+                    {{ user.location | titlecase }}
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Username Column -->
+                <ng-container matColumnDef="username">
+                  <mat-header-cell *matHeaderCellDef>
+                    Username
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let user">
+                    {{ user.username }}
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Roles Column -->
+                <ng-container matColumnDef="roles">
+                  <mat-header-cell *matHeaderCellDef> Roles </mat-header-cell>
+                  <mat-cell *matCellDef="let user">
+                    <div class="roles-chips">
+                      <div class="mat-chip-list">
+                        <mat-chip
+                          class="chip"
+                          *ngFor="let role of user.roles"
+                          color="primary"
+                          selected
+                          >{{ role }}</mat-chip
+                        >
+                      </div>
+                    </div>
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Header and Row Definitions -->
+                <mat-header-row *matHeaderRowDef="userColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: userColumns"></mat-row>
+              </mat-table>
+            </div>
+
+            <div *ngIf="!users || !users.data || users.data.length === 0">
+              <p>No users available</p>
+            </div>
+          </div>
         </div>
       </mat-tab>
 
@@ -25,80 +92,107 @@
                 <mat-label>Search Pets</mat-label>
                 <input
                   matInput
-                  (input)="applyFilter($event)"
+                  (input)="applyFilterPets($event)"
                   placeholder="Type to search"
                 />
               </mat-form-field>
             </div>
+            <div class="table-wrapper">
+              <mat-table [dataSource]="pets" class="mat-elevation-z8" matSort>
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                  <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                  <mat-cell *matCellDef="let pet"> {{ pet.name }} </mat-cell>
+                </ng-container>
 
-            <mat-table [dataSource]="pets" class="mat-elevation-z8">
-              <!-- Name Column -->
-              <ng-container matColumnDef="name">
-                <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-                <mat-cell *matCellDef="let pet"> {{ pet.name }} </mat-cell>
-              </ng-container>
-            
-              <!-- Status Column -->
-              <ng-container matColumnDef="status">
-                <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
-                <mat-cell *matCellDef="let pet"> {{ pet.status }} </mat-cell>
-              </ng-container>
-            
-              <!-- Animal Column -->
-              <ng-container matColumnDef="animal">
-                <mat-header-cell *matHeaderCellDef> Animal </mat-header-cell>
-                <mat-cell *matCellDef="let pet"> {{ pet.animal }} </mat-cell>
-              </ng-container>
-            
-              <!-- Breed Column -->
-              <ng-container matColumnDef="breed">
-                <mat-header-cell *matHeaderCellDef> Breed </mat-header-cell>
-                <mat-cell *matCellDef="let pet"> {{ pet.breed }} </mat-cell>
-              </ng-container>
-            
-              <!-- Birthdate Column -->
-              <ng-container matColumnDef="birthdate">
-                <mat-header-cell *matHeaderCellDef> Birthdate </mat-header-cell>
-                <mat-cell *matCellDef="let pet"> {{ pet.birthdate }} </mat-cell>
-              </ng-container>
-            
-              <!-- Price Column -->
-              <ng-container matColumnDef="price">
-                <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
-                <mat-cell *matCellDef="let pet"> {{ pet.price }} </mat-cell>
-              </ng-container>
-            
-              <!-- Location Column -->
-              <ng-container matColumnDef="location">
-                <mat-header-cell *matHeaderCellDef> Location </mat-header-cell>
-                <mat-cell *matCellDef="let pet"> {{ pet.location }} </mat-cell>
-              </ng-container>
-            
-              <!-- Actions Column -->
-              <ng-container matColumnDef="actions">
-                <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
-                <mat-cell *matCellDef="let pet">
-                  <button mat-button color="primary" [routerLink]="['/pet', pet._id]">
-                    View Details
-                  </button>
-                  <button mat-button color="accent" [routerLink]="['/pet/edit', pet._id]">
-                    Edit
-                  </button>
-                  <button
-                    mat-button
-                    color="warn"
-                    (click)="confirmDelete(pet._id)"
-                  >
-                    Delete
-                  </button>
-                </mat-cell>
-              </ng-container>
-            
-              <!-- Header and Row Definitions -->
-              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-            </mat-table>
-            
+                <!-- Status Column -->
+                <ng-container matColumnDef="status">
+                  <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+                  <mat-cell *matCellDef="let pet">
+                    {{ pet.status | titlecase }}
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Animal Column -->
+                <ng-container matColumnDef="animal">
+                  <mat-header-cell *matHeaderCellDef> Animal </mat-header-cell>
+                  <mat-cell *matCellDef="let pet">
+                    {{ pet.animal | titlecase }}
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Breed Column -->
+                <ng-container matColumnDef="breed">
+                  <mat-header-cell *matHeaderCellDef> Breed </mat-header-cell>
+                  <mat-cell *matCellDef="let pet">
+                    {{ pet.breed | titlecase }}
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Birthdate Column -->
+                <ng-container matColumnDef="birthdate">
+                  <mat-header-cell *matHeaderCellDef>
+                    Birthdate
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let pet">
+                    {{ pet.birthdate | date }}
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Price Column -->
+                <ng-container matColumnDef="price">
+                  <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
+                  <mat-cell *matCellDef="let pet">
+                    {{ pet.price | currency }}
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Location Column -->
+                <ng-container matColumnDef="location">
+                  <mat-header-cell *matHeaderCellDef>
+                    Location
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let pet">
+                    {{ pet.location }}
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                  <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+                  <mat-cell *matCellDef="let pet" class="actions-cell">
+                    <div class="button-group">
+                      <button
+                        mat-button
+                        color="primary"
+                        [routerLink]="['/pet', pet._id]"
+                      >
+                        Pet Page
+                      </button>
+                      <button
+                        mat-button
+                        color="accent"
+                        [routerLink]="['/pet/edit', pet._id]"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        mat-button
+                        color="warn"
+                        (click)="confirmDelete(pet._id)"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Header and Row Definitions -->
+                <mat-header-row *matHeaderRowDef="petsColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: petsColumns"></mat-row>
+              </mat-table>
+            </div>
+
             <div *ngIf="!pets || !pets.data || pets.data.length === 0">
               <p>No pets available</p>
             </div>
