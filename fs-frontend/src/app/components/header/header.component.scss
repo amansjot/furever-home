@@ -21,19 +21,34 @@ div {
 
 // Navbar styles
 .mat-toolbar {
-	background-color: #5cc8a8;
+	background: radial-gradient(ellipse 99% 99% at center, #4ca68b, #2f9d78, #1e8564);
 	position: fixed;
 	top: 0;
 	width: 100%;
 	min-height: 75px;
-	height: auto;
+	height: 75px;
 	border-bottom-left-radius: 25px;
 	border-bottom-right-radius: 25px;
-	transition: top 0.3s ease-in-out;
-	z-index: 1001;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	z-index: 999 !important;
+	display: flex;
+	flex-direction: column;
+	padding-top: 20px;
+	overflow: hidden;
 
 	&.hidden {
 		top: -75px;
+	}
+
+	&.expanded {
+		height: var(--expanded-height, 300px);
+		min-height: 75px;
+		padding-bottom: 20px;
+
+		.mobile-menu-content {
+			opacity: 1;
+			visibility: visible;
+		}
 	}
 }
 
@@ -43,7 +58,16 @@ div {
 	display: flex;
 	align-items: center;
 	z-index: 1002;
-	padding-left: 10px;
+	font-family: "Parkinsans", sans-serif;
+	padding-left: 20px;
+	align-self: flex-start;
+	margin-top: 5px;
+
+	font-family: "Parkinsans", sans-serif;
+	font-size: clamp(1.5rem, 2.5vw, 1.65rem);
+	font-weight: 700;
+	letter-spacing: -1.5px;
+	color: #fff;
 
 	a {
 		text-decoration: none;
@@ -59,7 +83,8 @@ div {
 }
 
 // Button containers
-.login-btn, .desktop-login-btn {
+.login-btn,
+.desktop-login-btn {
 	position: absolute;
 	right: 10px;
 
@@ -82,6 +107,7 @@ div {
 	&:hover {
 		background-color: #3f8a73;
 	}
+
 	z-index: 1002;
 
 	@media (max-width: 768px) {
@@ -93,33 +119,72 @@ div {
 }
 
 // Mobile menu
-.menu-overlay {
-	position: fixed;
-	top: 50px;
-	left: 0;
+.mobile-menu-content {
+	opacity: 0;
+	visibility: hidden;
 	width: 100%;
-	max-height: 0;
-	background-color: #5cc8a8;
-	transition: all .8s cubic-bezier(0.4, 0, 0.2, 1);
-	z-index: 999;
-	padding: 0;
-	box-sizing: border-box;
-	border-bottom-left-radius: 25px;
-	border-bottom-right-radius: 25px;
-	overflow: hidden;
-  
-	@media (min-width: 769px) {
-	  display: none;
-	}
-  
-	&.open {
-	  max-height: 1000px;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	margin-top: 20px;
+	padding: 0 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: relative;
+
+	@media (max-width: 768px) {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 	}
 
 	&.quick-close {
-		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-	  }
-  }
+		transition: all 0.2s ease-in-out;
+		
+		.mobile-login-btn button {
+			transition: all 0.1s ease-in-out;
+			transition-delay: 0s !important;
+			transform: translateX(-100%);
+			opacity: 0;
+		}
+	}
+
+	.mobile-login-btn {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 10px;
+		width: 100%;
+		max-width: 200px;
+		position: relative;
+		padding-bottom: 10px;
+
+		button {
+			opacity: 0;
+			transform: translateX(-100%);
+			transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+			
+			// Stagger animation with both slide and fade
+			@for $i from 1 through 6 {
+				&:nth-child(#{$i}) {
+					transition-delay: #{$i * 0.1}s;
+				}
+			}
+		}
+	}
+}
+
+// Update expanded state
+.mat-toolbar.expanded {
+	.mobile-menu-content {
+		opacity: 1;
+		visibility: visible;
+
+		.mobile-login-btn button {
+			opacity: 1;
+			transform: translateX(0);
+		}
+	}
+}
 
 // Menu content
 .menu-content {
@@ -130,18 +195,24 @@ div {
 	margin-top: 30px;
 	padding: 20px;
 	margin-bottom: 20px;
-  
+
 	.login-btn {
-	  position: relative;
-	  right: auto;
-	  display: grid;
-	  grid-auto-rows: min-content;
+		position: relative;
+		right: auto;
+		display: grid;
+		grid-auto-rows: min-content;
 	}
-  }
+}
+
+button {
+	font-family: "Outfit", sans-serif;
+}
 
 // Responsive styles
 @media (max-width: 768px) {
-	.login-btn, .desktop-login-btn {
+
+	.login-btn,
+	.desktop-login-btn {
 		display: none;
 	}
 
@@ -153,5 +224,147 @@ div {
 		button {
 			@include button-styles;
 		}
+	}
+}
+
+// Update closing animation
+.mat-toolbar.closing {
+	transition: all 0.2s ease-in-out;
+	
+	.mobile-menu-content {
+		.mobile-login-btn button {
+			opacity: 0;
+			transform: translateX(-100%);
+			transition: all 0.2s ease-in-out;
+			transition-delay: 0s !important;
+		}
+	}
+}
+
+.desktop-login-btn {
+	position: absolute;
+	right: 25px;
+	display: flex;
+	gap: 25px;
+	align-items: center;
+
+	// Hide desktop buttons on mobile
+	@media (max-width: 768px) {
+		display: none;
+	}
+
+	button {
+		background: none;
+		border: none;
+		color: white;
+		font-family: "Parkinsans", sans-serif;
+		font-size: 1.1rem;
+		padding: 5px 0;
+		position: relative;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		box-shadow: none;
+		width: auto;
+		
+		&::after {
+			content: '';
+			position: absolute;
+			bottom: 0;
+			left: 50%;
+			transform: translateX(-50%) scale(0);
+			width: 4px;
+			height: 4px;
+			background-color: white;
+			border-radius: 50%;
+			transition: transform 0.3s ease;
+		}
+
+		&:hover, &.active {
+			background: none;
+			transform: translateY(-2px);
+			
+			&::after {
+				transform: translateX(-50%) scale(1);
+			}
+		}
+
+		// Special styling for active state
+		&.active {
+			&::after {
+				transform: translateX(-50%) scale(1);
+				background-color: #ffffff;
+				box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+			}
+		}
+
+		&:active {
+			transform: translateY(0);
+		}
+
+		&[disabled] {
+			opacity: 0.5;
+			pointer-events: none;
+		}
+	}
+}
+
+// Update mobile menu styles to match
+.mobile-menu-content {
+	.mobile-login-btn {
+		button {
+			background: none;
+			border: none;
+			color: white;
+			font-family: "Parkinsans", sans-serif;
+			font-size: 1.1rem;
+			padding: 8px 0 8px 20px;
+			position: relative;
+			width: auto;
+			text-align: left;
+			
+			&::after {
+				content: '';
+				position: absolute;
+				left: 0;
+				top: 50%;
+				transform: translateY(-50%) scale(0);
+				width: 4px;
+				height: 4px;
+				background-color: white;
+				border-radius: 50%;
+				transition: transform 0.3s ease;
+			}
+
+			&:hover {
+				background: none;
+				transform: translateX(5px);
+				
+				&::after {
+					transform: translateY(-50%) scale(1);
+				}
+			}
+
+			// Active state styling
+			&.active {
+				transform: translateX(5px);
+				
+				&::after {
+					transform: translateY(-50%) scale(1);
+					background-color: #ffffff;
+					box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+				}
+			}
+		}
+	}
+}
+
+// Update hamburger button
+.hamburger-btn {
+	background: none;
+	border: none;
+	color: white;
+	
+	&:hover {
+		background: none;
 	}
 }

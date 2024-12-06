@@ -21,9 +21,11 @@ export class InventoryRouter {
         this.router.get("/", [], this.controller.getInventory);
         this.router.get("/count", [], this.controller.getInventoryCount);
 		this.router.get("/:id", [], this.controller.getItem);
-		this.router.post("/", [SecurityMiddleware.validateUser,SecurityMiddleware.hasRole("admin")], this.controller.postAddItem);
-		this.router.put("/:id", [SecurityMiddleware.validateUser,SecurityMiddleware.hasRole("admin")], this.controller.putUpdateItem);
-		this.router.delete("/:id", [SecurityMiddleware.validateUser,SecurityMiddleware.hasRole("admin")], this.controller.deleteItem);
+		this.router.post("/", [SecurityMiddleware.validateUser,SecurityMiddleware.hasRole("seller")], this.controller.postAddItem);
+		this.router.put("/:id", [SecurityMiddleware.validateUser,SecurityMiddleware.hasRole("seller")], this.controller.putUpdateItem);
+		this.router.put("/status/:id", [SecurityMiddleware.validateUser,SecurityMiddleware.hasRole("seller")], this.controller.updateItemStatus);
+		this.router.put("/location/:id", [SecurityMiddleware.validateUser], this.controller.updateItemLocation);
+		this.router.delete("/:id", [SecurityMiddleware.validateUser,SecurityMiddleware.hasRole("seller")], this.controller.deleteItem);
         return this.router;
     }
 }

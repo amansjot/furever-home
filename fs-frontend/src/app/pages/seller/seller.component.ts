@@ -1,9 +1,19 @@
+import { Observable } from 'rxjs';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { SellerService } from '../../services/seller.service';
 import { ItemService } from '../../services/item.service';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { Router, RouterLink, RouterModule } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterModule,
+} from '@angular/router';
+import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { SellerModel } from '../../models/seller.model';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-seller',
@@ -13,18 +23,25 @@ import { Router, RouterLink, RouterModule } from '@angular/router';
   styleUrls: ['./seller.component.scss'],
 })
 export class SellerComponent implements OnInit {
+  public rootSellerRoute: string = '';
+  public loading: boolean = true;
   public disableLogin: boolean = false;
   public authenticated: boolean = false;
   public isBuyer: boolean = false;
   public isButtonVisible = window.innerWidth < 1024;
+  public isGridView: boolean = false;
+  public itemStatuses: { [key: string]: string } = {}; // Tracks statuses for items by ID
 
   seller: any;
   pets: any[] = [];
 
   constructor(
+    private route: ActivatedRoute,
+    private _loginSvc: LoginService,
     private sellerService: SellerService,
     private itemService: ItemService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -34,10 +51,15 @@ export class SellerComponent implements OnInit {
   loadSeller(): void {
     this.sellerService.getSellerProfile().subscribe({
       next: (data) => {
+        this.rootSellerRoute = this.route.snapshot.url.toString();
+        this.loading = false;
         this.seller = data;
         this.loadPets();
       },
-      error: (err) => console.error('Error loading seller:', err),
+      error: (err) => {
+        this.loading = false;
+        console.error('Error loading seller:', err);
+      },
     });
   }
 
@@ -52,8 +74,28 @@ export class SellerComponent implements OnInit {
     }
   }
 
+  toggleGridView(): void {
+    this.isGridView = !this.isGridView;
+    // Reset expanded cards when toggling view
+    this.expandedCards = {};
+  }
+
   // Track the expanded state of each card using the pet's name as the key
   public expandedCards: { [key: string]: boolean } = {};
+
+  getAge(birthdate: Date | null): number {
+    if (!birthdate) {
+      return -1;
+    }
+
+    const now = new Date();
+    const birth = new Date(birthdate);
+
+    const diffInMilliseconds = now.getTime() - birth.getTime();
+    const ageInYears = diffInMilliseconds / (1000 * 60 * 60 * 24 * 365.25);
+
+    return ageInYears;
+  }
 
   formatAge(ageInYears: number): string {
     if (ageInYears < 1) {
@@ -84,12 +126,13 @@ export class SellerComponent implements OnInit {
     }
 
     if (!this.isButtonVisible) {
+      localStorage.setItem('petHistoryStart', 'seller');
       this.router.navigate([`/pet/${petId}`]);
     }
   }
 
   navigateToPetMobile(petId: string): void {
-    console.log('mobile');
+    localStorage.setItem('petHistoryStart', 'seller');
     this.router.navigate([`/pet/${petId}`]);
   }
 
@@ -100,25 +143,99 @@ export class SellerComponent implements OnInit {
     this.isButtonVisible = width < 1024;
   }
 
-
   // Toggle the expanded state of a card
   toggleCard(name: string) {
     this.expandedCards[name] = !this.expandedCards[name];
   }
 
-  addItem(sellerId: string): void {}
-
   editItem(event: MouseEvent, itemId: string): void {
     event.stopPropagation();
+    this.router.navigate(['/pet/edit', itemId]);
   }
 
   confirmDelete(event: MouseEvent, itemId: string): void {
     event.stopPropagation();
 
-    const isConfirmed = confirm('Are you sure you want to remove this pet?');
-    if (isConfirmed) {
-      this.deleteItem(itemId);
+    // Open the confirmation dialog
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        action: 'Remove Pet',
+        message:
+          'Are you sure you want to permanently remove this pet? This cannot be undone.',
+      },
+      width: '400px',
+    });
+
+    // Handle the user's confirmation
+    dialogRef.afterClosed().subscribe((isConfirmed) => {
+      if (isConfirmed) {
+        this.deleteItem(itemId);
+      }
+    });
+  }
+
+  confirmAdopted(
+    event: MouseEvent,
+    itemId: string,
+    alreadyAdopted: boolean
+  ): void {
+    event.stopPropagation();
+
+    if (alreadyAdopted) {
+      this.setAdopted(itemId, alreadyAdopted);
+      return;
     }
+
+    // Open the confirmation dialog
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        action: 'Confirm',
+        message:
+          'Are you sure you want to mark this pet as adopted? This can be undone.',
+      },
+      width: '400px',
+    });
+
+    // Handle the user's confirmation
+    dialogRef.afterClosed().subscribe((isConfirmed) => {
+      if (isConfirmed) {
+        this.setAdopted(itemId, alreadyAdopted);
+      }
+    });
+  }
+
+  async setAdopted(itemId: string, alreadyAdopted: boolean) {
+    let status = '';
+    if (alreadyAdopted) {
+      const sellerType = await this._loginSvc.getAuthenticatedSellerType();
+      switch (sellerType) {
+        case 'shelter':
+          status = 'Sheltered';
+          break;
+        case 'breeder':
+          status = 'Bred';
+          break;
+        case 'rehoming':
+          status = 'Rehoming';
+          break;
+      }
+    } else {
+      status = 'Unavailable';
+    }
+
+    this.itemService.setItemStatus(itemId, status).subscribe({
+      next: () => {
+        this.itemStatuses[itemId] = status.toLowerCase();
+        console.log("Item's adoption status changed!");
+      },
+      error: (err: any) => {
+        console.error("Error changing item's adoption status:", err);
+      },
+    });
+  }
+
+  getItemStatus(item: any): string {
+    return this.itemStatuses[item._id] || item.status.toLowerCase();
   }
 
   deleteItem(itemId: string): void {

@@ -1,0 +1,368 @@
+@mixin no-select-or-drag {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    user-drag: none;
+}
+
+.team-container {
+    padding: 4rem 2rem;
+    
+    .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2.5rem;
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+
+    .team-card {
+        position: relative;
+        border-radius: 24px;
+        padding: 4rem 2rem 2.5rem;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: visible;
+        margin-top: 75px;
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 24px;
+            background: linear-gradient(135deg, transparent 0%, transparent 85%, rgba(255, 255, 255, 0.1) 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        &:hover {
+            transform: translateY(-8px);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.08),
+                0 8px 16px rgba(0, 0, 0, 0.05);
+
+            img {
+                transform: translateY(-12px) translateX(-50%) rotate(-5deg);
+                box-shadow: 
+                    0 20px 40px rgba(0, 0, 0, 0.12),
+                    0 8px 16px rgba(0, 0, 0, 0.06),
+                    0 0 0 8px rgba(205, 205, 205, 0.5);
+            }
+
+            .social-links {
+                opacity: 1;
+                transform: translateY(0);
+
+                a {
+                    transform: translateY(0);
+                }
+            }
+        }
+
+        .pfp-image {
+            border-radius: 50%;
+        }
+
+        img {
+            width: 120px;
+            height: 120px;
+            border: 5px solid white;
+            object-fit: cover;
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 
+                0 12px 24px rgba(0, 0, 0, 0.1),
+                0 4px 8px rgba(0, 0, 0, 0.06);
+            aspect-ratio: 1 / 1;
+        }
+
+        h3 {
+            text-align: center;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            
+            &::after {
+                content: '';
+                display: block;
+                width: 40px;
+                height: 3px;
+                background: currentColor;
+                opacity: 0.1;
+                margin: 0.5rem auto;
+                border-radius: 2px;
+            }
+        }
+
+        .education {
+            font-size: 0.9rem;
+            color: #0039A6;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-align: center;
+            
+            &::before {
+                content: '🎓';
+                margin-right: 5px;
+            }
+        }
+
+        .role {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .bio {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #444;
+            margin-bottom: 1.8rem;
+            padding: 0 0.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.2rem;
+            opacity: 0.8;
+            @include no-select-or-drag;
+
+            a {
+                width: 42px;
+                height: 42px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                transition: all 0.2s ease;
+                overflow: hidden;
+                @include no-select-or-drag;
+
+                img {
+                    @include no-select-or-drag;
+                    width: 20px;
+                    height: 20px;
+                    position: static;
+                    transform: none;
+                    border: none;
+                    box-shadow: none;
+                    transition: all 0.2s ease;
+
+                    &[src*="linkedin"] {
+                        width: 16px;
+                        height: 16px;
+                    }
+                }
+
+                &:hover img {
+                    transform: scale(1.1);
+                }
+            }
+        }
+
+        &.mint {
+            background: linear-gradient(145deg, #E8FEF0 0%, #ffffff 100%);
+            border-top: 2px solid #00ca4d7e;
+            &::after {
+                background: linear-gradient(135deg, 
+                    transparent 0%, 
+                    transparent 85%, 
+                    rgba(0, 202, 78, 0.15) 100%
+                );
+            }
+
+            &.mint:hover img {
+                box-shadow: 
+                    0 20px 40px rgba(0, 0, 0, 0.12),
+                    0 8px 16px rgba(0, 0, 0, 0.06),
+                    0 0 0 8px rgba(0, 202, 78, 0.15);  // Light mint
+            }
+        }
+
+        &.coral {
+            background: linear-gradient(145deg, #FEF0E8 0%, #ffffff 100%);
+            border-top: 2px solid #ff950084;
+            &::after {
+                background: linear-gradient(135deg, 
+                    transparent 0%, 
+                    transparent 85%, 
+                    rgba(255, 149, 0, 0.15) 100%
+                );
+            }
+
+            &.coral:hover img {
+                box-shadow: 
+                    0 20px 40px rgba(0, 0, 0, 0.12),
+                    0 8px 16px rgba(0, 0, 0, 0.06),
+                    0 0 0 8px rgba(255, 149, 0, 0.15);  // Light coral
+            }
+        }
+
+        &.lavender {
+            background: linear-gradient(145deg, #F3E8FE 0%, #ffffff 100%);
+            border-top: 2px solid #9747ff80;
+            &::after {
+                background: linear-gradient(135deg, 
+                    transparent 0%, 
+                    transparent 85%, 
+                    rgba(151, 71, 255, 0.15) 100%
+                );
+            }
+
+            &.lavender:hover img {
+                box-shadow: 
+                    0 20px 40px rgba(0, 0, 0, 0.12),
+                    0 8px 16px rgba(0, 0, 0, 0.06),
+                    0 0 0 8px rgba(151, 71, 255, 0.15);  // Light lavender
+            }
+        }
+
+        &.peach {
+            background: linear-gradient(145deg, #FEE8F3 0%, #ffffff 100%);
+            border-top: 2px solid #ff2d5383;
+            &::after {
+                background: linear-gradient(135deg, 
+                    transparent 0%, 
+                    transparent 85%, 
+                    rgba(255, 45, 85, 0.15) 100%
+                );
+            }
+
+            &.peach:hover img {
+                box-shadow: 
+                    0 20px 40px rgba(0, 0, 0, 0.12),
+                    0 8px 16px rgba(0, 0, 0, 0.06),
+                    0 0 0 8px rgba(255, 45, 85, 0.15);  // Light peach
+            }
+        }
+
+        &.skyblue {
+            background: linear-gradient(145deg, #E8F5FE 0%, #ffffff 100%);
+            border-top: 2px solid #0095ff81;
+            &::after {
+                background: linear-gradient(135deg, 
+                    transparent 0%, 
+                    transparent 85%, 
+                    rgba(0, 149, 255, 0.15) 100%
+                );
+            }
+
+            &.skyblue:hover img {
+                box-shadow: 
+                    0 20px 40px rgba(0, 0, 0, 0.12),
+                    0 8px 16px rgba(0, 0, 0, 0.06),
+                    0 0 0 8px rgba(0, 149, 255, 0.15);  // Light skyblue
+            }
+        }
+
+        &.lilac {
+            background: linear-gradient(145deg, #F3E8FE 0%, #ffffff 100%);
+            border-top: 2px solid #9747ff7c;
+            &::after {
+                background: linear-gradient(135deg, 
+                    transparent 0%, 
+                    transparent 85%, 
+                    rgba(151, 71, 255, 0.15) 100%
+                );
+            }
+
+            &.lilac:hover img {
+                box-shadow: 
+                    0 20px 40px rgba(0, 0, 0, 0.12),
+                    0 8px 16px rgba(0, 0, 0, 0.06),
+                    0 0 0 8px rgba(151, 71, 255, 0.15);  // Light lilac
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .team-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 3rem;
+        padding: 0 0.5rem;
+    }
+}
+
+.team-card:hover {
+    .social-links {
+        opacity: 1;
+        
+        a {
+            &:hover {
+                transform: translateY(-2px);
+            }
+        }
+    }
+}
+
+// Color variants for social buttons
+.team-card {
+    &.mint .social-links a {
+        background: rgba(0, 202, 78, 0.1);
+        &:hover {
+            background: rgba(0, 202, 78, 0.15);
+            transform: translateY(-2px);
+        }
+    }
+
+    &.coral .social-links a {
+        background: rgba(255, 149, 0, 0.1);
+        &:hover {
+            background: rgba(255, 149, 0, 0.15);
+            transform: translateY(-2px);
+        }
+    }
+
+    &.lavender .social-links a {
+        background: rgba(151, 71, 255, 0.1);
+        &:hover {
+            background: rgba(151, 71, 255, 0.15);
+            transform: translateY(-2px);
+        }
+    }
+
+    &.peach .social-links a {
+        background: rgba(255, 45, 85, 0.1);
+        &:hover {
+            background: rgba(255, 45, 85, 0.15);
+            transform: translateY(-2px);
+        }
+    }
+
+    &.skyblue .social-links a {
+        background: rgba(0, 149, 255, 0.1);
+        &:hover {
+            background: rgba(0, 149, 255, 0.15);
+            transform: translateY(-2px);
+        }
+    }
+
+    &.lilac .social-links a {
+        background: rgba(151, 71, 255, 0.1);
+        &:hover {
+            background: rgba(151, 71, 255, 0.15);
+            transform: translateY(-2px);
+        }
+    }
+}

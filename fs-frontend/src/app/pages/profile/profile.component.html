@@ -1,7 +1,11 @@
-<div *ngIf="profile" class="profile-card">
+<div [ngClass]="{ hidden: !loading }" class="loading-container">
+  <img src="/assets/loading.gif" alt="Loading..." class="loading-gif" />
+</div>
+
+<div [ngClass]="{ visible: !loading }" *ngIf="profile" class="profile-card main-content">
   <mat-card>
     <mat-card-header class="header">
-      <mat-card-title>Your Profile</mat-card-title>
+      <mat-card-title id="title">Your Profile</mat-card-title>
     </mat-card-header>
 
     <mat-card-content>
@@ -41,7 +45,7 @@
         <strong>Roles:</strong>
         <div class="profile-field-value roles-chips">
           <div class="mat-chip-list">
-            <mat-chip *ngFor="let role of profile.roles" color="primary" selected>{{ role }}</mat-chip>
+            <mat-chip class="chip" *ngFor="let role of profile.roles" color="primary" selected>{{ role }}</mat-chip>
           </div>
         </div>
         <!-- <button mat-button color="primary" (click)="changeField('roles')">Change</button> -->

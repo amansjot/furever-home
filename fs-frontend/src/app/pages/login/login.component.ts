@@ -39,7 +39,7 @@ export class LoginComponent {
     if (email && password){
     const result=await this._loginSvc.login(email,password);
     if (result){
-      this.router.navigate(["/home"]);
+      this.router.navigate(["/browse"]);
     }
     this.errorMsg="Invalid login";
     this.disableLogin=false;

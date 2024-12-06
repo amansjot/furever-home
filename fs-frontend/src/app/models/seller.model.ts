@@ -18,8 +18,9 @@ export interface SellerModel {
 	sellerType: string; // e.g., "owner"
 	sellerLocation: string;
 	sellerContact: string; // Contact number
-	pets: string[]; // Array of pet IDs
+	pets: Object[]; // Array of pet IDs
 	sellerPhoto: string; // Profile photo URL or filename
+	requests: Object[];
 }
 
 export const emptySeller: SellerModel = {
@@ -29,5 +30,6 @@ export const emptySeller: SellerModel = {
 	sellerLocation: '',
 	sellerContact: '',
 	pets: [],
-	sellerPhoto: ''
+	sellerPhoto: '',
+	requests: []
 };

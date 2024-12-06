@@ -1,0 +1,133 @@
+.why-choose-us-container {
+    background-color: rgba(255, 0, 0, 0);
+    margin-left: 1%;
+    margin-right: 1%;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.features-title {
+    user-select: none;
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: #252525;
+}
+
+.features-card {
+    border-radius: 25px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    background-color: #ededed;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.features-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: #252525;
+    font-family: 'Outfit', "Helvetica Neue", sans-serif;
+    font-weight: 700;
+}
+
+.features-grid {
+    display: grid;
+    gap: 30px;
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    
+    // Default: 4x1 layout for mobile
+    grid-template-columns: 1fr;
+}
+
+// 2x2 layout for medium screens
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+// 1x4 layout for large screens
+@media (min-width: 1200px) {
+    .features-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .landing-third-component-container {
+        height: 450px;
+    }
+}
+
+.feature-card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    transition: transform 0.3s ease;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+
+    &:hover {
+        transform: translateY(-5px);
+    }
+
+    .feature-icon {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+    }
+
+    h3 {
+        font-family: "Parkinsans", sans-serif;
+        font-weight: bold;
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    p {
+        color: #666;
+        line-height: 1.5;
+        margin: 0;
+    }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+    .landing-third-component-container {
+        margin-top: 50px;
+        padding: 0 10px 30px;
+        height: 950px;
+    }
+
+    .features-grid {
+        gap: 20px;
+        padding: 30px 15px;
+    }
+
+    .feature-card {
+        padding: 20px;
+
+        .feature-icon {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 15px;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+    }
+}

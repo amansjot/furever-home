@@ -1,4 +1,12 @@
-<div class="seller-container" *ngIf="seller">
+<div [ngClass]="{ hidden: !loading }" class="loading-container">
+  <img src="/assets/loading.gif" alt="Loading..." class="loading-gif" />
+</div>
+
+<div
+  [ngClass]="{ visible: !loading }"
+  class="seller-container main-content"
+  *ngIf="seller"
+>
   <img
     *ngIf="seller.sellerPhoto"
     [src]="seller.sellerPhoto"
@@ -8,139 +16,137 @@
   <h1 class="seller-org-name">{{ seller.orgName }}</h1>
   <p class="seller-info">Type: {{ seller.sellerType | titlecase }}</p>
   <p class="seller-info">Location: {{ seller.sellerLocation }}</p>
-  <p class="seller-info">Contact: {{ seller.sellerContact }}</p>
+  <p *ngIf="rootSellerRoute == 'seller'" class="seller-info">
+    Contact: {{ seller.sellerContact }}
+  </p>
   <hr class="divider" />
-  <button (click)="addItem(seller._id)" class="add-item-button">
-    Add a Pet
+  <button routerLink="/pet/new" class="add-item-button">
+    <img src="/assets/plus-icon.svg" alt="Add Item" />
+    <span>Add a Pet</span>
   </button>
   <hr class="divider" />
 
-  <!-- <div *ngFor="let pet of pets">
-    <h3>{{ pet.name }}</h3>
-    <p>Species: {{ pet.typeOfPet }}</p>
-    <p>Breed: {{ pet.speciesBreed }}</p>
-    <p>Age: {{ pet.age }}</p>
-    <p>Sex: {{ pet.sex }}</p>
-    <p>Description: {{ pet.description }}</p>
-    <img
-      *ngIf="pet.image && pet.image.length"
-      [src]="pet.image"
-      alt="{{ pet.name }}"
-    />
-
-    <br />
-    <button routerLink="/pet/{{ pet._id }}">View Pet Page</button>
-    <button (click)="editItem(pet._id)">Edit</button>
-    <button (click)="confirmDelete(pet._id)">Delete</button>
-  </div> -->
-  <div class="pet-card-container">
-    <div *ngFor="let item of pets">
-      <div
-        mat-card
-        class="pet-card"
-        (click)="navigateToPetDesktop($event, item._id)"
-        [ngClass]="{ expanded: expandedCards[item.name] }"
-      >
-        <div
-          class="pet-image-background"
-          [style.background-image]="'url(' + item.pictures[0] + ')'"
-        >
-          <!-- Action Buttons -->
-          <button
-            class="petcard-button"
-            id="edit-button"
-            (click)="editItem($event, item._id)"
+  <!-- Pet Cards Grid -->
+  <div class="cards" [ngClass]="{ visible: loading }">
+    <ng-container *ngIf="!loading">
+      <div class="pet-card-container" [ngClass]="{ 'grid-view': isGridView }">
+        <ng-container *ngFor="let item of pets">
+          <div
+            mat-card
+            class="pet-card"
+            (click)="navigateToPetDesktop($event, item._id)"
+            [ngClass]="{
+              expanded: expandedCards[item.name],
+              unavailable: getItemStatus(item) === 'unavailable'
+            }"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="currentColor"
-              class="bi bi-pencil"
-              viewBox="0 0 16 16"
+            <!-- Pet Card Content -->
+            <div
+              class="pet-image-background"
+              [style.background-image]="'url(' + item.pictures[0] + ')'"
             >
-              <path
-                d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"
-              />
-            </svg>
-          </button>
-          <button
-            class="petcard-button"
-            id="delete-button"
-            (click)="confirmDelete($event, item._id)"
-          >
-            <div class="petcard-icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                fill="currentColor"
-                class="bi bi-trash"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"
-                />
-                <path
-                  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"
-                />
-              </svg>
-            </div>
-          </button>
-
-          <div class="pet-info-card">
-            <div class="displayed-info">
-              <div class="info-text">
-                <h2 class="pet-name">{{ item.name }}</h2>
-                <p class="pet-age">
-                  {{ item.sex[0].toUpperCase() + item.sex.slice(1) }},
-                  {{ formatAge(item.age) }} old
-                </p>
-              </div>
+              <!-- Action buttons -->
               <button
-                class="show-hidden-button"
-                (click)="toggleCard(item.name)"
+                class="petcard-action-button"
+                id="edit-button"
+                (click)="editItem($event, item._id)"
               >
-                {{ expandedCards[item.name] ? "Hide Info" : "Show Info" }}
                 <img
-                  class="expand arrow"
-                  [ngClass]="{ rotated: expandedCards[item.name] }"
-                  src="/assets/drop-down-arrow.svg"
-                  alt="expand-arrow"
+                  class="action-icon"
+                  src="/assets/icons/action-icons/edit-pencil.svg"
+                  alt="Edit Pet"
                 />
               </button>
-            </div>
-            <div class="hidden-info-container">
-              <div class="hidden-info">
-                <div class="info-group">
-                  <p class="pet-status-tag">Status:</p>
-                  <p class="pet-status">{{ item.status }}</p>
+              <button
+                class="petcard-action-button"
+                id="delete-button"
+                (click)="confirmDelete($event, item._id)"
+              >
+                <img
+                  class="action-icon"
+                  src="/assets/icons/action-icons/delete-trash.svg"
+                  alt="Delete Pet"
+                />
+              </button>
+              <button
+                class="petcard-action-button"
+                id="check-button"
+                (click)="
+                  confirmAdopted(
+                    $event,
+                    item._id,
+                    getItemStatus(item) === 'unavailable'
+                  )
+                "
+              >
+                <img
+                  class="action-icon"
+                  src="/assets/icons/action-icons/check.svg"
+                  alt="Mark Pet as Adopted"
+                />
+              </button>
+
+              <!-- Pet Info Card -->
+              <div class="pet-info-card">
+                <!-- Displayed Info -->
+                <div class="displayed-info">
+                  <div class="info-text">
+                    <h2 class="pet-name">{{ item.name }}</h2>
+                    <p class="pet-age">
+                      {{ item.sex | titlecase }},
+                      {{ formatAge(getAge(item.birthdate)) }} old
+                    </p>
+                  </div>
+                  <div class="button-group">
+                    <button
+                      class="pet-page-button"
+                      (click)="navigateToPetMobile(item._id)"
+                    >
+                      Pet Page
+                    </button>
+                    <button
+                      class="show-hidden-button"
+                      (click)="toggleCard(item.name)"
+                    >
+                      {{ expandedCards[item.name] ? "Hide Info" : "Show Info" }}
+                      <img
+                        class="expand arrow"
+                        [ngClass]="{ rotated: expandedCards[item.name] }"
+                        src="/assets/icons/action-icons/drop-down-arrow.svg"
+                        alt="expand-arrow"
+                      />
+                    </button>
+                  </div>
                 </div>
-                <div class="info-group">
-                  <p class="pet-breed-tag">Breed:</p>
-                  <p class="pet-breed">{{ item.breed }}</p>
+
+                <!-- Hidden Info -->
+                <div class="hidden-info-container">
+                  <div class="hidden-info">
+                    <div class="info-group">
+                      <p class="pet-status-tag">Status:</p>
+                      <p class="pet-status">{{ item.status }}</p>
+                    </div>
+                    <div class="info-group">
+                      <p class="pet-breed-tag">Breed:</p>
+                      <p class="pet-breed">{{ item.breed }}</p>
+                    </div>
+                    <div class="info-group">
+                      <p class="pet-price-tag">Price:</p>
+                      <p class="pet-price">
+                        {{ item.price | currency : "USD" : "symbol" : "1.0-0" }}
+                      </p>
+                    </div>
+                    <div class="info-group">
+                      <p class="pet-location-tag">Location:</p>
+                      <p class="pet-location">{{ item.location }}</p>
+                    </div>
+                  </div>
                 </div>
-                <div class="info-group">
-                  <p class="pet-price-tag">Price:</p>
-                  <p class="pet-price">
-                    {{ item.price | currency : "USD" : "symbol" : "1.0-0" }}
-                  </p>
-                </div>
-                <div class="info-group">
-                  <p class="pet-location-tag">Location:</p>
-                  <p class="pet-location">{{ item.location }}</p>
-                </div>
-                <button
-                  class="pet-page-button"
-                  (click)="navigateToPetMobile(item._id)"
-                >
-                  Pet Page
-                </button>
               </div>
             </div>
           </div>
-        </div>
+        </ng-container>
       </div>
-    </div>
+    </ng-container>
   </div>
 </div>

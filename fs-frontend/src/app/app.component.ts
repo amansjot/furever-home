@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {  RouterOutlet } from '@angular/router';
+import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { MatCardModule } from '@angular/material/card';
@@ -13,4 +13,14 @@ import { MatCardModule } from '@angular/material/card';
 })
 export class AppComponent {
   title = 'fs-frontend';
+
+  constructor(private router: Router) {
+    // Subscribe to router events
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        // When navigation ends, scroll to top of page
+        window.scrollTo(0, 0);
+      }
+    });
+  }
 }

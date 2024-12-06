@@ -34,8 +34,6 @@ export class BuyerController {
       res.send(buyer);
     } catch (error) {
       res.status(500).send({ error });
-    } finally {
-      this.mongoDBService.close();
     }
   };
 
@@ -70,8 +68,6 @@ export class BuyerController {
       res.send(buyer);
     } catch (error) {
       res.status(500).send({ error });
-    } finally {
-      this.mongoDBService.close();
     }
   };
 
@@ -107,8 +103,6 @@ export class BuyerController {
     } catch (error) {
       console.error("Error fetching favorite IDs:", error);
       res.status(500).send({ error });
-    } finally {
-      this.mongoDBService.close();
     }
   };
 
@@ -163,8 +157,6 @@ export class BuyerController {
     } catch (error) {
       console.error("Error updating favorite IDs:", error);
       res.status(500).send({ error });
-    } finally {
-      this.mongoDBService.close();
     }
   };
 

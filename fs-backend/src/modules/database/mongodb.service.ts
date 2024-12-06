@@ -1,21 +1,51 @@
-import { MongoClient } from "mongodb";
+import { Db, MongoClient, UpdateResult } from "mongodb";
 export { ObjectId } from "mongodb";
 
 export class MongoDBService {
-  client: MongoClient;
+  private client: MongoClient;
+  private isConnected: boolean = false;
+  
   constructor(private connectionString: string) {
     this.client = new MongoClient(this.connectionString);
   }
 
   public async connect(): Promise<boolean> {
+    if (this.isConnected) {
+      // console.log("Already connected to MongoDB");
+      return true; // Avoid reconnecting if already connected
+    }
     try {
-      console.log("Connecting to MongoDB");
+      // console.log("Connecting to MongoDB...");
+      this.isConnected = true;
       await this.client.connect();
       return true;
     } catch (err) {
+      this.isConnected = false;
       console.error("Error connecting to MongoDB:", err);
       return false;
     }
+  }
+
+  public async close(): Promise<void> {
+    if (!this.isConnected) {
+      console.log("No active MongoDB connection to close");
+      return;
+    }
+    try {
+      console.log("Closing MongoDB connection...");
+      await this.client.close();
+      this.isConnected = false;
+      console.log("MongoDB connection closed");
+    } catch (err) {
+      console.error("Error closing MongoDB connection:", err);
+    }
+  }
+
+  public getDatabase(dbName: string): Db {
+    if (!this.isConnected) {
+      throw new Error("MongoClient is not connected. Call connect() first.");
+    }
+    return this.client.db(dbName);
   }
 
   public async insertOne(
@@ -106,16 +136,16 @@ export class MongoDBService {
     collection: string,
     query: any,
     update: any
-  ): Promise<boolean> {
+  ): Promise<UpdateResult> {
     try {
-      await this.client
+      const result = await this.client
         .db(database)
         .collection(collection)
         .updateOne(query, update);
-      return true;
+      return result; // Return the full UpdateResult
     } catch (err) {
       console.error("Error updating document in " + collection + ":", err);
-      return false;
+      throw err; // Throw the error to be handled by the caller
     }
   }
 
@@ -153,11 +183,6 @@ export class MongoDBService {
       console.error("Error deleting document in " + collection + ":", err);
       return false;
     }
-  }
-
-  public async close(): Promise<void> {
-    await this.client.close();
-    console.log("Closed connection to MongoDB");
   }
 
   public async findOneAndUpdate<T>(
