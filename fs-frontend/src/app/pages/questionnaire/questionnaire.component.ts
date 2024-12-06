@@ -18,6 +18,7 @@ import {
   atLeastOneSelected,
   validZipCode,
 } from './special-validators';
+import { BuyerService } from '../../services/buyer.service';
 
 @Component({
   selector: 'app-questionnaire',
@@ -66,7 +67,7 @@ export class QuestionnaireComponent implements OnInit {
   ];
   animalLifestyles = ['Good with Families', 'Ideal for Singles or Couples', 'Low Maintenance', 'Outdoors-Friendly', 'Better Suited for Indoors', 'House Pet', 'Apartment Pet', 'Good with Other Pets', 'Allergy-Friendly', 'Therapeutic', 'Travel-Friendly'];
 
-  constructor(private _router: Router) {}
+  constructor(private _router: Router, private buyerService: BuyerService) {}
 
   ngOnInit(): void { }
   
@@ -86,16 +87,22 @@ export class QuestionnaireComponent implements OnInit {
 
     const preferences = this.questionnaireForm.value;
 
-    console.log('Submitted Preferences:', preferences);
-
+    // Call the BuyerService to update preferences
+    this.buyerService.updatePreferences(preferences).subscribe({
+      next: () => {
+        console.log('Preferences updated successfully!');
+      },
+      error: (err) => {
+        console.error('Error updating preferences', err);
+      },
+    });
+    
     this.isLoading = true;
     
     setTimeout(() => {
       this.isLoading = false; 
     }, 2000);
 
-    // Perform submission logic here, e.g., send data to the server
-    // Navigate or display confirmation
     this._router.navigate(['/home']);
     this.disableSubmit = false;
   }

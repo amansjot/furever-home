@@ -167,4 +167,51 @@ export class BuyerController {
       this.mongoDBService.close();
     }
   };
+
+
+  // Method to update the buyer's preferences
+  updatePreferences = async (
+    req: express.Request,
+    res: express.Response
+  ): Promise<void> => {
+    try {
+      const result = await this.mongoDBService.connect();
+      if (!result) {
+        res.status(500).send({ error: "Database connection failed" });
+        return;
+      }
+
+      const userId = req.body.user._id; // Retrieved from middleware
+      if (!userId) {
+        res.status(400).send({ error: "User ID not found in request" });
+        return;
+      }
+
+      // Extract the preferences object from the request body
+      const preferences = req.body.preferences;
+      if (!preferences || typeof preferences !== "object") {
+        res.status(400).send({ error: "Invalid preferences format. Must be an object." });
+        return;
+      }
+
+      // Update the buyer's `preferences` field in the database
+      const updateResult = await this.mongoDBService.updateOne(
+        "pet-adoption",
+        "buyers",
+        { user: new ObjectId(userId) },
+        { $set: { preferences } }
+      );
+
+      if (updateResult) {
+        res.send({ success: true, message: "Preferences updated successfully." });
+      } else {
+        res.status(500).send({ error: "Failed to update preferences." });
+      }
+    } catch (error) {
+      console.error("Error updating preferences:", error);
+      res.status(500).send({ error });
+    } finally {
+      this.mongoDBService.close();
+    }
+  };
 }

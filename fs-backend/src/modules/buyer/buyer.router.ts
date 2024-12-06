@@ -29,6 +29,13 @@ export class BuyerRouter {
       this.controller.updateFavoriteIds
     );
 
+    this.router.put(
+      "/preferences", 
+      SecurityMiddleware.validateUser,
+      SecurityMiddleware.hasRole("buyer"),
+      this.controller.updatePreferences 
+    );
+
     return this.router;
   }
 }
