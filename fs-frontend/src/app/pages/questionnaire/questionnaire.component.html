@@ -1,0 +1,111 @@
+<div class="questionnaire-container">
+  <div class="questionnaire-header">
+    <h2>Pet Preferences Questionnaire</h2>
+    <button 
+      class="skip-btn"
+      type="button"
+      mat-raised-button
+      color="warn"
+      (click)="skipQuestionnaire()">
+      Skip
+    </button>
+  </div>
+
+  <form [formGroup]="questionnaireForm" (ngSubmit)="onSubmit()">
+    <!-- Animal Type -->
+    <mat-form-field appearance="fill">
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="petType">
+        <mat-option *ngFor="let type of animalTypes" [value]="type">{{ type }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="questionnaireForm.get('petType')?.hasError('required')">
+        Pet Type is required
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Animal Size -->
+    <mat-form-field appearance="fill">
+      <mat-label>Size</mat-label>
+      <mat-select formControlName="petSize">
+        <mat-option value="Small">Small</mat-option>
+        <mat-option value="Medium">Medium</mat-option>
+        <mat-option value="Big">Big</mat-option>
+      </mat-select>
+      <mat-error *ngIf="questionnaireForm.get('petSize')?.hasError('required')">
+        Ideal Size is required
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Animal Sex -->
+    <mat-form-field appearance="fill">
+      <mat-label>Sex</mat-label>
+      <mat-select formControlName="petSex">
+        <mat-option value="Male">Male</mat-option>
+        <mat-option value="Female">Female</mat-option>
+      </mat-select>
+      <mat-error *ngIf="questionnaireForm.get('petSex')?.hasError('required')">
+        Pet Sex is required
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Animal Age -->
+    <mat-form-field appearance="fill">
+      <mat-label>Age</mat-label>
+      <mat-select formControlName="petAge">
+        <mat-option value="Very Young">Very Young</mat-option>
+        <mat-option value="Young">Young</mat-option>
+        <mat-option value="Adult">Adult</mat-option>
+        <mat-option value="Senior">Senior</mat-option>
+      </mat-select>
+      <mat-error *ngIf="questionnaireForm.get('petAge')?.hasError('required')">
+        Ideal Age is required
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Animal Lifestyle -->
+    <mat-form-field appearance="fill">
+      <mat-label>Lifestyle</mat-label>
+      <mat-select formControlName="petLifestyle" multiple>
+        <mat-option *ngFor="let lifestyle of animalLifestyles" [value]="lifestyle">{{ lifestyle }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="questionnaireForm.get('petLifestyle')?.hasError('required')">
+        At least one lifestyle must be selected
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Animal Personality -->
+    <mat-form-field appearance="fill">
+      <mat-label>Personality</mat-label>
+      <mat-select formControlName="petPersonality" multiple>
+        <mat-option *ngFor="let personality of animalPersonalities" [value]="personality">
+          {{ personality }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="questionnaireForm.get('petPersonality')?.hasError('required')">
+        At least one personality must be selected
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Animal Location -->
+    <mat-form-field appearance="fill">
+      <mat-label>Preferred Location</mat-label>
+      <input matInput formControlName="petLocation" placeholder="ZIP" />
+      <mat-error *ngIf="questionnaireForm.get('petLocation')?.hasError('required')">
+        Location is required
+      </mat-error>
+      <mat-error *ngIf="questionnaireForm.get('petLocation')?.hasError('invalidZipCode')">
+        Enter a valid 5-digit ZIP code
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Submit Button -->
+    <button 
+      type="submit" 
+      mat-raised-button 
+      color="primary" 
+      [disabled]="!questionnaireForm.valid || isLoading"
+      [class.loading]="isLoading">
+      Submit
+    </button>
+  </form>
+</div>

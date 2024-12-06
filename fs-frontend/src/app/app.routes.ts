@@ -15,5 +15,6 @@ export const routes: Routes = [
   { path: 'pet/edit/:id', loadComponent: () => import('./pages/edit-pet/edit-pet.component').then(m => m.EditPetComponent), canActivate: [SellerGuardService] },
   { path: 'pet/:id', loadComponent: () => import('./pages/pet/pet.component').then(m => m.PetComponent) },
   { path: 'profile', loadComponent: () => import('./pages/profile/profile.component').then(m => m.ProfileComponent), canActivate: [AuthGuardService] },
+  { path: 'questionnaire', loadComponent: () => import('./pages/questionnaire/questionnaire.component').then((m) => m.QuestionnaireComponent), canActivate: [AuthGuardService] },
   { path: '**', redirectTo: '' } // if route is not found, redirect to landing page
 ];

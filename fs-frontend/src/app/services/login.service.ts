@@ -91,6 +91,30 @@ export class LoginService {
       );
   }
 
+  /* Forgot Password Functionality */
+  public forgotPassword(email: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.httpClient
+        .post<TokenResponseObject>(`${Config.apiBaseUrl}/security/forgot-password`, { email })
+        .subscribe({
+          next: async (response) => {
+            if (response.token && response.token.length > 0) {
+              this.token = response.token;
+              resolve(true);
+            } else {
+              this.token = '';
+              resolve(false);
+            }
+          },
+          error: (error) => {
+            this.token = '';
+            console.error(error);
+            reject(error);
+          },
+        });
+    });
+  }
+
   public getAuthenticatedUserId(): string | null {
     if (!this.token) {
       return null;
@@ -241,7 +265,14 @@ export class LoginService {
               this.token = response.token;
               this.loggedIn.next(true);
               this.fetchRoles(); // Fetch roles on registration
-              this._router.navigate(['/browse']);
+              
+              // Conditional redirection based on role
+              if (data.role === 'buyer') {
+                this._router.navigate(['/questionnaire']); // Redirect buyers to the questionnaire page
+              } else if (data.role === 'seller') {
+                this._router.navigate(['/browse']); // Redirect sellers to the home page
+              }
+                            
               resolve(true);
             } else {
               this.token = '';
