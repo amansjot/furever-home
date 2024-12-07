@@ -8,30 +8,34 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class SellerService {
+  // Placeholder for the updatePetLocations method
   updatePetLocations() {
     throw new Error('Method not implemented.');
   }
+
   constructor(private httpClient: HttpClient) {}
 
-  // Method to fetch the authenticated seller's profile
-  public getSellerProfile() {
+  /* Fetch the authenticated seller's profile */
+  public getSellerProfile(): Observable<SellerModel> {
     return this.httpClient.get<SellerModel>(`${Config.apiBaseUrl}/seller/me`);
   }
 
-  public getSellerById(id: string) {
+  /* Fetch seller details by their unique ID */
+  public getSellerById(id: string): Observable<SellerModel> {
     return this.httpClient.get<SellerModel>(
       `${Config.apiBaseUrl}/seller/${id}`
     );
   }
 
-  public getSellerByPetId(petId: string) {
+  /* Fetch seller details by a pet's unique ID */
+  public getSellerByPetId(petId: string): Observable<SellerModel> {
     return this.httpClient.get<SellerModel>(`${Config.apiBaseUrl}/seller/ofpet/${petId}`);
   }
 
-  public addRequestToSeller(sellerId: string, userId: string, petId: string): Observable<any> {
+  /* Add a user request to a seller's list of requests */
+  public addRequestToSeller(sellerId: string, userId: string): Observable<any> {
     return this.httpClient.patch(`${Config.apiBaseUrl}/seller/${sellerId}/requests`, {
       userId,
-      petId,
     });
   }
 }
