@@ -2,11 +2,13 @@
    Card Styles
    =================================== */
 ::ng-deep .mat-mdc-card {
-  margin-top: 55px;
   background-color: #f4f3f600;
   border-radius: 20px;
   border-bottom-color: #efefef00;
   box-shadow: 0px 0px 0px rgba(255, 255, 255, 0);
+  width: 100% !important;
+  margin-top: 20px;
+  box-sizing: border-box;
 }
 
 ::ng-deep .mat-mdc-card-content {
@@ -21,6 +23,31 @@
   margin-top: -25px;
   background-color: #f7f7f7;
   box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.356);
+  max-width: 600px;
+  width: 95% !important;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  
+  @media (max-width: 992px) {
+    width: 95% !important;
+  }
+
+  @media (max-width: 768px) {
+    width: 92% !important;
+  }
+
+  @media (max-width: 576px) {
+    width: 90% !important;
+  }
+
+  @media (max-width: 475px) {
+    width: 88% !important;
+  }
+
+  @media (max-width: 375px) {
+    width: 85% !important;
+  }
 }
 
 .create-title {
@@ -53,12 +80,20 @@
 ::ng-deep .mat-mdc-tab-body:first-of-type .mat-mdc-tab-body-content {
   border-top-right-radius: 20px;
   border-top-left-radius: 0px;
+
+  @media (max-width: 469px) {
+    border-top-left-radius: 20px;
+  }
 }
 
 /* Second tab selected (Breeder/Rescue) */
 ::ng-deep .mat-mdc-tab-body:last-of-type .mat-mdc-tab-body-content {
   border-top-left-radius: 20px;
   border-top-right-radius: 0px;
+
+  @media (max-width: 469px) {
+    border-top-right-radius: 20px;
+  }
 }
 
 ::ng-deep .mat-mdc-tab-header {
@@ -121,7 +156,9 @@
 :host {
   display: flex;
   justify-content: center;
-  margin: 100px 0px;
+  margin: 50px 0px;
+  width: 100% !important;
+  max-width: 100vw;
 }
 
 /* ===================================
@@ -129,6 +166,24 @@
    =================================== */
 mat-card {
   max-width: 600px;
+  width: 95%;
+  margin: 0 auto;
+
+  @media (max-width: 768px) {
+    width: 95%;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 475px) {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 375px) {
+    width: 85%;
+    padding: 10px;
+    margin: 0 auto;
+  }
 
   mat-card-title,
   mat-card-content {
@@ -218,7 +273,7 @@ mat-card {
 .signin-container {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+
 }
 
 .signin-text {
@@ -416,4 +471,162 @@ mat-card {
 * {
   font-family: "Outfit", sans-serif !important;
   --mat-tab-header-label-text-font: 'Outfit', sans-serif;
+}
+
+/* Adjust form fields for smaller screens */
+.name-row, .location-row {
+  @media (max-width: 475px) {
+    flex-direction: column;
+    gap: 10px;
+    
+    .name-field, .location-field, .state-field {
+      width: 100% !important;
+      min-width: 100% !important;
+    }
+  }
+}
+
+.register-wrapper {
+  height: 100%;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  overflow-y: auto;
+
+  @media (max-width: 600px) {
+    padding: 40px 15px;
+  }
+
+  @media (max-width: 450px) {
+    padding: 30px 10px;
+  }
+}
+
+.register-container {
+  width: 100%;
+  max-width: 600px;
+  background-color: #f7f7f7;
+  border-radius: 20px;
+  box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.356);
+  box-sizing: border-box;
+  margin-bottom: 2px;
+
+  @media (max-width: 450px) {
+    border-radius: 15px;
+    width: calc(100% - 10px);
+    margin: 0 auto 30px auto;
+  }
+
+  @media (max-height: 800px) {
+    margin-bottom: 70px;
+  }
+}
+
+.register-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 25px;
+  margin: 0;
+
+  @media (max-width: 450px) {
+    font-size: 20px;
+    padding: 15px;
+  }
+}
+
+.register-content {
+  padding: 0 20px 20px;
+  box-sizing: border-box;
+  width: 100%;
+
+  @media (max-width: 450px) {
+    padding: 0 10px 10px;
+  }
+
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+
+    @media (max-width: 450px) {
+      margin-bottom: 12px;
+    }
+  }
+
+  .name-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    width: 100%;
+    box-sizing: border-box;
+
+    @media (max-width: 450px) {
+      flex-direction: column;
+      gap: 0;
+      margin-bottom: 0;
+    }
+
+    .name-field {
+      flex: 1;
+      min-width: 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+}
+
+// Add spacing between tab content and form fields
+::ng-deep .mat-tab-body-content {
+  padding: 20px 0;
+
+  @media (max-width: 450px) {
+    padding: 10px 0;
+  }
+}
+
+// Make sure tab labels are readable on small screens
+::ng-deep .mat-mdc-tab-label {
+  @media (max-width: 450px) {
+    padding: 0 8px !important;
+    min-width: 100px !important;
+    flex: 1;
+  }
+}
+
+// Adjust button container for small screens
+.button-container {
+  @media (max-width: 450px) {
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  button {
+    @media (max-width: 450px) {
+      width: 100%;
+    }
+  }
+}
+
+// Adjust signin container for small screens
+.signin-container {
+  @media (max-width: 450px) {
+    text-align: center;
+    margin-top: 15px;
+    width: 100%;
+  }
+}
+
+.content {
+  z-index: 1;
+  padding: 10px 10px 0px 10px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  font-family: "Outfit", sans-serif;
 }

@@ -1,7 +1,7 @@
-<div>
-  <mat-card class="create-container">
-    <mat-card-title class="create-title">Create an Account</mat-card-title>
-    <mat-card-content>
+<div class="register-wrapper">
+  <div class="register-container">
+    <h1 class="register-title">Create an Account</h1>
+    <div class="register-content">
       <mat-tab-group
         [(selectedIndex)]="selectedRoleIndex"
         (selectedIndexChange)="onTabChange($event)"
@@ -249,6 +249,6 @@
           <a class="signin-link" [routerLink]="['../login']">Sign In</a>
         </p>
       </div>
-    </mat-card-content>
-  </mat-card>
+    </div>
+  </div>
 </div>

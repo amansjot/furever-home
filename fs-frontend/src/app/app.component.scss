@@ -17,12 +17,14 @@ app-header {
 		padding: 10px 20px;
 	}
 	flex:1;
-	display: inline-block;
+	display: flex;
+	flex-direction: column;
 	position:relative;
 	font-family: "Outfit", sans-serif;
 }
 .content-card{
-	height: calc(100% - 75px);
+	height: auto;
 	padding:5px;
-	overflow: hidden;
+	overflow: visible;
+	margin-bottom: 0px;
 }
