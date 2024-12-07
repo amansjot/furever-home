@@ -10,12 +10,32 @@ import { ObjectId } from "mongodb";
 */
 export interface BuyerModel {
 	_id: string;
-	user: ObjectId; // ObjectId of the user associated with the buyer
-	favorites: string[]; // Array of ObjectIds for favorite pets
+	user: ObjectId; 
+	favorites: string[]; 
+	preferences: { 
+		petType: string;
+		petSize: string;
+		petPersonality: string[];
+		petAge: string;
+		petSex: string;
+		petLifestyle: string[];
+		petLocation: string;
+	};
+	recommendedPets: string[];
 }
 
 export const emptyBuyer: BuyerModel = {
     _id: "",
-	user: new ObjectId(), // Initialize with a placeholder ObjectId
-	favorites: [] // Empty array for favorites
+	user: new ObjectId(),
+	favorites: [],
+	preferences: {
+		petType: "",
+		petSize: "",
+		petPersonality: [""],
+		petAge: "",
+		petSex: "",
+		petLifestyle: [""],
+		petLocation: ""
+	},
+	recommendedPets: []
 };

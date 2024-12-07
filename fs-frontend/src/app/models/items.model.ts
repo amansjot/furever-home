@@ -14,9 +14,14 @@ export interface InventoryItemModel{
 	status: string; // rescued, adopted, bred
 	pictures: string[]; // Array of image filenames
 	description: string;
+	petType: string; // animal category the pet falls in
 	animal: string; // dog, cat, bird, fish, etc.
 	breed: string; // breed or species information
+	petSize: string;
+	petLifestyle: string;
+	petPersonality: string;
 	birthdate: Date | null; // age in years
+	ageGroup: string;
 	quantity: number;
 	price: number;
 	benefits: string[]; // Array of benefits
@@ -31,9 +36,14 @@ export const emptyItem: InventoryItemModel = {
 	status: '', // rescued, adopted, bred
 	pictures: [''], // Array of image filenames
 	description: '',
+	petType: '',
 	animal: '', // dog, cat, bird, fish, etc.
 	breed: '', // breed or species information
+	petSize: '',
+	petLifestyle: '',
+	petPersonality: '',
 	birthdate: null, // age in years
+	ageGroup: '',
 	quantity: 0,
 	price: 0,
 	benefits: [''], // Array of benefits

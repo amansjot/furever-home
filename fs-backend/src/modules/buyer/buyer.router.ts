@@ -36,6 +36,20 @@ export class BuyerRouter {
       this.controller.updatePreferences 
     );
 
+    this.router.get(
+      "/recommended",
+      SecurityMiddleware.validateUser,
+      SecurityMiddleware.hasRole("buyer"),
+      this.controller.getRecommendedIds
+    );
+
+    this.router.put(
+      "/recommended",
+      SecurityMiddleware.validateUser,
+      SecurityMiddleware.hasRole("buyer"),
+      this.controller.updateRecommendedIds
+    );
+
     return this.router;
   }
 }

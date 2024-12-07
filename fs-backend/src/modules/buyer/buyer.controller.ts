@@ -206,4 +206,98 @@ export class BuyerController {
       this.mongoDBService.close();
     }
   };
+
+  // Method to get the buyer's recommended pet IDs based on authenticated user's userId
+  getRecommendedIds = async (
+    req: express.Request,
+    res: express.Response
+  ): Promise<void> => {
+    try {
+      const result = await this.mongoDBService.connect();
+      if (!result) {
+        res.status(500).send({ error: "Database connection failed" });
+        return;
+      }
+
+      const userId = req.body.user._id; // Retrieved from middleware
+
+      // Find the buyer document for the authenticated user and retrieve only the `recommendedPets` field
+      const buyer = await this.mongoDBService.findOne<BuyerModel>(
+        "pet-adoption",
+        "buyers",
+        { user: new ObjectId(userId) },
+        { projection: { recommendedPets: 1 } } // Only retrieve the `recommendedPets` field
+      );
+
+      if (!buyer || !buyer.recommendedPets) {
+        res
+          .status(404)
+          .send({ error: "Buyer profile or recommended pets not found" });
+        return;
+      }
+
+      // Send only the array of recommended pet IDs
+      res.send(buyer.recommendedPets);
+    } catch (error) {
+      console.error("Error fetching recommended pet IDs:", error);
+      res.status(500).send({ error });
+    } finally {
+      this.mongoDBService.close();
+    }
+  };
+
+  // Method to update the buyer's recommended pet IDs based on authenticated user's userId
+  updateRecommendedIds = async (
+    req: express.Request,
+    res: express.Response
+  ): Promise<void> => {
+    try {
+      const result = await this.mongoDBService.connect();
+      if (!result) {
+        res.status(500).send({ error: "Database connection failed" });
+        return;
+      }
+
+      const userId = req.body.user._id; // Retrieved from middleware
+
+      // Extract the new recommended pets array from the request body
+      const newRecommended = req.body.recommendedPets;
+      if (
+        !Array.isArray(newRecommended) ||
+        !newRecommended.every((id) => typeof id === "string")
+      ) {
+        res.status(400).send({
+          error: "Invalid format for recommended pets. Must be an array of strings.",
+        });
+        return;
+      }
+
+      // Ensure all recommended pet IDs are unique
+      const uniqueRecommended = Array.from(new Set(newRecommended)).map(
+        (id) => new ObjectId(id)
+      );
+
+      // Update the buyer's `recommendedPets` field in the database
+      const updateResult = await this.mongoDBService.updateOne(
+        "pet-adoption",
+        "buyers",
+        { user: new ObjectId(userId) },
+        { $set: { recommendedPets: uniqueRecommended } }
+      );
+
+      if (updateResult) {
+        res.send({
+          success: true,
+          message: "Recommended pets updated successfully.",
+        });
+      } else {
+        res.status(500).send({ error: "Failed to update recommended pets." });
+      }
+    } catch (error) {
+      console.error("Error updating recommended pet IDs:", error);
+      res.status(500).send({ error });
+    } finally {
+      this.mongoDBService.close();
+    }
+  };
 }

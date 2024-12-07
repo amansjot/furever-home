@@ -15,9 +15,14 @@ export interface InventoryItemModel {
   status: string; // rescued, adopted, bred
   pictures: string[]; // Array of image URLs
   description: string; // Pet's description
+  petType: string;
   animal: string; // Animal type (dog, cat, bird, etc.)
   breed: string; // Breed or species information
+  petSize: string;
+	petLifestyle: string;
+	petPersonality: string;
   birthdate: string; // Birthdate in YYYY-MM-DD format
+  ageGroup: string;
   price: number; // Price of the pet
   sex: string; // male or female
   location: string; // Location of the pet
