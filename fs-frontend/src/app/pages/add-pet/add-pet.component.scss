@@ -2,6 +2,19 @@
     display: flex;
     justify-content: center;
     margin-top: -90px;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+
+    @media (max-width: 768px) {
+        margin-top: -60px;
+        padding: 15px;
+    }
+
+    @media (max-width: 480px) {
+        margin-top: -40px;
+        padding: 10px;
+    }
 }
 
 .add-pet-card {
@@ -11,6 +24,14 @@
     background-color: #f9f9f9;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
+
+    @media (max-width: 768px) {
+        padding: 15px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 10px;
+    }
 }
 
 .add-pet-title {
@@ -19,22 +40,34 @@
     text-align: center;
     padding: 20px;
     margin-bottom: 25px;
+
+    @media (max-width: 480px) {
+        font-size: 20px;
+        padding: 15px 10px;
+    }
 }
 
 .form-row {
     display: flex;
     justify-content: space-between;
-    gap: 16px; // Adjust spacing between fields
-}
+    gap: 16px;
+    width: 100%;
+    
+    @media (max-width: 600px) {
+        flex-direction: column;
+        gap: 0;
+    }
 
-.third-width {
-    flex: 1; // Ensure both fields are equal width
-    min-width: 100px;
-}
+    .third-width,
+    .half-width {
+        flex: 1;
+        min-width: 100px;
 
-.half-width {
-    flex: 1; // Ensure both fields are equal width
-    min-width: 140px;
+        @media (max-width: 600px) {
+            width: 100%;
+            min-width: 100% !important;
+        }
+    }
 }
 
 .full-width {
@@ -59,6 +92,14 @@ mat-card mat-card-content form mat-form-field {
     display: flex;
     gap: 15px;
     justify-content: center;
+    button {
+        @media (max-width: 480px) {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 14px;
+            justify-content: center;
+        }
+    }
 }
 
 /* Upload Photos Section */
@@ -129,6 +170,15 @@ mat-card mat-card-content form mat-form-field {
             color: grey;
             font-size: 13px;
         }
+
+        @media (max-width: 480px) {
+            padding: 10px;
+            
+            label {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+        }
     }
 
     .upload-area.dragover {
@@ -139,17 +189,26 @@ mat-card mat-card-content form mat-form-field {
     .image-preview {
         display: flex;
         flex-wrap: wrap;
-        gap: 10px;
+        gap: 8px;
         margin-top: 15px;
+
+        @media (max-width: 480px) {
+            gap: 5px;
+        }
 
         .preview-image {
             position: relative;
-            width: 100px;
-            height: 100px;
+            width: calc(33.33% - 8px);
+            height: auto;
+            aspect-ratio: 1;
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             background-color: #e6e6e6;
+
+            @media (max-width: 480px) {
+                width: calc(50% - 5px);
+            }
 
             img {
                 width: 100%;
@@ -231,6 +290,10 @@ mat-card mat-card-content form mat-form-field {
 ::ng-deep .mat-mdc-card-content {
     margin-left: 20px;
     margin-right: 20px;
+
+    @media (max-width: 480px) {
+        padding: 0 5px;
+    }
 }
 
 /* ===================================
@@ -361,6 +424,10 @@ mat-card {
                 width: 100%;
                 min-width: 300px;
                 margin-bottom: 10px;
+
+                @media (max-width: 600px) {
+                    min-width: unset !important;
+                }
             }
 
             .error {
@@ -437,6 +504,12 @@ mat-card {
     &:disabled {
         background-color: #cccccc !important;
         color: #666666 !important;
+    }
+
+    @media (max-width: 480px) {
+        width: 100%;
+        padding: 12px 16px;
+        font-size: 14px;
     }
 }
 
@@ -644,4 +717,10 @@ mat-card {
 * {
     font-family: "Outfit", sans-serif !important;
     --mat-tab-header-label-text-font: 'Outfit', sans-serif;
+}
+
+textarea {
+    @media (max-width: 480px) {
+        min-height: 80px;
+    }
 }
