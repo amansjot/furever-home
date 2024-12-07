@@ -26,8 +26,6 @@ Find your perfect companion and give them a forever home! Our platform connects 
 ### Development Team
 - **Kyle Malice** - Computer Science '25
   - UI/UX Frontend Developer & Mobile and Web Development specialist
-  - Web and mobile development specialist
-
   - [LinkedIn](https://www.linkedin.com/in/kyle-malice/) | [GitHub](https://github.com/MaliceKy)
 
 - **Aman Singh** - Computer Science '25
