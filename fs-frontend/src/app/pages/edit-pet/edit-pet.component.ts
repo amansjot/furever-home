@@ -1,7 +1,7 @@
 import { InventoryItemModel } from './../../models/items.model';
 import { Component, input, OnInit } from '@angular/core';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, CdkDragStart, CdkDragEnd } from '@angular/cdk/drag-drop';
 import {
   FormGroup,
   FormControl,
@@ -78,6 +78,10 @@ export class EditPetComponent implements OnInit {
   public filteredAnimalTypes: Observable<string[]> = new Observable();
   public loading: boolean = true;
   pet: any = null;
+
+  // Track drag state
+  public isDragging = false;
+  public dragStartIndex: number | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -251,12 +255,42 @@ export class EditPetComponent implements OnInit {
     }
   }
 
-  onReorder(event: CdkDragDrop<string[]>): void {
-    moveItemInArray(
-      this.selectedPictures,
-      event.previousIndex,
-      event.currentIndex
-    );
+  // Handle drag start
+  onDragStarted(event: CdkDragStart) {
+    this.isDragging = true;
+    this.dragStartIndex = event.source.data;
+  }
+
+  // Handle drag end
+  onDragEnded(event: CdkDragEnd) {
+    this.isDragging = false;
+    this.dragStartIndex = null;
+  }
+
+  onReorder(event: CdkDragDrop<string[]>) {
+    if (event.previousIndex === event.currentIndex) {
+      return; // No change needed
+    }
+
+    try {
+      // Create a new array and perform the move
+      const pictures = [...this.selectedPictures];
+      moveItemInArray(pictures, event.previousIndex, event.currentIndex);
+
+      // Verify the move was successful
+      if (pictures.length === this.selectedPictures.length) {
+        this.selectedPictures = pictures;
+        this.petForm.get('pictures')?.setValue(pictures);
+        this.petForm.markAsDirty();
+        
+        // Log the change for debugging
+        console.log(`Moved image from position ${event.previousIndex + 1} to ${event.currentIndex + 1}`);
+      } else {
+        console.error('Array length mismatch after move operation');
+      }
+    } catch (error) {
+      console.error('Error during reorder operation:', error);
+    }
   }
 
   removePhoto(index: number): void {
@@ -371,5 +405,31 @@ export class EditPetComponent implements OnInit {
         alert('An error occurred while editing the pet.');
       },
     });
+  }
+
+  moveImageLeft(index: number): void {
+    if (index > 0) {
+      const pictures = [...this.selectedPictures];
+      const temp = pictures[index];
+      pictures[index] = pictures[index - 1];
+      pictures[index - 1] = temp;
+      
+      this.selectedPictures = pictures;
+      this.petForm.get('pictures')?.setValue(pictures);
+      this.petForm.markAsDirty();
+    }
+  }
+
+  moveImageRight(index: number): void {
+    if (index < this.selectedPictures.length - 1) {
+      const pictures = [...this.selectedPictures];
+      const temp = pictures[index];
+      pictures[index] = pictures[index + 1];
+      pictures[index + 1] = temp;
+      
+      this.selectedPictures = pictures;
+      this.petForm.get('pictures')?.setValue(pictures);
+      this.petForm.markAsDirty();
+    }
   }
 }
