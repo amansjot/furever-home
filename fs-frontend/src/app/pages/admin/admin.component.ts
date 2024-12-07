@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { LoginService } from '../../services/login.service';
 import { Router, RouterModule } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ProfileService } from '../../services/profile.service';
 import { UserModel } from '../../models/users.model';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 
 @Component({
   selector: 'app-admin',
@@ -24,12 +25,14 @@ import { MatChipsModule } from '@angular/material/chips';
     RouterModule,
     MatFormFieldModule,
     MatInputModule,
-    MatChipsModule
+    MatChipsModule,
+    MatSortModule
   ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss',
 })
 export class AdminComponent implements OnInit {
+  @ViewChild(MatSort) sort!: MatSort;
   public loading: boolean = true;
 
   public petsColumns: string[] = [
@@ -77,6 +80,10 @@ export class AdminComponent implements OnInit {
     };
   }
   
+  ngAfterViewInit() {
+    this.pets.sort = this.sort; // Connect the MatSort to the data source
+  }
+
   async loadUsers(): Promise<void> {
     try {
       this.users.data = await this.profileSvc.getAllUsers();

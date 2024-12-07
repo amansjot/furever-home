@@ -178,9 +178,7 @@ $navbar-height: 80px;
 
     .button-group button {
         flex: 1;
-        /* Ensure buttons adjust to available space */
-        min-width: 80px;
-        /* Minimum width for buttons */
+        // min-width: 80px;
         padding: 8px 16px;
         font-size: 0.875rem;
         font-weight: 500;

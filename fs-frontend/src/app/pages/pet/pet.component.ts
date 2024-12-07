@@ -65,8 +65,8 @@ export class PetComponent implements OnInit {
       }
     });
 
-    if (localStorage.getItem("favorites")) {
-      this.favorites = JSON.parse(localStorage.getItem('favorites') || "");
+    if (localStorage.getItem('favorites')) {
+      this.favorites = JSON.parse(localStorage.getItem('favorites') || '');
     } else {
       this.favorites = [];
     }
@@ -79,7 +79,7 @@ export class PetComponent implements OnInit {
     }
 
     // Load history start
-    this.petHistoryStart = localStorage.getItem('petHistoryStart') || "browse";
+    this.petHistoryStart = localStorage.getItem('petHistoryStart') || 'browse';
 
     // Subscribe to route changes
     this.route.params.subscribe((params) => {
@@ -231,7 +231,7 @@ export class PetComponent implements OnInit {
     this.isModalOpen = false;
   }
 
-  requestContact() {
+  requestContact(petId: string) {
     const userId = this._loginSvc.getAuthenticatedUserId(); // Retrieve the current user's ID
 
     if (!userId) {
@@ -254,7 +254,14 @@ export class PetComponent implements OnInit {
         }
 
         // Check if the authenticated user's ID is already in the Seller's requests array
-        if (info.requests && info.requests.includes(userId)) {
+        if (
+          info.requests &&
+          info.requests.some(
+            (request: any) =>
+              request.userId.toString() === userId &&
+              request.petId.toString() === petId
+          )
+        ) {
           // Open the dialog immediately without adding a new request
           this.dialog.open(ContactDialogComponent, {
             data: {
@@ -270,25 +277,27 @@ export class PetComponent implements OnInit {
         }
 
         // Add the user's ID to the seller's "requests" array
-        this.sellerService.addRequestToSeller(sellerId, userId).subscribe({
-          next: () => {
-            // Open the dialog with the retrieved contact information
-            this.dialog.open(ContactDialogComponent, {
-              data: {
-                ...info, // Spread the existing info data
-                alreadyRequested: false, // Add the alreadyRequested flag
-              },
-              width: '500px',
-              maxWidth: '90vw',
-              panelClass: 'contact-dialog',
-            });
-            this.contactInfo = info;
-          },
-          error: (err) => {
-            console.error('Error adding request to seller:', err);
-            alert('Could not add request to seller.');
-          },
-        });
+        this.sellerService
+          .addRequestToSeller(sellerId, userId, petId)
+          .subscribe({
+            next: () => {
+              // Open the dialog with the retrieved contact information
+              this.dialog.open(ContactDialogComponent, {
+                data: {
+                  ...info, // Spread the existing info data
+                  alreadyRequested: false, // Add the alreadyRequested flag
+                },
+                width: '500px',
+                maxWidth: '90vw',
+                panelClass: 'contact-dialog',
+              });
+              this.contactInfo = info;
+            },
+            error: (err) => {
+              console.error('Error adding request to seller:', err);
+              alert('Could not add request to seller.');
+            },
+          });
       },
       error: (err) => {
         console.error('Error fetching seller contact:', err);
