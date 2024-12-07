@@ -1,4 +1,3 @@
-import { Observable } from 'rxjs';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { SellerService } from '../../services/seller.service';
 import { ItemService } from '../../services/item.service';
@@ -13,11 +12,31 @@ import {
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginService } from '../../services/login.service';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
+import { ProfileService } from '../../services/profile.service';
+import { firstValueFrom } from 'rxjs';
+import { UserModel } from '../../models/users.model';
 
 @Component({
   selector: 'app-seller',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, RouterLink, RouterModule],
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    RouterLink,
+    RouterModule,
+    MatTabsModule,
+    MatTableModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatChipsModule,
+    MatSortModule,
+  ],
   templateUrl: './seller.component.html',
   styleUrls: ['./seller.component.scss'],
 })
@@ -30,14 +49,20 @@ export class SellerComponent implements OnInit {
   public isGridView: boolean = false;
   public itemStatuses: { [key: string]: string } = {}; // Tracks statuses for items by ID
 
+  public requestsColumns: string[] = ['petId', 'userId', 'timestamp', 'actions'];
+  public requests = new MatTableDataSource<Object>([]);
+
   seller: any;
   pets: any[] = [];
+  userInfo: { [key: string]: string } = {};
+  petInfo: { [key: string]: string } = {};
 
   constructor(
     private route: ActivatedRoute,
     private _loginSvc: LoginService,
     private sellerService: SellerService,
     private itemService: ItemService,
+    private profileService: ProfileService,
     private router: Router,
     private dialog: MatDialog
   ) {}
@@ -52,6 +77,9 @@ export class SellerComponent implements OnInit {
         this.rootSellerRoute = this.route.snapshot.url.toString();
         this.loading = false;
         this.seller = data;
+        this.requests.data = this.seller.requests;
+        this.loadUserInfo(this.requests.data);
+        this.loadPetInfo(this.requests.data);
         this.loadPets();
       },
       error: (err) => {
@@ -69,6 +97,56 @@ export class SellerComponent implements OnInit {
           (err) => console.error('Error loading pet:', err)
         );
       });
+    }
+  }
+
+  loadUserInfo(requests: any[]): void {
+    requests.forEach((request) => {
+      const userId = request.userId;
+      if (!this.userInfo[userId]) {
+        this.profileService.getProfileById(userId).subscribe({
+          next: (profile: UserModel) => {
+            console.log(profile);
+            this.userInfo[userId] = `${profile.firstName} ${profile.lastName} (${profile.username})`;
+          },
+          error: (err: any) => {
+            console.error(err);
+            this.userInfo[userId] = "Unknown User";
+          },
+        });
+      }
+    });
+  }
+
+  async loadPetInfo(requests: any[]): Promise<void> {
+    for (const request of requests) {
+      const petId = request.petId;
+      if (!this.userInfo[petId]) {
+        try {
+          const pet = await this.itemService.getItemById(petId);
+          console.log(pet);
+          this.petInfo[petId] = pet.name;
+        } catch (err) {
+          console.error(err);
+          this.petInfo[petId] = "Unknown Pet";
+        }
+      }
+    }
+  }
+  
+
+  getPetById(petId: string): string {
+    return "";
+  }
+
+  async getUserById(userId: string): Promise<string> {
+    try {
+      const profile: any = await firstValueFrom(this.profileService.getProfileById(userId));
+      console.log(profile);
+      return `${profile.firstName} ${profile.lastName} (${profile.username})`;
+    } catch (err: any) {
+      console.error(err);
+      return "";
     }
   }
 

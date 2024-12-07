@@ -193,11 +193,11 @@
 
     <div class="request-contact" *ngIf="!authenticated || isBuyer">
       <div class="button-container">
+        <!-- [disabled]="isNotEmptyObject(contactInfo)" -->
         <button
           *ngIf="isBuyer"
-          [disabled]="isNotEmptyObject(contactInfo)"
           class="request-button"
-          (click)="requestContact()"
+          (click)="requestContact(pet._id)"
         >
           {{
             contactInfo && isNotEmptyObject(contactInfo)

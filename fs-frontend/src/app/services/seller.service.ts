@@ -28,9 +28,10 @@ export class SellerService {
     return this.httpClient.get<SellerModel>(`${Config.apiBaseUrl}/seller/ofpet/${petId}`);
   }
 
-  public addRequestToSeller(sellerId: string, userId: string): Observable<any> {
+  public addRequestToSeller(sellerId: string, userId: string, petId: string): Observable<any> {
     return this.httpClient.patch(`${Config.apiBaseUrl}/seller/${sellerId}/requests`, {
       userId,
+      petId,
     });
   }
 }

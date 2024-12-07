@@ -3,7 +3,7 @@ import { MongoDBService } from "../database/mongodb.service";
 import { SellerModel } from "./seller.models";
 import { InventoryItemModel } from "../inventory/inventory.models";
 import { ObjectId } from "mongodb";
-import { Request, Response } from 'express';
+import { Request, Response } from "express";
 
 export class SellerController {
   private mongoDBService: MongoDBService = new MongoDBService(
@@ -142,42 +142,69 @@ export class SellerController {
       res.status(500).send({ error: "Internal server error" });
     }
   };
-    
-  public addRequestToSeller = async (req: Request, res: Response): Promise<void> => {
+
+  public addRequestToSeller = async (
+    req: Request,
+    res: Response
+  ): Promise<void> => {
     try {
       const { sellerId } = req.params; // Get seller ID from the route parameter
-      const { userId } = req.body; // Get user ID from the request body
+      const { userId, petId } = req.body; // Get user ID from the request body
 
       // Validate IDs
-      if (!ObjectId.isValid(sellerId) || !ObjectId.isValid(userId)) {
-        res.status(400).send({ error: 'Invalid sellerId or userId format' });
+      if (
+        !ObjectId.isValid(sellerId) ||
+        !ObjectId.isValid(userId) ||
+        !ObjectId.isValid(petId)
+      ) {
+        res.status(400).send({ error: "Invalid sellerId, userId, or petId" });
         return;
       }
 
       // Connect to MongoDB
       const result = await this.mongoDBService.connect();
       if (!result) {
-        res.status(500).send({ error: 'Database connection failed' });
+        res.status(500).send({ error: "Database connection failed" });
         return;
       }
 
       // Update the seller document to add the userId to the `requests` array (avoid duplicates)
       const updateResult = await this.mongoDBService.updateOne(
-        'pet-adoption', // Database name
-        'sellers', // Collection name
-        { _id: new ObjectId(sellerId) }, // Filter: Match the seller by ID
-        { $addToSet: { requests: new ObjectId(userId) } } // Add to `requests` array without duplicates
-      );      
+        "pet-adoption", // Database name
+        "sellers", // Collection name
+        {
+          _id: new ObjectId(sellerId),
+          requests: {
+            $not: {
+              $elemMatch: {
+                userId: new ObjectId(userId),
+                petId: new ObjectId(petId),
+              },
+            },
+          },
+        },
+        {
+          $push: {
+            requests: {
+              userId: new ObjectId(userId),
+              petId: new ObjectId(petId),
+              timestamp: new Date(),
+              status: "pending",
+            },
+          },
+        }
+      );
+      
 
       if (!updateResult || updateResult.modifiedCount === 0) {
-        res.status(404).send({ error: 'Seller not found or no changes made' });
+        res.status(404).send({ error: "Seller not found or no changes made" });
         return;
-      }      
+      }
 
-      res.status(200).send({ message: 'Request added successfully' });
+      res.status(200).send({ message: "Request added successfully" });
     } catch (error) {
-      console.error('Error adding request to seller:', error);
-      res.status(500).send({ error: 'Internal server error' });
+      console.error("Error adding request to seller:", error);
+      res.status(500).send({ error: "Internal server error" });
     }
   };
 }
