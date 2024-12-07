@@ -25,27 +25,29 @@ Find your perfect companion and give them a forever home! Our platform connects 
 
 ### Development Team
 - **Kyle Malice** - Computer Science '25
+  - UI/UX Frontend Developer & Mobile and Web Development specialist
   - Web and mobile development specialist
+
   - [LinkedIn](https://www.linkedin.com/in/kyle-malice/) | [GitHub](https://github.com/MaliceKy)
 
 - **Aman Singh** - Computer Science '25
-  - Software engineering and web development
+  - Software Engineering and Web Development Specialist
   - [LinkedIn](https://linkedin.com/in/amns) | [GitHub](https://github.com/amansjot)
 
 - **Solenn Gacon** - Information Systems '25
-  - Full-stack development and data science
+  - Full-stack Development and Data Science
   - [LinkedIn](https://www.linkedin.com/in/solenngacon/) | [GitHub](https://github.com/solgaxx)
 
 - **Suhas Bolledula** - Computer Science '25
-  - Cloud computing and DevOps specialist
+  - Cloud Computing and DevOps Specialist
   - [LinkedIn](https://www.linkedin.com/in/suhas-bolledula/) | [GitHub](https://github.com/suhasbolledula)
 
 - **Julia O'Neill** - Computer Science '25
-  - Frontend development and UI/UX design
+  - Frontend Development and UI/UX Design
   - [LinkedIn](https://www.linkedin.com/in/juliaoneill15/)
 
 - **Bagel Malice** - Director of Happiness '25
-  - Expert in couch cuddles and sniffathons
+  - Expert in Team Morale!
 
 ## 🏫 Course Information
 - **Course**: Project 3 - Angular UI
