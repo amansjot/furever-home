@@ -15,6 +15,13 @@
     opacity: 1;
     background-color: white;
     transition: opacity 0.1s ease-out;
+
+    @media (max-width: 480px) {
+        .loading-gif {
+            width: 200px;
+            margin-top: -50px;
+        }
+    }
 }
 
 .loading-container.hidden {
@@ -42,6 +49,19 @@
     display: flex;
     justify-content: center;
     margin-top: -90px;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+
+    @media (max-width: 768px) {
+        margin-top: -60px;
+        padding: 15px;
+    }
+
+    @media (max-width: 480px) {
+        margin-top: -40px;
+        padding: 10px;
+    }
 }
 
 .edit-pet-card {
@@ -51,6 +71,14 @@
     background-color: #f9f9f9;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
+
+    @media (max-width: 768px) {
+        padding: 15px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 10px;
+    }
 }
 
 .edit-pet-title {
@@ -59,12 +87,32 @@
     text-align: center;
     padding: 20px;
     margin-bottom: 25px;
+
+    @media (max-width: 480px) {
+        font-size: 20px;
+        padding: 15px 10px;
+        margin-bottom: 15px;
+    }
 }
 
 .form-row {
     display: flex;
     justify-content: space-between;
-    gap: 16px; // Adjust spacing between fields
+    gap: 16px;
+    width: 100%;
+    
+    @media (max-width: 600px) {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .third-width,
+    .half-width {
+        @media (max-width: 600px) {
+            width: 100%;
+            min-width: 100% !important;
+        }
+    }
 }
 
 .third-width {
@@ -87,6 +135,11 @@
     margin: 50px auto;
     border: none;
     border-top: 1px solid #ddd;
+
+    @media (max-width: 480px) {
+        margin: 30px auto;
+        width: 90%;
+    }
 }
 
 mat-card mat-card-title form mat-form-field,
@@ -99,6 +152,24 @@ mat-card mat-card-content form mat-form-field {
     display: flex;
     gap: 15px;
     justify-content: center;
+
+    @media (max-width: 480px) {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+
+        button {
+            width: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 12px 16px;
+            font-size: 14px;
+            min-height: 44px; // Ensure consistent height on mobile
+        }
+    }
 }
 
 /* Upload Photos Section */
@@ -128,6 +199,11 @@ mat-card mat-card-content form mat-form-field {
         line-height: 1.5;
         text-align: center;
         box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+
+        @media (max-width: 480px) {
+            font-size: 13px;
+            padding: 8px 12px;
+        }
     }
 
     .upload-area {
@@ -169,6 +245,15 @@ mat-card mat-card-content form mat-form-field {
             color: grey;
             font-size: 13px;
         }
+
+        @media (max-width: 480px) {
+            padding: 10px;
+            
+            label {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+        }
     }
 
     .upload-area.dragover {
@@ -179,52 +264,26 @@ mat-card mat-card-content form mat-form-field {
     .image-preview {
         display: flex;
         flex-wrap: wrap;
-        gap: 10px;
+        gap: 8px;
         margin-top: 15px;
-
-        .preview-image {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            background-color: #e6e6e6;
-
-            img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
-
-            .remove-button {
-                position: absolute;
-                top: 5px;
-                right: 5px;
-                background-color: rgba(0, 0, 0, 0.7);
-                color: white;
-                border: none;
-                border-radius: 50%;
-                width: 20px;
-                height: 20px;
-                font-size: 12px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                transition: background-color 0.2s;
-
-                &:hover {
-                    background-color: rgba(0, 0, 0, 0.9);
-                }
-            }
-        }
+        width: 100%;
     }
 
-    .image-preview {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
+    div[class*="preview-image"] {
+        width: calc(50% - 4px);
+        aspect-ratio: 1;
+        position: relative;
+        border-radius: 10px;
+        overflow: hidden;
+
+        img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     }
 
     .preview-image {
@@ -701,4 +760,81 @@ button {
 * {
     font-family: "Outfit", sans-serif !important;
     --mat-tab-header-label-text-font: 'Outfit', sans-serif;
+}
+
+#submit-button, #cancel-button {
+    @media (max-width: 480px) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        text-align: center;
+    }
+}
+
+.cdk-drag-preview {
+    width: calc(50% - 4px) !important;
+    aspect-ratio: 1 !important;
+    border-radius: 10px;
+    overflow: hidden;
+    
+    img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+}
+
+/* Update drag-specific styles */
+.cdk-drag {
+    width: calc(50% - 4px) !important;
+    aspect-ratio: 1;
+    
+    img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover;
+    }
+}
+
+.image-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 15px;
+    width: 100%;
+}
+
+// Make all preview images consistent
+div[class*="preview-image"],
+.preview-image,
+.cdk-drag,
+.cdk-drag-preview {
+    width: calc(50% - 4px) !important;
+    aspect-ratio: 1 !important;
+    position: relative !important;
+    border-radius: 10px !important;
+    overflow: hidden !important;
+
+    img {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        min-width: 100% !important;
+        min-height: 100% !important;
+    }
+}
+
+// Remove any other conflicting styles by setting them to auto
+.preview-image img,
+.cdk-drag img,
+.cdk-drag-preview img {
+    max-width: none !important;
+    max-height: none !important;
 }
