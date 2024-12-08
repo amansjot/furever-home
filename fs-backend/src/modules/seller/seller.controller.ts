@@ -208,9 +208,11 @@ export class SellerController {
   };
 
   // Function to deny a request by removing it from the 'requests' array in the seller document
+  // Function to deny a request by removing it from the 'requests' array in the seller document
   closeRequest = async (req: Request, res: Response): Promise<void> => {
     try {
-      const { userId, petId } = req.body; // Assuming request contains userId and petId
+      const userId = req.query.userId as string; // Explicitly cast to string
+      const petId = req.query.petId as string; // Explicitly cast to string
       const sellerId = req.params.sellerId; // Seller ID passed as a URL parameter
 
       if (!userId || !petId) {
@@ -224,12 +226,12 @@ export class SellerController {
       const updateResult = await this.mongoDBService.updateOne(
         "pet-adoption", // Database name
         "sellers", // Collection name
-        { _id: new ObjectId(sellerId) }, // Match the seller by sellerId
+        { user: new ObjectId(sellerId) }, // Match the seller by sellerId
         {
           $pull: {
             requests: {
-              userId: new ObjectId(userId),
-              petId: new ObjectId(petId),
+              userId: new ObjectId(userId), // Convert to ObjectId
+              petId: new ObjectId(petId), // Convert to ObjectId
             },
           },
         }
