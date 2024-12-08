@@ -4,7 +4,7 @@ export { ObjectId } from "mongodb";
 export class MongoDBService {
   private client: MongoClient;
   private isConnected: boolean = false;
-  
+
   constructor(private connectionString: string) {
     this.client = new MongoClient(this.connectionString);
   }
@@ -124,6 +124,25 @@ export class MongoDBService {
           .find(query)
           .toArray();
       }
+      return result as T[];
+    } catch (err) {
+      console.error("Error finding documents in " + collection + ":", err);
+      return [];
+    }
+  }
+
+  public async findWithProjection<T>(
+    database: string,
+    collection: string,
+    query: any,
+    projection: any
+  ): Promise<T[]> {
+    try {
+      const result = await this.client
+        .db(database)
+        .collection(collection)
+        .find(query, { projection }) // Apply projection
+        .toArray();
       return result as T[];
     } catch (err) {
       console.error("Error finding documents in " + collection + ":", err);

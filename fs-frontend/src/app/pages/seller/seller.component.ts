@@ -49,12 +49,18 @@ export class SellerComponent implements OnInit {
   public isGridView: boolean = false;
   public itemStatuses: { [key: string]: string } = {}; // Tracks statuses for items by ID
 
-  public requestsColumns: string[] = ['petId', 'userId', 'timestamp', 'actions'];
+  public requestsColumns: string[] = [
+    'petId',
+    'userId',
+    'timestamp',
+    'actions',
+  ];
   public requests = new MatTableDataSource<Object>([]);
 
   seller: any;
   pets: any[] = [];
   userInfo: { [key: string]: string } = {};
+  userEmails: { [key: string]: string } = {};
   petInfo: { [key: string]: string } = {};
 
   constructor(
@@ -107,11 +113,14 @@ export class SellerComponent implements OnInit {
         this.profileService.getProfileById(userId).subscribe({
           next: (profile: UserModel) => {
             console.log(profile);
-            this.userInfo[userId] = `${profile.firstName} ${profile.lastName} (${profile.username})`;
+            this.userInfo[
+              userId
+            ] = `${profile.firstName} ${profile.lastName} (${profile.username})`;
+            this.userEmails[userId] = profile.username;
           },
           error: (err: any) => {
             console.error(err);
-            this.userInfo[userId] = "Unknown User";
+            this.userInfo[userId] = 'Unknown User';
           },
         });
       }
@@ -128,25 +137,26 @@ export class SellerComponent implements OnInit {
           this.petInfo[petId] = pet.name;
         } catch (err) {
           console.error(err);
-          this.petInfo[petId] = "Unknown Pet";
+          this.petInfo[petId] = 'Unknown Pet';
         }
       }
     }
   }
-  
 
   getPetById(petId: string): string {
-    return "";
+    return '';
   }
 
   async getUserById(userId: string): Promise<string> {
     try {
-      const profile: any = await firstValueFrom(this.profileService.getProfileById(userId));
+      const profile: any = await firstValueFrom(
+        this.profileService.getProfileById(userId)
+      );
       console.log(profile);
       return `${profile.firstName} ${profile.lastName} (${profile.username})`;
     } catch (err: any) {
       console.error(err);
-      return "";
+      return '';
     }
   }
 
@@ -229,6 +239,53 @@ export class SellerComponent implements OnInit {
     this.router.navigate(['/pet/edit', itemId]);
   }
 
+  messageBuyer(request: any) {
+    window.open('mailto:' + this.userEmails[request.userId]);
+  }
+
+  confirmDenyRequest(request: Object): void {
+    // Open the confirmation dialog
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        action: 'Deny Request',
+        message:
+          'Are you sure you want to deny this request? This cannot be undone.',
+      },
+      width: '400px',
+    });
+
+    // Handle the user's confirmation
+    dialogRef.afterClosed().subscribe((isConfirmed) => {
+      if (isConfirmed) {
+        this.closeRequest(request);
+      }
+    });
+  }
+
+  closeRequest(request: any) {
+    // Remove the request from the data source
+    const index = this.requests.data.findIndex(
+      (r: any) => r.userId === request.userId && r.petId === request.petId
+    );
+
+    if (index > -1) {
+      this.requests.data.splice(index, 1); // Remove the request from the array
+      this.requests._updateChangeSubscription(); // Notify the table of the data change
+    }
+
+    const sellerId = this._loginSvc.getAuthenticatedUserId();
+    if (sellerId) {
+      this.sellerService.closeRequest(sellerId, request.userId, request.petId).subscribe({
+        next: () => {
+          console.log(`Request successfully denied for pet ${request.petId}`);
+        },
+        error: (err: any) => {
+          console.error('Failed to deny request:', err);
+        },
+      });
+    }
+  }
+
   confirmDelete(event: MouseEvent, itemId: string): void {
     event.stopPropagation();
 
@@ -246,6 +303,26 @@ export class SellerComponent implements OnInit {
     dialogRef.afterClosed().subscribe((isConfirmed) => {
       if (isConfirmed) {
         this.deleteItem(itemId);
+      }
+    });
+  }
+
+  confirmAcceptRequest(request: any) {    
+    // Open the confirmation dialog
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        action: 'Accept',
+        message:
+          'Are you sure you want to accept this request?',
+      },
+      width: '400px',
+    });
+
+    // Handle the user's confirmation
+    dialogRef.afterClosed().subscribe((isConfirmed) => {
+      if (isConfirmed) {
+        this.setAdopted(request.petId, false);
+        this.closeRequest(request);
       }
     });
   }

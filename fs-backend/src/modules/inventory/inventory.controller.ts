@@ -96,17 +96,24 @@ export class InventoryController {
         res.status(500).send({ error: "Database connection failed" });
         return;
       }
+      
+      const projection = {
+        pictures: { $slice: 1 }, // Get only the first picture
+      };
+
       if (req.query.start && req.query.end) {
-        items = await this.mongoDBService.find<InventoryItemModel>(
+        items = await this.mongoDBService.findWithProjection<InventoryItemModel>(
           this.settings.database,
           this.settings.collection,
-          {}
+          {},
+          projection
         );
       } else {
-        items = await this.mongoDBService.find<InventoryItemModel>(
+        items = await this.mongoDBService.findWithProjection<InventoryItemModel>(
           this.settings.database,
           this.settings.collection,
-          {}
+          {},
+          projection
         );
       }
       res.send(items);

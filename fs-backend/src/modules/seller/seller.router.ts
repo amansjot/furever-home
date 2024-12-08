@@ -34,6 +34,13 @@ export class SellerRouter {
       this.controller.addRequestToSeller
     );
 
+    this.router.delete(
+      "/:sellerId/requests",
+      SecurityMiddleware.validateUser, // Ensure user is authenticated
+      SecurityMiddleware.hasRole("seller"), // Ensure only sellers can deny requests
+      this.controller.closeRequest
+    );
+
     return this.router;
   }
 }
