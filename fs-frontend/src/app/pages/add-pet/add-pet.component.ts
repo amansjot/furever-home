@@ -110,10 +110,10 @@ export class AddPetComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
 
-    if (localStorage.getItem("roles")) {
+    if (localStorage.getItem('roles')) {
       const rolesArr = this._loginSvc.getAuthenticatedRoles();
       if (!rolesArr.includes('seller')) {
-        console.error("Error: not a seller!");
+        console.error('Error: not a seller!');
         this.router.navigate(['/login']);
       }
     }
@@ -183,16 +183,24 @@ export class AddPetComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     if (input?.files) {
       Array.from(input.files).forEach((file) => {
-        this.cloudinaryService.uploadImage(file).then((response) => {
-          const imgUrl = response.secure_url;
-          this.selectedPictures.push(imgUrl); // Add the uploaded image URL
-          this.petForm.get('pictures')?.setValue(this.selectedPictures); // Update the form control
-        });
+        const formData = new FormData();
+        formData.append('file', file);
+
+        // Perform file upload
+        this.cloudinaryService
+          .uploadImage(formData)
+          .then((response) => {
+            const imgUrl = response.secure_url;
+            this.selectedPictures.push(imgUrl); // Add the uploaded image URL
+            this.petForm.get('pictures')?.setValue(this.selectedPictures); // Update the form control
+          })
+          .catch((error) => {
+            console.error('Error uploading image:', error);
+          });
       });
       input.value = ''; // Reset the input
     }
   }
-   
 
   onReorder(event: CdkDragDrop<string[]>): void {
     moveItemInArray(
@@ -234,47 +242,27 @@ export class AddPetComponent implements OnInit {
       this.handleDroppedFiles(event.dataTransfer.files); // Handle the dropped files
     }
   }
-
-  // handleDroppedFiles(files: FileList): void {
-  //   Array.from(files).forEach((file) => {
-  //     if (file.type.startsWith('image/')) {
-  //       // Check if the file is an image
-  //       const reader = new FileReader();
-  //       reader.onload = () => {
-  //         if (!this.selectedPictures.includes(reader.result as string)) {
-  //           this.selectedPictures.push(reader.result as string);
-  //           this.petForm.get('pictures')?.setValue(this.selectedPictures); // Update the form control
-  //           this.petForm.get('pictures')?.updateValueAndValidity(); // Trigger validation
-  //         }
-  //       };
-  //       reader.readAsDataURL(file);
-  //     } else {
-  //       console.warn(`${file.name} is not an image file and was skipped.`);
-  //     }
-  //   });
-  // }
-
+  
   handleDroppedFiles(files: FileList): void {
     Array.from(files).forEach((file) => {
       if (file.type.startsWith('image/')) {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const base64Image = reader.result as string;
-          this.imgurService.uploadImage(base64Image.split(',')[1]).subscribe({
-            next: (response) => {
-              const imgUrl = response.data.link; // Get the Imgur URL
-              if (!this.selectedPictures.includes(imgUrl)) {
-                this.selectedPictures.push(imgUrl); // Save the Imgur URL
-                this.petForm.get('pictures')?.setValue(this.selectedPictures); // Update the form control
-                this.petForm.get('pictures')?.updateValueAndValidity(); // Trigger validation
-              }
-            },
-            error: (err) => {
-              console.error('Error uploading image to Imgur:', err);
-            },
+        const formData = new FormData();
+        formData.append('file', file);
+  
+        // Perform file upload
+        this.cloudinaryService
+          .uploadImage(formData)
+          .then((response) => {
+            const imgUrl = response.secure_url;
+            if (!this.selectedPictures.includes(imgUrl)) {
+              this.selectedPictures.push(imgUrl); // Add the uploaded image URL
+              this.petForm.get('pictures')?.setValue(this.selectedPictures); // Update the form control
+              this.petForm.get('pictures')?.updateValueAndValidity(); // Trigger validation
+            }
+          })
+          .catch((error) => {
+            console.error(`Error uploading image: ${file.name}`, error);
           });
-        };
-        reader.readAsDataURL(file);
       } else {
         console.warn(`${file.name} is not an image file and was skipped.`);
       }

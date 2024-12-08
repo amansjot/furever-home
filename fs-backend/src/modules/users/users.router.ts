@@ -14,14 +14,14 @@ export class UserRouter {
       this.controller.getAllUsers
     );
     this.router.get(
-      "/:id",
-      SecurityMiddleware.validateUser,
-      this.controller.getUser
-    );
-    this.router.get(
       "/me",
       SecurityMiddleware.validateUser,
       this.controller.getUserProfile
+    );
+    this.router.get(
+      "/:id",
+      SecurityMiddleware.validateUser,
+      this.controller.getUser
     );
     this.router.post(
       "/",

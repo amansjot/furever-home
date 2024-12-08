@@ -194,7 +194,6 @@ export class SellerController {
           },
         }
       );
-      
 
       if (!updateResult || updateResult.modifiedCount === 0) {
         res.status(404).send({ error: "Seller not found or no changes made" });
@@ -205,6 +204,48 @@ export class SellerController {
     } catch (error) {
       console.error("Error adding request to seller:", error);
       res.status(500).send({ error: "Internal server error" });
+    }
+  };
+
+  // Function to deny a request by removing it from the 'requests' array in the seller document
+  closeRequest = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { userId, petId } = req.body; // Assuming request contains userId and petId
+      const sellerId = req.params.sellerId; // Seller ID passed as a URL parameter
+
+      if (!userId || !petId) {
+        res
+          .status(400)
+          .send({ error: "userId and petId are required in the request" });
+        return;
+      }
+
+      // Find the seller and pull the matching request from the 'requests' array
+      const updateResult = await this.mongoDBService.updateOne(
+        "pet-adoption", // Database name
+        "sellers", // Collection name
+        { _id: new ObjectId(sellerId) }, // Match the seller by sellerId
+        {
+          $pull: {
+            requests: {
+              userId: new ObjectId(userId),
+              petId: new ObjectId(petId),
+            },
+          },
+        }
+      );
+
+      if (updateResult.modifiedCount === 0) {
+        res.status(404).send({ error: "Request not found or already removed" });
+        return;
+      }
+
+      res
+        .status(200)
+        .send({ success: true, message: "Request successfully denied" });
+    } catch (error) {
+      console.error("Error denying request:", error);
+      res.status(500).send({ error: "Internal Server Error" });
     }
   };
 }
