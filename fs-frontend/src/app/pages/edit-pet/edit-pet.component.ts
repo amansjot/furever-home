@@ -23,6 +23,7 @@ import { async, map, Observable, startWith } from 'rxjs';
 import { ItemService } from '../../services/item.service';
 import { LoginService } from '../../services/login.service';
 import { SellerService } from '../../services/seller.service';
+import { CloudinaryService } from '../../services/cloudinary.service';
 
 @Component({
   selector: 'app-edit-pet',
@@ -88,7 +89,8 @@ export class EditPetComponent implements OnInit {
     private itemService: ItemService,
     private _loginSvc: LoginService,
     private sellerService: SellerService,
-    private router: Router
+    private router: Router,
+    private cloudinaryService: CloudinaryService
   ) {}
 
   noFutureDateValidator(): ValidatorFn {
@@ -238,20 +240,22 @@ export class EditPetComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     if (input?.files) {
       Array.from(input.files).forEach((file) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          if (!this.selectedPictures.includes(reader.result as string)) {
-            // Only edit the file if it's not already in the selectedPictures array
-            this.selectedPictures.push(reader.result as string);
-            this.petForm.get('pictures')?.setValue(this.selectedPictures); // Update the form control
-            this.petForm.get('pictures')?.updateValueAndValidity(); // Trigger validation
-          }
-        };
-        reader.readAsDataURL(file);
-      });
+        const formData = new FormData();
+        formData.append('file', file);
 
-      // Reset the file input value to allow re-uploading the same file
-      input.value = '';
+        // Perform file upload
+        this.cloudinaryService
+          .uploadImage(formData)
+          .then((response) => {
+            const imgUrl = response.secure_url;
+            this.selectedPictures.push(imgUrl); // Add the uploaded image URL
+            this.petForm.get('pictures')?.setValue(this.selectedPictures); // Update the form control
+          })
+          .catch((error) => {
+            console.error('Error uploading image:', error);
+          });
+      });
+      input.value = ''; // Reset the input
     }
   }
 
@@ -329,21 +333,28 @@ export class EditPetComponent implements OnInit {
   handleDroppedFiles(files: FileList): void {
     Array.from(files).forEach((file) => {
       if (file.type.startsWith('image/')) {
-        // Check if the file is an image
-        const reader = new FileReader();
-        reader.onload = () => {
-          if (!this.selectedPictures.includes(reader.result as string)) {
-            this.selectedPictures.push(reader.result as string);
-            this.petForm.get('pictures')?.setValue(this.selectedPictures); // Update the form control
-            this.petForm.get('pictures')?.updateValueAndValidity(); // Trigger validation
-          }
-        };
-        reader.readAsDataURL(file);
+        const formData = new FormData();
+        formData.append('file', file);
+  
+        // Perform file upload
+        this.cloudinaryService
+          .uploadImage(formData)
+          .then((response) => {
+            const imgUrl = response.secure_url;
+            if (!this.selectedPictures.includes(imgUrl)) {
+              this.selectedPictures.push(imgUrl); // Add the uploaded image URL
+              this.petForm.get('pictures')?.setValue(this.selectedPictures); // Update the form control
+              this.petForm.get('pictures')?.updateValueAndValidity(); // Trigger validation
+            }
+          })
+          .catch((error) => {
+            console.error(`Error uploading image: ${file.name}`, error);
+          });
       } else {
         console.warn(`${file.name} is not an image file and was skipped.`);
       }
     });
-  }
+  }  
 
   // onPhotoSelected(event: Event): void {
   //   const input = event.target as HTMLInputElement;

@@ -330,4 +330,30 @@ export class AddPetComponent implements OnInit {
       },
     });
   }
+  
+  moveImageLeft(index: number): void {
+    if (index > 0) {
+      const pictures = [...this.selectedPictures];
+      const temp = pictures[index];
+      pictures[index] = pictures[index - 1];
+      pictures[index - 1] = temp;
+      
+      this.selectedPictures = pictures;
+      this.petForm.get('pictures')?.setValue(pictures);
+      this.petForm.markAsDirty();
+    }
+  }
+
+  moveImageRight(index: number): void {
+    if (index < this.selectedPictures.length - 1) {
+      const pictures = [...this.selectedPictures];
+      const temp = pictures[index];
+      pictures[index] = pictures[index + 1];
+      pictures[index + 1] = temp;
+      
+      this.selectedPictures = pictures;
+      this.petForm.get('pictures')?.setValue(pictures);
+      this.petForm.markAsDirty();
+    }
+  }
 }

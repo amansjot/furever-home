@@ -106,35 +106,26 @@
 }
 
 .form-row {
-    flex-direction: column;
-    gap: 10px;
-
-    @media (min-width: 480px) {
-        flex-direction: row;
-        gap: 15px;
-    }
-
-    @media (min-width: 768px) {
-        gap: 20px;
-    }
-
-    @media (min-width: 1024px) {
-        gap: 30px;
-    }
-}
-
-.third-width,
-.half-width {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
     width: 100%;
 
-    @media (min-width: 480px) {
-        width: auto;
+    @media (max-width: 600px) {
+        flex-direction: column;
+        gap: 0;
     }
-}
 
-.full-width {
-    width: 100%;
-    margin-bottom: 20px;
+    .third-width,
+    .half-width {
+        flex: 1;
+        min-width: 100px;
+
+        @media (max-width: 600px) {
+            width: 100%;
+            min-width: 100% !important;
+        }
+    }
 }
 
 .divider {
@@ -557,6 +548,10 @@ mat-card {
                 width: 100%;
                 min-width: 300px;
                 margin-bottom: 10px;
+
+                @media (max-width: 600px) {
+                    min-width: unset !important;
+                }
             }
 
             .error {
