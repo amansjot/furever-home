@@ -185,6 +185,11 @@ export class InventoryController {
         description: req.body.description, // Description of the pet
         benefits: req.body.benefits, // Array of benefits (e.g., Vet Records, Potty Training, etc.)
         birthdate: req.body.birthdate, // Pet's birth date (YYYY-MM-DD format)
+        petLifestyle: req.body.petLifestyle,
+        petPersonality: req.body.petPersonality,
+        petSize: req.body.petSize,
+        petType: req.body.petType,
+        ageGroup: req.body.ageGroup
       };
 
       // Step 3: Insert the pet document into the Pets collection
@@ -252,6 +257,11 @@ export class InventoryController {
         description: req.body.description, // Description of the pet
         benefits: req.body.benefits, // Array of benefits (e.g., Vet Records, Potty Training, etc.)
         birthdate: req.body.birthdate, // Pet's birth date (YYYY-MM-DD format)
+        petLifestyle: req.body.petLifestyle,
+        petPersonality: req.body.petPersonality,
+        petSize: req.body.petSize,
+        petType: req.body.petType,
+        ageGroup: req.body.ageGroup
       };
       let command = { $set: item };
       const success = await this.mongoDBService.updateOne(
