@@ -50,7 +50,7 @@ export class QuestionnaireComponent implements OnInit {
     petAge: new FormControl('', Validators.required),
     petLifestyle: new FormControl([], atLeastOneSelected),
     petPersonality: new FormControl([], atLeastOneSelected),
-    petLocation: new FormControl('', [Validators.required, validZipCode]),
+    petLocation: new FormControl('', [Validators.required]),
   });
 
   // Options for dropdowns
