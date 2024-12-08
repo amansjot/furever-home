@@ -1,0 +1,12 @@
+<h2 mat-dialog-title class="dialog-title">Upload Profile Picture</h2>
+<mat-dialog-content class="dialog-content">
+  <p>Select a picture to set as your profile picture.</p>
+  <input type="file"  class="profile-pic"  (change)="onFileSelect($event)" />
+    <img  *ngIf="preview"   class="profile-pic"  [src]="preview" alt="Profile Preview" />
+</mat-dialog-content>
+
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="save()" >Save</button>
+</mat-dialog-actions>
