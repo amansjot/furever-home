@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Config } from '../config';
 import { SellerModel } from '../models/seller.model';
@@ -41,8 +41,10 @@ export class SellerService {
 
   // Method to remove a specific request from the seller's requests array
   public closeRequest(sellerId: string, userId: string, petId: string): Observable<any> {
-    return this.httpClient.delete(`${Config.apiBaseUrl}/seller/${sellerId}/requests`, {
-      body: { userId, petId },
-    });
+    const params = new HttpParams()
+    .set('userId', userId)
+      .set('petId', petId);
+    
+      return this.httpClient.delete(`${Config.apiBaseUrl}/seller/${sellerId}/requests`, { params });
   }
 }
