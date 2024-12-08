@@ -40,25 +40,180 @@
 
 ::ng-deep .mat-mdc-card {
     margin-top: 75px;
+    font-family: "Outfit", sans-serif;
 }
-
-.header {
-    margin: 15px auto;
+/*
+#editContainer{
+    height: 10px;
 }
-
-.profile-card {
-    display: flex;
+#editButton{
+    top: 25px;
+    left: -23%;
+    position: relative;
+    background-color: rgba(227, 224, 224, 0.476);
+    width: 100px;
+    height: 45px;
+    border-radius: 5px;
+    border-color: transparent;
+    font-size: 16px;  
+}
+    */
+#profile-card {
     justify-content: center;
-    margin: 20px auto;
-    padding-bottom: 60px;
+    margin: 0% 25%;
+    display: flexbox;
+    margin-bottom: 60px;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    min-width: 650px;
 }
 
+#cardBox{
+    height: 750px;
+    width: 100%;
+    min-width: 500px;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background-color: #ffffff7c;
+    font-family: "Outfit", sans-serif;
+}
+
+
+
+#header{
+    position: relative;
+    top: 25px;
+    font-size: 2.5pc;
+    margin-bottom: 30px;
+    width: 100%;
+    padding: 2% 38%;
+    font-family: "Outfit", sans-serif;
+}
+
+#picField{
+    width: 200px;
+    height: 200px;
+    display: grid;
+    margin-bottom: 5px;
+    margin-left: 38%;
+}
+#picCircle{
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+    background-color: rgba(144, 146, 147, 0.369);
+    z-index: 1;
+    box-shadow: 0px 0px 2px 2px  rgba(124, 123, 123, 0.554);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    &:hover {
+        background-color: rgba(177, 176, 176, 0.4);
+    }
+}
+
+#profilePic{
+    position: relative;
+    width: 197px;
+    height: 197px;
+    border-radius: 100%;
+    z-index:4;
+    object-fit: cover;
+    margin-bottom: 50px;
+}
+#picButton{
+    position: relative;
+    height: 40px;
+    background-color: transparent;
+    font-size: 16px;
+    border-color: transparent;
+    margin-bottom: 20px;
+    margin-top:40px;
+}
+#picButton:hover{
+    color:#5cc8a8
+
+    
+}
+.lableTitle{
+    font-size: 22px;
+    font-weight: 400;
+    margin-right: 20px;
+}
+
+.profile-field-value{
+    margin-top: 2px;
+    font-size: 20px;
+}
+
+.changeButton{
+    left:65%;
+    font-size: 18px;
+}
+
+#nameField{
+    position: relative;
+    //background-color: aqua;
+    margin-top: 25px;
+    display: flex;
+    margin: 3% 13%;
+   
+}
+#locationField{
+    position: relative;
+    //background-color: red;
+    display: flex;
+    margin: 3% 13%;
+}
+#usernameField{
+    position: relative;
+    //background-color: rgb(125, 125, 207);
+    display: flex;
+    margin: 3% 13%;
+}
+#passwordField{
+    position: relative;
+    //background-color: cadetblue;
+    display: flex;
+    margin: 3% 13%;
+}
+#rolesField{
+    position: relative;
+    //background-color: forestgreen;
+    display: flex;
+    margin: 3% 13%;
+}
+.profile-section-divider {
+    margin: 50px 5%;
+    border-top: 1px solid #ddd;
+}
+
+#mat-chip-list{
+    display: flex;
+    gap: 20px;
+}
+.roleBoxes{
+    height: 40px;
+    width: 80px;
+    font-size: 20px;
+}
+
+    /*
 .profile-card mat-card {
     width: 100%;
-    max-width: 500px;
+    max-width: 650px;
+    height: 600px;
     padding: 20px;
-}
-
+}*/
+/*
+.mat-card-content{
+    width: 100%;
+    max-width: 650px;
+}*/
+/*
 mat-card-title {
     text-align: center;
     font-weight: bold;
@@ -78,7 +233,7 @@ mat-card-title {
 
 .profile-field strong {
     flex-basis: 25%;
-    /* Set a fixed width for labels */
+    // Set a fixed width for labels 
     text-align: right;
 }
 
@@ -89,24 +244,25 @@ mat-card-title {
 
 .profile-field button {
     flex-basis: 25%;
-    /* Set width for Change button */
+    / Set width for Change button 
     text-align: right;
 }
 
 .roles-chips {
     display: flex;
     justify-content: center;
-    /* Center-align the chips */
+    /Center-align the chips /
     gap: 8px;
-    /* Adds space between each chip */
+    / Adds space between each chip /
     flex-wrap: wrap;
-    /* Wrap to a new line if necessary */
+    /* Wrap to a new line if necessary /
 }
 
 .mat-chip-list {
     display: flex;
     gap: 8px;
 }
+    */
 
 .main-content,
 button,
