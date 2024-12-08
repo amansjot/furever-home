@@ -60,17 +60,6 @@
     flex-direction: column;
     align-items: center;
 
-    @media (max-width: 480px) {
-        max-width: 98%;
-        padding: 10px;
-        margin: 0;
-    }
-
-    @media (min-width: 768px) {
-        max-width: 700px;
-        padding: 20px;
-    }
-
     @media (min-width: 1024px) {
         max-width: 900px;
     }
@@ -86,19 +75,6 @@
     text-align: center;
     padding: 15px;
     margin-bottom: 15px;
-
-    @media (max-width: 480px) {
-        font-size: 24px;
-        padding: 20px;
-    }
-
-    @media (min-width: 480px) {
-        font-size: 24px;
-    }
-
-    @media (min-width: 768px) {
-        font-size: 28px;
-    }
 
     @media (min-width: 1024px) {
         font-size: 32px;
@@ -130,10 +106,6 @@
 
 .divider {
     margin: 30px auto;
-
-    @media (min-width: 768px) {
-        margin: 50px auto;
-    }
 }
 
 mat-card mat-card-title form mat-form-field,
@@ -145,15 +117,6 @@ mat-card mat-card-content form mat-form-field {
 .button-container {
     flex-direction: column;
     gap: 10px;
-
-    @media (min-width: 480px) {
-        flex-direction: row;
-        gap: 15px;
-    }
-
-    @media (min-width: 768px) {
-        gap: 20px;
-    }
 
     button {
         width: 100%;
@@ -185,19 +148,6 @@ mat-card mat-card-content form mat-form-field {
         &:disabled {
             background-color: #cccccc !important;
             color: #666666 !important;
-        }
-
-        @media (max-width: 480px) {
-            width: auto;
-        }
-
-        @media (min-width: 480px) {
-            width: auto;
-        }
-
-        @media (min-width: 768px) {
-            padding: 14px 24px;
-            font-size: 18px;
         }
 
         @media (min-width: 1024px) {
@@ -292,11 +242,6 @@ mat-card mat-card-content form mat-form-field {
         justify-content: center;
         width: 100%;
         box-sizing: border-box;
-
-        @media (max-width: 480px) {
-            gap: 8px;
-            padding: 8px 4px;
-        }
     }
 
     .preview-image {
@@ -319,13 +264,6 @@ mat-card mat-card-content form mat-form-field {
             bottom: 0;
             margin: 0;
             padding: 0;
-        }
-
-        /* Small mobile: 2 per row */
-        @media (max-width: 480px) {
-            width: calc(50% - 4px);
-            height: 160px;
-            flex: 0 0 calc(50% - 4px);
         }
 
         /* Larger mobile to tablet: 3 per row */
@@ -861,9 +799,85 @@ button {
     }
 }
 
-/* Make form fields more touch-friendly */
-::ng-deep .mat-mdc-text-field-wrapper {
-    @media (max-width: 480px) {
+
+
+/* ===================================
+   Media Queries
+   =================================== */
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+    ::ng-deep .mat-mdc-text-field-wrapper {
         min-height: 48px;
+    }
+
+    .edit-pet-card {
+        max-width: 98%;
+        padding: 10px;
+        margin: 0;
+    }
+
+    .edit-pet-title {
+        font-size: 24px;
+        padding: 20px;
+    }
+
+    .button-container {
+        flex-direction: row;
+        gap: 15px;
+
+        button {
+            width: auto;
+        }
+    }
+
+    .upload-section {
+        .image-preview {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            padding: 8px 4px;
+            width: 100%;
+            height: auto;
+        }
+
+        .preview-image {
+            width: 100%;
+            max-width: 100%;
+            height: 150px;
+            overflow: hidden;
+        }
+
+        .preview-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+}
+
+/* Tablets and larger Phones */
+@media (max-width: 768px) {
+    .edit-pet-card {
+        max-width: 700px;
+        padding: 20px;
+    }
+
+    .edit-pet-title {
+        font-size: 28px;
+    }
+
+    .divider {
+        margin: 50px auto;
+    }
+
+    .button-container {
+        gap: 20px;
+
+        button {
+            padding: 14px 24px;
+            justify-content: center;
+            font-size: 18px;
+        }
     }
 }
