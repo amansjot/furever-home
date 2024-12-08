@@ -14,8 +14,10 @@ class Application {
       process.env.mongoConnectionString ||
         "mongodb+srv://singh:Aman@petadoption.nfugs.mongodb.net/"
     );
-    this.app.use(express.urlencoded({ extended: false }));
-    this.app.use(express.json());
+
+    // Increase payload size limits for JSON and URL-encoded data
+    this.app.use(express.json({ limit: "10mb" })); // Adjust the limit as needed
+    this.app.use(express.urlencoded({ extended: true, limit: "10mb" })); // Adjust the limit as needed
     this.initCors();
   }
 
@@ -51,13 +53,17 @@ class Application {
       res.header("Access-Control-Allow-Origin", "*");
       res.header(
         "Access-Control-Allow-Methods",
-        "PUT, GET, POST, DELETE, OPTIONS"
+        "PUT, GET, POST, DELETE, PATCH, OPTIONS" // Include PATCH
       );
       res.header(
         "Access-Control-Allow-Headers",
         "Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Credentials"
       );
       res.header("Access-Control-Allow-Credentials", "true");
+      if (req.method === "OPTIONS") {
+        // End preflight requests early
+        return res.status(200).end();
+      }
       next();
     });
   }
@@ -65,6 +71,21 @@ class Application {
   // Sets up routes for the express server
   public buildRoutes(): void {
     this.app.use("/api", new ApiRouter().getRouter());
+
+    // Global error handler
+    this.app.use(
+      (
+        err: any,
+        req: express.Request,
+        res: express.Response,
+        next: express.NextFunction
+      ) => {
+        console.error("Unhandled error:", err);
+        res.status(err.status || 500).send({
+          error: err.message || "Internal Server Error",
+        });
+      }
+    );
   }
 
   // Closes the MongoDB connection and shuts down the server

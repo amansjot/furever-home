@@ -1,26 +1,211 @@
-::ng-deep .mat-mdc-card {
-    margin-top: 75px;
+/* ===================================
+   General Styles
+=================================== */
+// Variables
+$transition-quick: opacity 0.1s ease-out;
+$transition-normal: opacity 0.3s ease-in;
+$navbar-height: 80px;
+
+@mixin fade-transition($duration: 0.1s) {
+  opacity: 1;
+  transition: opacity #{$duration} ease-out;
+  
+  &.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
 }
 
-.pet-container{
-    margin-left: 2%;
-    margin-right: 2%;
-    background-color: #e6e6e6;
-    padding: 20px;
-    border-radius: 20px;
+::ng-deep {
+  .content[_ngcontent-ng-c878565217] {
+    padding: 0;
+    margin: 0;
+    margin-bottom: 0 !important;
+  }
+
+  .mat-mdc-card {
+    &.mdc-card.content-card.mat-elevation-z4 {
+      background-color: transparent;
+      box-shadow: none;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      margin: 0;
+    }
+  }
 }
+
+// Loading states
+.loading-container {
+  position: fixed;
+  top: $navbar-height;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  z-index: 9999;
+  @include fade-transition;
+  
+  .loading-gif {
+    margin-top: -$navbar-height;
+    width: 250px;
+    height: auto;
+  }
+}
+
+.loading-container.hidden {
+  opacity: 0;
+  pointer-events: none;
+  /* Prevent interactions with hidden loading screen */
+}
+
+.loading-gif {
+  margin-top: -75px;
+  width: 250px;
+  height: auto;
+}
+
+.pet-container.visible {
+  opacity: 1;
+}
+
+// Pet Container (where the pet page starts
+.pet-container {
+  opacity: 0;
+  transition: opacity 0.3s ease-in;
+  margin: 25px;
+  padding: 0;
+  margin-top: $navbar-height;
+}
+
+#top {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;  // Space between breadcrumb and content row
+  padding: 0 0 20px 0;
+  width: 100%;
+}
+
+.content-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.pet-page-title {
+  user-select: none;
+  text-align: start;
+  font-size: 2.5rem;
+  color: #252525;
+  font-family: 'Outfit', "Helvetica Neue", sans-serif;
+  font-weight: 700;
+  margin: 0;
+  flex: 1;
+}
+
+.pet-price-title {
+  user-select: none;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 15px;
+  background-color: #00a362;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 1px 8px;
+  color: white;
+  min-width: 65px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.pet-page-content {
+  background-color: #e6e6e6;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  padding: 25px;
+  margin: 0;
+}
+
+// Favorite Button
+.petcard-favorite-button {
+  position: relative; /* Remove absolute positioning for flexbox alignment */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%; /* Keep the button circular */
+  background-color: #e6e6e6;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 1px 8px;
+  color: #252525;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  vertical-align: middle;
+
+  &.favorited {
+    background-color: #c7cac8;
+    .favorite-icon {
+      width: 20px;
+      height: 20px;
+      filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.0))
+               drop-shadow(0 0 5px rgba(0, 0, 0, 0.0))
+               drop-shadow(0 0 2px rgba(255, 255, 255, 0.0));
+    }
+    border: 1px solid #bababa;
+  }
+
+}
+
+.petcard-favorite-button:hover {
+  background-color: #dcdcdc;
+}
+
+.favorite-icon {
+  width: 20px;
+  height: 20px;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4))
+               drop-shadow(0 0 5px rgba(0, 0, 0, 0.3))
+               drop-shadow(0 0 2px rgba(255, 255, 255, 0.2));
+  transition: transform 0.2s ease-in-out;
+}
+
+
+.favorite-icon.pulse {
+  animation: pulse-animation 0.3s ease-in-out;
+}
+
+@keyframes pulse-animation {
+  0% {
+    transform: scale(1);
+  }
+
+  60% {
+    transform: scale(1.4);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ===================================
+   Carousel Styles
+=================================== */
 
 .carousel {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 20px 0;
   overflow: hidden;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   max-width: 100%;
-  background-color: #f0f0f0;
+  background-color: #eaeaea;
+  // background-color: #4ca68b;
 }
 
 .carousel-image {
@@ -40,13 +225,16 @@
   .carousel-image {
     height: 750px;
   }
+
+  .petcard-favorite-button {
+    pointer-events: auto;
+  }
 }
 
 @media (min-width: 1440px) {
   .carousel-image {
     height: 800px;
     object-fit: contain;
-    background-color: #f0f0f0;
   }
 }
 
@@ -77,6 +265,10 @@
   right: 10px;
 }
 
+/* ===================================
+   Thumbnail Styles
+=================================== */
+
 .thumbnail-container {
   display: flex;
   justify-content: center;
@@ -102,6 +294,10 @@
   border-color: #3f8a73;
 }
 
+/* ===================================
+   Modal Styles
+=================================== */
+
 .modal {
   display: flex;
   justify-content: center;
@@ -112,7 +308,7 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8);
-  z-index: 1000;
+  z-index: 9999 !important;
 }
 
 .modal-content {
@@ -121,7 +317,6 @@
   max-height: 85vh;
   background-color: transparent;
   border-radius: 10px;
-  overflow: visible;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -130,8 +325,6 @@
 .modal-image {
   max-width: 85vw;
   max-height: 85vh;
-  width: auto;
-  height: auto;
   object-fit: contain;
 }
 
@@ -172,56 +365,416 @@
   right: 10px;
 }
 
+/* ===================================
+   Expand Button Styles
+=================================== */
+
 .expand-button {
   position: absolute;
   right: 10px;
   bottom: 10px;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.5);
   border: none;
   border-radius: 50%;
   padding: 8px;
+  transition: background 0.3s ease;
   cursor: pointer;
-  
-  &:hover {
-    background: rgb(0, 0, 0);
-  }
+}
+
+.expand-button:hover {
+  background: rgba(0, 0, 0, 0.7);
 }
 
 .magnifying-glass-icon {
-  width: 24px;  // Adjust this value to make icon larger/smaller
-  height: 24px; // Keep same as width for proper proportions
+  width: 24px;
+  height: 24px;
   display: block;
 }
 
 /* ===================================
+   Pet Information (Below Images)
+=================================== */
+/* Container for pet details and benefits */
+.pet-details {
+  display: flex;
+  flex-direction: column;
+  /* Stack elements by default */
+  gap: 2vw;
+  /* Add space between items */
+}
+
+.pet-info {
+  background-color: #dadada;
+  padding: 2vw;
+  border-radius: 20px;
+  margin-top: 2vh;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.pet-attribute {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 10px;
+  background-color: #d1d1d1;
+  padding: 5px;
+  border-radius: 15px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.pet-attribute img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  border-radius: 5px;
+  margin-left: 5px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.pet-attribute p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.pet-benefits {
+  background-color: #dadada;
+  padding: 2vw;
+  border-radius: 20px;
+  margin-top: 2vh;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.pet-page-header {
+  margin-top: 0px;
+}
+
+.benefit-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 10px;
+  background-color: #d1d1d1;
+  padding: 5px;
+  border-radius: 15px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.benefit-item img {
+  width: 23px;
+  height: 23px;
+  object-fit: contain;
+  border-radius: 5px;
+  margin-left: 5px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.request-contact {
+  background: radial-gradient(ellipse 99% 99% at center, #4ca68b, #2f9d78, #1e8564);
+  border-radius: 20px;
+  margin-top: 2vh;
+  display: flex;
+  /* Use flexbox for alignment */
+  justify-content: center;
+  /* Center the content horizontally */
+  align-items: center;
+  /* Center the content vertically */
+  position: relative;
+  /* Ensure the SVG can be absolutely positioned */
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  overflow: hidden;
+}
+
+.request-pawprint-left {
+  position: absolute;
+  /* Position the SVG independently of the button */
+  top: 50%;
+  /* Center vertically */
+  left: 10px;
+  /* Adjust horizontally (e.g., decorate the left edge) */
+  transform: translateY(-50%);
+  /* Center vertically within the div */
+  width: 250px;
+  /* Resize the paw print */
+  height: auto;
+  /* Maintain aspect ratio */
+  filter: brightness(0) invert(1);
+  /* Adjust for white color */
+  opacity: 0.5;
+  /* Slightly transparent for decoration */
+  pointer-events: none;
+  /* Make it unclickable */
+}
+
+.request-pawprint-right {
+  position: absolute;
+  /* Position the SVG independently of the button */
+  top: 50%;
+  /* Center vertically */
+  right: -10px;
+  /* Adjust horizontally (e.g., decorate the left edge) */
+  transform: translateY(-50%) rotate(90deg);
+  width: 250px;
+  /* Resize the paw print */
+  height: auto;
+  /* Maintain aspect ratio */
+  filter: brightness(0) invert(1);
+  /* Adjust for white color */
+  opacity: 0.5;
+  /* Slightly transparent for decoration */
+  pointer-events: none;
+  /* Make it unclickable */
+}
+
+
+/* Medium screens (min-width: 768px) */
+@media (max-width: 768px) {
+
+  .request-contact {
+    max-height: 70px;
+  }
+
+  .request-pawprint-left {
+    width: 200px;
+    left: -60px;
+    /* Move farther left */
+  }
+
+  .request-pawprint-right {
+    width: 200px;
+    right: -40px;
+    /* Move farther right */
+  }
+}
+
+/* Large screens (min-width: 1024px) */
+@media (min-width: 1024px) {
+
+  .request-pawprint-left {
+    width: 250px;
+    left: -40px;
+    /* Move farther left */
+  }
+
+  .request-pawprint-right {
+    width: 250px;
+    right: -40px;
+    /* Move farther right */
+  }
+
+  .pet-details {
+    flex-direction: row;
+    /* Align elements side-by-side */
+    align-items: flex-start;
+    /* Align to the top */
+  }
+
+  .pet-info,
+  .pet-benefits {
+    flex: 1;
+    /* Make both sections take up equal space */
+    max-width: 50%;
+    /* Ensure each section occupies 50% */
+    min-height: 470px;
+  }
+}
+
+/* Extra-large screens (min-width: 1440px) */
+@media (min-width: 1440px) {
+  .request-pawprint-left {
+    width: 300px;
+    left: -60px;
+    /* Move even farther left */
+  }
+
+  .request-pawprint-right {
+    width: 300px;
+    right: -60px;
+    /* Move even farther right */
+  }
+}
+
+
+/* ===================================
    Button Styles
-   =================================== */
-   .button-container {
-    // display: flex;
-    // justify-content: center;
-    margin: 20px 0;
-  }
-  
-  .request-button {
-    min-width: 150px;  /* Adjust width as needed */
-    padding: 12px 24px;
-    background-color: #4dbd9b !important;  /* Match your theme color */
-    color: white !important;
-    font-weight: 500;
-    font-size: 16px;
-    cursor: pointer;
-    border: 1px solid transparent;
-    border-radius: 25px;
-    
-    /* Hover state */
-    &:hover:not([disabled]) {
-      background-color: #3da88a !important;
-      border: 1px solid white;
-    }
-  
-    /* Disabled state */
-    &:disabled {
-      background-color: #cccccc !important;
-      color: #666666 !important;
+=================================== */
+
+.button-container {
+  margin: 20px 0;
+  color: white;
+  height: 47px;
+
+  div {
+    line-height: 47px;
+
+    .link {
+      text-decoration: underline;
+      cursor: pointer;
     }
   }
+}
+
+.request-button {
+  min-width: 150px;
+  padding: 12px 24px;
+  background-color: #4dbd9b;
+  font-weight: 500;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 25px;
+  transition: background-color 0.3s ease, border 0.3s ease;
+}
+
+.request-button:hover:not([disabled]) {
+  background-color: #3da88ad3;
+  border: 1px solid white;
+}
+
+.request-button:disabled {
+  background-color: #cccccc;
+  color: #666666;
+}
+
+button {
+  font-family: "Outfit", sans-serif;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  width: 100%;
+  flex-wrap: wrap;  // Allow wrapping for long breadcrumbs
+  gap: 4px;  // Space between wrapped items
+
+  a {
+    color: #00a362;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    white-space: nowrap;  // Prevent name breaking
+
+    &:hover {
+      color: #007a4a;
+      text-decoration: underline;
+    }
+  }
+
+  .separator {
+    color: #666;
+    margin: 0 4px;
+    white-space: nowrap;
+  }
+
+  .current {
+    color: #666;
+    white-space: nowrap;
+  }
+}
+
+/* ===================================
+   Similar Pets Section
+=================================== */
+.similar-pets {
+  margin-top: 2vh;
+  padding: 2vw;
+  border-radius: 20px;
+}
+
+.similar-pets-title {
+  user-select: none;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.similar-pets-grid {
+  display: grid;
+  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.similar-pet-card {
+  position: relative;
+  height: 250px;
+  border-radius: 15px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+
+.similar-pet-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.similar-pet-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  color: white;
+
+  .pet-name {
+    font-size: 1.2rem;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .pet-age {
+    font-size: 0.9rem;
+    margin: 3px 0 0 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .similar-pets-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .similar-pets-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1440px) {
+  .similar-pets-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.similarity-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgba(0, 163, 98, 0.9);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 1px 8px;
+  z-index: 1;
+}
+
+.similar-pet-card {
+  &:hover {
+    .similarity-badge {
+      background-color: rgba(0, 163, 98, 1);
+    }
+  }
+}

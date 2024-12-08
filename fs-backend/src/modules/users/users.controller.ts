@@ -8,6 +8,28 @@ export class UserController {
       "mongodb+srv://singh:Aman@petadoption.nfugs.mongodb.net/"
   );
 
+  getAllUsers = async (
+    req: express.Request,
+    res: express.Response
+  ): Promise<void> => {
+    let items: UserModel[] = [];
+    try {
+      let result = await this.mongoDBService.connect();
+      if (!result) {
+        res.status(500).send({ error: "Database connection failed" });
+        return;
+      }
+      items = await this.mongoDBService.find<UserModel>(
+        "pet-adoption",
+        "users",
+        {}
+      );
+      res.send(items);
+    } catch (error) {
+      res.status(500).send({ error: error });
+    }
+  };
+
   // Existing getUser method
   getUser = async (
     req: express.Request,
@@ -33,8 +55,6 @@ export class UserController {
       res.send(user);
     } catch (error) {
       res.status(500).send({ error });
-    } finally {
-      this.mongoDBService.close();
     }
   };
 
@@ -69,8 +89,6 @@ export class UserController {
       res.send(user);
     } catch (error) {
       res.status(500).send({ error });
-    } finally {
-      this.mongoDBService.close();
     }
   };
 
@@ -117,8 +135,6 @@ export class UserController {
     } catch (error) {
       console.error("Error adding user:", error);
       res.status(500).send({ error: "Internal Server Error" });
-    } finally {
-      this.mongoDBService.close();
     }
   };
 
@@ -132,14 +148,14 @@ export class UserController {
         res.status(500).send({ error: "Database connection failed" });
         return;
       }
-  
+
       // Retrieve the authenticated user's ID from the middleware
       const authenticatedUserId = req.body.user && req.body.user._id;
       if (!authenticatedUserId) {
         res.status(403).send({ error: "Unauthorized" });
         return;
       }
-  
+
       // Ensure that the ID in the request matches the authenticated user ID
       const userId = req.params.id;
       console.log(userId);
@@ -150,7 +166,7 @@ export class UserController {
         });
         return;
       }
-  
+
       // Build the update object from the request body, excluding sensitive fields like roles
       const updatedData: Partial<UserModel> = {
         firstName: req.body.firstName,
@@ -159,7 +175,7 @@ export class UserController {
         username: req.body.username,
         password: req.body.password, // Ideally, hash this password before storing
       };
-  
+
       // Perform the update operation
       const updateResult = await this.mongoDBService.updateOne(
         "pet-adoption",
@@ -167,18 +183,18 @@ export class UserController {
         { _id: new ObjectId(userId) },
         { $set: updatedData }
       );
-  
+
       if (updateResult) {
-        res.send({ success: true, message: "User profile updated successfully" });
+        res.send({
+          success: true,
+          message: "User profile updated successfully",
+        });
       } else {
         res.status(500).send({ error: "Failed to update user profile" });
       }
     } catch (error) {
       console.error("Error updating user profile:", error);
       res.status(500).send({ error: "Internal Server Error" });
-    } finally {
-      this.mongoDBService.close();
     }
   };
-  
 }

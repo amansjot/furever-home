@@ -27,6 +27,9 @@
 			<!-- Button is disabled(not clickable), if our LoginForm contains Validation Errors -->
 			<button type="submit" mat-raised-button [disabled]="!loginForm.valid||disableLogin">Login</button>
 		  </div>
+		  <div class="forgot-password">
+			<a href="#" (click)="forgotPassword()">Forgot Password?</a>
+		  </div>
 		  <div class="signup-container">
 			Don't have an account yet? <a [routerLink]="['../register']">Sign Up</a>
 		  </div>

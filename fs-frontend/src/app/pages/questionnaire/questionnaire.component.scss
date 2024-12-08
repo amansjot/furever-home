@@ -1,0 +1,129 @@
+  /* General Container Styling */
+  .questionnaire-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Title and Skip Button Container */
+  .questionnaire-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  
+  /* Title Styling */
+  .questionnaire-container h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Form Styling */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* Skip Button Styling */
+  .skip-btn {
+    padding: 6px 12px;
+    background-color: #e57373; /* Light red */
+    color: white;
+    font-weight: 500;
+    font-size: 14px;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  /* Input Fields */
+  mat-form-field {
+    width: 100%;
+  }
+  
+  /* Add a margin to each question for better spacing */
+  mat-form-field {
+    margin-bottom: 16px;
+  }
+  
+  /* Button Styling */
+  button[type='submit'] {
+    margin-top: 50px;
+    width: 200px;
+    top: -60px;
+    align-self: center;
+    padding: 8px 24px;
+    background-color: #4dbd9b !important;  /* Match your theme color */
+    color: white !important;
+    font-weight: 500;
+    border-radius: 25px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  
+    /* Hover state */
+    &:hover:not([disabled]) {
+      background-color: #3da88a !important;  /* Slightly darker on hover */
+      transform: translateY(-2px);
+    }
+  
+    /* Disabled state */
+    &:disabled {
+      background-color: #cccccc !important;
+      color: #666666 !important;
+      cursor: not-allowed;
+    }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 480px) {
+    .questionnaire-container {
+      padding: 10px;
+      max-width: 100%;
+    }
+    button[type='submit'] {
+      width: 100%;
+      margin-top: 20px;
+    }
+  }
+
+  /* Button Styling on Loading | LOADING STATE */
+  button[type='submit'].loading,
+  .isLoading {
+    cursor: wait;
+    opacity: 0.7;
+    position: relative;
+    pointer-events: none; /* Prevent further interaction */
+
+    /* Add a spinner */
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: 20px;
+      width: 16px;
+      height: 16px;
+      border: 2px solid transparent;
+      border-top-color: white; /* Spinner color */
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      transform: translateY(-50%);
+    }
+  }
+
+  /* Spinner Animation */
+  @keyframes spin {
+    0% {
+      transform: translateY(-50%) rotate(0deg);
+    }
+    100% {
+      transform: translateY(-50%) rotate(360deg);
+    }
+  }

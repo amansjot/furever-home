@@ -4,6 +4,8 @@ import { MongoDBService } from "../database/mongodb.service";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { SecuritySettings } from "./security.settings";
+import nodemailer from "nodemailer"; // Adding this for email sending
+import crypto from "crypto"; // Adding this for generating tokens
 
 export class SecurityController {
   private mongoDBService: MongoDBService = new MongoDBService(
@@ -11,6 +13,87 @@ export class SecurityController {
       "mongodb+srv://singh:Aman@petadoption.nfugs.mongodb.net/"
   );
   private settings: SecuritySettings = new SecuritySettings();
+
+  /* Forgot Password */
+  public postForgotPassword = async (
+    req: express.Request,
+    res: express.Response
+  ): Promise<void> => {
+    const { email } = req.body;
+
+    if (!email) {
+      res.status(400).send({ error: "Email is required" });
+      return;
+    }
+
+    try {
+      // Connect to the database
+      await this.mongoDBService.connect();
+
+      // Check if the user exists in the database
+      const user = await this.mongoDBService.findOne<UserLoginModel>(
+        this.settings.database,
+        this.settings.usersCollection,
+        { username: email }
+      );
+
+      if (!user) {
+        res.status(404).send({ error: "User not found" });
+        return;
+      }
+
+      // Generate a password reset token and expiry
+      const resetToken = crypto.randomBytes(32).toString("hex");
+      const resetTokenExpiry = Date.now() + 3600000; // 1 hour from now
+
+      // Update the user's reset token and expiry in the database
+      const updateResult = await this.mongoDBService.updateOne(
+        this.settings.database,
+        this.settings.usersCollection,
+        { username: email },
+        { $set: { resetPasswordToken: resetToken, resetPasswordExpires: resetTokenExpiry } }
+      );
+
+      if (!updateResult) {
+        throw new Error("Failed to update user with reset token");
+      }
+
+      // Construct the password reset link
+      const resetUrl = `${req.protocol}://${req.get("host")}/reset-password?token=${resetToken}`;
+
+      // Send the reset email
+      const transporter = nodemailer.createTransport({
+        service: "Gmail", // Use Gmail email provider
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASSWORD,
+        },
+      });
+
+      const mailOptions = {
+        from: "no-reply@petapp.com",
+        to: email,
+        subject: "PetApp Password Reset Request",
+        html: `
+          <p>You have requested to reset your password.</p>
+          <p>Click the link below to reset your password:</p>
+          <a href="${resetUrl}">${resetUrl}</a>
+          <p>If you did not request this, please ignore this email.</p>
+          <p>Thanks,</p>
+          <p>Your PetApp Team</p>
+        `,
+      };
+
+      await transporter.sendMail(mailOptions);
+
+      res.status(200).send({ message: "Password reset email sent." });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ error: "Internal server error" });
+    } finally {
+      this.mongoDBService.close();
+    }
+  };
 
   /* Generate JWT Token */
   private makeToken(user: UserLoginModel): string {
@@ -107,7 +190,6 @@ export class SecurityController {
           console.error(err);
           res.status(500).send(err);
         } finally {
-          this.mongoDBService.close();
           resolve();
         }
       }
@@ -196,8 +278,6 @@ export class SecurityController {
     } catch (err) {
       console.error(err);
       res.status(500).send({ error: "Registration failed" });
-    } finally {
-      this.mongoDBService.close();
     }
   };
 }

@@ -1,73 +1,110 @@
 /* ===================================
    Card Styles
    =================================== */
-   ::ng-deep .mat-mdc-card {
-    margin-top: 55px;
-    background-color: #f4f3f600;
-    border-radius: 20px;
-    border-bottom-color:#efefef00;
-    box-shadow: 0px 0px 0px rgba(255, 255, 255, 0);
+::ng-deep .mat-mdc-card {
+  background-color: #f4f3f600;
+  border-radius: 20px;
+  border-bottom-color: #efefef00;
+  box-shadow: 0px 0px 0px rgba(255, 255, 255, 0);
+  width: 100% !important;
+  margin-top: 20px;
+  box-sizing: border-box;
 }
 
-::ng-deep .mat-mdc-card-content{
-	margin-left: 20px;
-	margin-right: 20px;
+::ng-deep .mat-mdc-card-content {
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 /* ===================================
    Container Styles
    =================================== */
 ::ng-deep .create-container {
-    margin-top: -25px;
-    background-color: #f7f7f7;
-    box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.356);
+  margin-top: -25px;
+  background-color: #f7f7f7;
+  box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.356);
+  max-width: 600px;
+  width: 95% !important;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  
+  @media (max-width: 992px) {
+    width: 95% !important;
+  }
+
+  @media (max-width: 768px) {
+    width: 92% !important;
+  }
+
+  @media (max-width: 576px) {
+    width: 90% !important;
+  }
+
+  @media (max-width: 475px) {
+    width: 88% !important;
+  }
+
+  @media (max-width: 375px) {
+    width: 85% !important;
+  }
 }
 
 .create-title {
-    padding: 25px;
-    font-weight: bold;
-    text-align: center;
+  padding: 25px;
+  font-weight: bold;
+  text-align: center;
 }
 
 /* ===================================
    Tab Styles
    =================================== */
 ::ng-deep .mat-mdc-tab-group .mdc-tab--active {
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    background-color: #ededed;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background-color: #ededed;
 }
 
 ::ng-deep .mat-mdc-tab-body-content {
-    background-color: #ededed;
-    border-bottom-right-radius: 20px;
-    border-bottom-left-radius: 20px;
-    padding-right: 20px;
-    padding-left: 20px;
-    padding-top: 20px;
-    height: auto !important;
-    overflow: hidden !important;
+  background-color: #ededed;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-top: 20px;
+  height: auto !important;
+  overflow: hidden !important;
 }
 
 /* First tab selected (Looking to Adopt) */
 ::ng-deep .mat-mdc-tab-body:first-of-type .mat-mdc-tab-body-content {
-    border-top-right-radius: 20px;
-    border-top-left-radius: 0px;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 0px;
+
+  @media (max-width: 469px) {
+    border-top-left-radius: 20px;
+  }
 }
 
 /* Second tab selected (Breeder/Rescue) */
 ::ng-deep .mat-mdc-tab-body:last-of-type .mat-mdc-tab-body-content {
-    border-top-left-radius: 20px;
-    border-top-right-radius: 0px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 0px;
+
+  @media (max-width: 469px) {
+    border-top-right-radius: 20px;
+  }
 }
 
 ::ng-deep .mat-mdc-tab-header {
-  border-bottom: none !important; /* Removes the line below tabs */
+  border-bottom: none !important;
+  /* Removes the line below tabs */
 }
 
 /* Remove or change the ripple effect color */
 ::ng-deep .mat-mdc-tab .mdc-tab-indicator__content--underline {
-  display: none !important; /* This removes the blue line completely */
+  display: none !important;
+  /* This removes the blue line completely */
 }
 
 /* Remove the divider line */
@@ -94,83 +131,107 @@
 /* Remove default underline */
 ::ng-deep .mdc-line-ripple::before,
 ::ng-deep .mdc-line-ripple::after {
-    display: none;
+  display: none;
 }
 
 /* Text field wrapper styles */
 ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--filled {
-    background-color: #4dbd9b3a !important;
-    border-radius: 10px !important;
+  background-color: #4dbd9b3a !important;
+  border-radius: 10px !important;
 }
 
 /* Hover state */
 ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--filled:hover {
-    background-color: #4dbd9b5c !important;
+  background-color: #4dbd9b5c !important;
 }
 
 /* Focus state */
 ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--filled.mdc-text-field--focused {
-    background-color: white !important;
+  background-color: white !important;
 }
 
 /* ===================================
    Layout Styles
    =================================== */
 :host {
-    display: flex;
-    justify-content: center;
-    margin: 100px 0px;
+  display: flex;
+  justify-content: center;
+  margin: 50px 0px;
+  width: 100% !important;
+  max-width: 100vw;
 }
 
 /* ===================================
    Card Content Layout
    =================================== */
 mat-card {
-    max-width: 600px;
+  max-width: 600px;
+  width: 95%;
+  margin: 0 auto;
 
-    mat-card-title,
-    mat-card-content {
-        display: flex;
-		flex-direction: column;
-        justify-content: center;
+  @media (max-width: 768px) {
+    width: 95%;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 475px) {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 375px) {
+    width: 85%;
+    padding: 10px;
+    margin: 0 auto;
+  }
+
+  mat-card-title,
+  mat-card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 10px;
+
+    form {
+      mat-form-field {
+        width: 100%;
+        min-width: 300px;
         margin-bottom: 10px;
-        
-        form {
-            mat-form-field {
-                width: 100%;
-                min-width: 300px;
-                margin-bottom: 10px;
-            }
+      }
 
-            .error {
-                padding: 16px;
-                width: 300px;
-                color: white;
-                color: red;
-            }
+      .error {
+        padding: 16px;
+        width: 300px;
+        color: white;
+        color: red;
+      }
 
-            .button {
-                display: flex;
-                justify-content: flex-end;
-            }
-        }
+      .button {
+        display: flex;
+        justify-content: flex-end;
+      }
     }
+  }
 
-    mat-hint {
-        color: var(--mat-form-field-error-text-color, var(--mat-app-error));
-    }
+  mat-hint {
+    color: var(--mat-form-field-error-text-color, var(--mat-app-error));
+  }
 }
 
 /* Under Form Field Styles section */
 .name-row {
   display: flex;
-  gap: 20px;  /* Space between the fields */
-  max-width: 100%;  /* Ensure it doesn't overflow */
-  
+  gap: 20px;
+  /* Space between the fields */
+  max-width: 100%;
+  /* Ensure it doesn't overflow */
+
   .name-field {
     flex: 1;
-    min-width: 140px !important;  /* Smaller minimum width */
-    width: 140px !important;      /* Fixed width */
+    min-width: 140px !important;
+    /* Smaller minimum width */
+    width: 140px !important;
+    /* Fixed width */
   }
 }
 
@@ -184,16 +245,19 @@ mat-card {
 }
 
 .submit-button {
-  min-width: 150px;  /* Adjust width as needed */
+  min-width: 150px;
+  /* Adjust width as needed */
   padding: 8px 24px;
-  background-color: #4dbd9b !important;  /* Match your theme color */
+  background-color: #4dbd9b !important;
+  /* Match your theme color */
   color: white !important;
   font-weight: 500;
   border-radius: 25px;
-  
+
   /* Hover state */
   &:hover:not([disabled]) {
-    background-color: #3da88a !important;  /* Slightly darker on hover */
+    background-color: #3da88a !important;
+    /* Slightly darker on hover */
   }
 
   /* Disabled state */
@@ -209,43 +273,49 @@ mat-card {
 .signin-container {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+
 }
 
 .signin-text {
   color: #666666;
   font-size: 14px;
-  
+
   .signin-link {
-    color: #4dbd9b;  /* Match your theme color */
+    color: #4dbd9b;
+    /* Match your theme color */
     text-decoration: none;
     font-weight: 500;
     margin-left: 5px;
     transition: color 0.2s ease;
 
     &:hover {
-      color: #3da88a;  /* Slightly darker on hover */
+      color: #3da88a;
+      /* Slightly darker on hover */
       text-decoration: underline;
     }
   }
 }
 
 ::ng-deep .mat-mdc-form-field {
+
   /* Change the color of the label when in error state */
   &.mat-form-field-invalid {
     .mat-mdc-form-field-label {
-      color: #45474E !important;  /* Your theme color */
+      color: #45474E !important;
+      /* Your theme color */
     }
-    
+
     /* For the asterisk (*) symbol */
     .mat-mdc-form-field-required-marker {
-      color: #45474E !important;  /* Your theme color */
+      color: #45474E !important;
+      /* Your theme color */
     }
-    
+
     /* For the input text itself when in error state */
     .mdc-text-field--invalid {
       .mdc-floating-label {
-        color: #45474E !important;  /* Your theme color */
+        color: #45474E !important;
+        /* Your theme color */
       }
     }
   }
@@ -267,11 +337,12 @@ mat-card {
    Select Field Styles
    =================================== */
 ::ng-deep .mat-mdc-select {
+
   /* Select field background */
   .mdc-text-field--filled {
     background-color: #4dbd9b3a !important;
   }
-  
+
   /* Default selected value color */
   .mdc-select__selected-text {
     color: #45474E !important;
@@ -285,28 +356,28 @@ mat-card {
   margin-top: 4px !important;
   padding-top: 0 !important;
   padding-bottom: 0 !important;
-  
+
   /* Option styling */
   .mat-mdc-option {
     min-height: 48px !important;
     padding: 0 16px !important;
     margin: 0 !important;
-    
+
     /* Option text color */
     .mdc-list-item__primary-text {
       color: #45474E !important;
     }
-    
+
     /* Selected option */
     &.mdc-list-item--selected,
     &.mat-mdc-option-active {
       background-color: #4dbd9b3a !important;
-      
+
       .mdc-list-item__primary-text {
         color: #4dbd9b !important;
       }
     }
-    
+
     /* Hover state */
     &:hover:not(.mdc-list-item--selected) {
       background-color: #4dbd9b1a !important;
@@ -330,12 +401,13 @@ mat-card {
    Tab Styles
    =================================== */
 ::ng-deep .mat-mdc-tab-group {
+
   /* Remove hover effects on active tab */
   .mat-mdc-tab.mdc-tab--active {
     &:hover {
       background-color: #ededed !important;
     }
-    
+
     &:hover::before,
     &:hover::after,
     &:focus::before,
@@ -343,12 +415,12 @@ mat-card {
       opacity: 0 !important;
       background-color: transparent !important;
     }
-    
+
     .mdc-tab__ripple::before,
     .mdc-tab__ripple::after {
       display: none !important;
     }
-    
+
     .mat-ripple {
       display: none !important;
     }
@@ -362,14 +434,19 @@ mat-card {
   }
 
   /* Ensure border radius is applied during tab transitions */
-  border-radius: 20px; /* Apply border radius to the entire tab group */
-  overflow: hidden; /* Ensure content respects the border radius */
+  border-radius: 20px;
+  /* Apply border radius to the entire tab group */
+  overflow: hidden;
+  /* Ensure content respects the border radius */
 
   .mat-mdc-tab-body-content {
-    border-radius: 20px; /* Apply border radius to tab content */
-    transition: none; /* Disable transition for immediate effect */
+    border-radius: 20px;
+    /* Apply border radius to tab content */
+    transition: none;
+    /* Disable transition for immediate effect */
   }
 }
+
 /* ===================================
    Location Row Styles
    =================================== */
@@ -377,14 +454,179 @@ mat-card {
   display: flex;
   gap: 20px;
   max-width: 100%;
-  
+
   .location-field {
-    flex: 2;  /* Takes up 2/3 of the space */
+    flex: 2;
+    /* Takes up 2/3 of the space */
     min-width: 200px !important;
   }
-  
+
   .state-field {
-    flex: 1;  /* Takes up 1/3 of the space */
+    flex: 1;
+    /* Takes up 1/3 of the space */
     min-width: 100px !important;
   }
+}
+
+* {
+  font-family: "Outfit", sans-serif !important;
+  --mat-tab-header-label-text-font: 'Outfit', sans-serif;
+}
+
+/* Adjust form fields for smaller screens */
+.name-row, .location-row {
+  @media (max-width: 475px) {
+    flex-direction: column;
+    gap: 10px;
+    
+    .name-field, .location-field, .state-field {
+      width: 100% !important;
+      min-width: 100% !important;
+    }
+  }
+}
+
+.register-wrapper {
+  height: 100%;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  overflow-y: auto;
+
+  @media (max-width: 600px) {
+    padding: 40px 15px;
+  }
+
+  @media (max-width: 450px) {
+    padding: 30px 10px;
+  }
+}
+
+.register-container {
+  width: 100%;
+  max-width: 600px;
+  background-color: #f7f7f7;
+  border-radius: 20px;
+  box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.356);
+  box-sizing: border-box;
+  margin-bottom: 2px;
+
+  @media (max-width: 450px) {
+    border-radius: 15px;
+    width: calc(100% - 10px);
+    margin: 0 auto 30px auto;
+  }
+
+  @media (max-height: 800px) {
+    margin-bottom: 70px;
+  }
+}
+
+.register-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 25px;
+  margin: 0;
+
+  @media (max-width: 450px) {
+    font-size: 20px;
+    padding: 15px;
+  }
+}
+
+.register-content {
+  padding: 0 20px 20px;
+  box-sizing: border-box;
+  width: 100%;
+
+  @media (max-width: 450px) {
+    padding: 0 10px 10px;
+  }
+
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+
+    @media (max-width: 450px) {
+      margin-bottom: 12px;
+    }
+  }
+
+  .name-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    width: 100%;
+    box-sizing: border-box;
+
+    @media (max-width: 450px) {
+      flex-direction: column;
+      gap: 0;
+      margin-bottom: 0;
+    }
+
+    .name-field {
+      flex: 1;
+      min-width: 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+}
+
+// Add spacing between tab content and form fields
+::ng-deep .mat-tab-body-content {
+  padding: 20px 0;
+
+  @media (max-width: 450px) {
+    padding: 10px 0;
+  }
+}
+
+// Make sure tab labels are readable on small screens
+::ng-deep .mat-mdc-tab-label {
+  @media (max-width: 450px) {
+    padding: 0 8px !important;
+    min-width: 100px !important;
+    flex: 1;
+  }
+}
+
+// Adjust button container for small screens
+.button-container {
+  @media (max-width: 450px) {
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  button {
+    @media (max-width: 450px) {
+      width: 100%;
+    }
+  }
+}
+
+// Adjust signin container for small screens
+.signin-container {
+  @media (max-width: 450px) {
+    text-align: center;
+    margin-top: 15px;
+    width: 100%;
+  }
+}
+
+.content {
+  z-index: 1;
+  padding: 10px 10px 0px 10px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  font-family: "Outfit", sans-serif;
 }

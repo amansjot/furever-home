@@ -88,7 +88,7 @@ export class SecurityMiddleware {
       console.error(err);
       res.status(401).send({ error: "Unauthorized" });
     } finally {
-    //   this.mongoDBService.close();
+      // this.mongoDBService.close();
     }
   };
 

@@ -3,102 +3,93 @@ import { LoginService } from '../../services/login.service';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
-import { NavigationEnd, Router, RouterLink, RouterModule } from '@angular/router';
+import {
+  NavigationEnd,
+  Router,
+  RouterLink,
+  RouterModule,
+} from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { forkJoin, of } from 'rxjs';
-import { catchError, delay, switchMap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, MatToolbarModule, MatButtonModule, MatIconModule, RouterLink, RouterModule],
+  imports: [
+    CommonModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    RouterLink,
+    RouterModule,
+  ],
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent {
-  public disableLogin: boolean = false;
+export class HeaderComponent implements OnInit {
   public authenticated: boolean = false;
-  public isAdmin: boolean = false;
-  public isSeller: boolean = false;
-  public isBuyer: boolean = false;
+  public roles: string[] = [];
   public showButtons: boolean = true;
 
   private noHideRoutes: string[] = ['register', 'login'];
 
-  constructor(
-    private _loginSvc: LoginService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {
+  private contentDivOffset: number = 0;
+
+  constructor(private _loginSvc: LoginService, private router: Router) {
     _loginSvc.loggedIn.subscribe(this.onLoginChange);
 
     router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.showButtons = !(event.url.includes("login") || event.url.includes("register"));
+        this.showButtons = !(
+          event.url.includes('login') || event.url.includes('register')
+        );
       }
     });
+  }
+
+  ngOnInit() {
+    this.updateContentDivOffset();
+
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        setTimeout(() => this.updateContentDivOffset(), 100);
+      }
+    });
+  }
+
+  private updateContentDivOffset(): void {
+    if (this.router.url === '/') {
+      const contentDiv = document.querySelector(
+        '.landing-first-component-container .content'
+      );
+      if (contentDiv) {
+        this.contentDivOffset =
+          contentDiv.getBoundingClientRect().bottom + window.pageYOffset - 45;
+      }
+    }
   }
 
   onLoginChange = (loggedIn: boolean) => {
     this.authenticated = loggedIn;
 
     if (loggedIn) {
-      this.checkUserRoles();
+      if (localStorage.getItem('roles')) {
+        this.roles = JSON.parse(localStorage.getItem('roles') || '');
+      } else {
+        setTimeout(() => {
+          this.roles = this._loginSvc.getAuthenticatedRoles();
+          localStorage.setItem("roles", JSON.stringify(this.roles));
+        }, 100);
+      }
     } else {
-      this.resetRoles();
+      this.roles = [];
     }
-    console.log("Change:" + this.authenticated);
   };
-
-  private checkUserRoles(): void {
-    of(null).pipe(
-      delay(250),
-      switchMap(() =>
-        forkJoin({
-          isBuyer: this._loginSvc.isBuyer().pipe(
-            catchError((error) => {
-              console.error('Error checking buyer role:', error);
-              return of(false);
-            })
-          ),
-          isSeller: this._loginSvc.isSeller().pipe(
-            catchError((error) => {
-              console.error('Error checking seller role:', error);
-              return of(false);
-            })
-          ),
-          isAdmin: this._loginSvc.isAdmin().pipe(
-            catchError((error) => {
-              console.error('Error checking admin role:', error);
-              return of(false);
-            })
-          ),
-        })
-      )
-    ).subscribe(({ isBuyer, isSeller, isAdmin }) => {
-      this.isBuyer = isBuyer;
-      this.isSeller = isSeller;
-      this.isAdmin = isAdmin;
-    });
-  }
-
-  private resetRoles(): void {
-    this.isAdmin = false;
-    this.isBuyer = false;
-    this.isSeller = false;
-  }
 
   logout() {
     this._loginSvc.logout();
-    this.resetRoles();
-    this.router.navigate(['/login']);
-  }
-
-  async login() {
-    this.disableLogin = true;
-    await this._loginSvc.login("silber@udel.edu", "pass");
-    this.disableLogin = false;
+    this.roles = [];
+    this.router.navigate(['']);
   }
 
   // Navbar CSS and scrolling functionality
@@ -109,13 +100,25 @@ export class HeaderComponent {
   @HostListener('window:scroll', [])
   onWindowScroll() {
     if (!this.isMenuOpen) {
-      const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-      const isNoHidePage = this.noHideRoutes.some(route => this.router.url.includes(route)); // Check if current route is in noHideRoutes
+      const currentScrollPosition =
+        window.pageYOffset || document.documentElement.scrollTop;
+      const isLandingPage = this.router.url === '/';
+      const isNoHidePage = this.noHideRoutes.some((route) =>
+        this.router.url.includes(route)
+      );
 
-      if (!isNoHidePage) { // Only hide navbar if not on specified pages
-        this.isNavbarHidden = currentScrollPosition > this.lastScrollPosition;
+      if (!isNoHidePage) {
+        if (isLandingPage) {
+          // Only hide navbar when scrolled past the content div
+          this.isNavbarHidden =
+            currentScrollPosition > this.lastScrollPosition &&
+            currentScrollPosition > this.contentDivOffset;
+        } else {
+          // Original behavior for other pages
+          this.isNavbarHidden = currentScrollPosition > this.lastScrollPosition;
+        }
       } else {
-        this.isNavbarHidden = false; // Ensure navbar is visible on specified pages
+        this.isNavbarHidden = false;
       }
 
       this.lastScrollPosition = currentScrollPosition;
@@ -123,9 +126,29 @@ export class HeaderComponent {
   }
 
   toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
     if (this.isMenuOpen) {
-      this.isNavbarHidden = false;
+      // When closing
+      const toolbar = document.querySelector('.mat-toolbar') as HTMLElement;
+      toolbar?.classList.add('closing');
+      setTimeout(() => {
+        this.isMenuOpen = false;
+        toolbar?.classList.remove('closing');
+      }, 10);
+    } else {
+      // When opening
+      this.isMenuOpen = true;
+      // Calculate and set height after a brief delay to ensure DOM is updated
+      setTimeout(() => {
+        const toolbar = document.querySelector('.mat-toolbar') as HTMLElement;
+        const mobileMenu = document.querySelector(
+          '.mobile-menu-content'
+        ) as HTMLElement;
+        if (toolbar && mobileMenu) {
+          const menuHeight = mobileMenu.getBoundingClientRect().height;
+          const totalHeight = 75 + menuHeight + 40; // base height + menu + padding
+          toolbar.style.setProperty('--expanded-height', `${totalHeight}px`);
+        }
+      }, 0);
     }
   }
 
@@ -145,11 +168,35 @@ export class HeaderComponent {
   }
 
   onMenuItemClick() {
-    const menuOverlay = document.querySelector('.menu-overlay');
-    menuOverlay?.classList.add('quick-close');
+    const toolbar = document.querySelector('.mat-toolbar');
+    const mobileMenu = document.querySelector('.mobile-menu-content');
+
+    mobileMenu?.classList.add('quick-close');
     this.isMenuOpen = false;
+
     setTimeout(() => {
-      menuOverlay?.classList.remove('quick-close');
-    }, 100);
+      mobileMenu?.classList.remove('quick-close');
+    }, 300);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    if (this.isMenuOpen && window.innerWidth > 768) {
+      const toolbar = document.querySelector('.mat-toolbar');
+      toolbar?.classList.add('closing');
+      setTimeout(() => {
+        this.isMenuOpen = false;
+        toolbar?.classList.remove('closing');
+      }, 100);
+    }
+    this.updateContentDivOffset();
+  }
+
+  // Add this method to check if a route is active
+  isRouteActive(route: string): boolean {
+    if (route === '/browse' && this.router.url === '/') {
+      return false;
+    }
+    return this.router.url.startsWith(route);
   }
 }

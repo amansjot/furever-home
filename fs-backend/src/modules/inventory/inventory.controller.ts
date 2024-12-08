@@ -114,6 +114,7 @@ export class InventoryController {
       res.status(500).send({ error: error });
     }
   };
+  
   /* getItem(req: express.Request, res: express.Response): Promise<void>
 		@param {express.Request} req: The request object
 			expects the partnumber of the item to be in the params array of the request object as id
@@ -130,20 +131,24 @@ export class InventoryController {
       let result = await this.mongoDBService.connect();
       if (!result) {
         res.status(500).send({ error: "Database connection failed" });
-        return;
+        return; // Return immediately after sending the response
       }
+
       let items = await this.mongoDBService.findOne<InventoryItemModel>(
         this.settings.database,
         this.settings.collection,
         { _id: new ObjectId(req.params.id) }
       );
+
       if (!items) {
-        res.send(404).send({ error: "Item not found" });
+        res.status(404).send({ error: "Item not found" }); // Use status + send or json
         return;
       }
-      res.send(items);
+
+      res.status(200).json(items); // Ensure this is the last response in this block
     } catch (error) {
-      res.status(500).send({ error: error });
+      console.error("Error fetching item:", error);
+      res.status(500).send({ error: "Internal server error" });
     }
   };
 
@@ -160,35 +165,60 @@ export class InventoryController {
     res: express.Response
   ): Promise<void> => {
     try {
+      // Step 1: Connect to the database
       const result = await this.mongoDBService.connect();
       if (!result) {
         res.status(500).send({ error: "Database connection failed" });
         return;
       }
+
+      // Step 2: Create the pet document
       let item: InventoryItemModel = {
-        name: req.body.name,
-        status: req.body.status,
-        pictures: req.body.pictures,
-        description: req.body.description,
-        typeOfPet: req.body.typeOfPet,
-        speciesBreed: req.body.speciesBreed,
-        age: req.body.age,
-        quantity: req.body.quantity,
-        price: req.body.price,
-        documentation: req.body.documentation,
-        sex: req.body.sex,
-        image: req.body.image,
-        location: req.body.location,
+        name: req.body.name, // Pet's name
+        status: req.body.status, // Pet's adoption status
+        pictures: req.body.pictures, // Array of picture URLs
+        animal: req.body.animal, // Animal type (e.g., dog, cat, etc.)
+        breed: req.body.breed, // Breed of the animal
+        price: req.body.price, // Price of the pet
+        sex: req.body.sex, // Sex of the animal (male/female)
+        location: req.body.location, // Location of the pet
+        description: req.body.description, // Description of the pet
+        benefits: req.body.benefits, // Array of benefits (e.g., Vet Records, Potty Training, etc.)
+        birthdate: req.body.birthdate, // Pet's birth date (YYYY-MM-DD format)
       };
-      const success = await this.mongoDBService.insertOne(
+
+      // Step 3: Insert the pet document into the Pets collection
+      const insertedItem = await this.mongoDBService.insertOne(
         this.settings.database,
         this.settings.collection,
         item
       );
-      if (success) res.send({ success: true });
-      else res.status(500).send({ error: "Failed to add item" });
-    } catch (error) {
-      res.status(500).send({ error: error });
+
+      if (!insertedItem || !insertedItem.insertedId) {
+        res.status(500).send({ error: "Failed to add item" });
+        return;
+      }
+
+      // Step 4: Update the seller's document with the new pet ID
+      const sellerId = req.body.sellerId;
+      const updateResult = await this.mongoDBService.updateOne(
+        this.settings.database,
+        "sellers",
+        { user: new ObjectId(sellerId) }, // Query to find the seller by "user" field
+        { $push: { pets: insertedItem.insertedId } } // Add the new pet's ID to the "pets" array
+      );
+
+      if (!updateResult.modifiedCount) {
+        res.status(500).send({
+          error: "Pet added, but failed to update the seller's document",
+        });
+        return;
+      }
+
+      // Step 5: Send a success response
+      res.send({ success: true, petId: insertedItem.insertedId });
+    } catch (error: any) {
+      res.status(500).send({ error: error.message });
     }
   };
 
@@ -200,41 +230,125 @@ export class InventoryController {
 		@remarks: Handles the update item request
 		@async
 	*/
-	putUpdateItem = async (req: express.Request, res: express.Response): Promise<void> => {
-		try {
-			const result = await this.mongoDBService.connect();
-			if (!result) {
-				res.status(500).send({ error: "Database connection failed" });
-				return;
-			}
-			let item: InventoryItemModel = {
-				name: req.body.name,
-				status: req.body.status,
-				pictures: req.body.pictures,
-				description: req.body.description,
-				typeOfPet: req.body.typeOfPet,
-				speciesBreed: req.body.speciesBreed,
-				age: req.body.age,
-				quantity: req.body.quantity,
-				price: req.body.price,
-				documentation: req.body.documentation,
-				sex: req.body.sex,
-				image: req.body.image,
-				location: req.body.location
-			};
-			let command = { $set: item };
-			const success = await this.mongoDBService.updateOne(this.settings.database, this.settings.collection, { _id: new ObjectId(req.params.id) }, command);
-			if (success)
-				res.send({ success: true });
-			else
-				res.status(500).send({ error: "Failed to update item" });
+  putUpdateItem = async (
+    req: express.Request,
+    res: express.Response
+  ): Promise<void> => {
+    try {
+      const result = await this.mongoDBService.connect();
+      if (!result) {
+        res.status(500).send({ error: "Database connection failed" });
+        return;
+      }
+      let item: InventoryItemModel = {
+        name: req.body.name, // Pet's name
+        status: req.body.status, // Pet's adoption status
+        pictures: req.body.pictures, // Array of picture URLs
+        animal: req.body.animal, // Animal type (e.g., dog, cat, etc.)
+        breed: req.body.breed, // Breed of the animal
+        price: req.body.price, // Price of the pet
+        sex: req.body.sex, // Sex of the animal (male/female)
+        location: req.body.location, // Location of the pet
+        description: req.body.description, // Description of the pet
+        benefits: req.body.benefits, // Array of benefits (e.g., Vet Records, Potty Training, etc.)
+        birthdate: req.body.birthdate, // Pet's birth date (YYYY-MM-DD format)
+      };
+      let command = { $set: item };
+      const success = await this.mongoDBService.updateOne(
+        this.settings.database,
+        this.settings.collection,
+        { _id: new ObjectId(req.params.id) },
+        command
+      );
+      if (success) res.send({ success: true });
+      else res.status(500).send({ error: "Failed to update item" });
+    } catch (error) {
+      res.status(500).send({ error: error });
+    }
+  };
 
-		} catch (error) {
-			res.status(500).send({ error: error });
-		}
-	}
+  updateItemStatus = async (
+    req: express.Request,
+    res: express.Response
+  ): Promise<void> => {
+    try {
+      const result = await this.mongoDBService.connect();
+      if (!result) {
+        res.status(500).send({ error: "Database connection failed" });
+        return;
+      }
 
-	/* deleteItem(req: express.Request, res: express.Response): Promise<void>
+      const itemId = req.params.id;
+      const newStatus = req.body.status;
+
+      if (!itemId || !newStatus) {
+        res
+          .status(400)
+          .send({ error: "Invalid request. Item ID and status are required." });
+        return;
+      }
+
+      const updateResult = await this.mongoDBService.updateOne(
+        this.settings.database,
+        this.settings.collection,
+        { _id: new ObjectId(itemId) },
+        { $set: { status: newStatus } } // Explicitly set only the status field
+      );
+
+      if (updateResult.modifiedCount === 0) {
+        res.status(404).send({ error: "Item not found or status unchanged" });
+        return;
+      }
+
+      res.status(200).send({ success: true, updatedStatus: newStatus });
+    } catch (error) {
+      console.error("Error updating item status:", error);
+      res.status(500).send({ error: "Internal Server Error" });
+    }
+  };
+
+  updateItemLocation = async (
+    req: express.Request,
+    res: express.Response
+  ): Promise<void> => {
+    try {
+      const result = await this.mongoDBService.connect();
+      if (!result) {
+        res.status(500).send({ error: "Database connection failed" });
+        return;
+      }
+  
+      const itemId = req.params.id;
+      const newLocation = req.body.location;
+  
+      if (!itemId || !newLocation) {
+        res
+          .status(400)
+          .send({ error: "Invalid request. Item ID and location are required." });
+        return;
+      }
+  
+      const updateResult = await this.mongoDBService.updateOne(
+        this.settings.database,
+        this.settings.collection,
+        { _id: new ObjectId(itemId) },
+        { $set: { location: newLocation } } // Explicitly set only the location field
+      );
+  
+      if (updateResult.modifiedCount === 0) {
+        res.status(404).send({ error: "Item not found or location unchanged" });
+        return;
+      }
+  
+      res.status(200).send({ success: true, updatedLocation: newLocation });
+    } catch (error) {
+      console.error("Error updating item location:", error);
+      res.status(500).send({ error: "Internal Server Error" });
+    }
+  };
+  
+
+  /* deleteItem(req: express.Request, res: express.Response): Promise<void>
 			@param {express.Request} req: The request object
 			expects the partno of the item to be in the params array of the request object as id
 		@param {express.Response} res: The response object
@@ -304,8 +418,6 @@ export class InventoryController {
     } catch (error) {
       console.error(error);
       res.status(500).send({ error: error });
-    } finally {
-      this.mongoDBService.close();
     }
   };
 

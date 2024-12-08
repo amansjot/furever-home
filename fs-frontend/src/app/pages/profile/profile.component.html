@@ -1,8 +1,8 @@
-<div *ngIf="profile" id="profile-card">
-  <!--
-  <div id="editContainer">
-    <button id="editButton">Edit Profile</button>
-  </div>-->
+<div [ngClass]="{ hidden: !loading }" class="loading-container">
+  <img src="/assets/loading.gif" alt="Loading..." class="loading-gif" />
+</div>
+<div  [ngClass]="{ visible: !loading }" *ngIf="profile" id="profile-card">
+
   <mat-card id="cardBox">
 
     <div id="header">

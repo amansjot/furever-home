@@ -5,6 +5,7 @@ export interface SellerModel {
     sellerType: string;
     sellerLocation: string;
     sellerContact: string;
-    pets: string[];
+    pets: Object[];
     sellerPhoto: string;
+    requests: Object[];
 }

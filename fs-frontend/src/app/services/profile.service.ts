@@ -10,6 +10,20 @@ import { Observable } from 'rxjs';
 export class ProfileService {
   constructor(private httpClient: HttpClient) {}
 
+  // Method to get all user data
+  public getAllUsers(): Promise<UserModel[]> {
+    return new Promise<UserModel[]>((resolve, reject) => {
+      this.httpClient.get<UserModel[]>(`${Config.apiBaseUrl}/users`).subscribe({
+        next: (data) => {
+          resolve(data);
+        },
+        error: (err) => {
+          reject(err);
+        },
+      });
+    });
+  }
+
   // Method to fetch the authenticated profile
   public getProfile(): Observable<UserModel> {
     return this.httpClient.get<UserModel>(`${Config.apiBaseUrl}/users/me`);
