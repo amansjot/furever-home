@@ -89,12 +89,9 @@
     <!-- Animal Location -->
     <mat-form-field appearance="fill">
       <mat-label>Preferred Location</mat-label>
-      <input matInput formControlName="petLocation" placeholder="ZIP" />
+      <input matInput formControlName="petLocation" placeholder="City" />
       <mat-error *ngIf="questionnaireForm.get('petLocation')?.hasError('required')">
-        Location is required
-      </mat-error>
-      <mat-error *ngIf="questionnaireForm.get('petLocation')?.hasError('invalidZipCode')">
-        Enter a valid 5-digit ZIP code
+        City is required
       </mat-error>
     </mat-form-field>
 
