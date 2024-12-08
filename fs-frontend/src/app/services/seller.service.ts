@@ -34,4 +34,11 @@ export class SellerService {
       petId,
     });
   }
+
+  // Method to remove a specific request from the seller's requests array
+  public closeRequest(sellerId: string, userId: string, petId: string): Observable<any> {
+    return this.httpClient.delete(`${Config.apiBaseUrl}/seller/${sellerId}/requests`, {
+      body: { userId, petId },
+    });
+  }
 }

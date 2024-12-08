@@ -19,9 +19,20 @@
   <p *ngIf="rootSellerRoute == 'seller'" class="seller-info">
     Contact: {{ seller.sellerContact }}
   </p>
-  <hr class="divider" *ngIf="requests && requests.data && requests.data.length > 0" />
-  <h3 class="requests-title" *ngIf="requests && requests.data && requests.data.length > 0">Incoming Requests</h3>
-  <div class="pet-table-container" *ngIf="requests && requests.data && requests.data.length > 0">
+  <hr
+    class="divider"
+    *ngIf="requests && requests.data && requests.data.length > 0"
+  />
+  <h3
+    class="requests-title"
+    *ngIf="requests && requests.data && requests.data.length > 0"
+  >
+    Incoming Requests
+  </h3>
+  <div
+    class="pet-table-container"
+    *ngIf="requests && requests.data && requests.data.length > 0"
+  >
     <!-- <div class="search-container">
       <mat-form-field appearance="fill" class="search-bar">
         <mat-label>Search Requests</mat-label>
@@ -36,27 +47,23 @@
       <mat-table [dataSource]="requests" class="mat-elevation-z8" matSort>
         <!-- PetID Column -->
         <ng-container matColumnDef="petId">
-          <mat-header-cell *matHeaderCellDef>
-            Pet
-          </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef> Pet </mat-header-cell>
           <mat-cell *matCellDef="let request">
-            {{ petInfo[request.petId] || 'Loading...' }}
+            {{ petInfo[request.petId] || "Loading..." }}
           </mat-cell>
         </ng-container>
-        
+
         <!-- UserID Column -->
         <ng-container matColumnDef="userId">
           <mat-header-cell *matHeaderCellDef> Buyer </mat-header-cell>
           <mat-cell *matCellDef="let request">
-            {{ userInfo[request.userId] || 'Loading...' }}
+            {{ userInfo[request.userId] || "Loading..." }}
           </mat-cell>
         </ng-container>
 
         <!-- Timestamp Column -->
         <ng-container matColumnDef="timestamp">
-          <mat-header-cell *matHeaderCellDef>
-            Date
-          </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
           <mat-cell *matCellDef="let request">
             {{ request.timestamp | date }}
           </mat-cell>
@@ -67,21 +74,18 @@
           <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
           <mat-cell *matCellDef="let request" class="actions-cell">
             <div class="button-group">
-              <button
-                mat-button
-                color="primary"
-              >
-                Reply
-              </button>
+              <button mat-button color="primary" (click)="messageBuyer(request)">Message</button>
               <button
                 mat-button
                 color="accent"
+                (click)="confirmAcceptRequest(request)"
               >
                 Accept
               </button>
               <button
                 mat-button
                 color="warn"
+                (click)="confirmDenyRequest(request)"
               >
                 Deny
               </button>

@@ -17,11 +17,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
-import { async, map, Observable, startWith } from 'rxjs';
+import { Router } from '@angular/router';
+import { CloudinaryService } from '../../services/cloudinary.service';
+import { map, Observable, startWith } from 'rxjs';
 import { ItemService } from '../../services/item.service';
 import { LoginService } from '../../services/login.service';
-import { SellerService } from '../../services/seller.service';
 
 @Component({
   selector: 'app-add-pet',
@@ -81,7 +81,8 @@ export class AddPetComponent implements OnInit {
   constructor(
     private itemService: ItemService,
     private _loginSvc: LoginService,
-    private router: Router
+    private router: Router,
+    private cloudinaryService: CloudinaryService
   ) {}
 
   noFutureDateValidator(): ValidatorFn {
@@ -157,26 +158,41 @@ export class AddPetComponent implements OnInit {
     );
   }
 
+  // onFileSelect(event: Event): void {
+  //   const input = event.target as HTMLInputElement;
+  //   if (input?.files) {
+  //     Array.from(input.files).forEach((file) => {
+  //       const reader = new FileReader();
+  //       reader.onload = () => {
+  //         if (!this.selectedPictures.includes(reader.result as string)) {
+  //           // Only add the file if it's not already in the selectedPictures array
+  //           this.selectedPictures.push(reader.result as string);
+  //           this.petForm.get('pictures')?.setValue(this.selectedPictures); // Update the form control
+  //           this.petForm.get('pictures')?.updateValueAndValidity(); // Trigger validation
+  //         }
+  //       };
+  //       reader.readAsDataURL(file);
+  //     });
+
+  //     // Reset the file input value to allow re-uploading the same file
+  //     input.value = '';
+  //   }
+  // }
+
   onFileSelect(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input?.files) {
       Array.from(input.files).forEach((file) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          if (!this.selectedPictures.includes(reader.result as string)) {
-            // Only add the file if it's not already in the selectedPictures array
-            this.selectedPictures.push(reader.result as string);
-            this.petForm.get('pictures')?.setValue(this.selectedPictures); // Update the form control
-            this.petForm.get('pictures')?.updateValueAndValidity(); // Trigger validation
-          }
-        };
-        reader.readAsDataURL(file);
+        this.cloudinaryService.uploadImage(file).then((response) => {
+          const imgUrl = response.secure_url;
+          this.selectedPictures.push(imgUrl); // Add the uploaded image URL
+          this.petForm.get('pictures')?.setValue(this.selectedPictures); // Update the form control
+        });
       });
-
-      // Reset the file input value to allow re-uploading the same file
-      input.value = '';
+      input.value = ''; // Reset the input
     }
   }
+   
 
   onReorder(event: CdkDragDrop<string[]>): void {
     moveItemInArray(
@@ -219,24 +235,51 @@ export class AddPetComponent implements OnInit {
     }
   }
 
+  // handleDroppedFiles(files: FileList): void {
+  //   Array.from(files).forEach((file) => {
+  //     if (file.type.startsWith('image/')) {
+  //       // Check if the file is an image
+  //       const reader = new FileReader();
+  //       reader.onload = () => {
+  //         if (!this.selectedPictures.includes(reader.result as string)) {
+  //           this.selectedPictures.push(reader.result as string);
+  //           this.petForm.get('pictures')?.setValue(this.selectedPictures); // Update the form control
+  //           this.petForm.get('pictures')?.updateValueAndValidity(); // Trigger validation
+  //         }
+  //       };
+  //       reader.readAsDataURL(file);
+  //     } else {
+  //       console.warn(`${file.name} is not an image file and was skipped.`);
+  //     }
+  //   });
+  // }
+
   handleDroppedFiles(files: FileList): void {
     Array.from(files).forEach((file) => {
       if (file.type.startsWith('image/')) {
-        // Check if the file is an image
         const reader = new FileReader();
         reader.onload = () => {
-          if (!this.selectedPictures.includes(reader.result as string)) {
-            this.selectedPictures.push(reader.result as string);
-            this.petForm.get('pictures')?.setValue(this.selectedPictures); // Update the form control
-            this.petForm.get('pictures')?.updateValueAndValidity(); // Trigger validation
-          }
+          const base64Image = reader.result as string;
+          this.imgurService.uploadImage(base64Image.split(',')[1]).subscribe({
+            next: (response) => {
+              const imgUrl = response.data.link; // Get the Imgur URL
+              if (!this.selectedPictures.includes(imgUrl)) {
+                this.selectedPictures.push(imgUrl); // Save the Imgur URL
+                this.petForm.get('pictures')?.setValue(this.selectedPictures); // Update the form control
+                this.petForm.get('pictures')?.updateValueAndValidity(); // Trigger validation
+              }
+            },
+            error: (err) => {
+              console.error('Error uploading image to Imgur:', err);
+            },
+          });
         };
         reader.readAsDataURL(file);
       } else {
         console.warn(`${file.name} is not an image file and was skipped.`);
       }
     });
-  }
+  }  
 
   // onPhotoSelected(event: Event): void {
   //   const input = event.target as HTMLInputElement;
