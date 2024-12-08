@@ -368,3 +368,14 @@ button {
 		background: none;
 	}
 }
+
+
+.profilePic{
+	position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    z-index:4;
+    object-fit: cover;
+	margin-right: 3px;
+}

@@ -3,6 +3,7 @@ import { LoginService } from '../../services/login.service';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { ProfileService } from '../../services/profile.service';
 import {
   NavigationEnd,
   Router,
@@ -30,14 +31,17 @@ export class HeaderComponent implements OnInit {
   public authenticated: boolean = false;
   public roles: string[] = [];
   public showButtons: boolean = true;
+  public loading: boolean = true; // Tracks if profile data is being loaded
+  profile: any;
 
   private noHideRoutes: string[] = ['register', 'login'];
 
   private contentDivOffset: number = 0;
 
-  constructor(private _loginSvc: LoginService, private router: Router) {
+  constructor(private _loginSvc: LoginService, private router: Router,  private profileService: ProfileService,) {
     _loginSvc.loggedIn.subscribe(this.onLoginChange);
 
+    this.loadProfile();
     router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.showButtons = !(
@@ -56,6 +60,20 @@ export class HeaderComponent implements OnInit {
       }
     });
   }
+
+  loadProfile(): void {
+    this.profileService.getProfile().subscribe({
+      next: (data) => {
+        this.loading = false; // Set loading to false when data is loaded
+        this.profile = data; // Assign the fetched data to the profile property
+      },
+      error: (err) => {
+        this.loading = false; // Set loading to false in case of an error
+        console.error('Error loading profile:', err); // Log any errors
+      },
+    });
+  }
+
 
   private updateContentDivOffset(): void {
     if (this.router.url === '/') {
