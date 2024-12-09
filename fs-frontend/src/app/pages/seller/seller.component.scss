@@ -8,7 +8,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: #ffffffcc;
     /* Optional: Semi-transparent background */
     z-index: 9999;
     /* Ensure it appears above everything else */
@@ -47,7 +47,7 @@ img {
 }
 
 ::ng-deep .mat-mdc-card.mdc-card.content-card.mat-elevation-z4 {
-    background-color: #e6e6e6;
+    background-color: #F4F3F6;
 }
 
 // Container for all cards
