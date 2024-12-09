@@ -250,13 +250,13 @@ export class SecurityController {
 
       const userId = userInsertResult.insertedId;
 
-      if (role.toLowerCase() === "buyer") {
+      if (role && role.toLowerCase() === "buyer") {
         await this.mongoDBService.insertOne(
           this.settings.database,
           this.settings.buyersCollection,
           { user: userId, favorites: [] }
         );
-      } else if (role.toLowerCase() === "seller") {
+      } else if (role && role.toLowerCase() === "seller") {
         await this.mongoDBService.insertOne(
           this.settings.database,
           this.settings.sellersCollection,
