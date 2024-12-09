@@ -132,14 +132,16 @@
 // Role Chips
 #mat-chip-list {
     display: flex;
-    gap: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .roleBoxes {
-    height: 40px;
+    height: 32px;
     width: auto;
-    font-size: 20px;
-    padding: 0 16px;
+    font-size: 16px;
+    padding: 0 12px;
+    margin: 4px 0;
 }
 
 // Role Chip Colors
@@ -208,8 +210,21 @@ button,
     }
     
     .roleBoxes {
-        height: 32px;
-        font-size: 16px;
-        padding: 0 12px;
+        height: 28px;
+        font-size: 14px;
+        padding: 0 10px;
+    }
+}
+
+// For very small screens
+@media (max-width: 480px) {
+    #mat-chip-list {
+        gap: 6px;
+    }
+
+    .roleBoxes {
+        height: 24px;
+        font-size: 12px;
+        padding: 0 8px;
     }
 }
