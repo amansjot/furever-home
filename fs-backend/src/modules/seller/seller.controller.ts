@@ -151,6 +151,10 @@ export class SellerController {
       const { sellerId } = req.params; // Get seller ID from the route parameter
       const { userId, petId } = req.body; // Get user ID from the request body
 
+      console.log(sellerId);
+      console.log(userId);
+      console.log(petId);
+
       // Validate IDs
       if (
         !ObjectId.isValid(sellerId) ||
