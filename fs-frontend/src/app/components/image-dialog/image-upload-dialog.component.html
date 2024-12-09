@@ -1,14 +1,18 @@
-<div id="container">
-<h2 mat-dialog-title class="dialog-title">Upload Profile Picture</h2>
-<mat-dialog-content class="dialog-content">
-  <p>Select a picture to set as your profile picture.</p>
-  <input type="file"  id="inputbox"  (change)="onFileSelect($event)" />
-    <img  *ngIf="preview"   class="profile-pic"  [src]="preview" alt="Profile Preview" />
-</mat-dialog-content>
+<div class="container">
+    <h2 mat-dialog-title class="dialog-title">Upload Profile Picture</h2>
+    <mat-dialog-content class="dialog-content">
+        <p>Select a picture to set as your profile picture</p>
+        <div class="file-upload">
+            <label for="inputbox" class="custom-file-upload">
+                Choose File
+            </label>
+            <input type="file" id="inputbox" (change)="onFileSelect($event)" accept="image/*" />
+        </div>
+        <img *ngIf="preview" class="profile-pic" [src]="preview" alt="Profile Preview" />
+    </mat-dialog-content>
 
-
-<mat-dialog-actions align="end">
-  <button class="buttonTxt" mat-dialog-close>Cancel</button>
-  <button class="buttonTxt"  (click)="save()" >Save</button>
-</mat-dialog-actions>
+    <mat-dialog-actions align="center">
+        <button class="buttonTxt" mat-dialog-close>Cancel</button>
+        <button class="buttonTxt" (click)="save()" [disabled]="!preview">Save</button>
+    </mat-dialog-actions>
 </div>

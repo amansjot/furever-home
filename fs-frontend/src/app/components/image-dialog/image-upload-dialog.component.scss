@@ -1,56 +1,117 @@
-.container{
-    width: 400px;
-    height: 450px;
+// Container styles
+.container {
     font-family: 'Outfit', sans-serif;
+    padding: 20px;
+    border-radius: 16px;
+    background: linear-gradient(to bottom, #ffffff, #f8f9fa);
 }
 
+// Dialog header
+.dialog-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 26px;
+    color: #2d3748;
+    margin-bottom: 16px;
+    text-align: center;
+    font-weight: 600;
+}
+
+// Dialog content
+.dialog-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    color: #4a5568;
+    padding: 16px 0;
+
+    p {
+        margin-bottom: 24px;
+        line-height: 1.5;
+    }
+}
+
+// Image preview
 .profile-pic {
     position: relative;
-    height: 200px;
-    width: 200px;
+    height: 180px;
+    width: 180px;
     display: block;
-    margin: 20px 100px;
+    margin: 16px auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    object-fit: cover;
 }
 
-.dialog-content{
-    display: grid;
-    justify-content: center;
-    font-family: 'Outfit', sans-serif;
-    font-size: 18px;
-
+// File upload styles
+input[type="file"] {
+    display: none;
 }
 
-.dialog-title{
-    font-family: 'Outfit', sans-serif;
-    font-size: 23px;
+.file-upload {
+    text-align: center;
+    margin: 16px 0;
 }
 
-.buttonTxt{
-    position: relative;
-    font-size: 18px;
-    height: 40px;
-    width: 110px;
-    color:#4ca68b;
+.custom-file-upload {
+    display: inline-block;
+    padding: 12px 32px;
+    cursor: pointer;
+    color: #4ca68b;
+    border: 2px solid #4ca68b;
     border-radius: 60px;
-    border-color: transparent;
-    background-color: transparent;
-    gap: 7px;
     font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(76, 166, 139, 0.1);
+    background-color: white;
+
+    &:hover {
+        background-color: #4ca68b;
+        color: white;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(76, 166, 139, 0.2);
+    }
+
+    &:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(76, 166, 139, 0.1);
+    }
 }
 
-.buttonTxt:hover{
-    background-color: rgb(229, 235, 230) ;
-}
-
-
-#inputBox{
+// Action buttons
+.buttonTxt {
     position: relative;
     font-size: 16px;
     height: 40px;
-    width: 120px;
+    min-width: 110px;
+    color: #4ca68b;
     border-radius: 60px;
-    border-color: transparent;
+    border: 2px solid transparent;
     background-color: transparent;
+    padding: 0 24px;
     font-family: 'Outfit', sans-serif;
+    transition: all 0.2s ease;
+    font-weight: 500;
+
+    &:hover {
+        background-color: rgba(76, 166, 139, 0.1);
+        transform: translateY(-1px);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
 }
 
+mat-dialog-actions {
+    padding: 16px 0;
+    margin: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
