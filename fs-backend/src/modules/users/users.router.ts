@@ -33,6 +33,11 @@ export class UserRouter {
       SecurityMiddleware.validateUser,
       this.controller.updateUser
     );
+    this.router.post(
+      "/profilePic",
+      SecurityMiddleware.validateUser,
+      this.controller.postProfilePic
+    );
 
     return this.router;
   }

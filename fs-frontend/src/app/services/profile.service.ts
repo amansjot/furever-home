@@ -39,3 +39,5 @@ export class ProfileService {
     return this.httpClient.put(`${Config.apiBaseUrl}/users/${id}`, profileData);
   }
 }
+
+

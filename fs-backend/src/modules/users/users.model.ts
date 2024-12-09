@@ -5,5 +5,6 @@ export interface UserModel {
 	location: string;
 	username: string; // Email or username
 	password: string; // Hashed password
-	roles: string[]; // Array of user roles (e.g., ["buyer", "admin"])
+	roles: string[];
+	profilePic: string;// Array of user roles (e.g., ["buyer", "admin"])
 }

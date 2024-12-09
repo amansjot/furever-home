@@ -117,7 +117,8 @@ export class UserController {
         location: req.body.location,
         username: req.body.username,
         password: req.body.password, // Ideally, this should be hashed before saving
-        roles: req.body.roles || [], // Default to an empty array if roles are not provided
+        roles: req.body.roles || [],
+        profilePic: req.body.profilePic,// Default to an empty array if roles are not provided
       };
 
       // Insert the new user document into the "users" collection
@@ -173,7 +174,8 @@ export class UserController {
         lastName: req.body.lastName,
         location: req.body.location,
         username: req.body.username,
-        password: req.body.password, // Ideally, hash this password before storing
+        password: req.body.password,
+        profilePic: req.body.profilePic,// Ideally, hash this password before storing
       };
 
       // Perform the update operation
@@ -197,4 +199,51 @@ export class UserController {
       res.status(500).send({ error: "Internal Server Error" });
     }
   };
+
+  
+    // Method to update the user's profile picture
+    postProfilePic = async (
+      req: express.Request,
+      res: express.Response
+    ): Promise<void> => {
+      try {
+        const result = await this.mongoDBService.connect();
+        if (!result) {
+          res.status(500).send({ error: "Database connection failed" });
+          return;
+        }
+  
+        const { userId, profilePic } = req.body;
+  
+        // Validate inputs
+        if (!userId || !profilePic) {
+          res.status(400).send({ error: "Invalid request: userId and profilePic are required" });
+          return;
+        }
+  
+        // Perform the update operation
+        const updateResult = await this.mongoDBService.updateOne(
+          "pet-adoption",
+          "users",
+          { _id: new ObjectId(userId) },
+          { $set: { profilePic } }
+        );
+  
+        if (updateResult) {
+          res.send({
+            success: true,
+            message: "Profile picture updated successfully",
+          });
+        } else {
+          res.status(500).send({ error: "Failed to update profile picture" });
+        }
+      } catch (error) {
+        console.error("Error updating profile picture:", error);
+        res.status(500).send({ error: "Internal Server Error" });
+      }
+    };
+  
+
 }
+
+
