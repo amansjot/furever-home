@@ -13,7 +13,7 @@
       <div id="picCircle">
         <img id="profilePic" [src]="profile?.profilePic"  />
       </div>
-      <button class="changeButtonImg" mat-button (click)="openImageUploadDialog()">Change Profile Picture</button>
+      <button class="changeButtonImg" (click)="openImageUploadDialog()">Change Profile Picture</button>
       <!--<input type="file" accept="image/*" id="picButton" (change)="onFileSelect($event)"/>-->
     </div>
     <!--</form>-->
@@ -23,14 +23,14 @@
     <div id="nameField">
       <strong class="lableTitle">Name: </strong>
       <div class="profile-field-value">{{ profile?.firstName + " " + profile?.lastName }}</div>
-      <button class="changeButton" mat-button color="white"
+      <button class="changeButton"  color="white"
         (click)="changeField('firstName', 'lastName')">Change</button>
     </div>
  
     <div id="locationField">
       <strong class="lableTitle">Location: </strong>
       <div class="profile-field-value">{{ profile?.location }}</div>
-      <button class="changeButton" mat-button color="primary" (click)="changeField('location')">Change</button>
+      <button class="changeButton" color="primary" (click)="changeField('location')">Change</button>
     </div>
 
     <!--<div class="profile-section-divider"></div>-->

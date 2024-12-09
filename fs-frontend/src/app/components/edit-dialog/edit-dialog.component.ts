@@ -20,30 +20,36 @@ import { FormsModule } from '@angular/forms';
     MatInputModule,
     CommonModule,
     FormsModule,
+
   ],
   templateUrl: './edit-dialog.component.html',
   styles: [
     `
       h2.dialog-title {
-        font-size: 20px;
+        font-size: 23px;
         font-family: 'Outfit', sans-serif;
-        font-weight: bold;
         margin-bottom: 16px;
       }
 
       div.dialog-subtitle {
-        background-color: #f6eaea;
-        border: 1px solid #ff9595;
+        border: 1px solid #4ca68b;
         padding: 10px;
         margin: auto;
         width: 80%;
         text-align: center;
+        background-color: rgb(229, 235, 230);
       }
 
       mat-dialog-content.dialog-content {
         font-family: 'Outfit', sans-serif;
         font-size: 16px;
         margin-top: 8px;
+        
+      }
+      
+       mat-label {
+        font-size: 18px;
+        color: black;
       }
 
       .form-field {
@@ -53,16 +59,17 @@ import { FormsModule } from '@angular/forms';
 
       mat-form-field {
         width: 100%;
+        
       }
 
       mat-label {
-        font-size: 14px;
-        font-weight: 500;
+        font-size: 18px;
       }
 
       input[matInput] {
         font-size: 16px;
         font-family: 'Outfit', sans-serif;
+    
       }
 
       mat-dialog-actions {
@@ -70,10 +77,21 @@ import { FormsModule } from '@angular/forms';
       }
 
       button[mat-button] {
-        font-size: 14px;
+        position: relative;
+        font-size: 18px;
+        height: 40px;
+        width: 110px;
+        color:#4ca68b;
+        border-radius: 60px;
+        border-color: transparent;
+        background-color: transparent;
+        gap: 7px;
         font-family: 'Outfit', sans-serif;
-        font-weight: 500;
       }
+
+    button[mat-button]:hover{
+      background-color: rgb(229, 235, 230) ;
+    }
     `,
   ],
 })

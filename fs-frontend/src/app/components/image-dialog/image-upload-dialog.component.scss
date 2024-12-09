@@ -1,5 +1,56 @@
-.profile-pic {
-    height: 200px;
-    width: auto;
-    display: block;
+.container{
+    width: 400px;
+    height: 450px;
+    font-family: 'Outfit', sans-serif;
 }
+
+.profile-pic {
+    position: relative;
+    height: 200px;
+    width: 200px;
+    display: block;
+    margin: 20px 100px;
+}
+
+.dialog-content{
+    display: grid;
+    justify-content: center;
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+
+}
+
+.dialog-title{
+    font-family: 'Outfit', sans-serif;
+    font-size: 23px;
+}
+
+.buttonTxt{
+    position: relative;
+    font-size: 18px;
+    height: 40px;
+    width: 110px;
+    color:#4ca68b;
+    border-radius: 60px;
+    border-color: transparent;
+    background-color: transparent;
+    gap: 7px;
+    font-family: 'Outfit', sans-serif;
+}
+
+.buttonTxt:hover{
+    background-color: rgb(229, 235, 230) ;
+}
+
+
+#inputBox{
+    position: relative;
+    font-size: 16px;
+    height: 40px;
+    width: 120px;
+    border-radius: 60px;
+    border-color: transparent;
+    background-color: transparent;
+    font-family: 'Outfit', sans-serif;
+}
+

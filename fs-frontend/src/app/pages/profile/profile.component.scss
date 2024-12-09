@@ -136,21 +136,31 @@
  
  
  .changeButton{
+    position: relative;
     left:65%;
     font-size: 18px;
-    background-color: #42927a;
-    color: #FFFFFF;
+    height: 40px;
     width: 120px;
+    background-color: #4ca68b;
+    color: white;
+    font-family: 'Outfit', sans-serif;
+    border-radius: 60px;
+    border-color: transparent;
  }
  
  
  .changeButtonImg{
     position: relative;
+    height: 40px;
     font-size: 18px;
     width: 300px;
-    margin: 10px -18%;
-    background-color: #42927a;
+    margin: 15px -18%;
+    background-color: #4ca68b;
     color: white;
+    font-family: 'Outfit', sans-serif;
+    border-radius: 60px;
+    border-color: transparent;
+
  }
 
  #nameField{
@@ -159,6 +169,7 @@
     margin-top: 25px;
     display: flex;
     margin: 3% 20%;
+
   
  }
  #locationField{
