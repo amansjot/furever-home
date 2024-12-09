@@ -1,6 +1,8 @@
 <div class="add-pet-container">
-  <mat-card class="add-pet-card">
+  <div class="add-pet-title-container">
     <mat-card-title class="add-pet-title">Add a Pet</mat-card-title>
+  </div>
+  <mat-card class="add-pet-card">
     <mat-card-content>
       <form [formGroup]="petForm" (ngSubmit)="onSubmit()">
         <!-- Name -->
