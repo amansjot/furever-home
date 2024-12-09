@@ -103,7 +103,7 @@ export class QuestionnaireComponent implements OnInit {
       this.isLoading = false; 
     }, 2000);
 
-    this._router.navigate(['/home']);
+    this._router.navigate(['/browse']);
     this.disableSubmit = false;
   }
 }
