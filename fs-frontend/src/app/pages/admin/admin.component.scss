@@ -1,9 +1,13 @@
+// =================
 // Variables
+// =================
 $transition-quick: opacity 0.1s ease-out;
 $transition-normal: opacity 0.3s ease-in;
 $navbar-height: 80px;
 
-// Title styles
+// =================
+// Layout Components
+// =================
 .admin-title {
     user-select: none;
     text-align: start;
@@ -16,20 +20,32 @@ $navbar-height: 80px;
     margin-left: 25px;
 }
 
-// Main containers
 .admin-container {
     background-color: #F4F3F6;
     border-radius: 20px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    width: calc(100% - 70px);
-    padding: 25px;
+    width: 100%;
+    max-width: 100%;
+    padding: 15px;
     min-height: 80vh;
-    margin: 0 25px 25px 25px;
+    margin: 0;
+    box-sizing: border-box;
 }
 
+.main-content {
+    opacity: 0;
+    transition: $transition-normal;
+
+    &.visible {
+        opacity: 1;
+    }
+}
+
+// =================
+// Loading States
+// =================
 .loading-container {
     position: fixed;
-    /* Overlay the entire screen */
     top: 75px;
     left: 0;
     width: 100%;
@@ -37,22 +53,178 @@ $navbar-height: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.8);
-    /* Optional: Semi-transparent background */
-    z-index: 9999;
-    /* Ensure it appears above everything else */
-    opacity: 1;
     background-color: white;
-    transition: opacity 0.1s ease-out;
+    z-index: 9999;
+    opacity: 1;
+    transition: $transition-quick;
+
+    &.hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
 }
 
-.loading-container.hidden {
-    opacity: 0;
-    pointer-events: none;
-    /* Prevent interactions with hidden loading screen */
+.loading-gif {
+    margin-top: -75px;
+    width: 250px;
+    height: auto;
 }
 
-// Angular Material overrides
+// =================
+// Tab Styles
+// =================
+.tab-content {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px;
+}
+
+// =================
+// Table Components
+// =================
+.pet-table-container {
+    width: 100%;
+    margin-top: 20px;
+    overflow-x: hidden;
+
+    .table-wrapper {
+        width: calc(100% + 30px);
+        overflow-x: auto;
+        margin: 0 -15px;
+        padding: 0 15px;
+        box-sizing: border-box;
+        
+        scroll-behavior: smooth;
+        scrollbar-width: thin;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+        
+        &::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        &::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        &::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+    }
+
+    mat-table {
+        min-width: 800px;
+        width: 100%;
+        
+        .mat-cell, .mat-header-cell {
+            padding: 12px 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .mat-column-actions {
+            min-width: 250px;
+            width: 250px;
+        }
+    }
+
+    .actions-cell {
+        padding: 8px !important;
+        
+        .button-group {
+            min-width: 240px;
+        }
+    }
+}
+
+// =================
+// Button Styles
+// =================
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: nowrap;
+    
+    button {
+        flex: 1;
+        padding: 8px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        border-radius: 5px;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s ease-in-out;
+        white-space: nowrap;
+
+        &:hover {
+            transform: scale(1.05);
+        }
+
+        &[color="warn"] {
+            background-color: #f44336;
+            color: white;
+
+            &:hover {
+                background-color: #d32f2f;
+            }
+        }
+
+        &[color="accent"] {
+            background-color: #ff9800;
+            color: white;
+
+            &:hover {
+                background-color: #f57c00;
+            }
+        }
+
+        &[color="primary"] {
+            background-color: #3f51b5;
+            color: white;
+
+            &:hover {
+                background-color: #303f9f;
+            }
+        }
+    }
+}
+
+// =================
+// Search Components
+// =================
+.search-container {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 16px;
+}
+
+.search-bar {
+    width: 100%;
+    max-width: 300px;
+}
+
+// =================
+// Chip Styles
+// =================
+.roles-chips {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.mat-chip-list {
+    display: flex;
+    gap: 8px;
+}
+
+// =================
+// Angular Material Overrides
+// =================
 ::ng-deep {
     .content[_ngcontent-ng-c878565217] {
         padding: 0;
@@ -69,178 +241,55 @@ $navbar-height: 80px;
             padding: 0;
             margin: 0;
         }
-    }
-}
 
-.loading-gif {
-    margin-top: -75px;
-    width: 250px;
-    height: auto;
-}
-
-// Content containers
-.main-content {
-    opacity: 0;
-    transition: $transition-normal;
-
-    &.visible {
-        opacity: 1;
-    }
-}
-
-::ng-deep .mat-mdc-card {
-    margin-top: 75px;
-}
-
-// Tab styles
-::ng-deep .mat-tab-group {
-    margin-top: 20px;
-}
-
-::ng-deep .mat-tab-label {
-    font-size: 1.2rem;
-    font-family: 'Outfit', "Helvetica Neue", sans-serif;
-    font-weight: 600;
-    color: #252525;
-}
-
-::ng-deep .mat-tab-label-active {
-    color: #007BFF; // Active tab color
-}
-
-.tab-content {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px;
-}
-
-// Pet table styles
-.pet-table-container {
-    width: 100%;
-    margin-top: 20px;
-
-    .table-wrapper {
-        width: 100%;
-        overflow-x: auto;
-        /* Enable horizontal scrolling */
-        overflow-y: hidden;
-        /* Optional: Hide vertical scrolling if not needed */
+        margin-top: 75px;
     }
 
-    mat-table {
-        min-width: 800px;
-        /* Ensure the table has a minimum width for horizontal scrolling */
-        width: 100%;
-        /* Make the table take the full width of the container */
-        border-spacing: 0;
+    .mat-tab-group {
+        margin-top: 20px;
+    }
 
-        th,
-        td {
-            padding: 16px;
-            text-align: left;
-            word-wrap: break-word;
-        }
+    .mat-tab-label {
+        font-size: 1.2rem;
+        font-family: 'Outfit', "Helvetica Neue", sans-serif;
+        font-weight: 600;
+        color: #252525;
 
-        th {
-            background-color: #f5f5f5;
-            font-weight: bold;
-            position: sticky;
-            top: 0;
-            /* Sticky headers */
-            z-index: 1;
-        }
-
-        td {
-            border-bottom: 1px solid #e0e0e0;
+        &-active {
+            color: #007BFF;
         }
     }
+}
 
-    .mat-button {
-        margin: 0 5px;
+// =================
+// Responsive Styles
+// =================
+@media screen and (max-width: 768px) {
+    .admin-title {
+        font-size: 2rem;
+        margin-left: 15px;
     }
 
-    .actions-cell {
-        text-align: center;
-        /* Center content in the cell */
-        width: 300px;
-        /* Explicitly set a larger width for the Actions column */
+    .admin-container {
+        padding: 10px;
     }
 
-    .button-group {
-        display: flex;
-        justify-content: space-between;
-        /* Spread buttons evenly */
-        gap: 10px;
-        /* Add spacing between buttons */
+    .tab-content {
+        padding: 10px;
     }
+}
 
+@media screen and (max-width: 480px) {
+    .admin-title {
+        font-size: 1.8rem;
+    }
+    
     .button-group button {
-        flex: 1;
-        // min-width: 80px;
-        padding: 8px 16px;
-        font-size: 0.875rem;
-        font-weight: 500;
-        border-radius: 5px;
-        cursor: pointer;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        transition: transform 0.2s ease-in-out;
+        min-width: auto;
+        padding: 8px;
+
+        .mat-button-wrapper span {
+            display: none;
+        }
     }
-
-    .button-group button:hover {
-        transform: scale(1.05);
-    }
-
-    .button-group button[color="warn"] {
-        background-color: #f44336;
-        color: white;
-    }
-
-    .button-group button[color="warn"]:hover {
-        background-color: #d32f2f;
-    }
-
-    .button-group button[color="accent"] {
-        background-color: #ff9800;
-        color: white;
-    }
-
-    .button-group button[color="accent"]:hover {
-        background-color: #f57c00;
-    }
-
-    .button-group button[color="primary"] {
-        background-color: #3f51b5;
-        color: white;
-    }
-
-    .button-group button[color="primary"]:hover {
-        background-color: #303f9f;
-    }
-}
-
-.search-container {
-    display: flex;
-    justify-content: flex-start;
-    margin-bottom: 16px;
-}
-
-.search-bar {
-    width: 300px;
-}
-
-.roles-chips {
-    display: flex;
-    justify-content: center;
-    /* Center-align the chips */
-    gap: 8px;
-    /* Adds space between each chip */
-    flex-wrap: wrap;
-    /* Wrap to a new line if necessary */
-}
-
-.mat-chip-list {
-    display: flex;
-    gap: 8px;
 }
