@@ -12,6 +12,7 @@ import {
 } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute } from '@angular/router';
+import { ProfilePicService } from '../../services/profilepic.service';
 
 @Component({
   selector: 'app-header',
@@ -30,7 +31,7 @@ import { ActivatedRoute } from '@angular/router';
 export class HeaderComponent implements OnInit {
   public authenticated: boolean = false;
   public roles: string[] = [];
-  public profilePic: string = "https://i.imgur.com/AZFfFIy.png";
+  public profilePic: string = 'https://i.imgur.com/AZFfFIy.png';
   public showButtons: boolean = true;
   public loading: boolean = true; // Tracks if profile data is being loaded
   profile: any;
@@ -39,7 +40,12 @@ export class HeaderComponent implements OnInit {
 
   private contentDivOffset: number = 0;
 
-  constructor(private _loginSvc: LoginService, private router: Router,  private profileService: ProfileService,) {
+  constructor(
+    private _loginSvc: LoginService,
+    private router: Router,
+    private profileService: ProfileService,
+    private profilePicService: ProfilePicService
+  ) {
     _loginSvc.loggedIn.subscribe(this.onLoginChange);
 
     this.loadProfile();
@@ -60,6 +66,10 @@ export class HeaderComponent implements OnInit {
         setTimeout(() => this.updateContentDivOffset(), 100);
       }
     });
+
+    this.profilePicService.profilePic$.subscribe((pic) => {
+      this.profilePic = pic;
+    });
   }
 
   loadProfile(): void {
@@ -74,7 +84,6 @@ export class HeaderComponent implements OnInit {
       },
     });
   }
-
 
   private updateContentDivOffset(): void {
     if (this.router.url === '/') {
@@ -97,7 +106,7 @@ export class HeaderComponent implements OnInit {
       } else {
         setTimeout(() => {
           this.roles = this._loginSvc.getAuthenticatedRoles();
-          localStorage.setItem("roles", JSON.stringify(this.roles));
+          localStorage.setItem('roles', JSON.stringify(this.roles));
         }, 100);
       }
 
@@ -106,12 +115,12 @@ export class HeaderComponent implements OnInit {
       } else {
         setTimeout(() => {
           this.profilePic = this._loginSvc.getProfilePic();
-          localStorage.setItem("profilePic", JSON.stringify(this.profilePic));
+          localStorage.setItem('profilePic', JSON.stringify(this.profilePic));
         }, 100);
       }
     } else {
       this.roles = [];
-      this.profilePic = "https://i.imgur.com/AZFfFIy.png";
+      this.profilePic = 'https://i.imgur.com/AZFfFIy.png';
     }
   };
 
@@ -119,7 +128,7 @@ export class HeaderComponent implements OnInit {
     localStorage.clear();
     this._loginSvc.logout();
     this.roles = [];
-    this.profilePic = "https://i.imgur.com/AZFfFIy.png";
+    this.profilePic = 'https://i.imgur.com/AZFfFIy.png';
     this.router.navigate(['']);
   }
 
