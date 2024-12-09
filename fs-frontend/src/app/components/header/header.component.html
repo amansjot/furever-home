@@ -13,6 +13,7 @@
       <button routerLink="/browse" [class.active]="isRouteActive('/browse')">Browse</button>
       <button *ngIf="roles.includes('seller')" routerLink="/seller" [class.active]="isRouteActive('/seller')">My Pets</button>
       <button *ngIf="authenticated" routerLink="/profile" [class.active]="isRouteActive('/profile')">Profile</button>
+      <img class="profilePic" [src]="profile?.profilePic"  />
       <button (click)="logout()">Logout</button>
     </div>
     <div class="desktop-login-btn" *ngIf="!authenticated && showButtons">
@@ -37,6 +38,7 @@
             <button routerLink="/browse" [class.active]="isRouteActive('/browse')" (click)="onMenuItemClick()">Browse</button>
             <button *ngIf="roles.includes('seller')" routerLink="/seller" [class.active]="isRouteActive('/seller')" (click)="onMenuItemClick()">My Pets</button>
             <button *ngIf="authenticated" routerLink="/profile" [class.active]="isRouteActive('/profile')" (click)="onMenuItemClick()">Profile</button>
+            <img class="profilePic" [src]="profile?.profilePic"  />
             <button (click)="logout(); onMenuItemClick()">Logout</button>
         </div>
         <div class="mobile-login-btn" *ngIf="!authenticated && showButtons">

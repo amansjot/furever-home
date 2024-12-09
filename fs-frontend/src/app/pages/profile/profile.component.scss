@@ -24,7 +24,7 @@
 }
 
 .loading-gif {
-    margin-top: -75px;
+    margin-top: 0px;
     width: 250px;
     height: auto;
 }
@@ -40,67 +40,54 @@
 
 ::ng-deep .mat-mdc-card {
     margin-top: 75px;
-    font-family: "Outfit", sans-serif;
 }
-/*
-#editContainer{
-    height: 10px;
-}
-#editButton{
-    top: 25px;
-    left: -23%;
-    position: relative;
-    background-color: rgba(227, 224, 224, 0.476);
-    width: 100px;
-    height: 45px;
-    border-radius: 5px;
-    border-color: transparent;
-    font-size: 16px;  
-}
-    */
-#profile-card {
+
+    
+ #profile-card {
+    margin-top: 75px;
     justify-content: center;
-    margin: 0% 25%;
+    //margin: 0% 25%;
     display: flexbox;
-    margin-bottom: 60px;
+    //margin-bottom: 60px;
     justify-content: center;
     align-items: center;
     justify-items: center;
     min-width: 650px;
-}
-
-#cardBox{
-    height: 750px;
+ }
+ 
+ 
+ #cardBox{
+    height: 80%;
     width: 100%;
     min-width: 500px;
+    //max-height: 325px;
     display: block;
     justify-content: center;
     align-items: center;
     position: relative;
     background-color: #ffffff7c;
     font-family: "Outfit", sans-serif;
-}
-
-
-
-#header{
+ }
+ 
+ 
+ #header{
     position: relative;
-    top: 25px;
     font-size: 2.5pc;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     width: 100%;
-    padding: 2% 38%;
+    padding: 1% 45%;
     font-family: "Outfit", sans-serif;
-}
-
-#picField{
+ }
+ 
+ 
+ #picField{
     width: 200px;
     height: 200px;
     display: grid;
     margin-bottom: 5px;
-    margin-left: 38%;
-}
-#picCircle{
+    margin-left: 45%;
+ }
+ #picCircle{
     position: relative;
     width: 200px;
     height: 200px;
@@ -113,9 +100,10 @@
     &:hover {
         background-color: rgba(177, 176, 176, 0.4);
     }
-}
-
-#profilePic{
+ }
+ 
+ 
+ #profilePic{
     position: relative;
     width: 197px;
     height: 197px;
@@ -123,8 +111,8 @@
     z-index:4;
     object-fit: cover;
     margin-bottom: 50px;
-}
-#picButton{
+ }
+ #picButton{
     position: relative;
     height: 40px;
     background-color: transparent;
@@ -132,145 +120,102 @@
     border-color: transparent;
     margin-bottom: 20px;
     margin-top:40px;
-}
-#picButton:hover{
-    color:#5cc8a8
+ }
 
-    
-}
-.lableTitle{
+ .lableTitle{
     font-size: 22px;
     font-weight: 400;
     margin-right: 20px;
-}
-
-.profile-field-value{
+ }
+ 
+ 
+ .profile-field-value{
     margin-top: 2px;
     font-size: 20px;
-}
-
-.changeButton{
+ }
+ 
+ 
+ .changeButton{
     left:65%;
     font-size: 18px;
-}
+    background-color: #42927a;
+    color: #FFFFFF;
+    width: 120px;
+ }
+ 
+ 
+ .changeButtonImg{
+    position: relative;
+    font-size: 18px;
+    width: 300px;
+    margin: 10px -18%;
+    background-color: #42927a;
+    color: white;
+ }
 
-#nameField{
+ #nameField{
     position: relative;
     //background-color: aqua;
     margin-top: 25px;
     display: flex;
-    margin: 3% 13%;
-   
-}
-#locationField{
+    margin: 3% 20%;
+  
+ }
+ #locationField{
     position: relative;
     //background-color: red;
     display: flex;
-    margin: 3% 13%;
-}
-#usernameField{
+    margin: 3% 20%;
+ }
+ #usernameField{
     position: relative;
     //background-color: rgb(125, 125, 207);
     display: flex;
-    margin: 3% 13%;
-}
-#passwordField{
+    margin: 3% 20%;
+ }
+ #passwordField{
     position: relative;
     //background-color: cadetblue;
     display: flex;
-    margin: 3% 13%;
-}
-#rolesField{
+    margin: 3% 20%;
+ }
+ #rolesField{
     position: relative;
     //background-color: forestgreen;
     display: flex;
-    margin: 3% 13%;
-}
-.profile-section-divider {
-    margin: 50px 5%;
+    margin: 3% 20%;
+ }
+ .profile-section-divider {
+    margin: 60px 5%;
     border-top: 1px solid #ddd;
-}
-
-#mat-chip-list{
+ }
+ 
+ 
+ #mat-chip-list{
     display: flex;
     gap: 20px;
-}
-.roleBoxes{
+ }
+ .roleBoxes{
     height: 40px;
     width: 80px;
     font-size: 20px;
-}
-
-    /*
-.profile-card mat-card {
-    width: 100%;
-    max-width: 650px;
-    height: 600px;
-    padding: 20px;
-}*/
-/*
-.mat-card-content{
-    width: 100%;
-    max-width: 650px;
-}*/
-/*
-mat-card-title {
-    text-align: center;
-    font-weight: bold;
-}
-
-.profile-section-divider {
-    margin: 20px 0;
-    border-top: 1px solid #ddd;
-}
-
-.profile-field {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-}
-
-.profile-field strong {
-    flex-basis: 25%;
-    // Set a fixed width for labels 
-    text-align: right;
-}
-
-.profile-field-value {
-    flex-basis: 50%;
-    text-align: center;
-}
-
-.profile-field button {
-    flex-basis: 25%;
-    / Set width for Change button 
-    text-align: right;
-}
-
-.roles-chips {
-    display: flex;
-    justify-content: center;
-    /Center-align the chips /
-    gap: 8px;
-    / Adds space between each chip /
-    flex-wrap: wrap;
-    /* Wrap to a new line if necessary /
-}
-
-.mat-chip-list {
-    display: flex;
-    gap: 8px;
-}
-    */
-
-.main-content,
-button,
-::ng-deep .mat-chip,
-#title {
+ }
+ 
+ 
+ .main-content,
+ button,
+ ::ng-deep .mat-chip,
+ #title {
     font-family: "Outfit", sans-serif !important;
-}
+ }
+ 
+ #uploadBut{
+    margin-top: 20px;
+    margin-bottom: 40px;
+ }
 
-.mat-chip-list {
+
+ .mat-chip-list {
     --mdc-chip-label-text-font: 'Outfit', sans-serif;
-}
+ }
+ 
