@@ -12,6 +12,7 @@ import { ImageUploadDialogComponent } from '../../components/image-dialog/image-
 import { ItemService } from '../../services/item.service';
 import { SellerService } from '../../services/seller.service';
 import { CloudinaryService } from '../../services/cloudinary.service';
+import { ProfilePicService } from '../../services/profilepic.service';
 
 @Component({
   selector: 'app-profile',
@@ -37,10 +38,9 @@ export class ProfileComponent implements OnInit {
   constructor(
     private profileService: ProfileService,// Service to manage user profiles
     private dialog: MatDialog, // Service to handle dialogs
-    private router: Router,
     private itemService: ItemService, // Service to manage items (pets)
     private sellerService: SellerService, // Service to manage sellers
-    private cloudinaryService: CloudinaryService
+    private profilePicService: ProfilePicService
   ) {}
 
   // Initialize the component and load the profile data
@@ -134,9 +134,12 @@ export class ProfileComponent implements OnInit {
     const dialogRef = this.dialog.open(ImageUploadDialogComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result !== "") {
+      console.log(result);
+      if (result && result !== "") {
+        console.log('x');
         // Update the profile picture with the result URL
         this.profile.profilePic = result;
+        this.profilePicService.updateProfilePic(result);
         this.saveProfile();
       }
     });
