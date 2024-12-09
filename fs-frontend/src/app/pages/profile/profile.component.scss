@@ -1,6 +1,6 @@
+// Loading Screen Styles
 .loading-container {
     position: fixed;
-    /* Overlay the entire screen */
     top: 75px;
     left: 0;
     width: 100%;
@@ -8,19 +8,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.8);
-    /* Optional: Semi-transparent background */
-    z-index: 9999;
-    /* Ensure it appears above everything else */
-    opacity: 1;
     background-color: white;
+    z-index: 9999;
+    opacity: 1;
     transition: opacity 0.1s ease-out;
-}
 
-.loading-container.hidden {
-    opacity: 0;
-    pointer-events: none;
-    /* Prevent interactions with hidden loading screen */
+    &.hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
 }
 
 .loading-gif {
@@ -29,204 +25,191 @@
     height: auto;
 }
 
+// Main Content Container
 .main-content {
     opacity: 0;
     transition: opacity 0.3s ease-in;
+
+    &.visible {
+        opacity: 1;
+    }
 }
 
-.main-content.visible {
-    opacity: 1;
+// Header Styles
+#header {
+    text-align: center;
+    padding: 1% 0;
+    
+    div {
+        font-size: clamp(24px, 5vw, 40px);
+    }
 }
 
+// Profile Picture Section
+#picField {
+    width: 100%;
+    height: auto;
+    margin: 0 auto 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#picCircle {
+    width: min(200px, 50vw);
+    height: min(200px, 50vw);
+    border-radius: 100%;
+    background-color: rgba(144, 146, 147, 0.369);
+    z-index: 1;
+    box-shadow: 0px 0px 2px 2px rgba(124, 123, 123, 0.554);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: rgba(177, 176, 176, 0.4);
+    }
+}
+
+#profilePic {
+    width: min(197px, 49vw);
+    height: min(197px, 49vw);
+    border-radius: 100%;
+    z-index: 4;
+    object-fit: cover;
+    margin-bottom: 50px;
+}
+
+// Button Styles
+.changeButton {
+    position: static;
+    margin-left: auto;
+    min-width: 120px;
+    width: auto;
+    height: 40px;
+    background-color: #4ca68b;
+    color: white;
+    font-family: 'Outfit', sans-serif;
+    border-radius: 60px;
+    border-color: transparent;
+}
+
+.changeButtonImg {
+    position: static;
+    width: min(300px, 80vw);
+    margin: 40px auto 15px;
+    height: 40px;
+    font-size: 18px;
+    background-color: #4ca68b;
+    color: white;
+    font-family: 'Outfit', sans-serif;
+    border-radius: 60px;
+    border-color: transparent;
+}
+
+// Profile Fields
+#nameField,
+#locationField,
+#usernameField,
+#passwordField,
+#rolesField {
+    margin: 20px 5%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.lableTitle {
+    font-size: 22px;
+    font-weight: 400;
+    margin-right: 20px;
+}
+
+.profile-field-value {
+    margin-top: 2px;
+    font-size: 20px;
+}
+
+// Role Chips
+#mat-chip-list {
+    display: flex;
+    gap: 20px;
+}
+
+.roleBoxes {
+    height: 40px;
+    width: auto;
+    font-size: 20px;
+    padding: 0 16px;
+}
+
+// Role Chip Colors
+::ng-deep .mat-mdc-chip.roleBoxes[data-role="ADMIN"] {
+    --mdc-chip-elevated-container-color: #ff4081;
+    --mdc-chip-label-text-color: white;
+}
+
+::ng-deep .mat-mdc-chip.roleBoxes[data-role="USER"] {
+    --mdc-chip-elevated-container-color: #4ca68b;
+    --mdc-chip-label-text-color: white;
+}
+
+::ng-deep .mat-mdc-chip.roleBoxes[data-role="MODERATOR"] {
+    --mdc-chip-elevated-container-color: #7b1fa2;
+    --mdc-chip-label-text-color: white;
+}
+
+::ng-deep .mat-mdc-chip.roleBoxes[data-role="SELLER"] {
+    --mdc-chip-elevated-container-color: #ffa726;
+    --mdc-chip-label-text-color: white;
+}
+
+// Dividers and Misc
+.profile-section-divider {
+    margin: 60px 5%;
+    border-top: 1px solid #ddd;
+}
+
+// Font Family Override
+.main-content,
+button,
+::ng-deep .mat-chip,
+#title {
+    font-family: "Outfit", sans-serif !important;
+}
+
+// Material Design Overrides
 ::ng-deep .mat-mdc-card {
     margin-top: 75px;
 }
 
-    
- #profile-card {
-    margin-top: 75px;
-    justify-content: center;
-    //margin: 0% 25%;
-    display: flexbox;
-    //margin-bottom: 60px;
-    justify-content: center;
-    align-items: center;
-    justify-items: center;
-    min-width: 650px;
- }
- 
- 
- #cardBox{
-    height: 80%;
-    width: 100%;
-    min-width: 500px;
-    //max-height: 325px;
-    display: block;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    background-color: #ffffff7c;
-    font-family: "Outfit", sans-serif;
- }
- 
- 
- #header{
-    position: relative;
-    font-size: 2.5pc;
-    margin-bottom: 10px;
-    width: 100%;
-    padding: 1% 45%;
-    font-family: "Outfit", sans-serif;
- }
- 
- 
- #picField{
-    width: 200px;
-    height: 200px;
-    display: grid;
-    margin-bottom: 5px;
-    margin-left: 45%;
- }
- #picCircle{
-    position: relative;
-    width: 200px;
-    height: 200px;
-    border-radius: 100%;
-    background-color: rgba(144, 146, 147, 0.369);
-    z-index: 1;
-    box-shadow: 0px 0px 2px 2px  rgba(124, 123, 123, 0.554);
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    &:hover {
-        background-color: rgba(177, 176, 176, 0.4);
-    }
- }
- 
- 
- #profilePic{
-    position: relative;
-    width: 197px;
-    height: 197px;
-    border-radius: 100%;
-    z-index:4;
-    object-fit: cover;
-    margin-bottom: 50px;
- }
- #picButton{
-    position: relative;
-    height: 40px;
-    background-color: transparent;
-    font-size: 16px;
-    border-color: transparent;
-    margin-bottom: 20px;
-    margin-top:40px;
- }
-
- .lableTitle{
-    font-size: 22px;
-    font-weight: 400;
-    margin-right: 20px;
- }
- 
- 
- .profile-field-value{
-    margin-top: 2px;
-    font-size: 20px;
- }
- 
- 
- .changeButton{
-    position: relative;
-    left:65%;
-    font-size: 18px;
-    height: 40px;
-    width: 120px;
-    background-color: #4ca68b;
-    color: white;
-    font-family: 'Outfit', sans-serif;
-    border-radius: 60px;
-    border-color: transparent;
- }
- 
- 
- .changeButtonImg{
-    position: relative;
-    height: 40px;
-    font-size: 18px;
-    width: 300px;
-    margin: 15px -18%;
-    background-color: #4ca68b;
-    color: white;
-    font-family: 'Outfit', sans-serif;
-    border-radius: 60px;
-    border-color: transparent;
-
- }
-
- #nameField{
-    position: relative;
-    //background-color: aqua;
-    margin-top: 25px;
-    display: flex;
-    margin: 3% 20%;
-
-  
- }
- #locationField{
-    position: relative;
-    //background-color: red;
-    display: flex;
-    margin: 3% 20%;
- }
- #usernameField{
-    position: relative;
-    //background-color: rgb(125, 125, 207);
-    display: flex;
-    margin: 3% 20%;
- }
- #passwordField{
-    position: relative;
-    //background-color: cadetblue;
-    display: flex;
-    margin: 3% 20%;
- }
- #rolesField{
-    position: relative;
-    //background-color: forestgreen;
-    display: flex;
-    margin: 3% 20%;
- }
- .profile-section-divider {
-    margin: 60px 5%;
-    border-top: 1px solid #ddd;
- }
- 
- 
- #mat-chip-list{
-    display: flex;
-    gap: 20px;
- }
- .roleBoxes{
-    height: 40px;
-    width: 80px;
-    font-size: 20px;
- }
- 
- 
- .main-content,
- button,
- ::ng-deep .mat-chip,
- #title {
-    font-family: "Outfit", sans-serif !important;
- }
- 
- #uploadBut{
-    margin-top: 20px;
-    margin-bottom: 40px;
- }
-
-
- .mat-chip-list {
+.mat-chip-list {
     --mdc-chip-label-text-font: 'Outfit', sans-serif;
- }
- 
+}
+
+// Media Queries
+@media (max-width: 768px) {
+    .lableTitle {
+        font-size: 16px;
+        min-width: 80px;
+    }
+    
+    .profile-field-value {
+        font-size: 14px;
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    
+    .changeButton {
+        font-size: 14px;
+        padding: 0 15px;
+        min-width: 80px;
+    }
+    
+    .roleBoxes {
+        height: 32px;
+        font-size: 16px;
+        padding: 0 12px;
+    }
+}

@@ -60,7 +60,14 @@
       <strong class="lableTitle">Roles: </strong>
       <div class="profile-field-value roles-chips">
         <div id="mat-chip-list">
-          <mat-chip class="roleBoxes" *ngFor="let role of profile.roles" color="primary" selected>{{ role }}</mat-chip>
+          <mat-chip 
+            class="roleBoxes" 
+            *ngFor="let role of profile.roles" 
+            color="primary" 
+            [attr.data-role]="role"
+            selected>
+            {{ role }}
+          </mat-chip>
         </div>
       </div>
       <!-- <button class="changeButton" mat-button color="primary" (click)="changeField('roles')">Change</button> -->
