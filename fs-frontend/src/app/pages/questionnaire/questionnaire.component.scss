@@ -1,108 +1,184 @@
-  /* General Container Styling */
-  .questionnaire-container {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* ===================================
+   Container Styles
+   =================================== */
+  ::ng-deep .mat-mdc-card {
+  margin-top: 55px;
+  background-color: transparent;
+  border-radius: 20px;
+  box-shadow: 0px 0px 0px rgba(255, 255, 255, 0);
   }
 
-  /* Title and Skip Button Container */
-  .questionnaire-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    position: relative;
-  }
-  
-  /* Title Styling */
-  .questionnaire-container h2 {
+.questionnaire-container {
+  background-color: #ededed;
+  max-width: 600px;
+  margin: 100px auto;
+  border-radius: 20px;
+  box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.356);
+  padding: 20px;
+}
+
+/* Title Styling */
+.questionnaire-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 0 25px;
+
+  h2 {
+    font-weight: bold;
     font-size: 24px;
     color: #333;
-    margin-bottom: 20px;
-    text-align: center;
+    font-family: 'Outfit', sans-serif;
   }
-  
-  /* Form Styling */
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+}
+
+/* Form Field Styles */
+::ng-deep {
+  /* Remove default underline */
+  .mdc-line-ripple::before,
+  .mdc-line-ripple::after {
+    display: none;
   }
 
-  /* Skip Button Styling */
-  .skip-btn {
-    padding: 6px 12px;
-    background-color: #e57373; /* Light red */
-    color: white;
-    font-weight: 500;
-    font-size: 14px;
-    border: none;
-    border-radius: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+  /* Text field wrapper styles */
+  .mat-mdc-text-field-wrapper.mdc-text-field--filled {
+    background-color: #4dbd9b3a !important;
+    border-radius: 10px !important;
   }
-  
-  /* Input Fields */
+
+  /* Hover state */
+  .mat-mdc-text-field-wrapper.mdc-text-field--filled:hover {
+    background-color: #4dbd9b5c !important;
+  }
+
+  /* Focus state */
+  .mat-mdc-text-field-wrapper.mdc-text-field--filled.mdc-text-field--focused {
+    background-color: #4dbd9b3a !important;
+  }
+
+  /* Label color when focused */
+  .mat-mdc-form-field.mat-focused:not(.mat-form-field-invalid) {
+    .mat-mdc-floating-label {
+      color: #4dbd9b !important;
+    }
+  }
+
+  /* Arrow (dropdown icon) styling */
+  .mat-mdc-select-arrow {
+    color: #45474E !important; /* Default color */
+  }
+
+  .mat-focused .mat-mdc-select-arrow {
+    color: #4dbd9b !important; /* Color when focused */
+  }
+
+  /* Selected state */
+  .mat-mdc-select-value {
+    background-color: transparent !important;
+  }
+
+  /* Select panel styling */
+  .mat-mdc-select-panel {
+    background-color: white !important;
+    border-radius: 10px !important;
+    margin-top: 4px !important;
+    padding: 0 !important;
+
+    .mat-mdc-option {
+      min-height: 48px !important;
+      padding: 0 16px !important;
+
+      .mdc-list-item__primary-text {
+        color: #45474E !important;
+      }
+
+      &.mdc-list-item--selected,
+      &.mat-mdc-option-active {
+        background-color: #4dbd9b3a !important;
+
+        .mdc-list-item__primary-text {
+          color: #4dbd9b !important;
+        }
+      }
+
+      &:hover:not(.mdc-list-item--selected) {
+        background-color: #4dbd9b1a !important;
+      }
+    }
+  }
+
+  /* Error state styling */
+  .mat-mdc-form-field.mat-form-field-invalid {
+    .mat-mdc-floating-label {
+      color: #45474E !important;
+    }
+
+    .mat-mdc-form-field-required-marker {
+      color: #45474E !important;
+    }
+
+    .mdc-text-field--invalid {
+      .mdc-floating-label {
+        color: #45474E !important;
+      }
+    }
+  }
+}
+
+/* Form Layout */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0 20px;
+
   mat-form-field {
     width: 100%;
-  }
-  
-  /* Add a margin to each question for better spacing */
-  mat-form-field {
     margin-bottom: 16px;
   }
-  
-  /* Button Styling */
-  button[type='submit'] {
-    margin-top: 50px;
-    width: 200px;
-    top: -60px;
-    align-self: center;
-    padding: 8px 24px;
-    background-color: #4dbd9b !important;  /* Match your theme color */
-    color: white !important;
-    font-weight: 500;
-    border-radius: 25px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  
-    /* Hover state */
-    &:hover:not([disabled]) {
-      background-color: #3da88a !important;  /* Slightly darker on hover */
-      transform: translateY(-2px);
-    }
-  
-    /* Disabled state */
-    &:disabled {
-      background-color: #cccccc !important;
-      color: #666666 !important;
-      cursor: not-allowed;
-    }
+}
+
+/* Button Styles */
+.skip-btn {
+  padding: 8px 24px;
+  background-color: #e57373 !important;
+  color: white !important;
+  font-weight: 500;
+  border-radius: 25px;
+  transition: background-color 0.3s ease;
+
+  &:hover:not([disabled]) {
+    background-color: #ef5350 !important;
   }
-  
-  /* Responsive Design */
-  @media (max-width: 480px) {
-    .questionnaire-container {
-      padding: 10px;
-      max-width: 100%;
-    }
-    button[type='submit'] {
-      width: 100%;
-      margin-top: 20px;
-    }
+}
+
+button[type='submit'] {
+  min-width: 150px;
+  padding: 8px 24px;
+  background-color: #4dbd9b !important;
+  color: white !important;
+  font-weight: 500;
+  border-radius: 25px;
+  align-self: center;
+  margin-top: 20px;
+
+  &:hover:not([disabled]) {
+    background-color: #3da88a !important;
   }
 
-  /* Button Styling on Loading | LOADING STATE */
-  button[type='submit'].loading,
-  .isLoading {
+  &:disabled {
+    background-color: #cccccc !important;
+    color: #666666 !important;
+    cursor: not-allowed;
+  }
+
+  &.loading {
     cursor: wait;
     opacity: 0.7;
     position: relative;
-    pointer-events: none; /* Prevent further interaction */
+    pointer-events: none;
 
-    /* Add a spinner */
     &::after {
       content: '';
       position: absolute;
@@ -111,19 +187,33 @@
       width: 16px;
       height: 16px;
       border: 2px solid transparent;
-      border-top-color: white; /* Spinner color */
+      border-top-color: white;
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
       transform: translateY(-50%);
     }
   }
+}
 
-  /* Spinner Animation */
-  @keyframes spin {
-    0% {
-      transform: translateY(-50%) rotate(0deg);
-    }
-    100% {
-      transform: translateY(-50%) rotate(360deg);
-    }
+/* Font Family */
+* {
+  font-family: "Outfit", sans-serif !important;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .questionnaire-container {
+    margin: 20px;
+    padding: 15px;
   }
+
+  button[type='submit'] {
+    width: 100%;
+  }
+}
+
+/* Spinner Animation */
+@keyframes spin {
+  0% { transform: translateY(-50%) rotate(0deg); }
+  100% { transform: translateY(-50%) rotate(360deg); }
+}
