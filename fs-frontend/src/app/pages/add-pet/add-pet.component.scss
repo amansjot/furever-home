@@ -1,10 +1,17 @@
+// dont touch this shit the top solution is major dumb af. leave it alone. note to self never use angular mats.
+::ng-deep .mat-mdc-card.mdc-card.content-card.mat-elevation-z4 {
+    background-color: transparent;
+    margin-top: 0;
+    padding-top: 0;
+}
+
 .add-pet-container {
+    position: relative;
     display: flex;
     justify-content: center;
-    margin-top: -90px;
     width: 100%;
-    padding: 20px;
     box-sizing: border-box;
+    background-color: #f9f9f9;
 
     @media (max-width: 768px) {
         margin-top: -60px;
@@ -21,7 +28,7 @@
     max-width: 600px;
     width: 100%;
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: #e6e6e6;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
 
@@ -34,16 +41,25 @@
     }
 }
 
+.add-pet-title-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
 .add-pet-title {
-    font-size: 24px;
+    font-size: 30px;
     font-weight: bold;
     text-align: center;
-    padding: 20px;
-    margin-bottom: 25px;
+    padding: 15px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 95%;
 
     @media (max-width: 480px) {
-        font-size: 20px;
-        padding: 15px 10px;
+        font-size: 25px;
+        padding: 8px 16px;
     }
 }
 
@@ -52,7 +68,7 @@
     justify-content: space-between;
     gap: 16px;
     width: 100%;
-
+    
     @media (max-width: 600px) {
         flex-direction: column;
         gap: 0;
@@ -92,7 +108,6 @@ mat-card mat-card-content form mat-form-field {
     display: flex;
     gap: 15px;
     justify-content: center;
-
     button {
         @media (max-width: 480px) {
             width: 100%;
@@ -103,7 +118,6 @@ mat-card mat-card-content form mat-form-field {
     }
 }
 
-/* Upload Photos Section */
 /* Upload Photos Section */
 .upload-section {
     margin-bottom: 20px;
@@ -172,6 +186,15 @@ mat-card mat-card-content form mat-form-field {
             color: grey;
             font-size: 13px;
         }
+
+        @media (max-width: 480px) {
+            padding: 10px;
+            
+            label {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+        }
     }
 
     .upload-area.dragover {
@@ -181,120 +204,91 @@ mat-card mat-card-content form mat-form-field {
 
     .image-preview {
         display: flex;
-        flex-flow: row wrap;
-        gap: 12px;
-        padding: 12px;
-        background: #fafafa;
-        border-radius: 8px;
-        justify-content: center;
-        width: 100%;
-        box-sizing: border-box;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 15px;
 
         @media (max-width: 480px) {
-            gap: 8px;
-            padding: 8px 4px;
+            gap: 5px;
         }
+
+        .preview-image {
+            position: relative;
+            width: calc(33.33% - 8px);
+            height: auto;
+            aspect-ratio: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #e6e6e6;
+
+            @media (max-width: 480px) {
+                width: calc(50% - 5px);
+            }
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .remove-button {
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                background-color: rgba(0, 0, 0, 0.7);
+                color: white;
+                border: none;
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+                font-size: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: background-color 0.2s;
+
+                &:hover {
+                    background-color: rgba(0, 0, 0, 0.9);
+                }
+            }
+        }
+    }
+
+    .image-preview {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
     }
 
     .preview-image {
         position: relative;
-        border-radius: 8px;
-        overflow: hidden;
-        background: white;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        margin: 0;
-
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Small mobile: 2 per row */
-        @media (max-width: 480px) {
-            width: calc(50% - 4px);
-            height: 160px;
-            flex: 0 0 calc(50% - 4px);
-        }
-
-        /* Larger mobile to tablet: 3 per row */
-        @media (min-width: 481px) and (max-width: 1023px) {
-            width: calc(33.333% - 8px);
-            height: 180px;
-            flex: 0 0 calc(33.333% - 8px);
-        }
-
-        /* Desktop: regular sizing */
-        @media (min-width: 1024px) {
-            width: 220px;
-            height: 220px;
-            flex: 0 0 220px;
-        }
-
-        @media (min-width: 1440px) {
-            width: 250px;
-            height: 250px;
-            flex: 0 0 250px;
-        }
+        cursor: grab;
     }
 
-    .image-controls {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        padding: 6px;
-        background: rgba(0, 0, 0, 0.6);
-        display: flex;
-        justify-content: center;
-        gap: 8px;
-        opacity: 1;
+    .preview-image.cdk-drag-preview {
+        opacity: 0.5;
+        transform: scale(1.1);
     }
 
-    .move-button, 
+    .preview-image img {
+        max-width: 100px;
+        height: auto;
+        border-radius: 5px;
+    }
+
     .remove-button {
-        width: 28px;
-        height: 28px;
-        min-width: 28px;
-        flex: 0 0 28px;
-        padding: 0;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background: red;
+        color: white;
         border: none;
         border-radius: 50%;
-        background: rgba(255, 255, 255, 0.9);
-        color: #333;
-        font-size: 14px;
         cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: background-color 0.2s;
-
-        &:hover:not(:disabled) {
-            background: white;
-        }
-
-        &:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
     }
 
-    .remove-button {
-        background: rgba(255, 77, 77, 0.9);
-        color: white;
-
-        &:hover:not(:disabled) {
-            background: rgb(255, 77, 77);
-        }
-    }
 }
 
 

@@ -1,7 +1,6 @@
 .loading-container {
     position: fixed;
     /* Overlay the entire screen */
-    top: 75px;
     left: 0;
     width: 100%;
     height: 100%;
@@ -38,21 +37,41 @@
     opacity: 1;
 }
 
+// dont touch this shit the top solution is major dumb af. leave it alone. note to self never use angular mats.
+::ng-deep .mat-mdc-card.mdc-card.content-card.mat-elevation-z4 {
+    background-color: transparent;
+    margin-top: 0;
+    top: -2%;
+    padding-top: 0;
+}
+
 .edit-pet-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
     width: 100%;
     padding: 2%;
     box-sizing: border-box;
+    margin-top: 0;
+}
+
+.edit-pet-title {
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    padding: 15px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 95%;
 }
 
 .edit-pet-card {
     max-width: 95%;
-    width: 100%;
     min-width: 300px;
     margin: 0 auto;
     padding: 15px;
-    background-color: #f9f9f9;
+    background-color: #e6e6e6;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
     box-sizing: border-box;
@@ -60,48 +79,18 @@
     flex-direction: column;
     align-items: center;
 
-    @media (max-width: 480px) {
-        max-width: 98%;
-        padding: 10px;
-        margin: 0;
-    }
-
-    @media (min-width: 768px) {
+    @media (max-width: 1024px) {
         max-width: 700px;
+    }
+
+    @media (max-width: 768px) {
+        max-width: 600px;
         padding: 20px;
     }
-
-    @media (min-width: 1024px) {
-        max-width: 900px;
-    }
-
-    @media (min-width: 1440px) {
-        max-width: 1200px;
-    }
-}
-
-.edit-pet-title {
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
-    padding: 15px;
-    margin-bottom: 15px;
 
     @media (max-width: 480px) {
-        font-size: 24px;
-        padding: 20px;
-    }
-
-    @media (min-width: 480px) {
-        font-size: 24px;
-    }
-
-    @media (min-width: 768px) {
-        font-size: 28px;
-    }
-
-    @media (min-width: 1024px) {
-        font-size: 32px;
+        max-width: 100%;
+        padding: 10px;
     }
 }
 
@@ -111,7 +100,7 @@
     gap: 16px;
     width: 100%;
 
-    @media (max-width: 600px) {
+    @media (max-width: 480px) {
         flex-direction: column;
         gap: 0;
     }
@@ -121,7 +110,7 @@
         flex: 1;
         min-width: 100px;
 
-        @media (max-width: 600px) {
+        @media (max-width: 480px) {
             width: 100%;
             min-width: 100% !important;
         }
@@ -130,30 +119,30 @@
 
 .divider {
     margin: 30px auto;
-
-    @media (min-width: 768px) {
-        margin: 50px auto;
-    }
 }
 
 mat-card mat-card-title form mat-form-field,
 mat-card mat-card-content form mat-form-field {
+    width: 100%;
     min-width: 100px !important;
+    top: 0;
+    margin-top: 0;
+    padding-top: 0;
+    padding: 0;
     /* Use !important to ensure it overrides the existing rule */
+}
+
+@media (max-width: 480px) {
+    mat-card mat-card-title form mat-form-field,
+    matcard mat-card-content form mat-form-field {
+        width: 100% !important;
+        min-width: unset !important;
+    }
 }
 
 .button-container {
     flex-direction: column;
     gap: 10px;
-
-    @media (min-width: 480px) {
-        flex-direction: row;
-        gap: 15px;
-    }
-
-    @media (min-width: 768px) {
-        gap: 20px;
-    }
 
     button {
         width: 100%;
@@ -167,6 +156,7 @@ mat-card mat-card-content form mat-form-field {
         background-color: #3f8a73;
         color: white;
         cursor: pointer;
+        justify-content: center;
         transition: background-color 0.3s ease;
         z-index: 100;
 
@@ -185,19 +175,6 @@ mat-card mat-card-content form mat-form-field {
         &:disabled {
             background-color: #cccccc !important;
             color: #666666 !important;
-        }
-
-        @media (max-width: 480px) {
-            width: auto;
-        }
-
-        @media (min-width: 480px) {
-            width: auto;
-        }
-
-        @media (min-width: 768px) {
-            padding: 14px 24px;
-            font-size: 18px;
         }
 
         @media (min-width: 1024px) {
@@ -287,16 +264,10 @@ mat-card mat-card-content form mat-form-field {
         flex-flow: row wrap;
         gap: 12px;
         padding: 12px;
-        background: #fafafa;
         border-radius: 8px;
         justify-content: center;
         width: 100%;
         box-sizing: border-box;
-
-        @media (max-width: 480px) {
-            gap: 8px;
-            padding: 8px 4px;
-        }
     }
 
     .preview-image {
@@ -319,13 +290,6 @@ mat-card mat-card-content form mat-form-field {
             bottom: 0;
             margin: 0;
             padding: 0;
-        }
-
-        /* Small mobile: 2 per row */
-        @media (max-width: 480px) {
-            width: calc(50% - 4px);
-            height: 160px;
-            flex: 0 0 calc(50% - 4px);
         }
 
         /* Larger mobile to tablet: 3 per row */
@@ -861,9 +825,65 @@ button {
     }
 }
 
-/* Make form fields more touch-friendly */
-::ng-deep .mat-mdc-text-field-wrapper {
-    @media (max-width: 480px) {
-        min-height: 48px;
+
+
+/* ===================================
+   Media Queries
+   =================================== */
+
+@media (max-width: 1024px) {
+    .edit-pet-title {
+        font-size: 30px;
+    }
+}
+
+/* Tablets and larger Phones */
+@media (max-width: 768px) {
+    .edit-pet-card {
+        max-width: 700px;
+        padding: 20px;
+    }
+    .edit-pet-title {
+        font-size: 28px;
+    }
+    .divider {
+        margin: 50px auto;
+    }
+    .button-container {
+        gap: 20px;
+        button {
+            padding: 14px 24px;
+            font-size: 18px;
+        }
+    }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+    .edit-pet-title {
+        font-size: 25px;
+    }
+    .upload-section {
+        .image-preview {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            padding: 8px 4px;
+            width: 100%;
+            height: auto;
+        }
+
+        .preview-image {
+            width: 100%;
+            max-width: 100%;
+            height: 150px;
+            overflow: hidden;
+        }
+
+        .preview-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     }
 }
