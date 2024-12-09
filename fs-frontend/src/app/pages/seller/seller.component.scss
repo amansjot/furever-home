@@ -46,6 +46,10 @@ img {
     height: 80px;
 }
 
+::ng-deep .mat-mdc-card.mdc-card.content-card.mat-elevation-z4 {
+    background-color: #e6e6e6;
+}
+
 // Container for all cards
 .cards {
     display: flex;
