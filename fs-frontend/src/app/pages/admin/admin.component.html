@@ -22,7 +22,7 @@
               </mat-form-field>
             </div>
             <div class="table-wrapper">
-              <mat-table [dataSource]="users" class="mat-elevation-z8" matSort>
+              <mat-table [dataSource]="users" class="mat-elevation-z8">
                 <!-- Name Column -->
                 <ng-container matColumnDef="name">
                   <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
@@ -98,16 +98,16 @@
               </mat-form-field>
             </div>
             <div class="table-wrapper">
-              <mat-table [dataSource]="pets" class="mat-elevation-z8" matSort>
+              <mat-table [dataSource]="pets" class="mat-elevation-z8">
                 <!-- Name Column -->
                 <ng-container matColumnDef="name">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef > Name </mat-header-cell>
                   <mat-cell *matCellDef="let pet"> {{ pet.name }} </mat-cell>
                 </ng-container>
 
                 <!-- Status Column -->
                 <ng-container matColumnDef="status">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef > Status </mat-header-cell>
                   <mat-cell *matCellDef="let pet">
                     {{ pet.status | titlecase }}
                   </mat-cell>
@@ -115,7 +115,7 @@
 
                 <!-- Animal Column -->
                 <ng-container matColumnDef="animal">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Animal </mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef > Animal </mat-header-cell>
                   <mat-cell *matCellDef="let pet">
                     {{ pet.animal | titlecase }}
                   </mat-cell>
@@ -123,7 +123,7 @@
 
                 <!-- Breed Column -->
                 <ng-container matColumnDef="breed">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Breed </mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef > Breed </mat-header-cell>
                   <mat-cell *matCellDef="let pet">
                     {{ pet.breed | titlecase }}
                   </mat-cell>
@@ -131,7 +131,7 @@
 
                 <!-- Birthdate Column -->
                 <ng-container matColumnDef="birthdate">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                  <mat-header-cell *matHeaderCellDef >
                     Birthdate
                   </mat-header-cell>
                   <mat-cell *matCellDef="let pet">
@@ -141,7 +141,7 @@
 
                 <!-- Price Column -->
                 <ng-container matColumnDef="price">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Price </mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef > Price </mat-header-cell>
                   <mat-cell *matCellDef="let pet">
                     {{ pet.price | currency }}
                   </mat-cell>
@@ -149,7 +149,7 @@
 
                 <!-- Location Column -->
                 <ng-container matColumnDef="location">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                  <mat-header-cell *matHeaderCellDef >
                     Location
                   </mat-header-cell>
                   <mat-cell *matCellDef="let pet">
