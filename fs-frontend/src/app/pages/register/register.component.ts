@@ -152,7 +152,7 @@ export class RegisterComponent implements OnInit {
           if (role === 'buyer') {
             // --- Temporarily disabled ---
             // this._router.navigate(['/questionnaire']);
-            this._router.navigate(['/browse']);
+            this._router.navigate(['/questionnaire']);
           } else {
             this._router.navigate(['/browse']);
           }
