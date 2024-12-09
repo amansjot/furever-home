@@ -35,7 +35,7 @@ export class ProfileService {
   }
 
   // New method to update the authenticated profile
-  public updateProfile(id: string, profileData: Partial<UserModel>, profilePic: string): Observable<any> {
+  public updateProfile(id: string, profileData: Partial<UserModel>): Observable<any> {
     return this.httpClient.put(`${Config.apiBaseUrl}/users/${id}`, profileData);
   }
 }

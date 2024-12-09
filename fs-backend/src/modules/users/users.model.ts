@@ -3,6 +3,7 @@ export interface UserModel {
 	firstName: string;
 	lastName: string;
 	location: string;
+	profilePic: string;
 	username: string; // Email or username
 	password: string; // Hashed password
 	roles: string[]; // Array of user roles (e.g., ["buyer", "admin"])

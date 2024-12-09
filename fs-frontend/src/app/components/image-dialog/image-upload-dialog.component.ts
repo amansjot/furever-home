@@ -20,6 +20,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 })
 export class ImageUploadDialogComponent {
   selectedFile: File | null = null;
+  uploadedImageURL: string = '';
   preview: string | null = null;
 
   constructor(
@@ -62,6 +63,7 @@ export class ImageUploadDialogComponent {
         // Upload to Cloudinary
         const response = await this.cloudinaryService.uploadImage(formData);
         const imageUrl = response.secure_url;
+        this.uploadedImageURL = imageUrl;
   
         console.log('Image uploaded successfully:', imageUrl);
   
@@ -81,14 +83,12 @@ export class ImageUploadDialogComponent {
   // Optional: Function to clear the selected file and preview
   clearSelection(): void {
     this.selectedFile = null;
+    this.uploadedImageURL = '';
     this.preview = null;
   }
 
   save(): void {
-    if (this.selectedFile && this.preview) {
-      // Pass the Base64 image or file back to the parent component
-      this.dialogRef.close(this.preview);
-    }
+    this.dialogRef.close(this.uploadedImageURL);
   }
 }
 

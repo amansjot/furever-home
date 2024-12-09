@@ -134,18 +134,17 @@ export class ProfileComponent implements OnInit {
     const dialogRef = this.dialog.open(ImageUploadDialogComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        // Update the profile picture with the result (Base64 string)
+      if (result !== "") {
+        // Update the profile picture with the result URL
         this.profile.profilePic = result;
         this.saveProfile();
       }
     });
   }
 
-
   saveProfile(): void {
     this.profileService
-      .updateProfile(this.profile._id, this.profile, this.profile.profilePic)
+      .updateProfile(this.profile._id, this.profile)
       .subscribe({
         next: () => console.log('Profile updated successfully'), // Log success message
         error: (err) => console.error('Error updating profile:', err), // Log any errors

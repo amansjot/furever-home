@@ -116,6 +116,7 @@ export class UserController {
         lastName: req.body.lastName,
         location: req.body.location,
         username: req.body.username,
+        profilePic: req.body.profilePic,
         password: req.body.password, // Ideally, this should be hashed before saving
         roles: req.body.roles || [], // Default to an empty array if roles are not provided
       };
@@ -174,6 +175,7 @@ export class UserController {
         location: req.body.location,
         username: req.body.username,
         password: req.body.password, // Ideally, hash this password before storing
+        profilePic: req.body.profilePic,
       };
 
       // Perform the update operation
