@@ -122,7 +122,7 @@ export class HeaderComponent implements OnInit {
         setTimeout(() => {
           this.profilePic = this._loginSvc.getProfilePic();
           localStorage.setItem('profilePic', JSON.stringify(this.profilePic));
-        }, 100);
+        }, 300);
       }
     } else {
       this.roles = [];

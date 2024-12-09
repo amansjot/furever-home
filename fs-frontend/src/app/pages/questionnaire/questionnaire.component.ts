@@ -73,7 +73,7 @@ export class QuestionnaireComponent implements OnInit {
   
   skipQuestionnaire(): void {
     console.log('Questionnaire skipped. Redirecting to home...');
-    this._router.navigate(['/home']);
+    this._router.navigate(['/browse']);
   }
 
   onSubmit(): void {
