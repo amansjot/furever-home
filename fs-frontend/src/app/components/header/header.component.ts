@@ -30,6 +30,7 @@ import { ActivatedRoute } from '@angular/router';
 export class HeaderComponent implements OnInit {
   public authenticated: boolean = false;
   public roles: string[] = [];
+  public profilePic: string = "https://i.imgur.com/AZFfFIy.png";
   public showButtons: boolean = true;
   public loading: boolean = true; // Tracks if profile data is being loaded
   profile: any;
@@ -99,8 +100,18 @@ export class HeaderComponent implements OnInit {
           localStorage.setItem("roles", JSON.stringify(this.roles));
         }, 100);
       }
+
+      if (localStorage.getItem('profilePic')) {
+        this.profilePic = JSON.parse(localStorage.getItem('profilePic') || '');
+      } else {
+        setTimeout(() => {
+          this.profilePic = this._loginSvc.getProfilePic();
+          localStorage.setItem("profilePic", JSON.stringify(this.profilePic));
+        }, 100);
+      }
     } else {
       this.roles = [];
+      this.profilePic = "https://i.imgur.com/AZFfFIy.png";
     }
   };
 
@@ -108,6 +119,7 @@ export class HeaderComponent implements OnInit {
     localStorage.clear();
     this._loginSvc.logout();
     this.roles = [];
+    this.profilePic = "https://i.imgur.com/AZFfFIy.png";
     this.router.navigate(['']);
   }
 

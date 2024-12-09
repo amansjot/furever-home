@@ -132,7 +132,7 @@ export class RegisterComponent implements OnInit {
     const data = {
       username: formData.email,
       password: formData.password,
-      role,
+      profilePic: "https://i.imgur.com/AZFfFIy.png", // Default profile picture
       firstName: formData.firstName,
       lastName: formData.lastName,
       location: formData.location,

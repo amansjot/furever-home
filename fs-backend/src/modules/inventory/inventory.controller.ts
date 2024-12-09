@@ -392,36 +392,36 @@ export class InventoryController {
       }
 
       // Check if user is an admin
-      if (user.roles.includes("admin")) {
+      if (user.roles.includes("admin") || user.roles.includes("seller")) {
         // Allow deletion without further checks
         return await this.archiveAndDeleteItem(res, item);
       }
 
-      // If user is a seller, check if they own the item
-      if (user.roles.includes("seller")) {
-        // Fetch the seller's document to verify ownership of the item
-        const seller = await this.mongoDBService.findOne<SellerModel>(
-          this.settings.database,
-          "sellers",
-          { _id: new ObjectId(user._id) }
-        );
+      // // If user is a seller, check if they own the item
+      // if (user.roles.includes("seller")) {
+      //   // Fetch the seller's document to verify ownership of the item
+      //   const seller = await this.mongoDBService.findOne<SellerModel>(
+      //     this.settings.database,
+      //     "sellers",
+      //     { user: new ObjectId(user._id) }
+      //   );
 
-        // Check if seller exists and has this item in their "pets" array
-        if (!seller || !seller.pets.includes(itemId)) {
-          res
-            .status(403)
-            .send({ error: "Forbidden: You do not own this item." });
-          return;
-        }
+      //   // Check if seller exists and has this item in their "pets" array
+      //   if (!seller || !seller.pets.includes(itemId)) {
+      //     res
+      //       .status(403)
+      //       .send({ error: "Forbidden: You do not own this item." });
+      //     return;
+      //   }
 
         // If seller owns the item, proceed with deletion
-        return await this.archiveAndDeleteItem(res, item);
-      }
+        // return await this.archiveAndDeleteItem(res, item);
+      // }
 
       // If neither condition is met, deny access
-      res.status(403).send({
-        error: "Forbidden: You do not have permission to delete this item.",
-      });
+      // res.status(403).send({
+      //   error: "Forbidden: You do not have permission to delete this item.",
+      // });
     } catch (error) {
       console.error(error);
       res.status(500).send({ error: error });

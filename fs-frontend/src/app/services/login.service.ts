@@ -140,7 +140,7 @@ export class LoginService {
   /* Retrieve Roles from the Token */
   public getAuthenticatedRoles(): string[] {
     if (!this.token) {
-      return ['a']; // Default value if no token is present
+      return []; // Default value if no token is present
     }
 
     try {
@@ -149,6 +149,21 @@ export class LoginService {
     } catch (error) {
       console.error('Error decoding token:', error);
       return [];
+    }
+  }
+
+  /* Retrieve Roles from the Token */
+  public getProfilePic(): string {
+    if (!this.token) {
+      return ""; // Default value if no token is present
+    }
+
+    try {
+      const decodedToken: any = jwtDecode(this.token);
+      return decodedToken?.profilePic || ""; // Extract roles from the token
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return "";
     }
   }
 

@@ -412,7 +412,12 @@ export class EditPetComponent implements OnInit {
     this.itemService.updatePetDetails(formData, this.pet._id).subscribe({
       next: () => {
         console.log('Pet edited successfully!');
-        this.router.navigate(['/seller']); // Navigate back to the seller's page
+        const id = this.route.snapshot.paramMap.get('id');
+        if (id) {
+          this.router.navigate([`/pet/${id}`]);
+        } else {
+          this.router.navigate(['/seller']); // Navigate back to the seller's page
+        }
       },
       error: (err: any) => {
         console.error('Error editing pet:', err);

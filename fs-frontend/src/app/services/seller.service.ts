@@ -35,7 +35,7 @@ export class SellerService {
   /* Add a user request to a seller's list of requests */
   public addRequestToSeller(sellerId: string, userId: string, petId: string): Observable<any> {
     return this.httpClient.patch(`${Config.apiBaseUrl}/seller/${sellerId}/requests`, {
-      userId,
+      userId, petId
     });
   }
 

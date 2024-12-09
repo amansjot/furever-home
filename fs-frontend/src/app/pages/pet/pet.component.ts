@@ -232,98 +232,105 @@ export class PetComponent implements OnInit {
     this.isModalOpen = false;
   }
 
-  requestContact(petId: string) {
-    const userId = this._loginSvc.getAuthenticatedUserId(); // Retrieve the current user's ID
+  requestContact() {
+    setTimeout(() => {
+      const userId = this._loginSvc.getAuthenticatedUserId(); // Retrieve the current user's ID
 
-    if (!userId) {
-      console.error('User ID is missing. Please ensure the user is logged in.');
-      return;
-    }
+      if (!userId) {
+        console.error(
+          'User ID is missing. Please ensure the user is logged in.'
+        );
+        return;
+      }
 
-    // Fetch the seller's contact info, which includes the sellerId
-    this.sellerService.getSellerByPetId(this.pet._id).subscribe({
-      next: (info) => {
-        const sellerId = info._id;
+      // Fetch the seller's contact info, which includes the sellerId
+      this.sellerService.getSellerByPetId(this.pet._id).subscribe({
+        next: (info) => {
+          const sellerId = info._id;
 
-        if (!sellerId) {
-          console.error(
-            'Seller ID is missing in the fetched contact info:',
-            info
-          );
-          
+          if (!sellerId) {
+            console.error(
+              'Seller ID is missing in the fetched contact info:',
+              info
+            );
+
+            this.dialog.open(AlertDialogComponent, {
+              data: {
+                title: 'Error',
+                message:
+                  'Unable to identify the seller. Please try again later.',
+              },
+              width: '400px',
+            });
+            return;
+          }
+
+          // Check if the authenticated user's ID is already in the Seller's requests array
+          if (
+            info.requests &&
+            info.requests.some(
+              (request: any) =>
+                request.userId.toString() === userId &&
+                request.petId.toString() === this.pet._id
+            )
+          ) {
+            // Open the dialog immediately without adding a new request
+            this.dialog.open(ContactDialogComponent, {
+              data: {
+                ...info, // Spread the existing info data
+                alreadyRequested: true, // Add the alreadyRequested flag
+              },
+              width: '500px',
+              maxWidth: '90vw',
+              panelClass: 'contact-dialog',
+            });
+            this.contactInfo = info;
+            return;
+          }
+
+          // Add the user's ID to the seller's "requests" array
+          this.sellerService
+            .addRequestToSeller(sellerId, userId, this.pet._id)
+            .subscribe({
+              next: () => {
+                // Open the dialog with the retrieved contact information
+                this.dialog.open(ContactDialogComponent, {
+                  data: {
+                    ...info, // Spread the existing info data
+                    alreadyRequested: false, // Add the alreadyRequested flag
+                  },
+                  width: '500px',
+                  maxWidth: '90vw',
+                  panelClass: 'contact-dialog',
+                });
+                this.contactInfo = info;
+              },
+              error: (err) => {
+                console.error('Error adding request to seller:', err);
+                this.dialog.open(AlertDialogComponent, {
+                  data: {
+                    title: 'Error',
+                    message:
+                      'Could not add request to seller. Please try again.',
+                  },
+                  width: '400px',
+                });
+              },
+            });
+        },
+        error: (err) => {
+          console.error('Error fetching seller contact:', err);
           this.dialog.open(AlertDialogComponent, {
             data: {
               title: 'Error',
-              message: 'Unable to identify the seller. Please try again later.',
+              message:
+                'Could not fetch seller contact information. Please try again.',
             },
             width: '400px',
           });
-          return;
-        }
-
-        // Check if the authenticated user's ID is already in the Seller's requests array
-        if (
-          info.requests &&
-          info.requests.some(
-            (request: any) =>
-              request.userId.toString() === userId &&
-              request.petId.toString() === petId
-          )
-        ) {
-          // Open the dialog immediately without adding a new request
-          this.dialog.open(ContactDialogComponent, {
-            data: {
-              ...info, // Spread the existing info data
-              alreadyRequested: true, // Add the alreadyRequested flag
-            },
-            width: '500px',
-            maxWidth: '90vw',
-            panelClass: 'contact-dialog',
-          });
-          this.contactInfo = info;
-          return;
-        }
-
-        // Add the user's ID to the seller's "requests" array
-        this.sellerService
-          .addRequestToSeller(sellerId, userId, petId)
-          .subscribe({
-            next: () => {
-              // Open the dialog with the retrieved contact information
-              this.dialog.open(ContactDialogComponent, {
-                data: {
-                  ...info, // Spread the existing info data
-                  alreadyRequested: false, // Add the alreadyRequested flag
-                },
-                width: '500px',
-                maxWidth: '90vw',
-                panelClass: 'contact-dialog',
-              });
-              this.contactInfo = info;
-            },
-            error: (err) => {
-              console.error('Error adding request to seller:', err);
-              this.dialog.open(AlertDialogComponent, {
-                data: {
-                  title: 'Error',
-                  message: 'Could not add request to seller. Please try again.',
-                },
-                width: '400px',
-              });
-            },
-          });
-      },
-      error: (err) => {
-        console.error('Error fetching seller contact:', err);
-        this.dialog.open(AlertDialogComponent, {
-          data: {
-            title: 'Error',
-            message: 'Could not fetch seller contact information. Please try again.',
-          },
-          width: '400px',
-        });
-      },
-    });
+        },
+      });
+    }, 150);
   }
 
   onLoginChange = (loggedIn: boolean) => {

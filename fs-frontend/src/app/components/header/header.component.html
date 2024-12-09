@@ -14,7 +14,7 @@
       <button *ngIf="roles.includes('seller')" routerLink="/seller" [class.active]="isRouteActive('/seller')">My Pets</button>
       <button *ngIf="authenticated" routerLink="/profile" [class.active]="isRouteActive('/profile')">Profile</button>
       <div class="image-container">
-        <img class="profilePic" [src]="profile?.profilePic" />
+        <img class="profilePic" [src]="profilePic" />
       </div>
       <button (click)="logout()">Logout</button>
     </div>
