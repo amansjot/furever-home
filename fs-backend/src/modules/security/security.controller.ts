@@ -201,7 +201,7 @@ export class SecurityController {
     req: express.Request,
     res: express.Response
 ): Promise<void> => {
-    const { username, password, role, firstName, lastName, location, sellerType, orgName, contact } = req.body;
+    const { username, password, role, firstName, profilePic, lastName, location, sellerType, orgName, contact } = req.body;
 
     const user: UserLoginModel = {
       username,
@@ -236,6 +236,7 @@ export class SecurityController {
         { 
           firstName,
           lastName,
+          profilePic,
           location,
           username,
           password: user.password,
