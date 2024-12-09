@@ -36,7 +36,13 @@ export class HeaderComponent implements OnInit {
   public loading: boolean = true; // Tracks if profile data is being loaded
   profile: any;
 
-  private noHideRoutes: string[] = ['register', 'login'];
+  private noHideRoutes: string[] = [
+    'register',
+    'login',
+    'seller',
+    'profile',
+    'admin'
+  ];
 
   private contentDivOffset: number = 0;
 
