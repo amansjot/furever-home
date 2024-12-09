@@ -134,9 +134,7 @@ export class ProfileComponent implements OnInit {
     const dialogRef = this.dialog.open(ImageUploadDialogComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
       if (result && result !== "") {
-        console.log('x');
         // Update the profile picture with the result URL
         this.profile.profilePic = result;
         this.profilePicService.updateProfilePic(result);
