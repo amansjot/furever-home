@@ -10,6 +10,7 @@ import {
   RouterModule,
 } from '@angular/router';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
+import { AlertDialogComponent } from '../../components/alert-dialog/alert-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginService } from '../../services/login.service';
 import { MatChipsModule } from '@angular/material/chips';
@@ -275,14 +276,16 @@ export class SellerComponent implements OnInit {
 
     const sellerId = this._loginSvc.getAuthenticatedUserId();
     if (sellerId) {
-      this.sellerService.closeRequest(sellerId, request.userId, request.petId).subscribe({
-        next: () => {
-          console.log(`Request successfully denied for pet ${request.petId}`);
-        },
-        error: (err: any) => {
-          console.error('Failed to deny request:', err);
-        },
-      });
+      this.sellerService
+        .closeRequest(sellerId, request.userId, request.petId)
+        .subscribe({
+          next: () => {
+            console.log(`Request successfully denied for pet ${request.petId}`);
+          },
+          error: (err: any) => {
+            console.error('Failed to deny request:', err);
+          },
+        });
     }
   }
 
@@ -307,13 +310,12 @@ export class SellerComponent implements OnInit {
     });
   }
 
-  confirmAcceptRequest(request: any) {    
+  confirmAcceptRequest(request: any) {
     // Open the confirmation dialog
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
         action: 'Accept',
-        message:
-          'Are you sure you want to accept this request?',
+        message: 'Are you sure you want to accept this request?',
       },
       width: '400px',
     });
@@ -323,6 +325,16 @@ export class SellerComponent implements OnInit {
       if (isConfirmed) {
         this.setAdopted(request.petId, false);
         this.closeRequest(request);
+
+        // Open the confirmation dialog
+        this.dialog.open(AlertDialogComponent, {
+          data: {
+            title: `Message the New Owner`,
+            message:
+              'Congrats! Send a message to the owner of your pet: ' + this.userEmails[request.userId],
+          },
+          width: '400px',
+        });
       }
     });
   }
