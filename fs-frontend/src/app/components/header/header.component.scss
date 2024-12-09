@@ -306,10 +306,37 @@ button {
 			opacity: 0.5;
 			pointer-events: none;
 		}
+
+		// Add styles for profile button
+		&[routerLink="/profile"] {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			padding: 5px 10px;
+
+			.profilePic {
+				width: 24px;
+				height: 24px;
+				margin: 0;
+			}
+		}
+	}
+
+	// Update profile pic styles
+	.profilePic {
+		width: 24px;
+		height: 24px;
+		border-radius: 100%;
+		object-fit: cover;
+	}
+
+	// Remove the separate image container
+	.image-container {
+		display: none;
 	}
 }
 
-// Update mobile menu styles to match
+// Update mobile menu styles
 .mobile-menu-content {
 	.mobile-login-btn {
 		button {
@@ -355,6 +382,24 @@ button {
 					box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
 				}
 			}
+
+			// Add styles for profile button
+			&[routerLink="/profile"] {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				
+				.profilePic {
+					width: 20px;
+					height: 20px;
+					margin: 0;
+				}
+			}
+		}
+
+		// Hide separate image container in mobile menu
+		.image-container {
+			display: none;
 		}
 	}
 }

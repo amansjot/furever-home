@@ -12,10 +12,9 @@
       <button *ngIf="roles.includes('admin')" routerLink="/admin" [class.active]="isRouteActive('/admin')">Admin</button>
       <button routerLink="/browse" [class.active]="isRouteActive('/browse')">Browse</button>
       <button *ngIf="roles.includes('seller')" routerLink="/seller" [class.active]="isRouteActive('/seller')">My Pets</button>
-      <button *ngIf="authenticated" routerLink="/profile" [class.active]="isRouteActive('/profile')">Profile</button>
-      <div class="image-container">
-        <img class="profilePic" [src]="profilePic" />
-      </div>
+      <button *ngIf="authenticated" routerLink="/profile" [class.active]="isRouteActive('/profile')">
+        <img class="profilePic" [src]="profilePic" />Profile
+      </button>
       <button (click)="logout()">Logout</button>
     </div>
     <div class="desktop-login-btn" *ngIf="!authenticated && showButtons">
@@ -39,10 +38,9 @@
             <button *ngIf="roles.includes('admin')" routerLink="/admin" [class.active]="isRouteActive('/admin')" (click)="onMenuItemClick()">Admin</button>
             <button routerLink="/browse" [class.active]="isRouteActive('/browse')" (click)="onMenuItemClick()">Browse</button>
             <button *ngIf="roles.includes('seller')" routerLink="/seller" [class.active]="isRouteActive('/seller')" (click)="onMenuItemClick()">My Pets</button>
-            <button *ngIf="authenticated" routerLink="/profile" [class.active]="isRouteActive('/profile')" (click)="onMenuItemClick()">Profile</button>
-            <div class="image-container">
-            <img class="profilePic" [src]="profile?.profilePic" />
-            </div>
+            <button *ngIf="authenticated" routerLink="/profile" [class.active]="isRouteActive('/profile')" (click)="onMenuItemClick()">
+              <img class="profilePic" [src]="profilePic" />Profile
+            </button>
             <button (click)="logout(); onMenuItemClick()">Logout</button>
         </div>
         <div class="mobile-login-btn" *ngIf="!authenticated && showButtons">
