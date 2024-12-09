@@ -11,6 +11,7 @@ import { SellerModel } from '../../models/seller.model';
 import { BuyerService } from '../../services/buyer.service';
 import { InventoryItemModel } from '../../models/items.model';
 import { RouterModule } from '@angular/router';
+import { AlertDialogComponent } from '../../components/alert-dialog/alert-dialog.component';
 
 interface SimilarPet extends InventoryItemModel {
   similarityScore: number;
@@ -249,7 +250,14 @@ export class PetComponent implements OnInit {
             'Seller ID is missing in the fetched contact info:',
             info
           );
-          alert('Unable to identify the seller. Please try again later.');
+          
+          this.dialog.open(AlertDialogComponent, {
+            data: {
+              title: 'Error',
+              message: 'Unable to identify the seller. Please try again later.',
+            },
+            width: '400px',
+          });
           return;
         }
 
@@ -295,13 +303,25 @@ export class PetComponent implements OnInit {
             },
             error: (err) => {
               console.error('Error adding request to seller:', err);
-              alert('Could not add request to seller.');
+              this.dialog.open(AlertDialogComponent, {
+                data: {
+                  title: 'Error',
+                  message: 'Could not add request to seller. Please try again.',
+                },
+                width: '400px',
+              });
             },
           });
       },
       error: (err) => {
         console.error('Error fetching seller contact:', err);
-        alert('Could not fetch seller contact information.');
+        this.dialog.open(AlertDialogComponent, {
+          data: {
+            title: 'Error',
+            message: 'Could not fetch seller contact information. Please try again.',
+          },
+          width: '400px',
+        });
       },
     });
   }

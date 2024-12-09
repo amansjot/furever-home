@@ -24,6 +24,8 @@ import { ItemService } from '../../services/item.service';
 import { LoginService } from '../../services/login.service';
 import { SellerService } from '../../services/seller.service';
 import { CloudinaryService } from '../../services/cloudinary.service';
+import { AlertDialogComponent } from '../../components/alert-dialog/alert-dialog.component';
+import { Dialog } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-edit-pet',
@@ -90,7 +92,8 @@ export class EditPetComponent implements OnInit {
     private _loginSvc: LoginService,
     private sellerService: SellerService,
     private router: Router,
-    private cloudinaryService: CloudinaryService
+    private cloudinaryService: CloudinaryService,
+    private dialog: Dialog,
   ) {}
 
   noFutureDateValidator(): ValidatorFn {
@@ -413,7 +416,13 @@ export class EditPetComponent implements OnInit {
       },
       error: (err: any) => {
         console.error('Error editing pet:', err);
-        alert('An error occurred while editing the pet.');
+        this.dialog.open(AlertDialogComponent, {
+          data: {
+            title: 'Error',
+            message: 'An error occurred while editing the pet. Please try again.',
+          },
+          width: '400px',
+        });
       },
     });
   }
