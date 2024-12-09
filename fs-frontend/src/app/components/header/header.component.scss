@@ -97,20 +97,17 @@ div {
 // Hamburger menu
 .hamburger-btn {
 	display: none;
-	width: auto;
-	font-size: 16px;
-	box-shadow: none;
-	background-color: #4ca68b;
+	background: none;
+	border: none;
 	color: white;
-	border-radius: 30px !important;
-
+	
 	&:hover {
-		background-color: #3f8a73;
+		background: none;
 	}
 
 	z-index: 1002;
 
-	@media (max-width: 768px) {
+	@media (max-width: 830px) {
 		display: block;
 		position: absolute;
 		right: 10px;
@@ -210,8 +207,7 @@ button {
 }
 
 // Responsive styles
-@media (max-width: 768px) {
-
+@media (max-width: 830px) {
 	.login-btn,
 	.desktop-login-btn {
 		display: none;
@@ -250,7 +246,7 @@ button {
 	align-items: center;
 
 	// Hide desktop buttons on mobile
-	@media (max-width: 768px) {
+	@media (max-width: 830px) {
 		display: none;
 	}
 
