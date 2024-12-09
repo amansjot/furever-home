@@ -22,6 +22,8 @@ import { CloudinaryService } from '../../services/cloudinary.service';
 import { map, Observable, startWith } from 'rxjs';
 import { ItemService } from '../../services/item.service';
 import { LoginService } from '../../services/login.service';
+import { AlertDialogComponent } from '../../components/alert-dialog/alert-dialog.component';
+import { Dialog } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-add-pet',
@@ -82,7 +84,8 @@ export class AddPetComponent implements OnInit {
     private itemService: ItemService,
     private _loginSvc: LoginService,
     private router: Router,
-    private cloudinaryService: CloudinaryService
+    private cloudinaryService: CloudinaryService,
+    private dialog: Dialog
   ) {}
 
   noFutureDateValidator(): ValidatorFn {
@@ -326,7 +329,13 @@ export class AddPetComponent implements OnInit {
       },
       error: (err: any) => {
         console.error('Error adding pet:', err);
-        alert('An error occurred while adding the pet.');
+        this.dialog.open(AlertDialogComponent, {
+          data: {
+            title: 'Error',
+            message: 'An error occurred while editing the pet. Please try again.',
+          },
+          width: '400px',
+        });
       },
     });
   }
