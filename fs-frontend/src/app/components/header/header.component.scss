@@ -379,3 +379,13 @@ button {
     object-fit: cover;
 	margin-right: 3px;
 }
+.image-container{
+	position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    z-index:2;
+	margin-left: 3px;
+	margin-right: 3px;
+	background-color: rgba(144, 146, 147, 0.712);
+}

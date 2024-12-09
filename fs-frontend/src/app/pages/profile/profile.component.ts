@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { ImageUploadDialogComponent } from '../../components/image-dialog/image-upload-dialog.component';
 import { ItemService } from '../../services/item.service';
 import { SellerService } from '../../services/seller.service';
+import { CloudinaryService } from '../../services/cloudinary.service';
 
 @Component({
   selector: 'app-profile',
@@ -38,7 +39,8 @@ export class ProfileComponent implements OnInit {
     private dialog: MatDialog, // Service to handle dialogs
     private router: Router,
     private itemService: ItemService, // Service to manage items (pets)
-    private sellerService: SellerService // Service to manage sellers
+    private sellerService: SellerService, // Service to manage sellers
+    private cloudinaryService: CloudinaryService
   ) {}
 
   // Initialize the component and load the profile data
@@ -149,105 +151,4 @@ export class ProfileComponent implements OnInit {
         error: (err) => console.error('Error updating profile:', err), // Log any errors
       });
   }
-/*
-  onFileSelect(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input?.files) {
-      Array.from(input.files).forEach((file) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          if (!this.selectedPictures.includes(reader.result as string)) {
-            // Only add the file if it's not already in the selectedPictures array
-            this.selectedPictures.push(reader.result as string);
-            this.profileForm.get('pictures')?.setValue(this.selectedPictures); // Update the form control
-            this.profileForm.get('pictures')?.updateValueAndValidity(); // Trigger validation
-          }
-        };
-        reader.readAsDataURL(file);
-      });
-
-      // Reset the file input value to allow re-uploading the same file
-      input.value = '';
-    }
-  }
-  /*
-  async onSubmit(): Promise<void> {
-    this.submitted = true;
-
-    if (this.profileForm.invalid) return;*/
-/*
-  private initForm() {
-    this.profileForm = new FormGroup({
-      profilePic: new FormControl([], Validators.required)
-    });
-    }
-  
-  onFileSelect(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input?.files && input.files.length) {
-      const file = input.files[0];
-        const reader = new FileReader();
-        reader.onload = () => {
-          this.selectedPictures.push(reader.result as string);
-          this.profileForm.get(this.profile.profilePic)?.setValue(this.selectedPictures);
-          this.profileForm.get(this.profile.profilePic)?.updateValueAndValidity();
-        };
-      reader.readAsDataURL(file);
-      console.log("file selected");
-      //input.value = "";
-    }
-    
-    }
-
-  async onSubmit(): Promise<void> {
-    console.log("file selected");
-    this.submitted = true;
-  
-    console.log("file atempt to submit");
-    if (this.profileForm.invalid) return;
-    console.log("file submitting");
-    const formData = {
-      ...this.profile,
-     profilePic: this.selectedPictures[0], // Assuming one profile picture
-    };
-  
-    this.profileService.updateProfile(this.profile._id, this.profile, formData).subscribe({
-      next: () => console.log('Profile picture updated successfully!'),
-      error: (err) => console.error('Error updating profile picture:', err),
-    });
-
-  }*/
-  
-  /*
-  async onSubmit(): Promise<void> {
-    this.submitted = true;
-    
-    if (this.profileForm.invalid) return;
-
-    const formData = {
-      ...this.profileForm.value,
-    };
-
-
-  }
-  */
-  
-  /*
-    onFileSelect(event: Event): void {
-      const input = event.target as HTMLInputElement;
-      if (input?.files && input.files[0]) {
-        const file = input.files[0];
-        const reader = new FileReader();
-    
-        // Preview the selected image
-        reader.onload = () => {
-          this.profile.profilePic = reader.result as string;
-        };
-        reader.readAsDataURL(file);
-    
-        // Store the file for submission
-        this.profileForm.get('profilePic')?.setValue(file);
-      }
-    }*/
-    
 }
