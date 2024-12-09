@@ -16,6 +16,7 @@ import { MatDialogModule } from '@angular/material/dialog';
   standalone: true,
   imports: [MatButtonModule, MatFormFieldModule, MatInputModule, CommonModule, FormsModule,MatDialogModule],
   templateUrl: './image-upload-dialog.component.html',
+  styleUrls: ['./image-upload-dialog.component.scss'],
 })
 export class ImageUploadDialogComponent {
   selectedFile: File | null = null;
@@ -28,45 +29,54 @@ export class ImageUploadDialogComponent {
 
   async onFileSelect(event: Event): Promise<void> {
     const input = event.target as HTMLInputElement;
+  
     if (input?.files && input.files[0]) {
-      this.selectedFile = input.files[0];
-
+      const file = input.files[0];
+  
+      // Check if the file is an image
+      if (!file.type.startsWith('image/')) {
+        console.warn('The selected file is not an image.');
+        return;
+      }
+  
+      let compressedFile = file; // Start with the original file
+  
       // Optionally compress the image
       try {
-        const compressedFile = await imageCompression(this.selectedFile, {
+        compressedFile = await imageCompression(file, {
           maxSizeMB: 1, // Maximum size in MB
           maxWidthOrHeight: 1024, // Resize to fit within this width/height
         });
-        this.selectedFile = compressedFile;
-
-        // Generate a preview
+  
+        // Generate a preview for the UI
         const reader = new FileReader();
         reader.onload = () => {
-          this.preview = reader.result as string;
+          this.preview = reader.result as string; // Update preview image
         };
-        reader.readAsDataURL(this.selectedFile);
-
-        // Upload to the cloud service
+        reader.readAsDataURL(compressedFile);
+  
+        // Prepare the file for Cloudinary upload
         const formData = new FormData();
-        formData.append('file', this.selectedFile);
-
-        this.cloudinaryService.uploadImage(formData).then((response) => {
-          console.log('Image uploaded successfully:', response);
-          const imageUrl = response.secure_url;
-
-          // Pass the image URL back to the parent component
-          this.dialogRef.close(imageUrl);
-        }).catch((error) => {
-          console.error('Error uploading image:', error);
-        });
+        formData.append('file', compressedFile);
+  
+        // Upload to Cloudinary
+        const response = await this.cloudinaryService.uploadImage(formData);
+        const imageUrl = response.secure_url;
+  
+        console.log('Image uploaded successfully:', imageUrl);
+  
+        // Update the form control with the uploaded image URL
+        // this.petForm.get('pictures')?.setValue([imageUrl]); // Only store 1 picture
+        // this.selectedPictures = [imageUrl]; // Ensure only the current picture is stored
       } catch (error) {
-        console.error('Error compressing the image:', error);
+        console.error('Error compressing or uploading the image:', error);
       }
-
+  
       // Reset the input value
       input.value = '';
     }
   }
+  
 
   // Optional: Function to clear the selected file and preview
   clearSelection(): void {
