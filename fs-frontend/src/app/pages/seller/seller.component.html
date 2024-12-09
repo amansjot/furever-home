@@ -48,7 +48,7 @@
         <!-- PetID Column -->
         <ng-container matColumnDef="petId">
           <mat-header-cell *matHeaderCellDef> Pet </mat-header-cell>
-          <mat-cell *matCellDef="let request">
+          <mat-cell *matCellDef="let request" data-label="Pet:">
             {{ petInfo[request.petId] || "Loading..." }}
           </mat-cell>
         </ng-container>
@@ -56,7 +56,7 @@
         <!-- UserID Column -->
         <ng-container matColumnDef="userId">
           <mat-header-cell *matHeaderCellDef> Buyer </mat-header-cell>
-          <mat-cell *matCellDef="let request">
+          <mat-cell *matCellDef="let request" data-label="Buyer:">
             {{ userInfo[request.userId] || "Loading..." }}
           </mat-cell>
         </ng-container>
@@ -64,7 +64,7 @@
         <!-- Timestamp Column -->
         <ng-container matColumnDef="timestamp">
           <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
-          <mat-cell *matCellDef="let request">
+          <mat-cell *matCellDef="let request" data-label="Date:">
             {{ request.timestamp | date }}
           </mat-cell>
         </ng-container>
