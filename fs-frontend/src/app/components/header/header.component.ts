@@ -105,6 +105,7 @@ export class HeaderComponent implements OnInit {
   };
 
   logout() {
+    localStorage.clear();
     this._loginSvc.logout();
     this.roles = [];
     this.router.navigate(['']);
