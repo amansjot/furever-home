@@ -150,7 +150,9 @@ export class RegisterComponent implements OnInit {
         if (res) {
           // Redirect buyer to questionnaire page, seller to home page
           if (role === 'buyer') {
-            this._router.navigate(['/questionnaire']);
+            // --- Temporarily disabled ---
+            // this._router.navigate(['/questionnaire']);
+            this._router.navigate(['/home']);
           } else {
             this._router.navigate(['/home']);
           }
