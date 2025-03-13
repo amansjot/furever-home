@@ -2,9 +2,8 @@
   "name": "fs-frontend",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "start": "vite preview --host 0.0.0.0"
+    "start": "ng serve --host 0.0.0.0",
+    "build": "ng build --configuration=production"
   },
   "private": true,
   "dependencies": {
