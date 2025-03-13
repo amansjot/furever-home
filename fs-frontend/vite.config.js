@@ -16,6 +16,10 @@ export default defineConfig({
   preview: {
     host: "0.0.0.0",
     port: 4200,
-    allowedHosts: ["furever-home.up.railway.app"],
+    allowedHosts: [
+        "furever-home.up.railway.app",
+        "localhost",
+        "0.0.0.0",
+      ]      
   },
 });
