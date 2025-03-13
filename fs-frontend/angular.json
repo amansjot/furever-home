@@ -61,6 +61,12 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "allowedHosts": ["furever-home.up.railway.app"],
+            "host": "0.0.0.0",
+            "port": 4200,
+            "disableHostCheck": true
+          },
           "configurations": {
             "production": {
               "buildTarget": "fs-frontend:build:production"
