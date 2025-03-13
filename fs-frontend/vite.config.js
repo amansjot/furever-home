@@ -1,25 +1,21 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react'; // If using React, otherwise remove
+import react from '@vitejs/plugin-react'; // Remove if not using React
 
 export default defineConfig({
-  plugins: [react()], // Keep only if using React
+  plugins: [react()], // Remove if not using React
   server: {
     host: "0.0.0.0", // Allow external access
-    port: 4200, // Ensure this matches your Railway port
+    port: 4200,
     strictPort: true,
+    cors: true, // Enable CORS
+    allowedHosts: "all", // Allow any host (TEMPORARY)
     hmr: {
       clientPort: 443, // Ensures WebSocket connection works
     },
-    allowedHosts: ["furever-home.up.railway.app"], // Allow Railway host
-    cors: true, // Allow Cross-Origin Requests
   },
   preview: {
     host: "0.0.0.0",
     port: 4200,
-    allowedHosts: [
-        "furever-home.up.railway.app",
-        "localhost",
-        "0.0.0.0",
-      ]      
+    allowedHosts: "all", // TEMPORARY
   },
 });
