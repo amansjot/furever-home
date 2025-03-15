@@ -2,7 +2,7 @@
   <img src="/assets/loading.gif" alt="Loading..." class="loading-gif" />
  </div>
  
- <div [ngClass]="{ visible: !loading }" class="main-content">
+ <div [ngClass]="{ visible: !loading }" class="main-content" *ngIf="profile">
   
     <div id="header">
       <div>Your Profile</div>
@@ -56,13 +56,13 @@
  
  
     <!-- Roles Section -->
-    <div id="rolesField">
+    <div id="rolesField" *ngIf="profile?.roles">
       <strong class="lableTitle">Roles: </strong>
       <div class="profile-field-value roles-chips">
         <div id="mat-chip-list">
           <mat-chip 
             class="roleBoxes" 
-            *ngFor="let role of profile.roles" 
+            *ngFor="let role of profile?.roles" 
             color="primary" 
             [attr.data-role]="role"
             selected>
@@ -73,3 +73,9 @@
       <!-- <button class="changeButton" mat-button color="primary" (click)="changeField('roles')">Change</button> -->
     </div>
  </div>
+
+<!-- Show a message when profile is not loaded -->
+<div *ngIf="!loading && !profile" class="error-container">
+  <p>Unable to load profile. Please try again later or log in.</p>
+  <button (click)="loadProfile()">Retry</button>
+</div>
