@@ -1,12 +1,10 @@
 import express from "express";
 import { ApiRouter } from "./router";
 import { MongoDBService } from "./modules/database/mongodb.service";
-import * as dotenv from "dotenv";
-import path from "path";
+import dotenv from "dotenv";
 
 // Load environment variables from .env file
-const envPath = path.resolve(process.cwd(), '.env');
-dotenv.config({ path: envPath });
+dotenv.config();
 
 class Application {
   public app: express.Application;
@@ -16,12 +14,7 @@ class Application {
   constructor() {
     this.app = express();
     this.port = process.env.SERVER_PORT ? +process.env.SERVER_PORT : 3000;
-    
-    // Ensure we have a valid MongoDB connection string
-    const mongoConnectionString = process.env.MONGO_CONNECTION_STRING || 
-      "mongodb+srv://KyleMalice:Kyle123@petadoption.nfugs.mongodb.net/?retryWrites=true&w=majority&appName=PetAdoption";
-    
-    this.mongoDBService = new MongoDBService(mongoConnectionString);
+    this.mongoDBService = new MongoDBService(process.env.MONGO_CONNECTION_STRING as string);
     
     // Increase payload size limits for JSON and URL-encoded data
     this.app.use(express.json({ limit: "10mb" })); // Adjust the limit as needed
@@ -35,8 +28,10 @@ class Application {
       // Connect to MongoDB
       const dbConnected = await this.mongoDBService.connect();
       if (!dbConnected) {
+        console.error("Failed to connect to MongoDB. Exiting...");
         process.exit(1);
       }
+      console.log("Connected to MongoDB");
 
       // Build routes and start the server
       this.buildRoutes();

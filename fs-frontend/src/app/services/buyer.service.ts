@@ -17,7 +17,7 @@ export class BuyerService {
   }
 
   public getFavorites(): Observable<string[]> {
-    return this.httpClient.get<string[]>(`${Config.apiBaseUrl}/buyer/favorites/`).pipe(
+    return this.httpClient.get<string[]>(`${Config.apiBaseUrl}/buyer/favorites`).pipe(
       catchError((error) => {
         console.error('Error fetching favorites:', error);
         return of([]); 
@@ -27,11 +27,11 @@ export class BuyerService {
 
   // New method to update the authenticated buyer's favorites
   public updateFavorites(favorites: string[]): Observable<any> {
-    return this.httpClient.put(`${Config.apiBaseUrl}/buyer/favorites/`, { favorites });
+    return this.httpClient.put(`${Config.apiBaseUrl}/buyer/favorites`, { favorites });
   }
 
   public getPreferences(): Observable<{ [key: string]: any }> {
-    return this.httpClient.get<{ [key: string]: any }>(`${Config.apiBaseUrl}/buyer/preferences/`).pipe(
+    return this.httpClient.get<{ [key: string]: any }>(`${Config.apiBaseUrl}/buyer/preferences`).pipe(
       catchError((error) => {
         console.error('Error fetching preferences:', error);
         return of({}); 
@@ -41,6 +41,6 @@ export class BuyerService {
 
   // Method to update preferences
   public updatePreferences(preferences: { [key: string]: any }): Observable<any> {
-    return this.httpClient.put(`${Config.apiBaseUrl}/buyer/preferences/`, { preferences });
+    return this.httpClient.put(`${Config.apiBaseUrl}/buyer/preferences`, { preferences });
   }
 }

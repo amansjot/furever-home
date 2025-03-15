@@ -139,17 +139,29 @@ export class BrowseComponent {
   }
 
   loadFavorites(): void {
-    this.buyerService.getFavorites().subscribe({
-      next: (data) => {
-        this.favorites = data;
-        this.loadData();
-      },
-      error: (err) => {
-        this.favorites = JSON.parse(localStorage.getItem('favorites') || '');
-        console.log('Error loading favorites:', err);
-        this.loadData();
-      },
-    });
+    // Only attempt to load favorites from the API if the user is authenticated and is a buyer
+    if (this.authenticated && this.isBuyer) {
+      this.buyerService.getFavorites().subscribe({
+        next: (data) => {
+          this.favorites = data;
+          // Store favorites in localStorage as a fallback
+          localStorage.setItem('favorites', JSON.stringify(this.favorites));
+          this.loadData();
+        },
+        error: (err) => {
+          // If there's an error, try to load from localStorage
+          const storedFavorites = localStorage.getItem('favorites');
+          this.favorites = storedFavorites ? JSON.parse(storedFavorites) : [];
+          console.log('Error loading favorites:', err);
+          this.loadData();
+        },
+      });
+    } else {
+      // If not authenticated or not a buyer, use localStorage
+      const storedFavorites = localStorage.getItem('favorites');
+      this.favorites = storedFavorites ? JSON.parse(storedFavorites) : [];
+      this.loadData();
+    }
   }
 
   async loadData(): Promise<void> {

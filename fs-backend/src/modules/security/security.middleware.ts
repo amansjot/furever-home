@@ -13,8 +13,7 @@ import * as dotenv from 'dotenv';
  */
 export class SecurityMiddleware {
   private static mongoDBService: MongoDBService = new MongoDBService(
-    process.env.MONGO_CONNECTION_STRING || 
-    "mongodb+srv://KyleMalice:Kyle123@petadoption.nfugs.mongodb.net/?retryWrites=true&w=majority&appName=PetAdoption"
+    process.env.MONGO_CONNECTION_STRING as string
   );
 
   

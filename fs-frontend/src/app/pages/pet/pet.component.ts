@@ -115,20 +115,41 @@ export class PetComponent implements OnInit {
   }
 
   loadFavorites(): void {
-    this.buyerService.getFavorites().subscribe({
-      next: (data) => {
-        this.favorites = data;
+    // Only attempt to load favorites from the API if the user is authenticated and is a buyer
+    if (this.authenticated && this.isBuyer) {
+      this.buyerService.getFavorites().subscribe({
+        next: (data) => {
+          this.favorites = data;
+          // Store favorites in localStorage as a fallback
+          localStorage.setItem('favorites', JSON.stringify(this.favorites));
 
-        // Perform an initial check to see if the pet is favorited
-        if (this.pet && this.pet._id) {
-          this.pet.isFavorite = this.favorites.includes(this.pet._id); // Update the `isFavorite` property
-        }
-      },
-      error: (err) => {
-        this.favorites = JSON.parse(localStorage.getItem('favorites') || '');
-        console.log('Error loading favorites:', err);
-      },
-    });
+          // Perform an initial check to see if the pet is favorited
+          if (this.pet && this.pet._id) {
+            this.pet.isFavorite = this.favorites.includes(this.pet._id); // Update the `isFavorite` property
+          }
+        },
+        error: (err) => {
+          // If there's an error, try to load from localStorage
+          const storedFavorites = localStorage.getItem('favorites');
+          this.favorites = storedFavorites ? JSON.parse(storedFavorites) : [];
+          console.log('Error loading favorites:', err);
+          
+          // Still check if the pet is favorited using localStorage data
+          if (this.pet && this.pet._id) {
+            this.pet.isFavorite = this.favorites.includes(this.pet._id);
+          }
+        },
+      });
+    } else {
+      // If not authenticated or not a buyer, use localStorage
+      const storedFavorites = localStorage.getItem('favorites');
+      this.favorites = storedFavorites ? JSON.parse(storedFavorites) : [];
+      
+      // Check if the pet is favorited using localStorage data
+      if (this.pet && this.pet._id) {
+        this.pet.isFavorite = this.favorites.includes(this.pet._id);
+      }
+    }
   }
 
   // Toggle the favorite status of a card
