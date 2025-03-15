@@ -6,11 +6,12 @@ import jwt from "jsonwebtoken";
 import { SecuritySettings } from "./security.settings";
 import nodemailer from "nodemailer"; // Adding this for email sending
 import crypto from "crypto"; // Adding this for generating tokens
+import * as dotenv from 'dotenv';
 
 export class SecurityController {
   private mongoDBService: MongoDBService = new MongoDBService(
-    process.env.mongoConnectionString ||
-      "mongodb+srv://singh:Aman@petadoption.nfugs.mongodb.net/"
+    process.env.MONGO_CONNECTION_STRING || 
+    "mongodb+srv://KyleMalice:Kyle123@petadoption.nfugs.mongodb.net/?retryWrites=true&w=majority&appName=PetAdoption"
   );
   private settings: SecuritySettings = new SecuritySettings();
 
@@ -97,7 +98,7 @@ export class SecurityController {
 
   /* Generate JWT Token */
   private makeToken(user: UserLoginModel): string {
-    return jwt.sign(user, process.env.secret || "secret");
+    return jwt.sign(user, process.env.JWT_SECRET || "secret");
   }
 
   /* Encrypt Password */

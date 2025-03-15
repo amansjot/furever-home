@@ -3,6 +3,7 @@ import { MongoDBService, ObjectId } from "../database/mongodb.service";
 import { InventorySettings } from "./inventory.settings";
 import { InventoryItemModel } from "./inventory.models";
 import { SellerModel } from "../seller/seller.models";
+import * as dotenv from 'dotenv';
 
 /* InventoryController
  * @class: InventoryController
@@ -12,8 +13,8 @@ import { SellerModel } from "../seller/seller.models";
  */
 export class InventoryController {
   private mongoDBService: MongoDBService = new MongoDBService(
-    process.env.mongoConnectionString ||
-      "mongodb+srv://singh:Aman@petadoption.nfugs.mongodb.net/"
+    process.env.MONGO_CONNECTION_STRING || 
+    "mongodb+srv://KyleMalice:Kyle123@petadoption.nfugs.mongodb.net/?retryWrites=true&w=majority&appName=PetAdoption"
   );
   private settings = new InventorySettings();
 

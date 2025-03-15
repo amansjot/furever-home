@@ -6,6 +6,11 @@ export class MongoDBService {
   private isConnected: boolean = false;
 
   constructor(private connectionString: string) {
+    // Ensure we have a valid connection string
+    if (!connectionString) {
+      console.error("MongoDB connection string is undefined. Using default connection string.");
+      this.connectionString = "mongodb+srv://KyleMalice:Kyle123@petadoption.nfugs.mongodb.net/?retryWrites=true&w=majority&appName=PetAdoption";
+    }
     this.client = new MongoClient(this.connectionString);
   }
 

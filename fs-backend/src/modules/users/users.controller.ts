@@ -1,11 +1,12 @@
 import express from "express";
 import { MongoDBService, ObjectId } from "../database/mongodb.service";
 import { UserModel } from "./users.model";
+import * as dotenv from 'dotenv';
 
 export class UserController {
   private mongoDBService: MongoDBService = new MongoDBService(
-    process.env.mongoConnectionString ||
-      "mongodb+srv://singh:Aman@petadoption.nfugs.mongodb.net/"
+    process.env.MONGO_CONNECTION_STRING || 
+    "mongodb+srv://KyleMalice:Kyle123@petadoption.nfugs.mongodb.net/?retryWrites=true&w=majority&appName=PetAdoption"
   );
 
   getAllUsers = async (

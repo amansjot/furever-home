@@ -3,6 +3,7 @@ import { UserLoginModel } from "./security.models";
 import { MongoDBService } from "../database/mongodb.service";
 import jwt from "jsonwebtoken";
 import { SecuritySettings } from "./security.settings";
+import * as dotenv from 'dotenv';
 
 /* SecurityMiddleware
  * @class: SecurityMiddleware
@@ -12,9 +13,11 @@ import { SecuritySettings } from "./security.settings";
  */
 export class SecurityMiddleware {
   private static mongoDBService: MongoDBService = new MongoDBService(
-    process.env.mongoConnectionString ||
-      "mongodb+srv://singh:Aman@petadoption.nfugs.mongodb.net/"
+    process.env.MONGO_CONNECTION_STRING || 
+    "mongodb+srv://KyleMalice:Kyle123@petadoption.nfugs.mongodb.net/?retryWrites=true&w=majority&appName=PetAdoption"
   );
+
+  
   private static settings = new SecuritySettings();
 
   /* decodeToken(token: string): UserLoginModel|undefined
@@ -28,7 +31,7 @@ export class SecurityMiddleware {
       return undefined;
     }
     token = token.replace("Bearer ", "");
-    let payload = jwt.verify(token, process.env.secret || "secret");
+    let payload = jwt.verify(token, process.env.JWT_SECRET || "secret");
     return payload as UserLoginModel;
   }
 

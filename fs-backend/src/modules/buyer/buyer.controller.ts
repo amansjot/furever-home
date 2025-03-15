@@ -2,11 +2,12 @@ import express from "express";
 import { MongoDBService, ObjectId } from "../database/mongodb.service";
 import { BuyerModel } from "./buyer.models";
 import { InventoryItemModel } from "../inventory/inventory.models";
+import * as dotenv from 'dotenv';
 
 export class BuyerController {
   private mongoDBService: MongoDBService = new MongoDBService(
-    process.env.mongoConnectionString ||
-      "mongodb+srv://singh:Aman@petadoption.nfugs.mongodb.net/"
+    process.env.MONGO_CONNECTION_STRING || 
+    "mongodb+srv://KyleMalice:Kyle123@petadoption.nfugs.mongodb.net/?retryWrites=true&w=majority&appName=PetAdoption"
   );
 
   // Existing getBuyer method

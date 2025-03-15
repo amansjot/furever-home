@@ -4,11 +4,12 @@ import { SellerModel } from "./seller.models";
 import { InventoryItemModel } from "../inventory/inventory.models";
 import { ObjectId } from "mongodb";
 import { Request, Response } from "express";
+import * as dotenv from 'dotenv';
 
 export class SellerController {
   private mongoDBService: MongoDBService = new MongoDBService(
-    process.env.mongoConnectionString ||
-      "mongodb+srv://singh:Aman@petadoption.nfugs.mongodb.net/"
+    process.env.MONGO_CONNECTION_STRING || 
+    "mongodb+srv://KyleMalice:Kyle123@petadoption.nfugs.mongodb.net/?retryWrites=true&w=majority&appName=PetAdoption"
   );
 
   // Existing getSeller method
