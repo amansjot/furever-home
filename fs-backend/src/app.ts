@@ -1,10 +1,10 @@
+// Load environment variables from .env file first
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import { ApiRouter } from "./router";
 import { MongoDBService } from "./modules/database/mongodb.service";
-import dotenv from "dotenv";
-
-// Load environment variables from .env file
-dotenv.config();
 
 class Application {
   public app: express.Application;

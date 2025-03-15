@@ -5,6 +5,9 @@ import { InventoryItemModel } from "./inventory.models";
 import { SellerModel } from "../seller/seller.models";
 import * as dotenv from 'dotenv';
 
+// Load environment variables
+dotenv.config();
+
 /* InventoryController
  * @class: InventoryController
  * @remarks: A class that contains the controller functions for the inventory module

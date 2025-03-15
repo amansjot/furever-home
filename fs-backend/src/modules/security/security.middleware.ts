@@ -5,6 +5,9 @@ import jwt from "jsonwebtoken";
 import { SecuritySettings } from "./security.settings";
 import * as dotenv from 'dotenv';
 
+// Load environment variables
+dotenv.config();
+
 /* SecurityMiddleware
  * @class: SecurityMiddleware
  * @remarks: A class that contains middleware functions for security
@@ -12,11 +15,20 @@ import * as dotenv from 'dotenv';
  * 			  hasRole: a function that checks if the user has a role
  */
 export class SecurityMiddleware {
-  private static mongoDBService: MongoDBService = new MongoDBService(
-    process.env.MONGO_CONNECTION_STRING as string
-  );
-
+  private static _mongoDBService: MongoDBService | null = null;
   
+  // Use a getter to lazily initialize the MongoDBService
+  private static get mongoDBService(): MongoDBService {
+    if (!this._mongoDBService) {
+      const connectionString = process.env.MONGO_CONNECTION_STRING;
+      if (!connectionString) {
+        throw new Error("MONGO_CONNECTION_STRING environment variable is not set");
+      }
+      this._mongoDBService = new MongoDBService(connectionString);
+    }
+    return this._mongoDBService;
+  }
+
   private static settings = new SecuritySettings();
 
   /* decodeToken(token: string): UserLoginModel|undefined

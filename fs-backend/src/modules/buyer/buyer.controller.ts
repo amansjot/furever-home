@@ -4,10 +4,23 @@ import { BuyerModel } from "./buyer.models";
 import { InventoryItemModel } from "../inventory/inventory.models";
 import * as dotenv from 'dotenv';
 
+// Load environment variables
+dotenv.config();
+
 export class BuyerController {
-  private mongoDBService: MongoDBService = new MongoDBService(
-    process.env.MONGO_CONNECTION_STRING as string
-  );
+  private _mongoDBService: MongoDBService | null = null;
+  
+  // Use a getter to lazily initialize the MongoDBService
+  private get mongoDBService(): MongoDBService {
+    if (!this._mongoDBService) {
+      const connectionString = process.env.MONGO_CONNECTION_STRING;
+      if (!connectionString) {
+        throw new Error("MONGO_CONNECTION_STRING environment variable is not set");
+      }
+      this._mongoDBService = new MongoDBService(connectionString);
+    }
+    return this._mongoDBService;
+  }
 
   // Existing getBuyer method
   getBuyer = async (
