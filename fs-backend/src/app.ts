@@ -6,14 +6,7 @@ import path from "path";
 
 // Load environment variables from .env file
 const envPath = path.resolve(process.cwd(), '.env');
-console.log(`Loading environment variables from: ${envPath}`);
 dotenv.config({ path: envPath });
-
-// Debug environment variables
-console.log('Environment variables loaded:');
-console.log(`MONGO_CONNECTION_STRING exists: ${!!process.env.MONGO_CONNECTION_STRING}`);
-console.log(`SERVER_PORT: ${process.env.SERVER_PORT}`);
-console.log(`JWT_SECRET exists: ${!!process.env.JWT_SECRET}`);
 
 class Application {
   public app: express.Application;
@@ -28,7 +21,6 @@ class Application {
     const mongoConnectionString = process.env.MONGO_CONNECTION_STRING || 
       "mongodb+srv://KyleMalice:Kyle123@petadoption.nfugs.mongodb.net/?retryWrites=true&w=majority&appName=PetAdoption";
     
-    console.log(`Using MongoDB connection string: ${mongoConnectionString.substring(0, 20)}...`);
     this.mongoDBService = new MongoDBService(mongoConnectionString);
     
     // Increase payload size limits for JSON and URL-encoded data
@@ -43,10 +35,8 @@ class Application {
       // Connect to MongoDB
       const dbConnected = await this.mongoDBService.connect();
       if (!dbConnected) {
-        console.error("Failed to connect to MongoDB. Exiting...");
         process.exit(1);
       }
-      console.log("Connected to MongoDB");
 
       // Build routes and start the server
       this.buildRoutes();

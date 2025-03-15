@@ -30,13 +30,11 @@ export class LoginService {
   // Getter for the token stored in local storage
   public get token(): string {
     const token = localStorage.getItem('token') || '';
-    console.log('Getting token from localStorage:', token ? 'Token exists' : 'No token');
     return token;
   }
 
   // Setter for the token, also updates the logged-in state
   public set token(value: string) {
-    console.log('Setting token in localStorage:', value ? 'Token provided' : 'No token');
     this.loggedIn.next(value.length > 0);
     localStorage.setItem('token', value);
   }

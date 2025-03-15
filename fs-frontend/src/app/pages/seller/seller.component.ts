@@ -113,7 +113,7 @@ export class SellerComponent implements OnInit {
       if (!this.userInfo[userId]) {
         this.profileService.getProfileById(userId).subscribe({
           next: (profile: UserModel) => {
-            console.log(profile);
+            
             this.userInfo[
               userId
             ] = `${profile.firstName} ${profile.lastName} (${profile.username})`;
@@ -134,7 +134,7 @@ export class SellerComponent implements OnInit {
       if (!this.userInfo[petId]) {
         try {
           const pet = await this.itemService.getItemById(petId);
-          console.log(pet);
+          
           this.petInfo[petId] = pet.name;
         } catch (err) {
           console.error(err);
