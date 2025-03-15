@@ -2,8 +2,5 @@
 builder = "nixpacks"
 buildCommand = "cd fs-frontend && npm install --omit=dev --force && npm install -g @angular/cli --omit=dev --force && npm run build && cd ../fs-backend && npm install --omit=dev"
 
-[start]
-startCommand = "cd fs-backend && npm run start & cd fs-frontend && ng serve --host 0.0.0.0 --port 4200"
-
 [env]
 NODE_VERSION = "18"
