@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Config } from '../config';
 import { UserModel } from '../models/users.model';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -25,8 +26,20 @@ export class ProfileService {
   }
 
   // Method to fetch the authenticated profile
-  public getProfile(): Observable<UserModel> {
-    return this.httpClient.get<UserModel>(`${Config.apiBaseUrl}/users/me`);
+  public getProfile(): Observable<UserModel | null> {
+    return this.httpClient.get<UserModel>(`${Config.apiBaseUrl}/users/me`).pipe(
+      catchError(error => {
+        // If it's a 401 error, it means the user is not logged in yet
+        // Just return null instead of throwing an error
+        if (error.status === 401) {
+          
+          return of(null);
+        }
+        // For other errors, log them but still return null to prevent app crashes
+        console.error('Error fetching profile:', error);
+        return of(null);
+      })
+    );
   }
 
   // Method to fetch profile by ID

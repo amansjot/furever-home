@@ -55,6 +55,15 @@ export class ProfileComponent implements OnInit {
       next: (data) => {
         this.loading = false; // Set loading to false when data is loaded
         this.profile = data; // Assign the fetched data to the profile property
+        
+        // If profile is null (user not logged in), redirect to login page
+        if (!data) {
+          console.log('No profile data available - redirecting to login');
+          // Redirect to login page after a short delay
+          setTimeout(() => {
+            window.location.href = '/login';
+          }, 1000);
+        }
       },
       error: (err) => {
         this.loading = false; // Set loading to false in case of an error

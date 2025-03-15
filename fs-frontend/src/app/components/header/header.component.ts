@@ -83,6 +83,10 @@ export class HeaderComponent implements OnInit {
       next: (data) => {
         this.loading = false; // Set loading to false when data is loaded
         this.profile = data; // Assign the fetched data to the profile property
+        // If profile is null (user not logged in), don't show any errors
+        if (!data) {
+          console.log('No profile data available - user likely not logged in');
+        }
       },
       error: (err) => {
         this.loading = false; // Set loading to false in case of an error

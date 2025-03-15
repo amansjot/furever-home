@@ -136,6 +136,7 @@ export class RegisterComponent implements OnInit {
       firstName: formData.firstName,
       lastName: formData.lastName,
       location: formData.location,
+      role: role,
       ...(role === 'seller' && {
         sellerType: formData.sellerType,
         contact: formData.email,
