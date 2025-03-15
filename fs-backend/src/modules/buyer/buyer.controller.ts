@@ -107,7 +107,8 @@ export class BuyerController {
       );
 
       if (!buyer || !buyer.favorites) {
-        res.status(404).send({ error: "Buyer profile or favorites not found" });
+        // Return an empty array instead of a 404 error for new users
+        res.send([]);
         return;
       }
 
@@ -154,13 +155,35 @@ export class BuyerController {
         (id) => new ObjectId(id)
       );
 
-      // Update the buyer's `favorites` field in the database
-      const updateResult = await this.mongoDBService.updateOne(
+      // Check if the buyer profile exists
+      const buyerExists = await this.mongoDBService.findOne(
         "pet-adoption",
         "buyers",
-        { user: new ObjectId(userId) },
-        { $set: { favorites: uniqueFavorites } }
+        { user: new ObjectId(userId) }
       );
+
+      let updateResult;
+      
+      if (!buyerExists) {
+        // Create a new buyer profile if one doesn't exist
+        updateResult = await this.mongoDBService.insertOne(
+          "pet-adoption",
+          "buyers",
+          {
+            user: new ObjectId(userId),
+            favorites: uniqueFavorites,
+            preferences: {}
+          }
+        );
+      } else {
+        // Update the existing buyer's favorites
+        updateResult = await this.mongoDBService.updateOne(
+          "pet-adoption",
+          "buyers",
+          { user: new ObjectId(userId) },
+          { $set: { favorites: uniqueFavorites } }
+        );
+      }
 
       if (updateResult) {
         res.send({ success: true, message: "Favorites updated successfully." });
