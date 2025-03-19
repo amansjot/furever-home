@@ -1,6 +1,6 @@
 [build]
 builder = "nixpacks"
-buildCommand = "cd fs-frontend && npm install --omit=dev --force && npm install -g @angular/cli --omit=dev --force && npm run build && cd ../fs-backend && npm install --omit=dev"
+buildCommand = "npm run build"
 
 [env]
 NODE_VERSION = "18"
