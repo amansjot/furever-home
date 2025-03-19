@@ -1,6 +1,0 @@
-[build]
-builder = "nixpacks"
-buildCommand = "npm run build"
-
-[env]
-NODE_VERSION = "18"
